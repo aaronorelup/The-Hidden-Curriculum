@@ -1,0 +1,549 @@
+[
+  {
+    "concept": "Opening a folder with an agent can run the repo's code (git config execution)",
+    "points": [
+      "Coding agents run git status / git diff in the background to gather context, sometimes before you type, before the workspace-trust prompt, or before login.",
+      "A repo's own .git/config can name a program to run: core.fsmonitor runs a helper on any index refresh, so git status runs it, as you.",
+      "It runs outside the agent's sandbox and never reaches the permission prompt, with access to SSH keys, cloud credentials, shell-config tokens and every repo on disk.",
+      "Affected (Sept 2026): Claude Code (patched 2.1.196), Cursor, Codex, Goose (CVE-2026-72718, patched 1.44.0); unpatched at publication: Qwen Code, Grok Build, Hermes Agent (CVE-2026-71963) and a second Claude Code path via 'claude ultrareview' using an unnamed git key.",
+      "Cloning or pulling from a URL does not trigger it; the .git folder must arrive as files: a shared zip, shared drive, sync folder or USB stick.",
+      "Before opening a folder you received as files with an agent, open .git/config in a plain text viewer: any setting that names a program can run it."
+    ],
+    "gap": "People assume opening or reading code is passive and that the agent's sandbox and trust prompt come first. Manifold found eight such findings across seven agents, four unpatched at publication, with execution before the trust prompt in Claude Code (S056).",
+    "humanRole": "The agent cannot protect you here: the execution happens before its permission model runs. The human must know where a folder came from, check .git/config (or have it checked in a non-agent viewer) before pointing an agent at a zip or shared folder, and keep agents updated to patched versions. Agent builders must sanitize git config on background calls (e.g. git -c core.fsmonitor=false status).",
+    "sids": ["S056"],
+    "status": "new-2026",
+    "outdated": [
+      "Reading or opening code is safe; only running it is risky.",
+      "The trust prompt appears before anything in the folder can run.",
+      "The agent's sandbox contains everything that happens in a session."
+    ],
+    "severity": "high",
+    "questions": [
+      "Someone sent me their project as a zip. Is it safe to open it with Claude Code?",
+      "Doesn't the 'trust this folder' prompt protect me?",
+      "Why would git status run a program?"
+    ],
+    "demo": "In a terminal with no agent, unzip a harmless demo repo whose .git/config sets core.fsmonitor to a command that only writes a marker file; run git status and show the marker file appear; then open .git/config in Notepad and point at the line."
+  },
+  {
+    "concept": "Agent config files shipped in a repo run code on session start or folder open",
+    "points": [
+      "In the ChainDrop worm, a commit added .claude/settings.json with a SessionStart hook (matcher '*') that runs node on a dropper script: starting Claude Code in the repo re-runs the malware with no npm install.",
+      "The same commit added .vscode/tasks.json with a task set to runOn: folderOpen: opening the folder in VS Code runs it.",
+      "The worm committed these persistence files to every eligible branch, with commits authored as 'claude', turning every clone into an infection opportunity.",
+      "Inventory and pin .claude/ and .vscode/ settings in your repos and alert on unexpected changes to them."
+    ],
+    "gap": "Beginners think of .claude/ and .vscode/ as preferences, not code. StepSecurity documented a 2026 worm using exactly these files as persistence (S061); Straiker lists hooks, .cursor/ and MCP server definitions as repo files that shape agent behavior (S057).",
+    "humanRole": "The agent will honor configuration a trusted folder gives it; that is how the feature works. The human decides whether a third-party repo is trusted, reviews .claude/, .vscode/ and similar folders in anything cloned from outside, and treats unexpected edits to them in a pull request as high-signal.",
+    "sids": ["S061", "S057"],
+    "status": "new-2026",
+    "outdated": [
+      "Malware only runs when you npm install or execute something.",
+      "Editor and agent settings files are harmless preferences."
+    ],
+    "severity": "high",
+    "questions": [
+      "What is the .claude folder in this repo and should I care?",
+      "Can just opening a project in VS Code run code?",
+      "Why did a commit from 'claude' appear in my repo that I didn't make?"
+    ],
+    "demo": "Open a demo repo's .claude/settings.json and .vscode/tasks.json side by side and show the SessionStart hook and the runOn: folderOpen task; then show VS Code's or the agent's trust prompt and explain that accepting it is what lets these run."
+  },
+  {
+    "concept": "A repo can choose its own reviewer: 'ask the agent to security-review it' is not an audit",
+    "points": [
+      "Straiker's malicious repo used CONTRIBUTING.md to send reviewers to a repo-defined subagent (.claude/agents/first-pass.md) before running pytest.",
+      "That file pinned the review to the small Haiku model, limited it to src/ and docs/, and told the main model a read in the main session does not replace running the agent.",
+      "Haiku returned two planted harmless findings; the main model accepted that as the whole review and never opened the test file that held the payload.",
+      "No jailbreak or prompt injection was needed: only documented features (subagents, workflow instructions, test execution).",
+      "Recommendations: don't let agents honor .claude/agents/ (or equivalents) from untrusted repos; require human approval before a repo-defined subagent is spawned."
+    ],
+    "gap": "People believe the agent when it says it reviewed the code and found only minor issues. Straiker showed the repo under review decided who reviewed it and what they looked at; Anthropic closed the report as 'Informative' (S057).",
+    "humanRole": "The agent can read and analyze code fast, but it cannot verify that the review process itself wasn't written by the attacker. The human must notice when a third-party repo carries agent definitions or review instructions, refuse to let them run unapproved, and, for code that will run with real credentials, bring in a human security reviewer.",
+    "sids": ["S057"],
+    "status": "new-2026",
+    "outdated": [
+      "Have the AI do a security review and you're covered.",
+      "Prompt injection requires a clever jailbreak prompt."
+    ],
+    "severity": "high",
+    "questions": [
+      "If I ask Claude to check this repo for malware first, is that enough?",
+      "What is a subagent and who decides which one runs?",
+      "Why would a repo tell my agent how to review it?"
+    ],
+    "demo": "Show a demo repo's .claude/agents/ file with 'model: haiku' and a narrowed scope in its front matter, then show the agent's transcript where it spawns that subagent and reports its findings as the review."
+  },
+  {
+    "concept": "Running a repo's tests runs its code; '11 passed' is not validation",
+    "points": [
+      "In Straiker's attack the payload sat in tests/test_compat.py and ran when pytest loaded the file, before any assertion.",
+      "It hex-decoded a URL, downloaded a Python file and ran it, all inside try/except: pass, with a trivially true assertion, so the chat showed only '11 passed' while a C2 implant was live.",
+      "pytest, make, check.sh and other repo-provided commands are execution surfaces deserving the same scrutiny as running a script by hand.",
+      "Before running an untrusted repo's tests for the first time, have every test file's body read, regardless of any prior review."
+    ],
+    "gap": "Green tests feel like proof of safety, and the agent runs them automatically as the 'closing gate' of a task. Straiker's researcher got arbitrary command execution on the workstation behind a passing test run (S057).",
+    "humanRole": "The agent can run and fix tests on its own, but a passing run verifies behavior, not intent. For third-party code, the human decides whether its tests may run at all on a machine holding credentials, and if so where (an isolated container with limited files, env vars and egress, per S058).",
+    "sids": ["S057", "S058"],
+    "status": "new-2026",
+    "outdated": [
+      "Tests passed, so the code is fine.",
+      "Running tests is a read-only check."
+    ],
+    "severity": "high",
+    "questions": [
+      "The tests all passed, so it's safe to use, right?",
+      "How can a test install malware?",
+      "Should I let the agent run the tests of a library I just found?"
+    ],
+    "demo": "Show a short demo test file whose body writes a harmless marker file before its assert True, run pytest, show '1 passed' and then the marker file on disk."
+  },
+  {
+    "concept": "Workspace trust is the security boundary, and it is your decision",
+    "points": [
+      "Anthropic closed Straiker's report as Informative because honoring a repository's configuration 'falls under the user's workspace-trust decision'; an earlier Auto Mode finding was closed with the same rationale.",
+      "Accepting 'trust this folder' means accepting the folder's subagents, hooks, workflow instructions and tests.",
+      "Some agents ran repo-controlled git before the trust prompt was even shown (GitSpawn), so the prompt is not always the first moment of exposure.",
+      "Folder-open and session-start hooks (.vscode/tasks.json, .claude/settings.json) run as soon as trust is granted."
+    ],
+    "gap": "Beginners click trust prompts by reflex. Vendors treat that click as the user accepting the repo's configuration, so the risk is assigned to the human (S057, S056, S061).",
+    "humanRole": "The agent and the editor will do what a trusted folder tells them. The human must treat the trust prompt as a real decision: trust only folders whose origin they know, and open everything else without trust or in a disposable environment.",
+    "sids": ["S057", "S056", "S061"],
+    "status": "new-2026",
+    "outdated": [
+      "The trust prompt is a formality.",
+      "If the vendor allowed it, it must be safe."
+    ],
+    "severity": "high",
+    "questions": [
+      "What does 'Do you trust the files in this folder?' actually mean?",
+      "Why didn't Anthropic fix this?"
+    ],
+    "demo": "Open an unfamiliar repo in VS Code and in Claude Code and show each trust prompt; then list what trust enables in that repo (its .claude/ and .vscode/ folders, its test command)."
+  },
+  {
+    "concept": "Tool output is attacker-writable input (agentjacking through MCP)",
+    "points": [
+      "Data an MCP server returns (error reports, tickets, issues, logs, review comments) reaches the agent as text it may follow; agents could not tell injected Sentry events from real ones.",
+      "Tenet's PoC: a fake Sentry error dressed as remediation guidance made the agent run npx on an attacker package, stealing env vars, AWS, GitHub/GitLab, npm, Docker, Kubernetes and CI secrets; 85% success across Claude Code, Cursor and Codex.",
+      "Vetting the MCP server's code does not vet the data it pipes in: Sentry's official server was not compromised.",
+      "Flag every MCP server that surfaces external or user-controlled content; disable ones you don't need.",
+      "Require human approval before the agent runs commands or installs packages based on MCP-retrieved content; turn off autonomous modes for agents connected to such servers, and watch for confirmation fatigue.",
+      "This was proof-of-concept research, not confirmed mass exploitation."
+    ],
+    "gap": "People vet the integration (an official vendor server) and assume its output is trustworthy. CSA's note shows the injection surface is the data, and the vendor declined a root fix as 'technically not defensible' (S058).",
+    "humanRole": "The agent cannot reliably separate instructions from data in what a tool returns. The human decides which data sources the agent may read, keeps approval on for installs and shell commands when those sources include outsider-written content, and actually reads what is being approved.",
+    "sids": ["S058"],
+    "status": "new-2026",
+    "outdated": [
+      "Prompt injection only comes from shady websites.",
+      "An official MCP server from a reputable vendor is safe to connect.",
+      "Reviewing the server's source code is enough."
+    ],
+    "severity": "high",
+    "questions": [
+      "Can connecting my error tracker or ticket system to Claude get me hacked?",
+      "Which of my MCP servers are risky?",
+      "Why would my agent run a command it read in a bug report?"
+    ],
+    "demo": "In your own test Sentry (or issue tracker) project, file an error or ticket whose text tells the reader to run a harmless command; ask the agent to triage open issues with approvals on, and show the approval prompt where it proposes that command."
+  },
+  {
+    "concept": "'Public by design' keys are write paths into what your agent reads",
+    "points": [
+      "A Sentry DSN must ship in client-side JavaScript and mobile apps; the ingest endpoint accepts events from anyone who has it: 'a public, write-only credential'.",
+      "DSNs are findable in browser JavaScript, public GitHub repos and scanners such as Censys; Tenet found 71 injectable DSNs in the Tranco top million sites and at least 2,388 organizations exposed.",
+      "Anyone who reads your page source can therefore write into the error queue your agent later triages.",
+      "Mitigations: audit DSN exposure, rotate exposed DSNs, consider a server-side relay so the DSN never ships to browsers."
+    ],
+    "gap": "Beginners learn that 'public' keys are safe to expose and stop thinking about them; nobody connects 'anyone can write here' with 'my agent reads here and acts' (S058).",
+    "humanRole": "The agent can find where a DSN or similar public key is embedded, but the human must know which of their inputs are writable by strangers and decide whether an agent with credentials should read them.",
+    "sids": ["S058"],
+    "status": "new-2026",
+    "outdated": [
+      "Public keys are harmless because they're meant to be public."
+    ],
+    "severity": "medium",
+    "questions": [
+      "My Sentry key is in my website's JavaScript. Is that a problem?",
+      "If a key is meant to be public, why does it matter who has it?"
+    ],
+    "demo": "Open DevTools on your own site, search the loaded JavaScript for the DSN, and show it in plain view; then show the same project's issues list that the agent reads."
+  },
+  {
+    "concept": "Agent-driven attacks look like normal work to your security tools",
+    "points": [
+      "In agentjacking the agent acts under the developer's real identity, so IAM sees no violation; no malware binary is dropped, so EDR has nothing to flag; traffic looks like routine package management, so WAFs pass it.",
+      "ChainDrop's dropper downloaded the genuine Bun runtime from github.com and exfiltrated through GitHub, so domain reputation lists saw only trusted domains.",
+      "Partial detection needs fine-grained baselines: mass secrets access, unexpected credential egress, secrets-store audit logs."
+    ],
+    "gap": "People assume antivirus or corporate security will catch it if something goes wrong. CSA reports the attack passed EDR, WAF, IAM and VPN in tested setups (S058); StepSecurity shows legitimate infrastructure used throughout (S061).",
+    "humanRole": "Detection tools cannot judge whether an authorized-looking action was intended. The human must limit what the agent can reach in the first place (scoped, short-lived credentials; isolated environments) rather than rely on alarms afterward.",
+    "sids": ["S058", "S061"],
+    "status": "new-2026",
+    "outdated": [
+      "My antivirus will catch it.",
+      "Blocking bad domains stops exfiltration."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Wouldn't Windows Defender stop this?",
+      "Why didn't the company's security notice?"
+    ],
+    "demo": ""
+  },
+  {
+    "concept": "A local MCP server is a program running with your privileges",
+    "points": [
+      "Adding a local MCP server means running a command on your machine; attacks include a malicious startup command in a config, a malicious payload in the server, and a localhost server reached by DNS rebinding.",
+      "The spec's example startup command runs npx on a malicious package and then posts ~/.ssh/id_rsa to a remote URL.",
+      "Clients offering one-click setup MUST show the exact command without truncation, label it as code execution, require explicit approval and allow cancel; they SHOULD highlight sudo, rm -rf, network calls and SSH/home paths, and sandbox servers with minimal privileges.",
+      "Local servers SHOULD use the stdio transport, or require an auth token / restricted IPC if they listen over HTTP.",
+      "Risks named: arbitrary code execution, no visibility into what runs, obfuscated commands, data exfiltration, data loss."
+    ],
+    "gap": "MCP servers are presented like app-store plugins with a permission list; the spec itself warns they run with the client's privileges and that users have no insight into what commands execute (S059).",
+    "humanRole": "The agent can install and configure a server in seconds. The human must read the full command being approved, know who publishes the package it runs, and prefer clients that sandbox servers.",
+    "sids": ["S059"],
+    "status": "established",
+    "outdated": [
+      "MCP servers are like browser extensions with limited permissions.",
+      "If it's listed in a directory, it's vetted."
+    ],
+    "severity": "high",
+    "questions": [
+      "Is it safe to add an MCP server someone recommended?",
+      "What actually happens when I add an MCP server to my config?"
+    ],
+    "demo": "Open the MCP config file (e.g. a project .mcp.json or the client's settings) and read one server's command and args aloud; show the client's approval dialog that displays the full command."
+  },
+  {
+    "concept": "MCP auth pitfalls for builders: token passthrough, confused deputy, scopes, state handles",
+    "points": [
+      "Token passthrough is forbidden: an MCP server MUST NOT accept tokens not issued for it or forward a user's token unvalidated to a downstream API (it bypasses rate limits and audit, and turns the server into an exfiltration proxy).",
+      "Confused deputy: a proxy server using one static OAuth client ID plus a third-party consent cookie lets an attacker skip consent; proxies MUST keep per-client consent, exact redirect-URI matching and single-use state values.",
+      "Scope minimization: request a minimal scope first and step up when a privileged tool is first used; avoid wildcard or omnibus scopes and 'bundling privileges to avoid future prompts'.",
+      "MCP is stateless: a server-minted cart or workflow ID MUST NOT be treated as authentication and SHOULD be bound to the authenticated user.",
+      "SSRF: a malicious server can point a client at 169.254.169.254 or localhost services; server-deployed clients should block private ranges and use an egress proxy."
+    ],
+    "gap": "People building MCP servers with an agent copy older tutorials and forward user tokens or request every scope; the spec's security page lists these as known attack patterns (S059).",
+    "humanRole": "The agent can implement OAuth flows, but cannot verify that the design is safe for the people who will use it. For any server exposed to other users, the human must require these spec rules and have someone qualified review the auth design.",
+    "sids": ["S059"],
+    "status": "established",
+    "outdated": [
+      "Just pass the user's token through to the API.",
+      "Ask for all scopes up front so users only consent once."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Can my MCP server just forward the user's GitHub token?",
+      "What scopes should my MCP server ask for?"
+    ],
+    "demo": ""
+  },
+  {
+    "concept": "MCP changed in July 2026: what older explainers get wrong",
+    "points": [
+      "The initialize/initialized handshake and Mcp-Session-Id header are retired; each request carries version, identity and capabilities in _meta; an optional server/discover call exists.",
+      "The legacy HTTP+SSE transport is deprecated with a one-year transition; Streamable HTTP requests carry Mcp-Method and Mcp-Name headers.",
+      "Server-initiated sampling, elicitation and roots over a held-open stream are replaced by Multi Round-Trip Requests (resultType 'input_required', client retries with inputResponses); Roots, Sampling and Logging keep working at least twelve months.",
+      "Dynamic Client Registration is deprecated in favor of Client ID Metadata Documents; clients must validate the iss parameter.",
+      "Tasks moved into an extension; list responses gain ttlMs and cacheScope; servers needing state mint a handle the model passes back."
+    ],
+    "gap": "Most MCP explainers and agent training data describe the 2025 protocol, so both people and agents build against retired patterns (S059 spec post).",
+    "humanRole": "The agent may confidently write 2025-style MCP code. The human must tell it which spec revision to target (2026-07-28) and have it check the current spec rather than its memory.",
+    "sids": ["S059"],
+    "status": "new-2026",
+    "outdated": [
+      "MCP is a stateful session started by an initialize handshake.",
+      "MCP runs over HTTP+SSE.",
+      "Servers call back into the client for sampling over an open stream.",
+      "Dynamic Client Registration is the way clients register."
+    ],
+    "severity": "low",
+    "questions": [
+      "Why does this MCP tutorial not match the current SDK?",
+      "Does MCP still use sessions?"
+    ],
+    "demo": "Show the spec's version selector on modelcontextprotocol.io switching between 2025-11-25 and 2026-07-28 pages."
+  },
+  {
+    "concept": "Slopsquatting: attackers register the package names AI invents",
+    "points": [
+      "In a 2.23-million-sample study of 16 models, 19.7% of samples named at least one nonexistent package (205,474 unique names); open-source models averaged 21.7%, commercial 5.2%.",
+      "Re-running the same prompt ten times, 43% of hallucinated names reappeared every run and 58% more than once, so attackers can predict and pre-register them.",
+      "Hallucinated names are 38% conflations of two real names, 13% typo variants, 51% pure fabrications; 8.7% of hallucinated Python names exist on npm.",
+      "react-codeshift (a conflation of jscodeshift and react-codemod) spread through 237 repos via AI-generated agent skills, with downloads driven by agents; huggingface-cli got 30,000+ downloads after an AI-suggested install command was copied into public docs.",
+      "Caveat: rates were measured on 2025 model versions; newer models may differ, better or worse is not claimed."
+    ],
+    "gap": "People assume a package the AI names must exist and be the right one, and agents now install it without anyone reading the name (S060).",
+    "humanRole": "The agent can check registries quickly if told to; it cannot be trusted to notice its own invented name. The human sets the rule that every new dependency is verified before install and keeps install approvals on for new packages.",
+    "sids": ["S060"],
+    "status": "established",
+    "outdated": [
+      "Typosquatting only catches people who mistype.",
+      "If the AI suggested a package, it exists and is the real one.",
+      "Newer models don't hallucinate packages."
+    ],
+    "severity": "high",
+    "questions": [
+      "Why would the AI make up a package name?",
+      "How could a made-up package hurt me if it doesn't exist?"
+    ],
+    "demo": "When the agent proposes an install of an unfamiliar package, pause at the approval prompt and open the package's registry page to show its creation date, publisher and version history."
+  },
+  {
+    "concept": "How to vet a new dependency before the agent installs it",
+    "points": [
+      "Check it exists in the right registry (npm vs PyPI confusion is real).",
+      "Check it was registered before your project started; flag anything first published in the last 30 to 90 days for review.",
+      "Check the publisher has a track record and a confirmed identity.",
+      "Set a minimum release age so brand-new versions are not adopted automatically (see the cooldown item).",
+      "Treat AI-written imports, require() calls and install commands as untrusted input; put package-installing agents on an allowlist or require approval.",
+      "For apps you download: genuine origin repo with real history, official release assets, verified checksums, valid signature, no credible malware reports."
+    ],
+    "gap": "Beginners have no checklist, and download counts or star counts are not on CSA's list: a viral 10-day-old repo had 41.8k stars (S062); a malicious npm name still had hundreds of weekly downloads (S060).",
+    "humanRole": "The agent can run every check (registry dates, publisher, checksums) in seconds; the human must require it as a standing rule, read the result, and stop when something fails rather than letting the agent route around it.",
+    "sids": ["S060", "S061", "S062"],
+    "status": "established",
+    "outdated": [
+      "Lots of downloads or stars means it's safe.",
+      "If it installs without errors, it's fine."
+    ],
+    "severity": "high",
+    "questions": [
+      "How do I know if an npm package is safe?",
+      "What should I check before letting Claude add a library?"
+    ],
+    "demo": "Ask the agent to add a dependency, then ask it to report the package's first-publish date, publisher and repo link before installing; show the registry page alongside."
+  },
+  {
+    "concept": "Install scripts run at install time, where your keys live",
+    "points": [
+      "npm preinstall/postinstall scripts run automatically on install; ChainDrop added 'preinstall': 'node setup.mjs' to poisoned releases.",
+      "Post-install scripts run in environments that often hold cloud credentials, source-control tokens, model API keys and sometimes production access.",
+      "Running CI with --ignore-scripts (and vetting the few packages that need build scripts) 'neutralizes this dropper class completely'; after an incident, reinstall with npm ci --ignore-scripts."
+    ],
+    "gap": "People think installing is fetching files, not running code. Both CSA (S060) and StepSecurity (S061) identify install scripts as the payload mechanism.",
+    "humanRole": "The agent installs packages constantly. The human decides the default (scripts off in CI, approval for new packages) and keeps long-lived secrets off the machine where installs happen.",
+    "sids": ["S060", "S061"],
+    "status": "established",
+    "outdated": [
+      "npm install just downloads code; nothing runs until I import it."
+    ],
+    "severity": "high",
+    "questions": [
+      "Can installing a package run code on my computer?",
+      "What does --ignore-scripts do and will it break things?"
+    ],
+    "demo": "Open a package's package.json in node_modules and show its scripts section; run an install with --ignore-scripts and compare the output."
+  },
+  {
+    "concept": "Provenance and checksums prove origin, not that the release was authorized or safe",
+    "points": [
+      "ChainDrop's malicious keyv release was built by the project's own workflow through OIDC trusted publishing, so its SLSA provenance was valid.",
+      "In the March 2026 axios compromise, missing provenance was the warning sign; ChainDrop removed that signal, and any gate on 'has valid provenance' would have passed it.",
+      "The worm also republished victims' packages with self-minted Sigstore provenance so they looked legitimately built.",
+      "A matching checksum published by the same pipeline proves the download is intact, not that the pipeline is clean (S062).",
+      "Watch release inputs instead: new files entries, new lifecycle scripts, release-tooling edits."
+    ],
+    "gap": "Beginners learn 'look for the provenance badge / verify the checksum' as the safety check. StepSecurity's key line is that provenance proves which commit was built, not that it was authorized (S061); the download verification session hit the same limit for checksums (S062).",
+    "humanRole": "The agent can verify signatures, checksums and attestations mechanically. The human must understand what each proves (integrity and build origin) and what it cannot (that the maintainer meant to ship it), and pair it with cooldowns and script gating.",
+    "sids": ["S061", "S062"],
+    "status": "new-2026",
+    "outdated": [
+      "Valid provenance means the package is safe.",
+      "A matching checksum means the file is safe."
+    ],
+    "severity": "medium",
+    "questions": [
+      "The package has a provenance badge. Doesn't that mean it's trustworthy?",
+      "The checksum matched. Am I safe?"
+    ],
+    "demo": "Show a package's provenance panel on npmjs.com and the linked commit; then show a release's SHA256SUMS file and a checksum verification, explaining what each confirms."
+  },
+  {
+    "concept": "Lockfiles don't protect installs that bypass them",
+    "points": [
+      "Backstage's end-to-end tests scaffold a fresh app and install dependencies outside the repo's lockfile; between 09:31 and 10:40 UTC they resolved compromised ChainDrop versions transitively and the payload reached its C2.",
+      "StepSecurity: committing a lockfile is good practice and would not have helped here.",
+      "Fresh scaffolds, one-off npx runs and new installs resolve whatever is newest at that moment."
+    ],
+    "gap": "'Commit your lockfile' is taught as the supply-chain fix; StepSecurity documents a real case where installs outside the lockfile were hit within the first hour (S061).",
+    "humanRole": "The agent creates new projects and runs one-off installs routinely. The human should know which installs are lockfile-protected and which are not, and add a minimum release age so fresh resolutions skip brand-new versions.",
+    "sids": ["S061"],
+    "status": "established",
+    "outdated": [
+      "I have a lockfile, so I'm protected from bad new versions."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Does package-lock.json protect me from compromised packages?",
+      "Why did a fresh install get a different version than my project?"
+    ],
+    "demo": ""
+  },
+  {
+    "concept": "Minimum release age (cooldown) for new package versions",
+    "points": [
+      "A 3 to 7 day minimum release age would have prevented most automatic adoption of ChainDrop versions, which were reverted within hours.",
+      "Settings: npm min-release-age (npm 11.10+), pnpm minimumReleaseAge (10.16+), Yarn npmMinimalAgeGate (4.10+), Bun minimumReleaseAge (1.3+), Dependabot cooldown.",
+      "CSA separately recommends flagging packages registered in the last 30 to 90 days for manual review."
+    ],
+    "gap": "Few beginners know package managers can refuse brand-new versions; it is a one-line setting that addresses the window when worms spread (S061, S060).",
+    "humanRole": "The agent can add the setting to every project if asked. The human decides the policy (how many days) and when an urgent security patch justifies an exception.",
+    "sids": ["S061", "S060"],
+    "status": "new-2026",
+    "outdated": [
+      "Always install the latest version."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Should I always use the newest version of a package?",
+      "How do I stop my projects pulling in a release that came out an hour ago?"
+    ],
+    "demo": "Ask the agent to add a minimum-release-age setting to a project's package-manager config and show the file before and after."
+  },
+  {
+    "concept": "Isolate where untrusted code runs: containers, limited secrets, egress allowlists",
+    "points": [
+      "Run agents that touch outside content in isolated containers or sandboxes with limited file access, restricted env-var visibility and constrained egress; block cloud metadata endpoints (S058).",
+      "Use short-lived, scoped credentials instead of long-lived tokens in developer environments (S058).",
+      "In CI, an egress allowlist would have blocked ChainDrop's Bun download so stage 2 never ran; reputation lists fail because github.com is trusted (S061).",
+      "The MCP spec tells clients to sandbox local servers with minimal default privileges and to use egress proxies against SSRF (S059)."
+    ],
+    "gap": "Beginners run agents, installs and third-party tests on the same machine that holds every credential they own; the sources converge on isolation and least privilege as the control that still works when detection fails (S058, S061, S059).",
+    "humanRole": "The agent can set up a container or devcontainer when asked. The human decides which work happens there (untrusted repos, unfamiliar packages, MCP servers that read outsider content) and keeps production credentials out of reach.",
+    "sids": ["S058", "S061", "S059"],
+    "status": "established",
+    "outdated": [
+      "My laptop is my dev environment for everything."
+    ],
+    "severity": "high",
+    "questions": [
+      "Should I run the agent in a container?",
+      "What is an egress allowlist?"
+    ],
+    "demo": "Open an unfamiliar repo inside a container or devcontainer and show that the host's ~/.ssh and ~/.aws are not visible from inside."
+  },
+  {
+    "concept": "Stealers now target AI tool credential files",
+    "points": [
+      "ChainDrop harvested .claude/credentials.json, .claude.json, .codex/auth.json, .cursor/credentials.json, .openai/auth.json, .anthropic/auth.json, .gemini/.env, .kiro/settings/mcp.json and other AI tool configs.",
+      "Alongside the classics: ~/.npmrc, ~/.aws/, ~/.kube/config, SSH keys, ~/.git-credentials, ~/.docker/config.json, Vault tokens, wallets.",
+      "Agentjacking's PoC exfiltrated environment variables, cloud, GitHub/GitLab, npm, Docker, Kubernetes and CI secrets (S058).",
+      "After a compromise, AI tool credentials must be rotated too."
+    ],
+    "gap": "People don't think of their AI tool login or MCP config as a secret worth stealing; StepSecurity calls AI developer tools a new focus for this generation of stealers (S061).",
+    "humanRole": "The agent stores its own credentials in these files. The human must know they exist, include them in any rotation after an incident, and not paste long-lived API keys into MCP config files that sit in home folders.",
+    "sids": ["S061", "S058"],
+    "status": "new-2026",
+    "outdated": [
+      "Attackers only want passwords and credit cards.",
+      "My AI subscription login isn't sensitive."
+    ],
+    "severity": "high",
+    "questions": [
+      "Where does Claude Code keep my login?",
+      "What should I change if my computer gets infected?"
+    ],
+    "demo": "In File Explorer with hidden files shown, open the user folder and point out .claude, .codex, .cursor and similar folders and the config files inside them (without opening secrets on screen)."
+  },
+  {
+    "concept": "After a bad install: assume compromise and rotate in the right order",
+    "points": [
+      "Any machine or CI runner that installed an affected version should be treated as compromised.",
+      "Remove persistence before rotating: ChainDrop's token monitor fired a payload when the stolen GitHub token was revoked.",
+      "Rotate every credential on the machine (npm, GitHub tokens and SSH keys, cloud, Kubernetes, .env secrets, AI tool credentials) from a clean machine.",
+      "Pin known-good versions with overrides and reinstall with npm ci --ignore-scripts; search node_modules for the dropper files; audit repos for unexpected workflows and commits touching .claude/ or .vscode/.",
+      "For a suspected fake-CAPTCHA click on Windows, check clipboard, Run history, PowerShell history, Downloads, new files in Temp/AppData, startup entries, recent scheduled tasks and Defender detections (S062)."
+    ],
+    "gap": "Beginners' instinct is to change passwords immediately from the infected machine; StepSecurity shows that order can trigger the payload and re-leak new secrets (S061).",
+    "humanRole": "The agent can run the checks and list what to rotate. The human must do rotations from a clean device, decide when to wipe, and bring in an expert when real credentials or other people's data were exposed.",
+    "sids": ["S061", "S062"],
+    "status": "established",
+    "outdated": [
+      "Just uninstall the package and you're fine.",
+      "Change your passwords right away from the same computer."
+    ],
+    "severity": "high",
+    "questions": [
+      "I installed a package that turned out to be malware. What do I do now?",
+      "Is uninstalling enough?"
+    ],
+    "demo": ""
+  },
+  {
+    "concept": "npm publishing is tightening (for people who publish packages)",
+    "points": [
+      "Unvalidated npm trusted-publishing configurations now expire 48 hours after creation unless used for a successful publish (GitHub changelog, 2026-10-02).",
+      "Changing the repository or project identity requires a new trust relationship with a fresh 48-hour window.",
+      "npm rejects trusted-publishing tokens from GitHub Actions issue_comment events, in addition to pull_request_target.",
+      "Related changes listed: staged publishing for new packages, opt-in dist-tag permissions, stage-only npm tokens (titles only).",
+      "Maintainer hygiene from ChainDrop: phishing-resistant MFA, short-lived fine-grained tokens, branch protection requiring review even for owners."
+    ],
+    "gap": "Anyone who publishes a package (including agent-built ones) inherits the maintainer's attack surface; ChainDrop came through a maintainer's GitHub account and the project's own release workflow (S061).",
+    "humanRole": "The agent can set up publishing workflows. The human owns the maintainer account security (MFA, branch protection) and must review release-workflow changes.",
+    "sids": ["S061"],
+    "status": "new-2026",
+    "outdated": [
+      "Trusted publishing means attackers can't publish as me."
+    ],
+    "severity": "low",
+    "questions": [
+      "I want to publish my own npm package. What security setup do I need?"
+    ],
+    "demo": ""
+  },
+  {
+    "concept": "Fake CAPTCHA pages and ad redirects",
+    "points": [
+      "Ads on legitimate sites (here a paste site) can redirect to tracking URLs and fake 'I am not a bot' pages; the content you came for was not the problem.",
+      "Trick 1: the page silently copies a harmful command to your clipboard and tells you to press Win+R, Ctrl+V, Enter. This is the dangerous one.",
+      "Trick 2: it asks you to click Allow on notifications, then spams you; fix by removing unknown sites under the browser's notification settings.",
+      "Ticking the checkbox alone installs nothing; the damage comes from following the instructions that come after.",
+      "Read-only views (such as a paste site's raw view) avoid the ad layer."
+    ],
+    "gap": "A capable builder clicked a fake CAPTCHA and did not know what could have happened or what to check (S062, 2026-09-28).",
+    "humanRole": "The agent can inspect the machine (clipboard, Run history, scheduled tasks, startup, Defender) and explain the result. The human must never paste and run a command a web page asks for, and must report what they actually did so the check targets it.",
+    "sids": ["S062"],
+    "status": "established",
+    "outdated": [
+      "Clicking 'I'm not a robot' is always harmless.",
+      "Only sketchy sites redirect you."
+    ],
+    "severity": "medium",
+    "questions": [
+      "I clicked an 'I'm not a bot' box on a weird page. Do I have a virus?",
+      "Why did a normal site send me somewhere strange?"
+    ],
+    "demo": "Show Chrome's Site settings > Notifications list and remove an unknown site; open Windows Security and run a quick scan."
+  },
+  {
+    "concept": "Verifying a download before installing (and why SmartScreen may stay silent)",
+    "points": [
+      "Confirm the official source: the real repo (genuine origin, incremental commit history, not a dumped blob) and the real site, whose download links point to the repo's release assets.",
+      "Verify checksums where published; check the Windows Authenticode signature names an identity-verified publisher; scan with Defender; look for credible malware reports; check hashes on VirusTotal yourself if the agent can't.",
+      "Look for lookalike domains: a newly famous free app had one registered in launch week and flagged by vendors, and a user's 'is this site fake?' question went unanswered.",
+      "Files downloaded by a command-line tool lacked the 'downloaded from the internet' mark, so SmartScreen never prompted; silence was not a pass. Never disable SmartScreen or antivirus to make an install work.",
+      "Installers have side effects: the MSI installed machine-wide, silently, and registered file associations; a portable per-user build avoided them.",
+      "Set the conditions before the agent starts: tolerance for buggy software is yours to lower; running an unverified binary is not."
+    ],
+    "gap": "Beginners treat 'it's on GitHub' or 'Windows didn't warn me' as verification; the 2026-10-10 session shows a checklist that caught a lookalike-domain risk and a silent SmartScreen bypass (S062).",
+    "humanRole": "The agent can run every verification step and report; the human sets the install conditions in advance, checks what the agent cannot (e.g. VirusTotal without a key), and treats any block as information rather than an obstacle.",
+    "sids": ["S062"],
+    "status": "established",
+    "outdated": [
+      "If Windows didn't warn me, the file is fine.",
+      "It's on GitHub, so it's safe.",
+      "A matching checksum means it's safe."
+    ],
+    "severity": "high",
+    "questions": [
+      "How do I know this free app download is the real one?",
+      "Why didn't Windows warn me when Claude downloaded it?",
+      "What is a checksum and should I check it?"
+    ],
+    "demo": "Download a release asset and its SHA256SUMS.txt from an official GitHub release, verify the hash, right-click the exe > Properties > Digital Signatures to show the signer, and compare the official domain with a lookalike in the address bar."
+  }
+]

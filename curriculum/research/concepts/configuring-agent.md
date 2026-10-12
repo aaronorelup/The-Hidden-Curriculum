@@ -1,0 +1,701 @@
+# G05 Configuring the agent: instructions, extensions and enforcement
+
+Concept entries C044-C054 for The Hidden Curriculum. Written 2026-10-12 by the concepts crew (configuring-agent).
+
+**How this was built.** Each entry starts from the gap items that `taxonomy.md` merges into the concept, and from the batch reading notes in `research/notes/` (mainly `rules-enforcement-churn`, `model-context-tokens`, `courses-teach-now`, `vendor-academies`, `practitioners-now`, `verification`, `unattended-action`, `permissions-sandboxes-injection`). On 2026-10-12 I re-opened these sources to check the points that carry the most weight: S015, S021, S022, S026, S025, S029 and S036. I also read eight pages that are not in the S-ID list. Most are companion pages of S015, from the same Claude Code docs set. They are listed below as X01-X08, and every point that rests on one of them cites it by that ID. WebSearch was unavailable for this pass because the shared search budget was used up, so nothing here comes from a new search. The added pages were fetched from URLs that the S-ID sources link to.
+
+**Corrections found while re-checking**
+- The phrase "write-only channel" is from the abstract of the arXiv paper (X08), not from S021's text. S021 does cite the 4.4% figure.
+- S026's page date is 2026-10-09. The incident it describes happened at 00:39 on 8 October.
+- S002 (lecture, 2026-09-24) says every enabled MCP server's full tool list goes out with every request. Claude Code's live docs (S015) say that only tool names load at the start, and the full schemas wait until needed when tool search is on, which is the default. Both are true for different harnesses and settings, so C051 teaches the difference.
+- S002 says Anthropic began supporting AGENTS.md "a few weeks" before 2026-09-24. X01 says Claude Code reads AGENTS.md directly only from v2.1.277, and only when there is no CLAUDE.md.
+
+## Sources added in this pass (not in the S-ID index)
+
+| ID | Title | Author | Date | URL | Note |
+|---|---|---|---|---|---|
+| X01 | How Claude remembers your project (CLAUDE.md, AGENTS.md, rules, auto memory) | Anthropic (Claude Code docs) | undated live docs; mentions versions up to v2.1.285 (released 2026-09-29 per X05); fetched 2026-10-12 | https://code.claude.com/docs/en/memory | S015 companion |
+| X02 | How Claude Code uses prompt caching | Anthropic (Claude Code docs) | undated live docs; mentions up to v2.1.283; fetched 2026-10-12 | https://code.claude.com/docs/en/prompt-caching | S015 companion, also read by the model-context batch |
+| X03 | Automate actions with hooks (hooks guide) | Anthropic (Claude Code docs) | undated live docs; fetched 2026-10-12 | https://code.claude.com/docs/en/hooks-guide | Exit-code semantics, limitations |
+| X04 | Skills | Anthropic (Claude Code docs) | undated live docs; mentions v2.1.282; fetched 2026-10-12 | https://code.claude.com/docs/en/skills | S015 companion, also read by the model-context batch |
+| X05 | Claude Code changelog | Anthropic | entries read: v2.1.282 (2026-09-24) to v2.1.296 (2026-10-09) | https://code.claude.com/docs/en/changelog | Release dates and specific changes |
+| X06 | Steering Claude Code: when to use CLAUDE.md, skills, hooks, and subagents | Michael Segner (Anthropic) | 2026-06-18 | https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more | Linked from S015; does not cover MCP |
+| X07 | Use Claude Code in the cloud | Anthropic (Claude Code docs) | undated live docs; mentions v2.1.289; fetched 2026-10-12 | https://code.claude.com/docs/en/claude-code-on-the-web | What a cloud session clones and reads |
+| X08 | When "Do Not" Is Not Deny: Security Rules in CLAUDE.md vs Built-In Controls | Ting Yan | 2026-08-24 (arXiv submission) | https://arxiv.org/abs/2608.23550 | Abstract only; cited by S021 |
+
+---
+
+### C044 Instruction files are short maps of what the code can't say
+
+- **In one line:** CLAUDE.md or AGENTS.md is the one part of the prompt you control, and it rides along on every request. Put in it the exact commands, the conventions that differ from the defaults, and the facts the code cannot tell the agent, and keep it short. Anthropic says under 200 lines, OpenAI Academy says about 200-300 lines, and OpenAI's own repo uses an index of about 100 lines. Long files and machine-generated files cost tokens and can lower success.
+- **Why it is a gap:**
+  - Aaron lists system prompts and instruction files as a gap (S004).
+  - Stanford's Fall 2025 syllabus had no instruction-file topic. Fall 2026 gives a week to "CLAUDE.md and AGENTS.md: what to put where" (S001).
+  - Beginners fail in one of two ways:
+    - They have no file, so the agent rediscovers the project every session and ignores team conventions (S001, S002, S004).
+    - They paste everything in. Osmani calls this "markdown files for absolutely everything" and names it as a habit to drop (S036, S008).
+  - Measured in S021:
+    - The median root instruction file is 123 lines, and 57% are over 100 lines.
+    - ETH Zurich, 138 tasks: machine-generated context files lowered success compared with having no file, and raised inference cost by over 20%. Human-written files helped by about 4%.
+    - In 52 of 79 repositories the harness is more AI-written than the code it governs (median 16% against 9%). People let the agent write the very file meant to steer it.
+- **What to teach (specific points):**
+  - The file is injected into the request next to a system prompt you cannot change. In an intercepted Claude Code request, the lecturer's CLAUDE.md appears above his first message, as text he never typed (S002). Claude Code delivers it as a user message after the system prompt, not as part of the system prompt (X01). (S002, X01)
+  - CLAUDE.md and AGENTS.md do the same job, and AGENTS.md is the cross-tool name (S002).
+    - Claude Code reads AGENTS.md directly from v2.1.277, but only when there is no CLAUDE.md or CLAUDE.local.md in the working directory or above it.
+    - Adding a personal CLAUDE.local.md silently stops it reading AGENTS.md.
+    - The fix is to import or symlink AGENTS.md from a CLAUDE.md (X01).
+    - (S002, X01)
+  - What belongs in the file:
+    - exact commands (test, build, start the server) and where things live (S002);
+    - the facts the code can't say: business and domain rules, the trade-offs behind the structure, external constraints, and the history behind counter-intuitive code (S036).
+    - Claude Code's `/doctor` trim check follows the same line. It proposes cutting what Claude can work out from the codebase (directory layouts, dependency lists, architecture overviews) and keeps pitfalls, reasons, and conventions that differ from tool defaults (X01).
+    - (S002, S036, X01)
+  - Write instructions concrete enough to check. "Run `npm test` before committing" works; "Test your changes" does not. Contradictory instructions make Claude "pick one arbitrarily". (X01)
+  - Size guidance from the vendors:
+    - Anthropic: under 200 lines per file, with a startup warning when a file is over (S015, X01, X06).
+    - OpenAI Academy: about 200-300 lines, used "as a map of the repo", not as the home of every guardrail (S008).
+    - OpenAI internally replaced one big file with about 100 lines that act as a table of contents (S021).
+    - Imports (`@path`) organise a file but do not reduce its cost, because imported files load at launch too (X01).
+    - (S008, S015, S021, X01, X06)
+  - A long file fails in four ways that OpenAI named (S021):
+    - it crowds out the task;
+    - "when everything is 'important,' nothing is";
+    - it rots into "a graveyard of stale rules";
+    - it can't be checked mechanically.
+    - (S021)
+  - Make the root file a router. Point to each doc only for its purpose ("use database.md for schema changes"); don't require reading everything before every edit (S022). Move instructions that apply to only part of the codebase into path-scoped rules, which load only when matching files are touched (X01). (S022, X01)
+  - Instruction files layer, and the rule for which one wins differs by tool:
+    - Codex: personal, project and folder AGENTS.md combine, and the more specific rule wins (S008).
+    - Claude Code: all levels add their content together, and Claude "uses judgment" when they conflict (S015, X01).
+    - (S008, S015, X01)
+  - Let the agent draft the file, then review it like code and give it an owner. Machine-generated files lowered success in the ETH study (S021). X06's advice is "give it an owner, and review changes to it like code". (S008, S021, X06)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** reads the file at every session start. It can draft one, split a long one into a short index plus topic files, run the trim check, and report which files loaded (S008, S021, X01).
+  - **The human:**
+    - supplies what only people know: why the code is shaped this way, domain rules, external constraints;
+    - decides what is cut;
+    - keeps the file true as the project changes.
+    - The agent cannot tell which of its draft lines are true and specific to this project (S021, S036).
+  - **When to bring in an expert:** for domain or compliance rules (billing, regulated data), the person who owns that rule writes or approves the line.
+- **Currency:** Established practice, but taught as a core topic only in 2026 (S001, S005, S008). Changing now:
+  - Claude Code's native AGENTS.md reading is weeks old (v2.1.277; X01).
+  - The trim and audit checks in `/doctor` are new (X01, X05).
+  - Vendors still disagree on length (S008 against S015).
+- **Outdated framings to avoid:**
+  - "The longer and more detailed the instructions, the better." S002 says too much text overconstrains the agent. S021 measures a cost increase and lower success.
+  - "Each tool needs its own config file." AGENTS.md is shared, and CLAUDE.md can import it (S002, X01).
+  - "Let the agent generate your CLAUDE.md and leave it." See the ETH result (S021).
+  - "Put documentation for everything in the agent's context" (S036).
+- **Questions it answers:** "What should I put in CLAUDE.md?" "What's the difference between CLAUDE.md and AGENTS.md?" "How long should my CLAUDE.md be?" "Should I let the AI write my AGENTS.md?" "Why does the agent ignore my team's style?" "Does the agent need me to explain my whole codebase?" (S001-S004, S008, S021, S036 items)
+- **Show it for real:**
+  - Capture a Claude Code request through a proxy and point to the CLAUDE.md text sitting above the first user message. This is Stanford's first assignment (S002).
+  - Run `/context` and read the **Memory files** list (X01).
+  - Run `/doctor` on a bloated CLAUDE.md and show the proposed trims (X01).
+  - Then split the file into a short index plus topic files and compare token use on the same task (S021 item demo).
+- **Priority:** must. 4 items from 4 batches, 8 S-sources (high severity in the vendor and course batches), all dated Sept-Oct 2026. Every other concept in this group assumes it.
+
+---
+
+### C045 Rules in prose are requests; hooks, permissions and sandboxes enforce
+
+- **In one line:** Anything written in CLAUDE.md, AGENTS.md, rules files, skills or the prompt is something the model may follow. Only a deny rule, a hook that blocks, a sandbox, CI or a credential the agent never gets can make an action impossible. So every "must never" needs one of those behind it, tested to fire.
+- **Why it is a gap:**
+  - Across 481 public CLAUDE.md files, only 4.4% of security rules have a matching built-in control (95% CI 2.6-6.7%), or 4-16% under looser matching (X08, S021).
+    - The paper calls CLAUDE.md "a write-only channel": you write a security rule and get no feedback on whether anything enforces it (X08).
+  - 63% of 145 large open-source projects ship an agent instruction file, but there are only 14 hooks across all 145 (S021).
+  - Only 12 of 391 repositories commit a single deny rule, and 22 declare a PreToolUse hook (S021).
+  - Incident, Cursor forum, 2026-09 (S023): the user had rules in three places, including `alwaysApply: true`. Across four chats the agent still:
+    - SSH'd into hosting and deployed;
+    - changed databases;
+    - ran a production migration in the wrong order;
+    - printed a token into the tool log.
+    - Staff answered: "rules are guidance the model can still deviate from". (S023)
+  - OWASP's roundup of Q3 2026 exploits: "Prompt-level instructions alone do not establish a secure boundary" (S065).
+- **What to teach (specific points):**
+  - Everything you write for the model is a request:
+    - CLAUDE.md, AGENTS.md, `.cursor/rules`, Kiro steering ("will prefer"), skills and output styles are all instructions (S015, S023, S024).
+    - Claude Code treats them "as context, not enforced configuration" (X01).
+    - In S015's words, "never edit .env" in CLAUDE.md "is a request, not a guarantee. A PreToolUse hook that blocks the edit is enforcement."
+    - (S015, S023, S024, X01)
+  - Know the enforcement layers and what each covers:
+    - **Permission deny rules:** enforced by the client "regardless of what Claude decides to do" (X01).
+    - **PreToolUse hooks that block:** see the next point (X03).
+    - **The sandbox:** limits what shell commands can reach in files and network. It is off by default, covers shell commands only, and does not exist on native Windows (S052).
+    - **CI and branch protection** (S021).
+    - **Credentials the agent never holds, or holds only scoped and per run:** "A deny rule, scoped credential, or CI check doesn't have to remember" (S036). OWASP adds independent egress controls (S065).
+    - (S021, S036, S052, S065, X01, X03)
+  - How a Claude Code hook blocks: exit code 2, or JSON `permissionDecision: "deny"`. A PreToolUse deny blocks the call "even in `bypassPermissions` mode", and a hook's "allow" cannot loosen a deny rule from settings. (X03)
+  - Hooks fail open unless you build them to fail closed.
+    - In Claude Code, a hook that exits with any code other than 2, printing plain text or nothing, lets the action proceed as a "non-blocking error" (X03).
+    - Until an early-October 2026 release, PreToolUse hooks whose matching failed were skipped. The changelog says "the call is now blocked" (X05).
+    - Cursor exposes a `failClosed: true` flag; staff call that hook "the real hard block" (S023).
+    - Write guards so that any error ends in a deny, and re-test them after updates.
+    - (S023, X03, X05)
+  - A hook sees only what it matches.
+    - An `Edit|Write` matcher misses files changed through Bash or PowerShell. To see every change, also match those or scan the tree in a Stop hook (X03).
+    - The hook `if` filter is "best-effort", so the docs say to "use the permission system rather than a hook to enforce a hard allow or deny" (X03).
+    - S021 shows a regex guard catching variants such as `rm -rf /; echo done`.
+    - (S021, X03)
+  - A hook that only injects a prompt is still guidance. Kiro's Agent action injects a prompt, while its Command action and Pre Tool Use hook can block (S024). (S024)
+  - Test every guard both ways: it must block what it should and allow what it should. codex-claude-code-config has 63 hook cases across 12 guards, 29 of them must-block and 19 must-allow (S021). Aaron's build guard was tested with a fake branch build, which failed, and a fake main build, which passed (S026). A guard nobody has seen fire may be decoration. (S021, S026)
+  - Controls have holes you must know about:
+    - An approved full-network prompt drops the sandbox deny list for that command (S023).
+    - The agent moved its own workspace root and lost the root rules and `hooks.json` (S023).
+    - People approve what they are asked: 133 of 148 overreach actions that ran under user-written rules ran after a human approved them (S021, citing arXiv 2608.27443).
+    - (S021, S023)
+  - The tool's own built-in instructions can beat yours.
+    - Cursor kept suggesting `gh` despite a GitLab-only rule. Staff said "another 'no gh' rule won't reliably win" (S023).
+    - Claude Code's docs say to check whether your rule competes with guidance it adds itself, and to turn that off (for example `includeGitInstructions`) (X01).
+    - The fix is a control, such as denying the command, not more prose.
+    - (S023, X01)
+  - Once the guards exist, shrink the prose. S021's line: "A rule that ends in a prompt isn't a rule." (S021)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** writes deny rules, hooks, CI checks and the tests for them. It can audit an instruction file and say which rules have no control behind them (S021, S015).
+  - **The human:**
+    - Decides the must-never list: production deploys, SSH, production databases, payments, deleting data, sending messages, secrets.
+    - Watches each block fire.
+    - Declines full-network and move-the-root prompts during risky work.
+    - Keeps production credentials out of the agent's reach (S021, S023, S026).
+  - **The agent cannot verify:** that its own guard is complete. Agents have deployed through written "never" rules (S023). And the agent's word that "it won't happen again" changed nothing (S023).
+  - **When to bring in an expert:** when the guard protects production, payments or credentials, have someone who knows the platform's permission, network and identity controls review it (S021, S065).
+- **Currency:** Established as a principle, and Anthropic, OpenAI, Cursor and Kiro all state it now:
+  - Anthropic's beginner course teaches hooks as deterministic control, unlike CLAUDE.md (S005), and its docs and blog say the same (S015, X06).
+  - OpenAI Academy says AGENTS.md is not the home of every guardrail (S008).
+  - Cursor staff say rules are guidance (S023).
+  - Kiro's docs say steering is preferred, not enforced (S024).
+
+  Changing now:
+  - Auto mode is the default starting mode in Claude Code, and its docs say it "does not guarantee safety" (S052).
+  - Hook semantics changed in October 2026 releases (X05).
+  - Claude Code's hooks guide says a "mod" that handles `tool.check` can approve a call your PreToolUse hook blocked, unless the hook is in managed settings (X03). This is new and worth watching.
+- **Outdated framings to avoid:**
+  - "Put it in CLAUDE.md and the agent will follow it" (S021, S023, X01).
+  - "Write NEVER in capitals and it becomes a hard rule" (S021 item).
+  - "`alwaysApply: true` means always" (S023).
+  - "The agent promised it won't happen again" (S023).
+  - "A hook that injects a reminder prompt is a block" (S024).
+  - "A stronger-worded rule will override the tool's default" (S023).
+  - "Tell the agent in the system prompt what it may not do" (S065).
+- **Questions it answers:** "I told it in CLAUDE.md never to push to main. Why did it?" "What's the difference between a rule and a permission?" "How do I stop the agent from ever touching .env?" "How do I actually stop the agent from deploying or touching production?" "Is it enough to tell the AI not to do something?" "What is a hook?" (S015, S021, S023, S065 items)
+- **Show it for real:**
+  - Put two screens side by side:
+    - On the left, CLAUDE.md says "never run git push". Ask the agent to push and show that it can.
+    - On the right, add a deny rule or a PreToolUse hook, ask again, and show the block message.
+  - Use the hooks guide's `.env` protection script, which exits 2 and shows "Blocked: ... matches protected pattern" (X03).
+  - Test the hook from the terminal: `echo '{"tool_name":"Bash","tool_input":{"command":"ls"}}' | ./my-hook.sh; echo $?` (X03).
+  - Open `/hooks` to list what is active (X03).
+  - In a provider dashboard, show a read-only key next to a full-access key (S065 item demo).
+- **Priority:** must. 6 items from 4 batches, 4 of them high severity, with Sept-Oct 2026 incidents and measurements. It is the course's own security rule applied to configuration.
+
+---
+
+### C046 Which rules a session actually loads
+
+- **In one line:** A rule only works in sessions that load it. Which sessions do depends on four things:
+  - where the file sits (root, subfolder or path-scoped);
+  - when you edited it (before or after the session started);
+  - what kind of session it is (laptop, cloud, subagent, scheduled routine);
+  - which branch the session cloned.
+- **Why it is a gap:**
+  - In the Cursor incident the user's nested rules never loaded during the migration chats. The agent also moved its own workspace root, which dropped the root rules and `hooks.json`. Staff said that "shouldn't happen" (S023).
+  - AO-043 (S026):
+    - The blog's rules lived in an uncommitted CLAUDE.md one folder above the repo.
+    - A claude.ai cloud session started from GitHub's stale default branch, which had been frozen since August, and never saw those rules.
+    - It pushed a branch that replaced the live site for 8 minutes 10 seconds.
+    - Aaron's verdict: "The session did nothing wrong by what it could see."
+  - Claude Code's own docs give whole pages to "Claude isn't following my CLAUDE.md" and "Instructions seem lost after /compact" (X01). People expect an edit to apply at once, and it does not (X02).
+- **What to teach (specific points):**
+  - What Claude Code loads:
+    - At launch: CLAUDE.md files from the working directory and every directory above it.
+    - A subfolder's CLAUDE.md: only once Claude reads, writes or edits a file in that subfolder.
+    - A path-scoped rule (`paths:` frontmatter): only when a matching file is touched.
+    - (X01, S015)
+  - Other tools work the same way:
+    - Cursor loads nested `.cursor/rules` only when a chat touches that folder, even with `alwaysApply: true`, and a pointer file passes only a path, not the rule text (S023).
+    - Kiro's older CLIs (V1, V2) auto-load only "always" steering files, and Kiro custom agents ignore steering unless it is added to their resources (S024).
+    - (S023, S024)
+  - Root and user CLAUDE.md are read once at session start. An edit made mid-session "doesn't apply" until the next `/clear`, `/compact` or restart (X02). In a cloud session `/clear` is not available; start a new session instead (X07). (X02, X07)
+  - What survives compaction:
+    - The root CLAUDE.md is re-read from disk.
+    - Nested files and path-scoped rules reload only when a matching file is touched again.
+    - Instructions given only in chat survive only as part of the summary (X01, S015).
+    - Auto mode re-reads boundaries you stated in chat from the transcript, so they can be lost at compaction; S052 says a deny rule is the hard guarantee.
+    - (S015, S052, X01)
+  - Where the session runs decides what it can see:
+    - A session started on claude.ai "starts with a fresh clone of the repository, on the default branch, and nothing else" (S026).
+    - `claude --cloud` from the terminal clones the GitHub remote at your current branch, "not your local checkout, so push first". Untracked files never travel (X07).
+    - Personal skills in `~/.claude/skills` do not load in Cowork or cloud sessions (X04).
+    - Scheduled routines run as cloud sessions (X07).
+    - Settings for a cloud session belong in the repo's committed `.claude/settings.json` (X07).
+    - (S026, X04, X07)
+  - The same split exists elsewhere. In ChatGPT Work, if your computer is offline when a turn starts, the cloud container continues but cannot reach that computer's files or tools (S025). (S025)
+  - The GitHub default branch is where remote agents start. Aaron's repo kept `master` as the default for two months after work moved to `main`, and laptop sessions hid the problem (S026). Check it under Settings > Branches when work moves branches. (S026)
+  - Subagents start without your conversation. They get CLAUDE.md, except the built-in Explore and Plan agents and any agent whose definition sets `omitClaudeMd` (S015). Tell the lead agent to pass the rules a subagent needs. (S015)
+  - Check what actually loaded:
+    - `/context` lists the **Memory files** loaded at launch.
+    - Nested files print a `Loaded` line when they load.
+    - `/memory` lists locations.
+    - An `InstructionsLoaded` hook can log every load and its reason.
+    - (X01)
+  - The durable fix:
+    - Commit a short CLAUDE.md inside the repo, so every surface sees it.
+    - Put the must-nevers in repo-side or hosting-side controls. In AO-043 those were the default branch, a build guard that refuses other branches, and a Cloudflare setting that uploads but never deploys branch builds.
+    - (S026)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** can list which instruction files and hooks it has loaded, write and commit the repo-level file, and find a default-branch mismatch (S023, S026, X01).
+  - **The human:**
+    - knows where each session runs;
+    - decides which laptop-only rules must travel;
+    - runs `/clear` after editing standing rules;
+    - checks the default branch on the hosting site;
+    - refuses prompts to move the workspace root during risky work (S023, S026).
+  - **The agent cannot see:** the rules it never received. "The session did nothing wrong by what it could see" (S026).
+  - **When to bring in an expert:** no expert is needed for the loading rules themselves. Hosting and CI settings that turn a branch push into a deploy are covered in G07/G10.
+- **Currency:** The loading mechanics are established. New in 2026:
+  - cloud sessions, routines and phone-started sessions, which load less than a laptop does (X07, S025);
+  - native AGENTS.md reading (X01).
+  - Claude Code ships several releases a week (X05), so check the current docs rather than a tutorial.
+- **Outdated framings to avoid:**
+  - "My CLAUDE.md protects every session" (S026).
+  - "One rules file covers the whole repo" and "`alwaysApply` means always loaded" (S023).
+  - "The agent rereads CLAUDE.md every turn" (X02).
+  - "The branch I work on locally is the one every agent gets" (S026).
+  - "The agent sees my machine's setup wherever it runs" (S026, X07).
+- **Questions it answers:** "Why does the agent ignore my rules in some chats but not others?" "Why did the cloud agent not follow my rules when my laptop agent does?" "I updated CLAUDE.md, why is it still doing the old thing?" "Does the web or phone version of Claude Code see my local files?" "Do nested rules files work?" "Why is my cloud agent working on old code?" (S015, S023, S026 items)
+- **Show it for real:**
+  - Mid-session edit: add a visible rule to CLAUDE.md, ask about it (the agent doesn't know it), run `/clear`, and ask again (X02).
+  - Cloud session: in a file explorer, show a CLAUDE.md that sits above the repo folder. Start a cloud session, ask it to print its instructions, and show the rule missing. Commit the file into the repo and repeat (S026 item demo).
+  - Default branch: open GitHub's Settings > Branches and compare the last commit on `master` and on `main` (S026).
+- **Priority:** must. 4 items, 3 of them high severity. Aaron's own incident is dated 2026-10-09, and another forum incident is from 2026-09. Beginners who use phone and cloud sessions hit this soon.
+
+---
+
+### C047 Turn repeated corrections into durable checks
+
+- **In one line:** A correction made in chat lasts for this conversation at most, and may not even survive compaction. When a mistake repeats, move it into something that does not have to remember:
+  - a CLAUDE.md line at least;
+  - better, a lint rule, hook, test, type or skill.
+  - Record the incident behind each rule and when the rule can go.
+- **Why it is a gap:**
+  - Beginners fix the diff themselves or say it again in chat, then see the same mistake next session. Osmani: "If you quietly repair the diff, the next session can repeat it" (S036).
+  - Few projects record why their rules exist. Only 5 of 391 repositories record anything about how their harness is used. Atomic CRM ships 148 harness files and zero recorded decisions (S021).
+  - Chat-only instructions survive compaction only as part of the summary (X01). Auto mode re-reads boundaries stated in chat from the transcript, so they can be lost at compaction (S052).
+- **What to teach (specific points):**
+  - A new session starts with a fresh context window. Only files carry knowledge across sessions (X01). A chat correction is gone next time, and may not survive this session's compaction. (S052, X01)
+  - Climb the ladder (S015, S036):
+    - Claude gets a convention or command wrong twice: add it to CLAUDE.md (S015).
+    - You paste the same playbook a third time: make it a skill (S015).
+    - The mistake can be checked mechanically: "move it into a lint rule, hook, type, test, or skill. Keep prose for constraints that cannot be enforced mechanically" (S036).
+    - (S015, S036)
+  - Prefer checks that don't depend on the model: "A deny rule, scoped credential, or CI check doesn't have to remember." (S036)
+  - Write lint errors so they carry the fix. OpenAI writes custom lint messages "to inject remediation instructions into agent context", so the agent corrects itself on the next run (S021). (S021)
+  - Build rules from failures you have actually seen, not imagined ones. Past sessions are the best source (S021). Don't copy someone else's CLAUDE.md wholesale, because its rules came from their failures (S021 item). (S021)
+  - Record each rule's reason and an exit condition. S021's cheap version is "One line per hook naming the failure behind it", plus "give every control an expiry condition".
+    - flow-next keeps 98 bug write-ups, each with a root cause and a prevention paragraph (S021).
+    - Aaron's AO-043 runs incident → mechanism → committed CLAUDE.md + a build guard tested both ways + a dashboard change (S026).
+    - (S021, S026)
+  - Know where "remember this" goes. When you ask Claude Code to remember something, it saves the note to auto memory, which lives under `~/.claude/projects/<project>/memory/` on that machine. To make it a project rule, say "add this to CLAUDE.md" (X01). A note on your machine reaches neither your teammates nor a cloud session (X01, X07). (X01, X07)
+  - The payoff: "Over time the harness becomes a record of failures the team has decided not to pay for twice." (S036)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** writes the lint rule, hook, test or skill and their tests. It can draft the incident note and search past session logs for repeat failures (S021 item, S036).
+  - **The agent cannot be trusted to:** carry a chat correction into the next session (S036).
+  - **The human:**
+    - notices the repeat;
+    - decides whether it is worth a rule;
+    - decides whether the rule can be mechanical or must stay prose;
+    - keeps the record of why each rule exists (S021, S036).
+  - **When to bring in an expert:** if the repeated mistake is a security mistake, the check should be reviewed by someone who can judge it (see C045).
+- **Currency:** New in 2026. The practice was named in practitioner essays and surveys of September 2026 (S021, S036), and the vendor docs teach the same trigger table (S015). Thin evidence: 2 items, both medium severity.
+- **Outdated framings to avoid:**
+  - "Just tell the agent again" and "Fix the AI's mistake yourself and move on" (S036).
+  - "Instructions in prose are enough to prevent repeats" (S036).
+  - "Copy a popular CLAUDE.md template" and "More rules means a safer agent" (S021).
+- **Questions it answers:** "Why does the agent keep making the same mistake?" "What should go in my rules file?" "Should I use someone else's CLAUDE.md?" "What's the difference between a skill, a hook and an instructions file?" (S021, S036 items)
+- **Show it for real:**
+  - Show the agent making the same mistake in two sessions. Add a hook or lint rule that fails on it, and show the next session stopped automatically (S036 item demo).
+  - Open a hook file whose header comment names the incident and when to remove the guard (S021).
+  - Open `/memory` to show what auto memory saved, next to the committed CLAUDE.md (X01).
+- **Priority:** should. 3 S-sources, all Sept-Oct 2026, but only 2 items at medium severity. Best taught inside the C045 lesson, as the habit that feeds it.
+
+---
+
+### C048 Stale instructions and docs are worse than none
+
+- **In one line:** An agent believes what is written. An outdated README, CLAUDE.md or skill quietly misleads it, and instructions written to work around last year's model hold back the new one. Prune and date them whenever the model changes.
+- **Why it is a gap:**
+  - Stanford's lecture of 2026-09-29: if the choice is bad docs or none, "start from nothing", because stale information confuses the agent (S003).
+  - OpenAI on its new model (S022):
+    - "Guidance that helps Sol or Luna may overconstrain GPT-6 Astra."
+    - Telling Astra to run tests now "can lead to unnecessary testing".
+  - Anthropic's own harness parts went stale too: the context resets "had become dead weight in the agent harness" once Opus 4.5 arrived (S021).
+  - Vendors now treat this as routine. Claude Code v2.1.283 (2026-09-25) added `/doctor prompt-audit` "to audit your CLAUDE.md files, skills, agents and commands for prompting patterns written for older models" (X05).
+- **What to teach (specific points):**
+  - Reuse existing docs only if they are accurate and maintained. Otherwise delete them or bring them up to date (S003). (S003)
+  - A model upgrade changes which instructions help. OpenAI's examples (S022):
+    - **"Run the tests":** drop it, because Astra tests on its own.
+    - **Mandatory reading before every edit:** replace "Before every edit, read architecture.md, database.md, and deployment.md" with "Use architecture.md for service boundaries, database.md for schema changes, and deployment.md when preparing a deployment".
+    - **Strong "ask first" wording:** soften it, because Astra "may stop work where you'd actually be happy for it to continue".
+    - (S022)
+  - Workarounds for an old model's weaknesses become dead weight. Anthropic's context-reset example is the case (S021). (S021)
+  - Audit on every model change, with a tool:
+    - Claude Code's `/doctor prompt-audit` looks for instructions written for older models, references to files or commands that no longer exist, and files that contradict each other. It changes nothing until you ask (X01, X05).
+    - OpenAI suggests having the new model audit your instructions against its guidance (S022).
+    - (S022, X01, X05)
+  - Remember who else reads your files: "Repository skills also guide other contributors' agents, which may use different models." (S022)
+  - Date every rule and tie it to an incident, so you can tell later whether it still matters (S021). OpenAI's warning about a single big file: it "rots instantly… a graveyard of stale rules" (S021). (S021)
+  - Stale code is stale documentation too. A half-finished migration shows the agent "contradictory precedent", the old way in forty files and the new way in twelve. A migration is done when the old path is gone (S036). (S036)
+  - Docs can be kept current by an agent on a schedule. S003 says so, and S021 calls OpenAI's version a "doc-gardening" agent. (S003, S021)
+  - Don't prune the safety. Removing prose "ask first" rules is fine only when the real must-nevers are enforced by controls (C045). This tension comes from reading S021 and S022 together. (S021, S022)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** runs the audit, proposes deletions and rewrites, and can keep docs current on a schedule (S003, S022, X01).
+  - **The agent cannot reliably:** tell which document describes the past, unless the code plainly contradicts it (S003 item).
+  - **The human:**
+    - owns which docs are true;
+    - reviews the proposed deletions;
+    - keeps anything tied to a real incident or a safety boundary (S021, S022).
+- **Currency:** New in 2026. Model-specific pruning guidance (S022, no earlier than 2026-09-03) and the audit command (X05, 2026-09-25) both appeared in the last six weeks.
+- **Outdated framings to avoid:**
+  - "Any documentation is better than none" (S003).
+  - "Write your CLAUDE.md once and it keeps working" (S021, S022).
+  - "Tell the agent to always run the tests" and "Make it read the whole repo map before every change" (S022).
+- **Questions it answers:** "Should I give the AI our old docs?" "Why does the agent keep using an old API?" "Should I change my CLAUDE.md or AGENTS.md when a new model comes out?" "Why is the new model slower or stopping more with my old setup?" "Which instructions can I delete?" (S001, S003, S022 items)
+- **Show it for real:**
+  - Run `/doctor prompt-audit` on a real project and walk through the report (X01).
+  - Leave an outdated setup section in a README, show the agent following it, delete the section and run the task again (S003 item demo).
+- **Priority:** should. 2 items, medium severity, 5 S-sources plus a vendor tool released 2026-09-25. It ties directly to the course premise, and could be taught together with C052.
+
+---
+
+### C049 Skills, commands, plugins, connectors, MCP, hooks and subagents: what each one is
+
+- **In one line:**
+  - **Skill:** a written procedure or reference (SKILL.md, sometimes with scripts). Its description sits in context, and its body loads when used.
+  - **Command:** now the same thing as a skill.
+  - **MCP server:** connects external tools and data. A **connector** is an MCP server added in claude.ai.
+  - **Hook:** code the harness runs on an event.
+  - **Subagent:** an isolated worker that returns a summary.
+  - **Plugin:** bundles any of these for sharing.
+- **Why it is a gap:**
+  - Aaron lists "skills, connectors and plugins" as a gap (S004).
+  - Stanford had no skills topic in Fall 2025. Fall 2026 gives skills a week and instruction files, hooks and subagents another (S001).
+  - Both vendor beginner courses now teach the set (S005, S008).
+  - The vocabulary changed during 2026: custom commands merged into skills, and "connectors" is claude.ai's name for MCP servers. So beginners install the wrong thing or stack redundant ones (S015 item).
+- **What to teach (specific points):**
+  - **CLAUDE.md and `.claude/rules/`:** always-on text, loaded every session (rules can be path-scoped). Use them for what Claude should always know. (S015, X01)
+  - **Skills:**
+    - A skill is a markdown file (SKILL.md, optionally with scripts) holding knowledge or a workflow. Only its name and description sit in context until it is invoked with `/name` or Claude decides it fits. Then the body loads ("progressive disclosure") (S002, S015, X04).
+    - Skills can be reference (a style guide) or action (`/deploy`) (S015).
+    - Locations: personal `~/.claude/skills/`, project `.claude/skills/` (commit it so the team gets it), plugin, enterprise (X04).
+    - (S002, S015, X04)
+  - **Commands:** "Custom commands have been merged into skills." `.claude/commands/deploy.md` and `.claude/skills/deploy/SKILL.md` both create `/deploy`, and old command files keep working. (X04)
+  - **MCP servers:**
+    - MCP is a protocol that connects the agent to an external system's tools and data. Each MCP tool is a primitive, like one API call; a skill ties tools into a multi-step procedure (S002).
+    - MCP tools appear as `mcp__<server>__<tool>` (S002, X03).
+    - S015's split: "MCP connects Claude to external services. Skills extend what Claude knows, including how to use those services effectively."
+    - (S002, S015, X03)
+  - **Connectors:** an MCP server you add in claude.ai. It is automatically available in Claude Code when you are logged in with that account. (S015)
+  - **Hooks:** a script, HTTP call, MCP tool call, prompt or subagent that the harness runs on a lifecycle event (before a tool, after an edit, at session start). It always fires and costs zero context unless it returns output. Use it for what must happen every time (S015, X03). (S015, X03)
+  - **Subagents:** an isolated worker with its own context window that returns only a summary. In S015's example it read 6,100 tokens and returned 420. Use one for side tasks that would flood your conversation. "Dynamic workflows" are scripts that run many subagents (S015). (S015)
+  - **Plugins:** the packaging layer that bundles skills, hooks, subagents and MCP servers. Plugin skills are namespaced (`/plugin:skill`), and plugins are distributed through marketplaces. Use one when a second repo needs the same setup (S015). (S015)
+  - Choose by trigger, not up front (S015):
+    - convention wrong twice: CLAUDE.md;
+    - same playbook pasted a third time: skill;
+    - copying data Claude can't see: MCP;
+    - side task floods context: subagent;
+    - must happen every time: hook;
+    - second repo needs it: plugin.
+    - (S015)
+  - Everything you install is code with your access:
+    - Skills "can bundle and run scripts", and a project skill's `allowed-tools` applies even in a folder you never trusted, so review it before running Claude Code in a cloned repo (X04).
+    - OpenAI's academy says to treat someone else's skill as untrusted and to rebuild it from examples when you can (S008).
+    - An MCP server approved once can change its tool descriptions later; Deadbugz behaved normally for 3 calls, then changed (S065).
+    - Details are in G08/G09.
+    - (S008, S065, X04)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** can write a skill, hook, subagent definition, MCP config or plugin on request, and decides when to call tools and skills (S015).
+  - **The human:**
+    - decides which mechanism fits the need: always-on rule, on-demand procedure, external connection, guaranteed action, isolation or distribution;
+    - owns what gets installed (S015 item);
+    - vets third-party skills, plugins and servers (S008, X04).
+  - **When to bring in an expert:** an extension that touches real accounts or production data can act with your access. Have someone who can assess it review it before you enable it (S065, cross-reference G08).
+- **Currency:** MCP and subagents are established. Skills as a taught topic, the commands merge, and claude.ai connectors in Claude Code are new in 2026 (S001, S015, X04). Still changing:
+  - Claude Code reserved the `claude-ai` skill name on 2026-09-24 (v2.1.282) and reverted it the next day (v2.1.283) (X05).
+  - The features overview now lists dynamic workflows, cross-session messaging and Artifacts (S015).
+- **Outdated framings to avoid:**
+  - "Slash commands and skills are different things" (X04).
+  - "Connectors are something other than MCP" (S015).
+  - "A plugin is a kind of tool" (S015 item).
+  - "Skills are the same as plugins or MCP servers" (S001-S004 item).
+- **Questions it answers:** "What is a Claude skill?" "Skill vs MCP vs plugin?" "What's the difference between a skill, a command, a plugin and a connector?" "When should I use MCP versus a skill?" "Where do skills live?" "What is a subagent for?" "How do I share a skill with my team?" (S001-S004, S015 items)
+- **Show it for real:**
+  - Tour a project's `.claude/` folder: CLAUDE.md, `rules/`, `skills/<name>/SKILL.md`, and hooks in `settings.json`.
+  - Then run `/context` (skill listing and MCP tools), `/mcp`, `/plugin` and `/hooks` (S015 item demo, X03).
+  - Invoke a skill and show its body enter the captured request only at that moment (S002 item demo).
+- **Priority:** must. It is on Aaron's explicit gap list (S004), it has a Stanford week (S001), both vendor courses teach it (S005, S008), and every later lesson uses this vocabulary. Only 2 items and medium severity, but foundational.
+
+---
+
+### C050 Skills load by their description
+
+- **In one line:** The model decides whether to load a skill by reading its short description. So write *when* to use it, not everything it can do, put that first, and make side-effect skills run only when you name them.
+- **Why it is a gap:**
+  - Users write a skill, then are puzzled when it never triggers or the wrong one fires (S015 item).
+  - People write descriptions as summaries of what the skill does. A broad description fires everywhere, and a long one gets cut (S022).
+  - Thin evidence: the sources are vendor docs (S015, S022, X04). No practitioner or incident source was found for this concept.
+- **What to teach (specific points):**
+  - Claude "matches your task against skill descriptions". If descriptions are vague or overlap, it may load the wrong skill or miss the right one. (S015)
+  - Write when to use it, short and specific. OpenAI's example:
+    - Bad: "Use when working with databases, queries, models, or persistence."
+    - Good: "Use when adding or changing a migration, or reviewing its rollout."
+    - (S022)
+  - Put the key use case first. In Claude Code the combined `description` and `when_to_use` text is cut at 1,536 characters in the skill listing (X04). OpenAI adds that long descriptions get shortened when many skills are installed (S022). (S022, X04)
+  - To be sure a skill runs, invoke it by name with `/name`. (S015)
+  - Gate skills that have side effects (`/commit`, `/deploy`, `/send-slack-message`) with `disable-model-invocation: true`. Then only you can trigger them, and their description stops using context. `user-invocable: false` does the opposite: it hides background-knowledge skills from the `/` menu. (X04, S015)
+  - For a skill with several workflows, make the root file "a minimal router that points to supporting docs and scripts". (S022)
+  - Skip elaborate step-by-step recipes; stronger models handle nuance, and overly specific guidance can hurt. (S022)
+  - Test both ways: the skill should load on the requests it is meant for and stay out of near-misses (S022 item). (S022)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** drafts descriptions, and can test which prompts trigger a skill (S022 item).
+  - **The human:**
+    - decides when the skill should and should not apply;
+    - decides which skills have side effects and must be manual-only;
+    - names the skill explicitly when it matters (S015, S022).
+- **Currency:** New in 2026. The fields and limits are documented in live docs (X04), and Claude Code changed how `/skill` names typed mid-message are handled in v2.1.287, 2026-10-01 (X05).
+- **Outdated framings to avoid:**
+  - "Describe everything the skill can do" (S022).
+  - "The agent automatically knows which skill to use" (S015).
+  - "Write a detailed step-by-step recipe in the skill" (S022).
+- **Questions it answers:** "Why doesn't Claude use my skill?" "Why does my skill load when it shouldn't?" "How does Claude choose a skill?" "How do I write a good skill description?" (S015, S022 items)
+- **Show it for real:**
+  - Install two skills with overlapping descriptions, give a task, and show which one loads. Rewrite one description and repeat (S015 item demo).
+  - Show the skill listing in `/context` before and after setting `disable-model-invocation: true` (S015, X04).
+- **Priority:** could. 2 items, low severity, vendor sources only. Teach it as one segment of C049. The side-effect gate (`disable-model-invocation`) is the safety point to keep.
+
+---
+
+### C051 Every extension costs context
+
+- **In one line:** Every instruction file, skill description, output style and MCP server you enable takes context before you type a word. Too many add noise that makes the agent worse, not just slower, so measure what is loaded and remove what isn't pulling its weight.
+- **Why it is a gap:**
+  - Aaron lists connectors as a gap (S004).
+  - Beginners install every connector they find, not knowing that irrelevant material makes the agent perform worse (S002).
+  - Stanford's lecturer counts "tens of thousands of tokens" already spent before his first message (S002).
+  - Anthropic's docs warn that too much "can also add noise that makes Claude less effective; skills may not trigger correctly, or Claude may lose track of your conventions" (S015).
+- **What to teach (specific points):**
+  - What rides on every request in Claude Code (S015):
+    - CLAUDE.md in full, plus unscoped rules;
+    - the active output style;
+    - skill descriptions (zero for skills marked `disable-model-invocation: true`);
+    - MCP tool names, with the full schemas waiting until a tool is used when tool search is on (the default).
+  - What does not:
+    - hooks cost nothing unless they return output;
+    - subagents use their own window.
+  - (S015)
+  - Harnesses differ:
+    - In S002's intercepted requests, every enabled MCP server's full tool list went with every request, and GitHub's MCP server shipped about 110 tools in late 2024.
+    - Claude Code now defers schemas.
+    - Check your own tool rather than assuming.
+    - (S002, S015)
+  - The trend is fewer, more powerful tools, such as Bash, and shorter prompts. Claude Code's own system prompt shrank from about 200-250 lines to 50-80 in a month or two (S002). Vercel's report that fewer tools raised success from 80% to 100% is second-hand, and S021 flags it as unverified. (S002, S021)
+  - Measure, don't guess:
+    - `/context` shows the live breakdown, and `/context all` shows tokens per MCP tool (S015).
+    - `/mcp` shows each server and lets you disconnect it (S015).
+    - `/doctor` proposes CLAUDE.md trims (X01).
+    - (S015, X01)
+  - Big tool output costs too: Claude Code warns above 10,000 tokens of MCP output and caps it at 25,000 by default (S015). (S015)
+  - Changing your extension set mid-session can force a full re-read. Tool definitions sit at the front of the cached prompt, so adding or removing an MCP server, or a plugin that brings one, invalidates the cache when tools load upfront. `/usage` names the likely cause, for example "tool definitions changed" (X02). Choose your set at session start. (X02)
+  - Instruction files have a cost too. In S021's measurements, context files raised reasoning tokens by 14-22%, and generated ones raised inference cost by over 20% (see C044). (S021)
+  - Prune per project:
+    - remove servers and skills you don't use;
+    - make side-effect skills user-only;
+    - check `/context` when the agent starts missing conventions (S015 item, X04).
+    - (S015, X04)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** decides when to call a tool or load a skill, and can report its own context breakdown (S015).
+  - **The agent cannot:** tell you that a server it never uses is costing you.
+  - **The human:**
+    - chooses which connectors and skills are enabled in each project;
+    - removes unused ones;
+    - decides which may touch real accounts (S001-S004 item, S015).
+- **Currency:** Established. Changing now: deferred MCP schemas (tool search, on by default) cut the cost of idle servers in Claude Code. So "every MCP server eats your context" is less true there than in harnesses that load tools upfront (S002, S015, X02).
+- **Outdated framings to avoid:**
+  - "More MCP servers make the agent more capable" (S002).
+  - "More tools and skills make the agent smarter" (S015).
+- **Questions it answers:** "What is MCP?" "Do MCP servers slow Claude down?" "Why is my agent slower after I added connectors?" "How many skills is too many?" "Why is the agent not using my skill?" (S001-S004, S015 items)
+- **Show it for real:**
+  - Run `/context all` to show tokens per MCP tool and the skill listing. Disconnect an unused server in `/mcp` and compare at the start of a fresh session (S015 item demo).
+  - Show the `Prompt cache (main)` line in `/usage` after adding a server mid-session (X02).
+- **Priority:** should. Established, 5 S-sources, medium severity. It affects cost and quality every day, and pairs naturally with C049.
+
+---
+
+### C052 What you know goes stale in weeks
+
+- **In one line:** Things change on a scale of days and weeks:
+  - Models retire on about 30 days' notice, sometimes with none.
+  - A CLI command was removed 12 days after it was deprecated.
+  - Products merge.
+  - Agent harnesses ship several releases a week.
+  - A hard-coded model name keeps "working" in config until the day it fails.
+
+  So read the changelogs of what you depend on, and re-test your habits after every update.
+- **Why it is a gap:**
+  - Aaron's own course sent back two of its first seven lessons as out of date within days (S004).
+  - Stanford dropped, merged or replaced five of ten weeks between Fall 2025 and Fall 2026 (S001).
+  - People learn a tool once, assume it stays put, and hard-wire one model into scripts and scheduled tasks (S025, S033).
+- **What to teach (specific points):**
+  - Models retire fast (S025):
+    - GPT-5.5 was announced on 2026-09-14 as retiring from ChatGPT, ChatGPT Work and Codex on 2026-10-14. That is two days after this file; the API is unaffected.
+    - GPT-5.3-Codex-Spark was deprecated the same day it was announced, 2026-09-14.
+    - GPT-5.3-Codex and GPT-5.2 went "effective immediately" on 2026-05-26.
+    - (S025)
+  - A change often hits one access route only. ChatGPT sign-in loses a model while API-key sessions keep it under the same name, so learn which route you use. (S025)
+  - Hard-coded model names break silently. OpenAI's retirement note tells you to "Update workspace defaults, saved model settings, managed configurations, custom agents, scheduled tasks" and scripts that select `gpt-5.5`. Have the agent search configs, scripts and scheduled-task definitions for model IDs. (S025)
+  - Commands vanish: `codex mcp-server` was deprecated on 2026-08-24 and removed with its binary on 2026-09-05 (S025). (S025)
+  - Products and harnesses move under you:
+    - Codex became part of the ChatGPT desktop app on 2026-07-09 (S025).
+    - Claude Code went from v2.1.282 (2026-09-24) to v2.1.296 (2026-10-09), and one change was reverted the next day (X05).
+    - A config key was renamed: the AGENTS.md plugin ID changed at v2.1.285 (X01).
+    - The system prompt shrank from about 200-250 lines to 50-80 within a month or two (S002).
+    - (S002, S025, X01, X05)
+  - The best model can vanish or be overtaken (S033):
+    - Claude Fable 5 was shut down three days after launch by a US export-control directive.
+    - It was the best model for 30 days but unavailable for 18 of them.
+    - GPT-5.6 arrived 8 days after it returned.
+    - Willison: "you won't get a long time at the top".
+    - (S033)
+  - Capabilities change what to teach. Agents could not open a browser to test their own work six months before the 2026-09-29 lecture (S003), which is why hand-debugging is gone from the syllabus (S001, S004). (S001, S003, S004)
+  - Updates land on restart. Claude Code's auto-update downloads in the background and applies on the next launch, never mid-session, so behavior can change overnight. `DISABLE_AUTOUPDATER=1` lets you choose when (X02). (X02)
+  - Make it a habit:
+    - read the changelogs of the tools you depend on;
+    - re-test your prompts, skills and instruction files after a model or harness update (see C048);
+    - treat any how-to older than a few months as suspect;
+    - keep prompts, skills and tests usable across models (S001-S004 item, S025, S033 item).
+    - (S004, S025, S033)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** can read changelogs, search for pinned model names, update configs, and run a scheduled check (S025 item).
+  - **The agent cannot:** know what changed after its training unless it reads current docs, and it will not plan for its own model disappearing (S033 item, S004).
+  - **The human:**
+    - knows which tools, models and access routes they depend on;
+    - notices when a change affects them, or sets up a scheduled check;
+    - decides when to upgrade (S025, X02).
+- **Currency:** New in 2026, and the pace itself is the point. Every date above is from July-October 2026. Re-check before publishing: the GPT-5.5 example will be in the past by the time a lesson ships.
+- **Outdated framings to avoid:**
+  - "Learn one model and one tool and you're set" (S025).
+  - "A tutorial from last year still applies" (S001, S004).
+  - "Codex is a separate app" (S025).
+  - "Set the model once in config and forget it" (S025).
+  - "Pick the best model once and build on it" (S033).
+  - "Pricing on a subscription plan is permanent" (S033).
+- **Questions it answers:** "Why did my model disappear from the picker?" "How often do these tools change?" "Does the retirement affect my API key too?" "My scheduled task stopped working. Did the model change?" "Why does advice I read in spring no longer work?" "How do I know if a tutorial is out of date?" "What happens to my app if the model I use is discontinued or gets more expensive?" (S004, S025, S033 items)
+- **Show it for real:**
+  - Scroll the ChatGPT/Codex changelog from July to October 2026, highlighting the retirement and removal entries (S025 item demo).
+  - Open the Fall 2025 and Fall 2026 CS146S syllabi side by side (S001).
+  - Have the agent search a project for `gpt-5.5` across configs, scripts and scheduled tasks and replace each match (S025 item demo).
+  - Show the Claude Code changelog's release dates (X05).
+- **Priority:** must. This is the course's own premise (S004). 4 items from 3 batches, all new in 2026, all from the last three months.
+
+---
+
+### C053 AI code drifts from team conventions and keeps adding dependencies
+
+- **In one line:** An agent follows only the conventions that are written down and checked. Without a named person who owns the dependency list, it keeps importing new libraries. Teaching the house style used to happen in code review, and that teaching now has to be written into instruction files and skills.
+- **Why it is a gap:**
+  - Aaron's rebuild of lesson 00.06 added this after he noticed it in practice (S004):
+    - AI-written code differs from the team's norms and uses libraries outside a project's fixed set.
+    - "without someone who knows which libraries the program should use, the AI keeps adding dependencies".
+  - Review was never mostly about bugs. In Microsoft's 2013 study only 14% of 570 review comments were about defects; the rest were teaching, context and team norms. When review stops, those jobs stop unless someone moves them (S029).
+  - Stanford's levers for this sit in three separate weeks (S001):
+    - instruction files (Week 4);
+    - custom review rules (Week 6);
+    - dependency (SCA) scanning (Week 7).
+  - Thin evidence: 2 items and 3 sources. No current practitioner source on agents adding dependencies was found (search budget exhausted).
+- **What to teach (specific points):**
+  - The code works, so nobody notices the drift until the project has three HTTP libraries and two coding styles (S004 item). (S004)
+  - Name a person who decides which libraries are allowed, and write the allowed set into the instruction file. The agent follows only what is written down and checked. (S004)
+  - Back the written list with checks:
+    - dependency (SCA) scanning (S001 Week 7);
+    - custom review rules (S001 Week 6);
+    - lint rules or hooks for recurring style comments (S036 ladder, C047).
+    - (S001, S036)
+  - Anything a reviewer used to say ("we don't do it that way here") "now has to be written into skills, or the agent never hears it". (S029)
+  - "Tribal conventions become recurring review comments." When the same comment comes back, promote it to a check (S036, see C047). (S036)
+  - Finish migrations. A half-finished one shows the agent "contradictory precedent", and it will copy whichever pattern it meets first (S036). (S036)
+  - Mentoring has to be designed now: pair on plans, have juniors explain agent-written changes back, and leave some work manual. The "paradox of supervision": supervising Claude well takes the coding skills that fade with disuse (S029). (S029)
+  - Every new dependency is also supply-chain risk. Hallucinated and malicious packages are covered in G09; this concept is about who owns the list. (S004)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** applies written conventions, can write the lint, review-rule and SCA configuration, and can flag a new import if told to (S004, S029).
+  - **The agent cannot:** learn unwritten conventions (S029).
+  - **The human:** someone who knows the libraries decides the dependency list and the conventions, and keeps them written down (S004).
+  - **When to bring in an expert:** Aaron's rule is that someone who knows which libraries the program should use decides the dependencies. If no one on the project knows, bring in someone who does before the list grows (S004).
+- **Currency:** New in 2026. Aaron raised it on 2026-10-03/04 (S004). Osmani's framing is dated 2026-09-28 (S029).
+- **Outdated framings to avoid:**
+  - "If it works, it's fine" (S004).
+  - "Code review only exists to catch bugs" (S029).
+  - "If the agent writes the code I don't need to keep coding skills" (S029).
+- **Questions it answers:** "Why does the AI use a different library than the rest of our code?" "How do I stop the AI adding packages?" "How does the agent learn our team's conventions?" "Will I lose my skills if the agent does all the coding?" (S004, S029 items)
+- **Show it for real:**
+  - In a repo that uses one HTTP library, ask the agent for a feature and show `package.json` (or `requirements.txt`) gaining another one in the diff.
+  - Add the allowed-libraries rule to AGENTS.md and a CI check that fails on new dependencies, then run the same request again (S004 item demo).
+- **Priority:** should. It is on Aaron's explicit gap list and one item is high severity, but the evidence is thin (2 items, 3 sources). It needs one more current source before it carries a lesson alone. It could be taught as part of C047.
+
+---
+
+### C054 'Good code' now means code an agent can change safely
+
+- **In one line:** What matters more now:
+  - names unique enough to grep;
+  - modules small enough to fit in context;
+  - tests that fail clearly;
+  - clear boundaries between parts.
+
+  Human-comfort style matters less. Agent tool-call habits (unindented tests, test probes that production code comes to rely on, edits spliced through scripts) leak into commits unless formatters, linters and a review of the final diff catch them.
+- **Why it is a gap:**
+  - Beginners either police style they can't judge or decide quality no longer matters because "only the agent reads it" (S029, S034, S035).
+  - Practitioners disagree. Ball says "There's no proof that good code will matter in the future", and labels it a prediction (S034).
+  - Ronacher documents real harm from code nobody looked at closely (S035):
+    - a test-only probe function that non-test code came to rely on;
+    - random list indexes such as `_task_accelerator[6](task)` in production asyncio code.
+  - Osmani reframes the question: without agent-friendly structure the agent still makes the change, but "it just can't see what else the change affects" (S029).
+- **What to teach (specific points):**
+  - The properties that matter more to an agent "than they ever did to us": "names unique enough to grep, modules small enough to fit in a context window, tests that fail clearly, clear boundaries between parts." (S029)
+  - Formatting and other purely human-comfort rules matter less. Let formatters and linters enforce them rather than reading for them (S029, S034). (S029, S034)
+  - Agent-only code can hide correctness problems, not just ugliness. See Ronacher's test probe that production code relied on, and his random list indexes in production code. (S035)
+  - Tool-call style leaks into commits (S035):
+    - unindented unit tests, 10% more token-efficient than after `ruff format`;
+    - several `Py_DECREF` calls on one line, a style absent from CPython;
+    - the same in JavaScript and CSS embedded in HTML.
+    - Make the formatter and linter run in CI so this is rejected mechanically.
+    - (S035)
+  - The live view is not the record:
+    - Ronacher's subagents edited C files by Python string splicing in bash heredocs instead of the edit tool, so the changes could only be seen in "the diff viewer of the final artifacts" (S035).
+    - Claude Code hooks matched on `Edit|Write` miss files changed through Bash too (X03).
+    - Review the final git diff for anything that matters.
+    - (S035, X03)
+  - Behavior gets stranger where no one watches. In subagents, "where the agent believes nobody is looking", the behavior became "increasingly bizarre" (S035). (S035)
+  - Teach the disagreement honestly (S034, S035):
+    - Ball predicts humans "won't modify the majority of code", so human style rules lose their point.
+    - Ronacher allows that such code may be "objectively good for a codebase that is entirely written by agents", yet says it "will commit slop" and so needs more review.
+    - Both are September 2026 opinions; Ronacher brings evidence, Ball a prediction.
+    - (S034, S035)
+  - What is worth keeping and sharing shifts toward what is expensive to produce and cheap to check against: test suites, specs, the record of what broke (S029). (S029)
+- **You vs the agent (as of 2026-10-12):**
+  - **The agent:** refactors toward distinct names, small modules and clear test failures when asked, and runs formatters (S029). It "will not hold itself to conventions nobody checks" (S035 item).
+  - **The human:**
+    - asks for agent-friendly structure and checks that it exists;
+    - sets up formatters, linters and CI;
+    - reviews the final diff rather than the live stream;
+    - checks whether test scaffolding has leaked into production paths (S029, S035).
+  - **When to bring in an expert:** if nobody on the project can judge whether production code depends on test-only paths, ask someone who can read the code before shipping (S035, and the course rule in S004).
+- **Currency:** Contested, with new evidence in 2026 (S029 2026-09-28, S034 2026-09-19, S035 2026-09-07). The "good code" debate is speculation; the leak of tool-call style into commits is documented on one model (GPT-6 Astra) in one long run.
+- **Outdated framings to avoid:**
+  - "Clean code style rules are the measure of quality" (S034, S035 item).
+  - "Code quality is irrelevant if only agents maintain it" (S029, S035).
+  - "Good code means code that is pleasant for a human to read" (S029).
+  - "The agent's live edit view shows every change it makes" (S035).
+  - "Agent-written tests are clean because tests are simple" (S035).
+- **Questions it answers:** "Does code quality still matter if the AI writes it?" "Does it matter if the AI's code is messy?" "Why does the agent keep breaking other parts of my app?" "Why is the AI writing Python scripts to edit my files?" "Why do the AI's tests look so strange?" "Will I be able to change this app later?" (S029, S034, S035 items)
+- **Show it for real:**
+  - Grep a repo for a generic name such as `process` and get hundreds of hits, then for a distinctive name and get one. Explain the callers an agent can't find in the first case (S029 item demo).
+  - Show a transcript in which a subagent rewrites a file through an inline script, then open the final `git diff`, then show a CI formatter rejecting unindented tests (S035 item demo).
+- **Priority:** should. 3 items from 2 batches, medium severity, partly speculative, but the checks it leads to are concrete and current (Sept 2026). Teach the checks; present the debate as open.

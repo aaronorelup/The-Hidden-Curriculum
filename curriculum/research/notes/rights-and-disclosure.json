@@ -1,0 +1,420 @@
+[
+  {
+    "concept": "Provider marks, deployer discloses: the tool's watermark is not your label",
+    "points": [
+      "EU AI Act Article 50 splits the duty in two. Providers of generative systems must make outputs machine-readable and detectable as AI (Art. 50(2)). Deployers who publish deepfakes must visibly disclose them (Art. 50(4)).",
+      "A deployer is anyone using an AI system under its authority (assuming responsibility for the decision to deploy; technical control not required). The exception is use in a personal, non-professional activity.",
+      "A creator who publishes AI-made media professionally with someone else's generator is a deployer. The generator's embedded metadata does not discharge the creator's own duty to label.",
+      "Article 50 applies from 2 August 2026 (Art. 113 general application date; artificialintelligenceact.eu Article 50 page)."
+    ],
+    "gap": "Creators assume that because the tool watermarks its output, or because the platform adds a tag, disclosure is handled. Orrick (2026-08-14) treats 50(2) provider marking and 50(4) deployer disclosure as separate parts with separate duty-holders. The Commission Guidelines are dated 20 July 2026 and the duties apply from 2 August 2026, so most creators have not adjusted.",
+    "humanRole": "The agent can generate, and can even add a label, but it cannot know where the work will be published, whether the use is professional, or whether a depicted person or event is real. The human decides whether they are a deployer for this publication and puts the visible disclosure in place. For commercial EU-facing releases that depict real people, the human gets legal review.",
+    "sids": ["S076"],
+    "status": "new-2026",
+    "outdated": [
+      "The tool's watermark or metadata takes care of disclosure.",
+      "EU AI rules only apply to the AI companies, not to people who use the tools."
+    ],
+    "severity": "high",
+    "questions": [
+      "If Midjourney or Veo already watermarks my video, do I still have to label it?",
+      "Does the EU AI Act apply to me as a YouTuber or a small studio?",
+      "Is a personal post different from a client job?"
+    ],
+    "demo": "Open an AI-generated image in a metadata or content-credentials viewer to show the embedded machine-readable mark. Then show the same image posted with no visible label, to make the point that the viewer sees nothing unless the publisher adds a label."
+  },
+  {
+    "concept": "Legal meaning of 'deepfake' (EU)",
+    "points": [
+      "A deepfake is AI-generated or manipulated image, audio or video content that resembles existing persons, objects, places, entities or events and would falsely appear to a person to be authentic or truthful (Art. 3(60), as quoted by Orrick).",
+      "It is not limited to faces of people: realistic fake places, objects or events count too.",
+      "Text is not covered by the deepfake definition. AI text has its own separate rule (public-interest text)."
+    ],
+    "gap": "People think 'deepfake' means a face swap of a celebrity. The legal definition is broader (objects, places, events), so a realistic AI-made street scene or fake news-style event clip can trigger the duty. Source: Orrick 2026-08-14.",
+    "humanRole": "Judging whether a viewer would take the content as authentic, and whether it resembles something real, is a human call that the agent cannot verify. The human makes it per piece before publishing.",
+    "sids": ["S076"],
+    "status": "new-2026",
+    "outdated": [
+      "A deepfake is only a fake video of a real person's face."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Is my photoreal AI landscape a deepfake?",
+      "Does a fake product shot count?",
+      "Is AI-written text a deepfake?"
+    ],
+    "demo": "Show three generated outputs side by side: a stylised cartoon, a photoreal fake event, and a photoreal real-looking landmark. Label which ones the definition plausibly reaches."
+  },
+  {
+    "concept": "Where and how an AI disclosure must appear (start, intervals, never only in credits)",
+    "points": [
+      "Disclosure must be clear and distinguishable and given at the latest at first exposure. It must have no intervening overlay, stay on screen long enough to recognise, and meet accessibility requirements.",
+      "For video, disclose at the beginning, after interruptions and at regular intervals, directly embedded or as an equivalent overlay.",
+      "These do not comply: disclosure only in end credits, only in terms and conditions or hidden menus, or disclosure that needs the viewer to take an action or use a tool.",
+      "EU icons ('AI GENERATED', 'AI MODIFIED') or an equivalent label may be used. The icons are optional, labelling is not, and using an icon does not by itself prove compliance.",
+      "Content seen at different times, such as live broadcasts, should be disclosed again later or persistently."
+    ],
+    "gap": "The common habit is a line in the description, a hashtag or a credit at the end. Orrick (2026-08-14), summarising the Commission Guidelines and Code of Practice, lists end credits, T&Cs and menus as non-compliant.",
+    "humanRole": "The agent can burn a label into a timeline. The human must decide placement and timing per format and check the final render, which the agent cannot see as a viewer would. When unsure about a commercial EU release, ask a lawyer.",
+    "sids": ["S076"],
+    "status": "new-2026",
+    "outdated": [
+      "Putting 'made with AI' in the description or end credits is enough.",
+      "A #AI hashtag counts as disclosure."
+    ],
+    "severity": "high",
+    "questions": [
+      "Where exactly do I put the AI label on my video?",
+      "Is a credit at the end enough?",
+      "Do I have to use the EU icon?"
+    ],
+    "demo": "In a video editor, add an 'AI GENERATED' label at 0:00 and again after a mid-video cut. Contrast this with a version that only has an end-credit line, and mark the second one as non-compliant."
+  },
+  {
+    "concept": "Audio deepfakes need a spoken disclaimer",
+    "points": [
+      "An audio deepfake needs a short, plain-language audible disclaimer at the beginning.",
+      "Long-form or live audio needs reminders at regular intervals and after interruptions.",
+      "Where a screen is available, add a visual disclosure as well."
+    ],
+    "gap": "Creators of AI voice content (podcasts, cloned-voice narration, AI songs that imitate real voices) think of labels as visual. Orrick (2026-08-14) shows the audio duty is audible and repeating.",
+    "humanRole": "The human scripts and places the spoken disclaimer and decides on the reminder interval. The agent can generate the disclaimer audio and insert it once told to.",
+    "sids": ["S076"],
+    "status": "new-2026",
+    "outdated": [
+      "Audio can't be labelled, so it is exempt.",
+      "A note in the podcast show notes is enough."
+    ],
+    "severity": "medium",
+    "questions": [
+      "How do I disclose an AI voice in a podcast?",
+      "Do I need to say it more than once?"
+    ],
+    "demo": "In an audio editor, insert a two-second spoken 'This audio contains an AI-generated voice' at the start and after an ad break."
+  },
+  {
+    "concept": "Art, satire and fiction get a lighter duty, not an exemption",
+    "points": [
+      "If the content is part of an evidently artistic, creative, satirical, fictional or analogous work, the duty is limited to disclosing that AI content exists 'in an appropriate manner that does not hamper the display or enjoyment of the work'.",
+      "The content must evidently fall in one of the five categories. Ambiguous content does not qualify, and the exemptions are read strictly.",
+      "End credits alone are still insufficient.",
+      "Digital works may use an icon next to the frame or in UI elements. Exhibitions and cinemas may disclose at the point of entry, in accompanying materials or on physical carriers.",
+      "Only law-enforcement uses authorised by law are fully exempt."
+    ],
+    "gap": "Many creators believe 'it's art' or 'it's parody' removes any obligation. Orrick (2026-08-14) and the Article 50(4) text show the obligation stays and only its form is lightened.",
+    "humanRole": "Whether a work is 'evidently' satire or fiction to a viewer is a judgement the agent cannot verify. The human decides and still adds an unobtrusive disclosure. For borderline political satire with real people, get legal advice.",
+    "sids": ["S076"],
+    "status": "new-2026",
+    "outdated": [
+      "Parody and art are exempt from AI labelling."
+    ],
+    "severity": "medium",
+    "questions": [
+      "My AI short film is obviously fiction. Do I still need a label?",
+      "Is satire of a politician exempt?"
+    ],
+    "demo": "Show a short film with a small corner icon for the first seconds of the opening shot, and the same film with only an end-credit line."
+  },
+  {
+    "concept": "AI-written text on public-interest topics: disclose, unless a named human really edited it",
+    "points": [
+      "Text published to inform the public on matters of public interest that was generated or manipulated by AI must be disclosed (Art. 50(4)).",
+      "The exception needs both conditions. (a) A competent human did a deliberate, substantive review or exercised editorial control, with fact-checking as the minimum. (b) A natural or legal person holds legal responsibility for the publication, and their identity and contact details are public.",
+      "Spell-checking, grammar correction or automated review do not count as human review.",
+      "For exempt text, set an editorial policy, name the responsible person and publish their contact details."
+    ],
+    "gap": "Bloggers and newsletter writers who publish agent-drafted articles assume a quick read-through makes it 'human-written'. Orrick (2026-08-14) shows the bar is substantive review including fact-checking, plus a publicly identified responsible person.",
+    "humanRole": "The agent drafts. The human must actually fact-check every claim the agent cannot verify, take named responsibility, or else disclose AI authorship. Fact-checking is the human's job because the agent's sources and claims are what is being checked.",
+    "sids": ["S076"],
+    "status": "new-2026",
+    "outdated": [
+      "If I skim and fix typos, it's my writing.",
+      "AI text never needs a label."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Do I have to label AI-written blog posts?",
+      "How much editing makes it human-written?"
+    ],
+    "demo": "Show an article page with a byline, a 'reviewed and fact-checked by' line and contact details, compared with an unlabelled agent draft."
+  },
+  {
+    "concept": "If you build a generator app, you are the provider: mark outputs",
+    "points": [
+      "Providers of AI systems, including systems built on general-purpose models, that generate synthetic audio, image, video or text must mark outputs in a machine-readable format so they are detectable as AI (Art. 50(2)).",
+      "The Code of Practice's current approach is two layers: digitally signed metadata plus an imperceptible watermark. Free-form text can carry only a watermark. Containerised text (PDF, Word, HTML) falls under the same standard.",
+      "Detection tools should be free, with clear, human-readable results. An interoperable detection solution is targeted for 2 February 2027.",
+      "There is an exemption for assistive 'standard editing' that prepares existing content without generating new content or changing meaning, style or intent.",
+      "Systems already on the market before 2 August 2026 have until 2 December 2026 to comply with 50(2) (Art. 111(4), consolidated text).",
+      "The Code of Practice is voluntary, and following it is not conclusive evidence of compliance."
+    ],
+    "gap": "Builders of 'AI avatar', 'AI thumbnail' or 'AI voice' apps on top of a model API rarely realise that the wrapper they ship is itself a provider with marking duties. Sources: Orrick 2026-08-14; Article 111(4) text.",
+    "humanRole": "The agent can wire in metadata signing and a watermark library and test that marks survive export. The human must decide whether the product is in scope, check that the marks survive the real pipeline (re-encoding, resizing), and have a lawyer confirm scope for an EU launch.",
+    "sids": ["S076"],
+    "status": "new-2026",
+    "outdated": [
+      "Only OpenAI, Google and the like have to watermark.",
+      "Watermarking is a nice-to-have."
+    ],
+    "severity": "high",
+    "questions": [
+      "My app calls an image API. Do I have to watermark?",
+      "Does the model provider's watermark cover my app?"
+    ],
+    "demo": "Generate an image through a small app, inspect its metadata, re-encode it and inspect again to see whether the mark survived."
+  },
+  {
+    "concept": "Free tier means personal use only",
+    "points": [
+      "Suno Free and Basic users may use outputs only for lawful, personal, non-commercial purposes (Terms revised 2026-08-10, effective 2026-09-03).",
+      "Pro and Premier subscribers receive Suno's rights in outputs generated from their submissions, subject to the commercial-use limits.",
+      "The Terms do not say that free-tier outputs become commercial after you upgrade."
+    ],
+    "gap": "People make a hit on the free tier, then upgrade and assume they can release it. The Terms tie the assignment to outputs generated while subscribed and say nothing to support retroactive commercial use.",
+    "humanRole": "The human reads the tier terms of every generator before monetising and keeps a record of which plan each asset was made on. The agent cannot see account history or plan status unless given it.",
+    "sids": ["S077"],
+    "status": "new-2026",
+    "outdated": [
+      "Anything I make on a free AI tool is mine to sell.",
+      "Upgrading later makes my old songs commercial."
+    ],
+    "severity": "high",
+    "questions": [
+      "Can I monetise a Suno song I made on the free plan?",
+      "If I upgrade, are my old songs covered?"
+    ],
+    "demo": "Open the Suno account or plan page next to the Terms section on free-tier rights, and point out the personal, non-commercial wording."
+  },
+  {
+    "concept": "Commercial rights come from a permitted download, with monthly limits",
+    "points": [
+      "Under Suno's Terms effective 2026-09-03, commercial use of an output requires a permitted Download within your tier's monthly allocation. Limits depend on the tier, are shown on the account page, and may change.",
+      "Output 'that has not been downloaded by you through an approved channel' may not be commercially exploited.",
+      "Getting a copy by any means other than a Suno download channel is prohibited, for example by recording or ripping the stream.",
+      "Downloaded output and the assignment are perpetual and survive running out of allocation, plan or price changes, cancellation, downgrade or suspension."
+    ],
+    "gap": "Creators assume a subscription covers everything generated during it. The September 2026 Terms make the download event the trigger for commercial rights and put a monthly cap on it.",
+    "humanRole": "The human chooses which outputs to spend downloads on, downloads them through the official button before cancelling, and archives the files with dates. The agent can keep the asset log but cannot see the account's allocation.",
+    "sids": ["S077"],
+    "status": "new-2026",
+    "outdated": [
+      "My subscription covers every song I generated.",
+      "I can screen-record the track instead of downloading it."
+    ],
+    "severity": "high",
+    "questions": [
+      "Do I lose rights if I cancel Suno?",
+      "Why does it matter whether I download the song?",
+      "How many songs can I use commercially per month?"
+    ],
+    "demo": "In Suno, show the download allocation counter on the account page, download one track through the official download button, and log the file with its date and plan."
+  },
+  {
+    "concept": "No copyright promise: purely AI-made works are not copyrightable in the US",
+    "points": [
+      "Suno makes 'no representation or warranty' that any copyright will vest in any output.",
+      "Output may not be unique across users. The service may generate the same or similar output for a third party.",
+      "Thaler v. Perlmutter: the Supreme Court denied certiorari on 2026-03-02, leaving in place the D.C. Circuit's 2025 holding that eligible work must be authored 'in the first instance by a human being'.",
+      "The Copyright Office refuses works with no human author, but has registered 'hundreds' of works incorporating AI where a human exercised creative control.",
+      "How much human input (prompting, editing after generation) is enough is still being litigated.",
+      "Practical steps: a human contributes creatively and is named as author; document the timing and scope of AI use and keep the prompts; adopt internal policies on attribution and documentation."
+    ],
+    "gap": "Creators assume that a licence or assignment from the tool equals copyright, so they can stop copycats. The Suno Terms disclaim it, and US courts and the Copyright Office require human authorship. Sources: Suno Terms 2026-08-10; Morgan Lewis 2026-03-06.",
+    "humanRole": "The agent can keep a provenance log automatically: prompts, versions, edits. The human must actually contribute creative choices (lyrics, arrangement, edits) and be able to show them. For registrations or disputes, bring in an IP lawyer.",
+    "sids": ["S077"],
+    "status": "established",
+    "outdated": [
+      "If the tool assigns me the output, I own the copyright.",
+      "My AI song is unique to me.",
+      "AI output is automatically public domain, so licence terms don't matter."
+    ],
+    "severity": "high",
+    "questions": [
+      "Can I copyright an AI-generated song or image?",
+      "Can someone else get the same song as me?",
+      "What should I save to prove I authored it?"
+    ],
+    "demo": "Show a project folder with prompt history, the raw output and the human-edited version, plus a short provenance log file kept alongside the asset."
+  },
+  {
+    "concept": "Remixes are never commercial",
+    "points": [
+      "If you enable remixing, other users' Remixes of your output are joint works owned equally by you and the Remixer.",
+      "A Remix may be used only for lawful, personal and non-commercial purposes, regardless of subscription tier.",
+      "The Terms do not separately address covers or extends."
+    ],
+    "gap": "A paying user assumes everything made in their paid account is commercial, including remixes of other users' tracks. Suno's Terms (2026-08-10) carve Remixes out of commercial rights for everyone.",
+    "humanRole": "The human keeps remix-derived tracks out of releases and checks the provenance of every track before distribution. The agent can flag remix-origin tracks if the export data shows it.",
+    "sids": ["S077"],
+    "status": "new-2026",
+    "outdated": [
+      "Premier lets me monetise anything I make on Suno."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Can I release a remix of someone's Suno song?",
+      "Who owns a remix?"
+    ],
+    "demo": "Show the remix toggle on a Suno song and the Terms clause about Remixes next to it."
+  },
+  {
+    "concept": "Do not strip AI fingerprints, watermarks or metadata",
+    "points": [
+      "Suno users agree not to remove, alter, obscure or circumvent any fingerprint, watermark or metadata Suno appends to output.",
+      "Suno may append marks indicating the service tier and whether an output was a permitted Download, and may publicly identify output as made with the service.",
+      "This matches the EU direction of travel: providers must make outputs machine-readable and detectable (Art. 50(2)), so provenance marks are designed to persist."
+    ],
+    "gap": "'Clean the metadata' or re-encode to hide AI origin is common advice in creator circles. It breaches the Suno Terms and works against the provider marking the EU requires. Sources: Suno Terms 2026-08-10; Orrick 2026-08-14.",
+    "humanRole": "The human must not ask an agent to strip provenance, and should check that their export pipeline does not silently drop it. The agent can inspect and preserve metadata when told to.",
+    "sids": ["S077", "S076"],
+    "status": "new-2026",
+    "outdated": [
+      "Strip the metadata so nobody knows it's AI."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Can I remove the Suno watermark?",
+      "Will platforms detect that my song is AI?"
+    ],
+    "demo": "Inspect an exported audio or image file's metadata before and after a re-encode to show what a pipeline can silently drop."
+  },
+  {
+    "concept": "What you hand the tool: a perpetual licence to your content, voice and likeness",
+    "points": [
+      "Suno takes a worldwide, non-exclusive, perpetual, irrevocable, sublicensable, royalty-free licence to your content. This extends to likeness and voice rights embodied in content or a Voice Model and includes improving its AI models. You waive moral rights.",
+      "You may make a Voice Model only of your own voice. Uploading recordings of another person's voice for that purpose is prohibited.",
+      "You warrant you hold all rights and consents for submissions, and you indemnify Suno against claims.",
+      "Suno can suspend or terminate accounts and remove content at its discretion. Liability is capped at the greater of $100 or six months of fees, and disputes go to individual arbitration."
+    ],
+    "gap": "Creators read only the 'you own your output' line and miss what they grant in return. Uploading your own voice gives a perpetual, irrevocable licence. Uploading someone else's material makes you the one liable. Source: Suno Terms 2026-08-10.",
+    "humanRole": "The human reads the content-licence and indemnity clauses before uploading a voice, lyrics or stems, and never uploads others' material without written permission. The agent can summarise terms, but only the human can accept them and bears the liability.",
+    "sids": ["S077"],
+    "status": "new-2026",
+    "outdated": [
+      "Uploading my voice to train a model is private and revocable."
+    ],
+    "severity": "medium",
+    "questions": [
+      "What does Suno get when I upload my voice?",
+      "Can I make a voice model of a singer I like?"
+    ],
+    "demo": "Highlight the content-licence and Voice Model clauses in the Terms page."
+  },
+  {
+    "concept": "Platform terms apply on top of the tool's grant",
+    "points": [
+      "Use of Suno output on a third-party platform is subject to that platform's terms, policies and requirements.",
+      "A platform refusing your content does not revoke Suno's grant, but the platform can still refuse it.",
+      "'Applicable rights holders may also have the right to collect revenue' from distribution on third-party platforms."
+    ],
+    "gap": "Creators treat the generator's licence as permission to distribute anywhere. The Suno Terms (2026-08-10) say platform rules govern separately, and revenue on a platform may be claimed by others.",
+    "humanRole": "Before uploading, the human checks each destination's AI and monetisation rules (see the YouTube YPP item). The agent cannot read the distributor's policy as it applies to the account unless it is given that policy.",
+    "sids": ["S077", "S079"],
+    "status": "new-2026",
+    "outdated": [
+      "If the AI tool says I can use it commercially, every platform will accept it."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Can I put my Suno song on Spotify or YouTube?",
+      "Why did someone else claim revenue on my AI track?"
+    ],
+    "demo": "Show the Terms clause on third-party platforms, then the monetisation status page in a channel dashboard."
+  },
+  {
+    "concept": "Everyone has a likeness right: get consent before cloning a voice or face",
+    "points": [
+      "The NO FAKES Act would create a federal right to authorise use of any individual's voice or visual likeness in digital replicas, not only celebrities', with a private right of action.",
+      "It covers unauthorised replicas shown or distributed to the public, and certain products or services that produce replicas.",
+      "Statutory damages would be $5,000 to $25,000 for each violative replica.",
+      "It has a notice-and-takedown safe harbour for qualifying online services.",
+      "Exclusions: news, public affairs, sports broadcasts, documentaries, parody, satire, criticism, commentary, scholarship and certain ads for those works.",
+      "Status as of 2026-08-20: unanimously advanced by the Senate Judiciary Committee on 2026-06-22. It is not law, and 'a long path remains'.",
+      "Practical steps: inventory tools that process likeness, set policy on when employee, customer or third-party likenesses may be used, review vendor contracts on likeness data, and add human review and consent for public-facing content showing identifiable people."
+    ],
+    "gap": "Creators clone a friend's voice, a coworker's face or a public figure for a skit, thinking publicity rights are for celebrities and that labelling fixes it. The bill covers every individual, damages are per replica, and the article offers no support for a label defence. Source: Husch Blackwell, 2026-08-20.",
+    "humanRole": "Consent is a fact about the world that the agent cannot verify. The human gets written consent from anyone whose voice or face is replicated, keeps it on file, and brings in a lawyer for commercial use or public figures.",
+    "sids": ["S078"],
+    "status": "speculation",
+    "outdated": [
+      "Right of publicity only protects celebrities.",
+      "The NO FAKES Act is already law.",
+      "Labelling a deepfake makes it legal."
+    ],
+    "severity": "high",
+    "questions": [
+      "Can I clone my friend's voice for a video?",
+      "Is a parody deepfake of a politician OK?",
+      "What happens if I use someone's face without asking?"
+    ],
+    "demo": "Show a simple signed consent form for a voice clone stored next to the project files, alongside the voice-clone tool's own 'you confirm you have consent' checkbox."
+  },
+  {
+    "concept": "State likeness laws already in force (US)",
+    "points": [
+      "Eight states have AI digital-replica laws, varying in scope: Tennessee, California, Illinois, New York, Utah, Arkansas, Montana and Washington.",
+      "Tennessee's ELVIS Act (2024) creates a private right of action against anyone who distributes, transmits or makes available technology whose primary purpose is producing an identifiable individual's photograph, voice or likeness without consent.",
+      "New York S.8420A (signed December 2025) requires conspicuous disclosure when an advertisement includes a 'synthetic performer', a digitally created asset made, reproduced or modified by computer.",
+      "The NO FAKES bill would not preempt state digital-replica laws in effect as of 2025-01-02, nor laws on sexually explicit or election replicas. New York's post-cutoff disclosure law is a closer question.",
+      "Copyright, trademark, state privacy and biometric-privacy law, unfair competition and employment law can all still apply."
+    ],
+    "gap": "Because the federal bill is still pending, creators assume there is no likeness law yet. State laws already apply, including to tool distributors (Tennessee) and to ads with AI performers (New York). Source: Husch Blackwell, 2026-08-20.",
+    "humanRole": "The human identifies where the audience and the depicted people are, labels ads with synthetic performers conspicuously, and for apps that generate likenesses gets legal advice on Tennessee-style tool liability. The agent can draft the label but cannot determine jurisdiction or consent.",
+    "sids": ["S078"],
+    "status": "established",
+    "outdated": [
+      "There is no AI likeness law in the US yet."
+    ],
+    "severity": "medium",
+    "questions": [
+      "Do I need to label an AI actor in my ad?",
+      "Can I build an app that makes celebrity voices?"
+    ],
+    "demo": "Show an ad mock-up with a conspicuous 'features a synthetic performer' label, compared with one with no label."
+  },
+  {
+    "concept": "YouTube demonetises mass-produced template content, whether AI, CGI or templates",
+    "points": [
+      "In clarifications rolled out 2026-07-16 for all YouTube Partner Program members, repetitive content that 'can be easily made with AI, computer-generated imagery (CGI), or templates, with little variation from video to video' is not monetisable.",
+      "Tutorials can fall here if they reproduce content already prevalent on the platform.",
+      "This builds on YouTube's July 2025 'inauthentic content' policy.",
+      "The stated target is content farming, not AI. YouTube says AI can enhance creativity and it wants higher-quality output."
+    ],
+    "gap": "Faceless-channel playbooks sell 'one prompt, 100 videos a week'. TechCrunch (2026-07-20) reports that low-variation output is exactly what YPP now names, at channel level.",
+    "humanRole": "The agent can produce many variants quickly. The human must supply real variation and original value per video and judge whether the channel as a whole reads as a template farm. No automated check can certify originality to YouTube's reviewers.",
+    "sids": ["S079"],
+    "status": "new-2026",
+    "outdated": [
+      "YouTube demonetises AI videos.",
+      "If it's not AI-made, the repetitive rule doesn't apply to me."
+    ],
+    "severity": "high",
+    "questions": [
+      "Can I monetise an AI faceless channel?",
+      "Will my templated shorts get demonetised?"
+    ],
+    "demo": "Show a channel grid of near-identical template thumbnails and titles, compared with a channel whose videos visibly differ in content."
+  },
+  {
+    "concept": "YouTube: distressing bait and AI personas giving finance, legal or health talk",
+    "points": [
+      "Off-putting or distressing content designed to upset or emotionally manipulate viewers for views is not monetisable (example: an animal in distress that someone then rescues). Channels dedicated to it are removed from YPP 'regardless of whether the content is AI-generated or not'.",
+      "AI-made representations of real people used to discuss finance, legal issues, healthcare or medical issues are not monetisable. The article's wording is ambiguous on fully fictional AI personas.",
+      "Matt Halprin: a channel with too much of any of the three types of content 'will not be able to monetize'. No numeric threshold is given."
+    ],
+    "gap": "Creators building AI 'doctor', 'lawyer' or 'finance guru' avatar channels, or rescue-bait channels, think each video is judged on its own and that only AI matters. TechCrunch (2026-07-20) shows channel-level loss of the Partner Program, with the distress rule independent of AI.",
+    "humanRole": "The human decides channel format and topic. A real, identified human expert should front finance, legal or health content. The agent cannot know how YouTube will weigh the channel mix and should not be trusted to say a format is 'safe'.",
+    "sids": ["S079"],
+    "status": "new-2026",
+    "outdated": [
+      "Each video is judged alone.",
+      "An AI avatar is fine for any niche."
+    ],
+    "severity": "high",
+    "questions": [
+      "Can I run an AI avatar finance channel?",
+      "Why would my whole channel lose monetisation for a few videos?"
+    ],
+    "demo": "Open YouTube Studio's monetisation tab and the YPP policy page, and compare an AI avatar finance short with a human-fronted version."
+  }
+]

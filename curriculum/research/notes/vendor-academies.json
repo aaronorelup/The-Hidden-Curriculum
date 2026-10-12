@@ -1,0 +1,525 @@
+[
+  {
+    "concept": "The agentic loop: gather context, act, verify, repeat",
+    "points": [
+      "A coding agent is not a chat box that hands you code: it reads files, edits them, runs commands and checks results in a loop until it decides it is done (S005: gather context, take action, verify results).",
+      "OpenAI's version has five steps: Prompt, Inspect (read files, find existing patterns), Act (edit, run commands, use connected tools), Validate (run checks, fix failures), Report (changes, evidence, remaining risks), then human review (S008 slide 7).",
+      "Every file read, tool result and check adds to the context the next step works from (S008).",
+      "You can interrupt and steer while it runs: Claude Code's diagram has a side input where you interrupt, steer or add context; Codex has send-to-steer vs send-to-queue (S005, S008 talk 32:03).",
+      "The agent runs the verify step; what counts as verified is still decided by the person (S008 human review: accept, ask for fixes, or stop)."
+    ],
+    "gap": "Beginners picture AI as a chat that produces code to paste. Both Anthropic (Claude Code 101, section 1) and OpenAI (Codex Bootcamp 101, 2026-09-23) now open their beginner courses with the loop, because the rest of the workflow only makes sense once you see that the agent acts and checks on its own.",
+    "humanRole": "Human: state the goal and what done means, watch the first steps, steer early, and judge the final evidence. Agent (October 2026): reads, edits, runs commands and tests, fixes its own errors and reports.",
+    "sids": ["S005", "S008"],
+    "status": "established",
+    "outdated": ["AI suggests code and you copy-paste it into your files.", "The AI is autocomplete for code."],
+    "severity": "high",
+    "questions": ["What is the difference between ChatGPT and a coding agent?", "What is the agent actually doing while it 'thinks'?", "Can I stop it halfway if it goes the wrong way?"],
+    "demo": "Give Claude Code or Codex a small task in a real repo; show the stream of file reads, edits and test runs; press Esc (or send-to-steer) mid-run to add a missing fact and watch it change course; end on its report."
+  },
+  {
+    "concept": "Three phases: completion, pair programming, delegation",
+    "points": [
+      "OpenAI names three phases of AI in software: suggest the next line, chat while coding, delegate the entire task (S008 slide 5).",
+      "The presenter describes moving from autocomplete, to the AI editing files, to whole engineering tasks done by the agent (S008 talk 08:01-09:01).",
+      "In the delegation phase you become a manager of agents: your job is to understand and review what they did (S008 talk 37:03)."
+    ],
+    "gap": "People who learned AI coding in 2023-2024 still treat it as autocomplete or pair chat. The vendor's own beginner material now says the default is delegation, which changes the human's job from typing to scoping and reviewing.",
+    "humanRole": "Human: scope tasks, review results, stay responsible for the work. Agent: does whole tasks end to end.",
+    "sids": ["S008"],
+    "status": "established",
+    "outdated": ["AI coding means tab-completion in the editor.", "You still write the code; AI just helps."],
+    "severity": "medium",
+    "questions": ["Do I still need to write code myself?", "What is my job if the agent writes everything?"],
+    "demo": "Show the same small feature three ways: an inline completion, a chat answer pasted in, and an agent run that edits, tests and reports; compare how much the human typed and how much they had to review."
+  },
+  {
+    "concept": "Define done before you delegate",
+    "points": [
+      "A good prompt has four parts: goal, context, constraints, done-when (S008 slide 13).",
+      "Worked example: Goal: change a savings APY shown as 4.02% to the approved 4.20%. Context: find where the homepage value comes from and its tests. Constraints: small change, leave unrelated work alone. Done when: regression test added, checks run, evidence reported (S008 slide 13).",
+      "Without a definition of done, the model invents its own, which you may or may not like (S008 talk 36:01).",
+      "Anthropic's builder course: write acceptance tests that define done before any code exists (S007 section 3).",
+      "Contrast: the non-coder course's prompt blocks are goal, input, output, layout and features, with no done-when or check at all (S010)."
+    ],
+    "gap": "Non-coders learn to describe what to build (S010) but not how to tell when it is finished. The vendors teaching developers put done-when first (S007, S008); facts such as 'the approved rate is 4.20%' exist only in the human's head.",
+    "humanRole": "Human: supply the facts only you know (the right value, the business rule) and the checks that prove it. Agent: finds the code, makes the change, writes and runs the tests, reports evidence.",
+    "sids": ["S008", "S007", "S010"],
+    "status": "established",
+    "outdated": ["Prompting is dead; just describe the vibe.", "Describe the app and keep asking until it looks right."],
+    "severity": "high",
+    "questions": ["How do I write a good prompt for an agent?", "How does the agent know when to stop?", "Why did it change things I didn't ask for?"],
+    "demo": "Run 'fix the homepage' and then the four-part prompt (goal, context, constraints, done-when) on the same repo; compare the two diffs and the two final reports side by side."
+  },
+  {
+    "concept": "Map before editing; verified facts vs assumptions",
+    "points": [
+      "First prompt in a repo: map directories and responsibilities, the files behind the core user flow and conventions to keep; find install, run, test, lint and build commands; recommend the safest way to validate a small change; cite files; separate verified facts from assumptions; do not edit yet (S008 slide 11).",
+      "Review the map, then delegate a focused change (S008).",
+      "Claude Code 101's core rhythm is Explore, Plan, Code, Commit; Plan Mode lets it plan without editing (S005).",
+      "When it guesses about files or rules, have it read the named file and state the constraints before editing (S008 slide 28)."
+    ],
+    "gap": "Beginners start with 'build X' in a codebase they and the agent have not examined. Both vendors teach a read-only first pass, and OpenAI asks the agent to label what it verified versus assumed.",
+    "humanRole": "Human: ask for the map, read it, correct wrong assumptions, approve the plan. Agent: explores, maps, plans, and flags its own uncertainty.",
+    "sids": ["S008", "S005"],
+    "status": "established",
+    "outdated": ["Just tell it what to build and let it figure out the code."],
+    "severity": "medium",
+    "questions": ["How do I start with a codebase I didn't write?", "What is Plan Mode for?", "How do I know the agent understood my project?"],
+    "demo": "Switch Claude Code to Plan Mode (or tell Codex 'do not edit files yet') and run the map prompt on an unfamiliar repo; point at the part of the answer marked as assumptions and check one against the code."
+  },
+  {
+    "concept": "Bounded tasks you can review; scope drift",
+    "points": [
+      "If the agent does more work than you can review, you cannot manage it; ask for bounded, smallest changes in clear slices (S008 talk 37:03).",
+      "Scope drift is a named failure: changes grow beyond the goal. Fix: pause, keep only the requested scope, list extra work as follow-ups (S008 slide 28).",
+      "The constraint 'keep the change small, preserve unrelated work' belongs in the prompt (S008 slide 13).",
+      "Before the PR, check that the diff contains only the notes, tests and focused fix, with no unrelated changes (S009 step 5)."
+    ],
+    "gap": "A single 'build my app' prompt yields thousands of lines nobody can review. Vendor courses now teach slicing work to the size a human can actually check.",
+    "humanRole": "Human: cut work into reviewable slices and reject unrelated edits. Agent: implements each slice and can propose the slicing.",
+    "sids": ["S008", "S009"],
+    "status": "established",
+    "outdated": ["Give it the whole project in one prompt."],
+    "severity": "high",
+    "questions": ["Why did it change 40 files when I asked for one fix?", "How big should a task for an agent be?"],
+    "demo": "Show a diff where the agent also 'improved' unrelated files; reply with the scope-drift prompt and show the reduced diff plus a follow-up list."
+  },
+  {
+    "concept": "Choosing how much oversight: approval, auto-accept, Plan Mode, unattended",
+    "points": [
+      "Claude Code 101 teaches approval mode, auto-accept and Plan Mode as levels of oversight to pick per task (S005 section 2).",
+      "The follow-on course, Claude Code in Action, matches a permission mode to each job, from hands-on review to unattended pipelines (S005 page, catalog record).",
+      "It also says to verify an unsupervised run more, the less you watched it (S005 page, catalog record).",
+      "Our pre-rework curriculum only mentions permission prompts in 14.12."
+    ],
+    "gap": "Beginners leave whatever mode the tool started in. Anthropic teaches the choice of oversight level in the first hour of its beginner course and ties how much you must verify to how much you watched.",
+    "humanRole": "Human: pick the mode for the risk of the task and verify unattended work harder. Agent: works within the permissions it is given.",
+    "sids": ["S005"],
+    "status": "established",
+    "outdated": ["Auto-accept everything so it goes faster.", "Approving every prompt means I reviewed the work."],
+    "severity": "high",
+    "questions": ["Should I let it edit files without asking?", "What does Plan Mode do?", "Is it safe to leave it running while I'm away?"],
+    "demo": "Run the same small task three times in Claude Code: approval mode (a prompt per edit), auto-accept (edits go through) and Plan Mode (a plan, no edits); show where the mode is displayed and switched."
+  },
+  {
+    "concept": "Three questions before accepting an agent's work",
+    "points": [
+      "Changed files: does the diff match the requested scope? (S008 slide 26)",
+      "Checks: what ran, and what passed, failed or was skipped? (S008 slide 26)",
+      "Unknowns: what is still unverified, and what happens next? (S008 slide 26)",
+      "Accept when the evidence meets the goal; otherwise request a specific fix or stop (S008 slide 26).",
+      "GitHub's exercise makes the learner write a Verification section (commands run and what they proved) and a Copilot review section (one suggestion verified, revised or rejected, and why) in the PR (S009 step 5)."
+    ],
+    "gap": "People read the agent's cheerful summary and accept. The vendors now teach a checklist that looks for skipped checks and unverified claims, which is where false 'done' hides.",
+    "humanRole": "Human: read the diff and the report, find what was skipped or unverified, decide accept, fix or stop. Agent: produces the diff, runs checks and reports them honestly when asked to.",
+    "sids": ["S008", "S009"],
+    "status": "established",
+    "outdated": ["The agent said all tests pass, so it's done."],
+    "severity": "high",
+    "questions": ["How do I review code I can't read well?", "What should I look for in the agent's summary?", "What does 'skipped' mean in a test run?"],
+    "demo": "Open the Codex review pane or 'git diff' after an agent run; read its final report aloud and find one skipped check or untested claim; reply with a specific fix request."
+  },
+  {
+    "concept": "Generated tests that only mirror the code",
+    "points": [
+      "Tests generated from vague prompts often mirror the implementation instead of checking useful behaviour (S009 step 2).",
+      "If a generated test computes its expected value with the same formula as the production code, replace it with an explicit value (S009 step 2).",
+      "Generated tests over-sample common inputs: the original tests passed because $42.00 / 3 and $80.00 / 4 divide evenly (S009 step 3).",
+      "Test invariants and boundaries: for money splitting, the shares must sum to the rounded total to the cent; $10.00 / 3 must give 3.34, 3.33, 3.33 (S009 step 3).",
+      "Never weaken expected values to match buggy output (S009 step 3).",
+      "Anthropic's builder course names the same failure: tests that pass but don't solve the real problem (S007 slide)."
+    ],
+    "gap": "'All tests pass' sounds like proof. GitHub's 2026-09-30 exercise shows tests the AI writes can pass on buggy code because they repeat the code's own logic and only try easy inputs.",
+    "humanRole": "Human: supply the behaviour contract and the expected values from the real world (the right answer, the invariant). Agent: writes and runs the tests, finds edge cases, fixes the code.",
+    "sids": ["S009", "S007"],
+    "status": "established",
+    "outdated": ["If the AI wrote tests and they pass, the code is correct."],
+    "severity": "high",
+    "questions": ["Can I trust tests the AI wrote?", "What is an edge case?", "What should I test if I don't code?"],
+    "demo": "In the public repo skills/test-and-debug-with-github-copilot, ask the agent for tests with a vague prompt and show they pass; add the $10.00 / 3 = 3.34, 3.33, 3.33 test and show it fail on the same code."
+  },
+  {
+    "concept": "An AI explanation is not proof",
+    "points": [
+      "Copilot is useful for explanations and hypotheses, but its explanation is not proof; keep a suggestion only once it is tied to code, test output or an invariant (S009 step 1).",
+      "Treat the AI's review of a diff as another hypothesis and check each claim against code and tests (S009 step 5).",
+      "Agents can give plausible but wrong explanations; a null check can make an error vanish while the data inconsistency remains (Cursor Learn, finding and fixing bugs).",
+      "Ask: is this the root cause, or are we hiding the symptom? (Cursor Learn)",
+      "Contrast: the non-coder course tells learners to ignore the AI's technical explanation and just check whether the new file works (S010, 'Customize your app')."
+    ],
+    "gap": "Beginners take a confident explanation as fact, and the most popular no-code course explicitly tells them to skip it. Developer-facing vendor material now says the opposite: an explanation is a claim to verify with evidence.",
+    "humanRole": "Human: ask for the evidence behind a claimed cause (failing test that now passes, logs) and ask whether it fixes the cause or hides it. Agent: explains, gathers the evidence, writes the test.",
+    "sids": ["S009", "S010"],
+    "status": "established",
+    "outdated": ["The AI explained the bug, so the fix must be right.", "You don't need to understand the fix."],
+    "severity": "high",
+    "questions": ["How do I know the AI's fix is real?", "Do I need to understand what it changed?"],
+    "demo": "Show an agent fix that adds a null check; ask 'why was it null?' and have it pull the data that shows the real inconsistency."
+  },
+  {
+    "concept": "Debugging now: the agent investigates, the human supplies the reproduction and judges the cause",
+    "points": [
+      "Simple errors: paste the error and when it happens; the agent reads the stack trace, finds the code and patches it (Cursor Learn).",
+      "Cursor's Debug Mode: the agent generates hypotheses, adds targeted logging, asks you to reproduce the bug while it collects data, analyses the logs and makes a targeted fix (Cursor Learn).",
+      "The agent can read browser console, network requests and the DOM, and pull Sentry, Datadog, database or issue-tracker data over MCP; alerts can start an investigation before a human looks (Cursor Learn).",
+      "Hard bugs can go to several models in parallel; keep the fix with the strongest evidence (Cursor Learn).",
+      "The human's part: a reliable reproduction (exact steps, inputs, conditions), when it happens, and the root-cause judgment (Cursor Learn).",
+      "Tension: GitHub's exercise published 2026-09-30 still has the human write the debugging hypothesis (S009 step 1)."
+    ],
+    "gap": "Courses still teach reading stack traces and forming hypotheses by hand. In current tools the agent forms hypotheses and instruments the code; what it cannot do is reproduce a bug only you saw, or know what the correct behaviour is.",
+    "humanRole": "Human: give exact reproduction steps and the expected behaviour, run the reproduction when asked, judge whether the evidence supports the cause. Agent: hypothesises, instruments, reads logs and telemetry, fixes.",
+    "sids": ["S009"],
+    "status": "new-2026",
+    "outdated": ["Read the stack trace and debug line by line yourself.", "Paste the error and accept whatever fix comes back."],
+    "severity": "medium",
+    "questions": ["The app breaks sometimes but I can't say why. What do I tell the agent?", "Do I need to learn to debug?", "What is a reproduction?"],
+    "demo": "Describe an intermittent bug to an agent with exact steps; let it add logging, reproduce it in the browser while it watches the console and network tab, then show its evidence and the fix."
+  },
+  {
+    "concept": "Reproduce first, then lock the fix with a regression test",
+    "points": [
+      "If you can't reproduce the bug, you can't verify the fix (Cursor Learn).",
+      "Once fixed, add a test that would have caught it so it cannot come back (Cursor Learn).",
+      "OpenAI's workflow has a 'reproduce the issue' step whose artifact is a failing test, and 'done when' includes a regression test (S008 slides 13, 25).",
+      "A failing test is useful evidence, not a failed step (S009 step 3)."
+    ],
+    "gap": "Beginners consider a bug fixed when the symptom disappears once. Every vendor source in this batch makes a failing test before, and a regression test after, part of done.",
+    "humanRole": "Human: insist on the before/after evidence. Agent: writes the failing test, fixes, reruns.",
+    "sids": ["S008", "S009"],
+    "status": "established",
+    "outdated": ["It works on my machine now, so it's fixed."],
+    "severity": "medium",
+    "questions": ["Why does the same bug keep coming back?", "What is a regression test?"],
+    "demo": "Ask the agent to reproduce a bug as a failing test first, show it red, apply the fix, show it green, then revert the fix and show the test catching it."
+  },
+  {
+    "concept": "Four machine properties and a diagnostic for odd output",
+    "points": [
+      "Next-token prediction: strong on well-worn tasks (summarising, reformatting); can produce things that sound true and aren't (S006).",
+      "Knowledge: reliable where the training data was frequent, recent and consistent; weak on rare, recent, niche or contested topics, so bring your own sources there (S006).",
+      "Working memory: the context window is all it can attend to now; things drop off, attention is uneven across long documents, a new session starts blank (S006).",
+      "Steerability: short, concrete, checkable asks (a table, a word limit) work; long reasoning chains, abstract asks and exact precision slip (S006).",
+      "Properties collide: a long contract review strains working memory and knowledge at once (S006).",
+      "Diagnostic: name the property, place the task on its capability-to-limitation spectrum, apply a targeted fix instead of retrying (S006)."
+    ],
+    "gap": "The 2021 picture ('it predicts the next word') explains nothing a user can act on. Anthropic's 2026 course for non-technical people turns it into four properties, each with a typical failure and a fix.",
+    "humanRole": "Human: recognise which kind of failure it is and change the input accordingly. Agent/model: the same properties apply inside an agent; it cannot diagnose its own blind spots reliably.",
+    "sids": ["S006"],
+    "status": "established",
+    "outdated": ["AI output is random.", "If it's wrong, just regenerate.", "It's just autocomplete."],
+    "severity": "medium",
+    "questions": ["Why did it make up a citation?", "Why did it ignore my instruction?", "Why did it forget what I said earlier?"],
+    "demo": "Show three failures in one chat (an invented citation, an ignored vague instruction, a forgotten early detail), label each with its property, apply the matching fix and show the corrected output."
+  },
+  {
+    "concept": "The model vs the deployed system, and three kinds of memory",
+    "points": [
+      "S006 teaches the model's properties but its section descriptions do not mention tools, web search or the surrounding app.",
+      "Lin (S011, PNAS Nexus, 2026-07-08): behaviour inside tools, retrieval and an action loop differs from the bare model, so capability claims must name the system; a tool-augmented model scored 0.83 on a genomics benchmark where tool-less models scored 0.00-0.44.",
+      "S006 says a new session doesn't remember the last; S011 says both 'it remembers me' and 'it remembers nothing' are wrong, because memory lives in three places: weights, the context window, and external product storage (profiles, logs, retrieval stores).",
+      "S011 adds decoding settings (temperature, sampling) as a reason output varies or turns bland."
+    ],
+    "gap": "Even the vendor's 2026 basics course is model-centred. Users of agents and memory-enabled apps need to know that the harness changes capability and that 'memory' is usually stored outside the model.",
+    "humanRole": "Human: know which layer holds your data and which tools the product adds; ask where something is stored. Agent/app: uses tools, retrieval and stored memory you may not see.",
+    "sids": ["S006", "S011"],
+    "status": "established",
+    "outdated": ["The AI remembers everything I ever told it.", "The AI remembers nothing between chats.", "What the model can do is fixed by the model alone."],
+    "severity": "medium",
+    "questions": ["Does ChatGPT/Claude remember my old chats?", "Why is the same model better in one app than another?"],
+    "demo": "Ask the same question in a bare chat and in an agent with web search or file access; then open the app's memory or settings page to show where remembered facts are stored."
+  },
+  {
+    "concept": "When progress stalls, change the input",
+    "points": [
+      "Name the failure, then give a specific next step (S008 slide 28).",
+      "Missing context (guessing about files or rules): have it read the named file and state the constraints before editing (S008).",
+      "Scope drift: pause, keep only the requested scope, list the rest as follow-ups (S008).",
+      "Failed checks: reproduce the failure, fix the cause, rerun the named check, report the result (S008).",
+      "If quality still falls short: add files or examples, raise reasoning effort, or compare a stronger model on the same checks (S008 slide 19).",
+      "Same principle for chat users: a targeted fix, not a generic retry (S006)."
+    ],
+    "gap": "The beginner reflex is to repeat the request louder or start over. Both OpenAI and Anthropic teach diagnosing the type of failure and changing the input to match.",
+    "humanRole": "Human: notice the stall, name its type, supply what is missing. Agent: carries out the corrected instruction.",
+    "sids": ["S008", "S006"],
+    "status": "established",
+    "outdated": ["Try again", "Start a new chat and paste the same prompt."],
+    "severity": "medium",
+    "questions": ["The agent keeps going in circles. What do I do?", "Should I start a new chat?"],
+    "demo": "Show an agent stuck on a failing check; reply 'reproduce the failure, fix the cause, rerun the test, report' and show it break the loop."
+  },
+  {
+    "concept": "Knowledge cutoff, web search and source quality",
+    "points": [
+      "A model's knowledge stops at a cutoff date; questions about recent, local or niche things trigger web search, or you can ask for it (S010 companion: AI Prompting for Everyone, 'Web search').",
+      "Pretrained knowledge mirrors how often things appear online, and includes misconceptions and outdated information; your company's private data isn't in it at all ('Pretrained knowledge').",
+      "Web search pulls from what is most available, not most reliable; Ng cites one report ranking Reddit as the site AI cites most ('Web search sources').",
+      "Search can surface very old pages: his example recommended a running spot from a page over twenty years old, no longer open to the public ('Web search sources').",
+      "A helper model searches and summarises pages for the model you talk to, so it can cite a page that doesn't support its claim; open the cited page ('Web search sources').",
+      "Ask for source types (official bodies, peer-reviewed studies) to steer what it pulls ('Web search sources')."
+    ],
+    "gap": "People assume an AI answer with citations has been checked against those citations. Ng's July 2026 course explains the summary step that makes citations unreliable and the popularity bias in what gets searched.",
+    "humanRole": "Human: ask for reliable source types and open the citations that matter. Agent: searches, summarises and cites, sometimes wrongly.",
+    "sids": ["S010", "S006"],
+    "status": "established",
+    "outdated": ["If it cites a source, it read and checked it.", "The AI knows current events."],
+    "severity": "medium",
+    "questions": ["How current is the AI's knowledge?", "Can I trust its links?", "When does it search the web?"],
+    "demo": "Ask a question that triggers web search; open two of its citations and show one that doesn't say what the answer claims; re-ask asking for official sources and compare."
+  },
+  {
+    "concept": "Sycophancy: the AI agrees with how you asked",
+    "points": [
+      "Models trained on thumbs-up feedback learn to agree, because agreeable answers get rated higher (S010 companion, 'Sycophancy').",
+      "Ng cites a Washington Post analysis in which a chatbot agreed about ten times more often than it disagreed ('Sycophancy').",
+      "Leading questions get the answer they lean toward; subtle cues count too (asking only for the positive measures in data) ('Sycophancy').",
+      "Fix: neutral framing, or ask for pros and cons of two options without saying which you prefer ('Sycophancy').",
+      "Applied to building (our application of the same rule): 'it's ready to ship, right?' is a leading question; ask instead what could make it fail or be attacked."
+    ],
+    "gap": "People ask 'is this good / secure / ready?' and take yes for an answer. Ng's course explains why the yes is built in. It ties to Aaron's point that people believe the agent when it says the app is safe.",
+    "humanRole": "Human: ask neutrally and ask for weaknesses; never treat agreement as verification. Model: leans toward what the question signals.",
+    "sids": ["S010"],
+    "status": "established",
+    "outdated": ["The AI told me my plan is great, so it is."],
+    "severity": "high",
+    "questions": ["Why does the AI always agree with me?", "How do I get honest feedback from it?"],
+    "demo": "Ask 'this login code is secure, right?' and then 'list the ways this login code could be attacked'; show the two answers side by side."
+  },
+  {
+    "concept": "Where non-coder build courses stop",
+    "points": [
+      "Build with Andrew (July 2026) teaches: describe the app in five building blocks (goal, input, output, layout, features), download the single HTML file, double-click it, iterate (S010).",
+      "Bugs: tell the AI the symptom and download the new file; the learner is told not to worry about the technical explanation (S010, 'Customize your app').",
+      "The final project is checked by an AI grader for whether it seems to work (S010, 'You're a builder now!').",
+      "Not covered: tests, hosting or sharing beyond the download, security, keys, accounts, stored data, costs and limits of the AI tools (S010 page and transcripts).",
+      "The companion course picks self-contained apps on purpose (no uploaded files or outside information) and only says an internet multiplayer game is much harder (S010 companion, 'Building apps').",
+      "Ng himself warns that builders who never study miss core concepts and reinvent the wheel (S010, final video)."
+    ],
+    "gap": "The leading no-code course ends exactly where real apps begin: data, users, accounts, a server, keys and money. Its learners are told they are builders before meeting any of those.",
+    "humanRole": "Human: know which parts of a real app the one-file demo skipped and that each one brings new risks. Agent: can build all of them, but only if asked, and won't flag what you didn't know to ask for.",
+    "sids": ["S010"],
+    "status": "established",
+    "outdated": ["If it runs when I click it, it's done.", "Building an app = getting one HTML file to work."],
+    "severity": "high",
+    "questions": ["How do I put my app online so friends can use it?", "What changes when my app has users or saves data?", "Is my AI-built app safe?"],
+    "demo": "Build the one-file birthday-card app in a chatbot and open it from Downloads; then show the file:// address and ask: how would a friend open this, where would their data go, who could see it?"
+  },
+  {
+    "concept": "'It works' is not the bar: judging product and UX",
+    "points": [
+      "When the user need is badly translated: the code works but the product doesn't; tests pass but don't solve the real problem; the failure sits upstream of the prompt (S007 slide).",
+      "Description chain: user voice, then product requirement, then technical spec, then AI instruction (S007 slide).",
+      "Builders evaluate AI-written code through five lenses; one is responsible impact: bias, privacy, unintended consequences, not carrying harmful assumptions forward (S007 slide; the other four lenses are not public).",
+      "UX lens 'Clarity': form and function together; users bring expectations from other software; map the interface to concepts they recognise (S007 slide)."
+    ],
+    "gap": "AI makes a working app cheap, so beginners stop at working. Anthropic's September 2026 builder course moves the human's value to product judgment, UX taste and responsible impact.",
+    "humanRole": "Human: know the users and the real need, judge clarity and harm. Agent: builds and revises the interface and code to that judgment.",
+    "sids": ["S007"],
+    "status": "established",
+    "outdated": ["If it runs, it's finished."],
+    "severity": "medium",
+    "questions": ["The app works but nobody uses it. Why?", "How do I give the AI design feedback it can act on?"],
+    "demo": "Show an AI-built form that works but uses unfamiliar labels and layout; give vague feedback ('make it better'), then specific Clarity feedback, and compare the two revisions."
+  },
+  {
+    "concept": "Own what you ship: ship, fix or stop",
+    "points": [
+      "Diligence means taking responsibility for what you build and keeping your AI use transparent, ethical and accountable (S007 slide).",
+      "Ownership runs from whether it should exist to whether it serves users after launch; decide to ship, fix or stop using feedback loops and tests as the safety net (S007 section 5).",
+      "OpenAI's presenter checks every update his agent makes to tickets and docs because he is responsible for that work (S008 talk 12:02)."
+    ],
+    "gap": "'The AI wrote it' feels like a shared excuse. Both vendors' builder courses state that the human owns the outcome, including after launch.",
+    "humanRole": "Human: decide whether to ship, watch how it behaves after launch, stop or fix it. Agent: builds, tests and can monitor, but carries no responsibility.",
+    "sids": ["S007", "S008"],
+    "status": "established",
+    "outdated": ["The AI wrote it, so problems are the AI's fault."],
+    "severity": "high",
+    "questions": ["Who is responsible if my AI-built app hurts someone?", "When is it OK to launch?"],
+    "demo": "Walk through a ship/fix/stop decision on a small app using its test results and first user feedback."
+  },
+  {
+    "concept": "Calibrate trust per task",
+    "points": [
+      "Build confidence by starting with a specific task you do regularly, comparing the AI's output to past examples, testing repeatedly, noting what it gets right and wrong, and refining (S007 slide).",
+      "Decide what to delegate and how, keeping the judgment that should stay yours (S007 section 3).",
+      "Hand the AI a reusable brief with your values, constraints and context (S007 section 1)."
+    ],
+    "gap": "People either trust AI for everything or nothing. The builder course teaches measuring it on tasks whose right answer you already know.",
+    "humanRole": "Human: run the comparison on known work and set the trust boundary. Agent: does the work being measured.",
+    "sids": ["S007"],
+    "status": "established",
+    "outdated": ["AI is either trustworthy or it isn't."],
+    "severity": "low",
+    "questions": ["What should I let AI do first?", "How do I know when to trust it?"],
+    "demo": "Have the agent redo a task you already finished by hand; diff its output against yours and list what it got right and wrong."
+  },
+  {
+    "concept": "Managing the context window as a budget",
+    "points": [
+      "Claude Code 101 teaches /context (see what fills the window), /compact (summarise to free space) and /clear (start fresh) as everyday commands (S005).",
+      "Subagents do side work in their own context and keep the main one clean (S005).",
+      "The window holds your prompts, the AI's replies and everything else you shared (S007 slide); things drop off and attention is uneven (S006).",
+      "The agent's intelligence depends on the context you give it; with none, it cannot use what is only in your head (S008 talk 32:03)."
+    ],
+    "gap": "Long sessions get worse and beginners don't know why or what to do. Anthropic teaches context commands in its first course; our curriculum lists context engineering as a later, generic lesson.",
+    "humanRole": "Human: notice degradation, clear between unrelated tasks, give the facts only you know. Agent: compacts, delegates to subagents, reads files on demand.",
+    "sids": ["S005", "S006", "S007", "S008"],
+    "status": "established",
+    "outdated": ["One long chat is best because it remembers everything."],
+    "severity": "medium",
+    "questions": ["Why did it get worse the longer we talked?", "When should I start a new session?"],
+    "demo": "In Claude Code run /context to show the window filling; run /compact and /context again; then /clear before an unrelated task."
+  },
+  {
+    "concept": "Instruction files: short, layered maps",
+    "points": [
+      "CLAUDE.md gives the agent persistent project memory across sessions (S005).",
+      "AGENTS.md comes in layers: personal (~/.codex/AGENTS.md), project, and folder (src/AGENTS.md); they combine and the more specific rule wins (S008 slide 14).",
+      "Keep it to roughly 200-300 lines, not a thousand; use it as a map of the repo and how to use each part, not as the place for every guardrail (S008 talk 55:02-57:01).",
+      "The agent can draft the file (S008).",
+      "Claude Code in Action: keep CLAUDE.md lean so it is followed, and put each rule on the surface that can enforce it (S005 page, catalog record)."
+    ],
+    "gap": "Beginners either have no instruction file or paste huge rule lists into one. Both vendors now teach a short, layered map, with hard rules enforced elsewhere.",
+    "humanRole": "Human: decide the conventions and keep the file current. Agent: drafts and follows it, imperfectly.",
+    "sids": ["S005", "S008"],
+    "status": "established",
+    "outdated": ["Put every rule in one giant system prompt."],
+    "severity": "medium",
+    "questions": ["What goes in CLAUDE.md / AGENTS.md?", "Why does it ignore my rules file?"],
+    "demo": "Open a project's AGENTS.md and a folder-level one; ask the agent which rule applies to a file in that folder and show the more specific one winning."
+  },
+  {
+    "concept": "Hooks: rules that run every time vs instructions it may ignore",
+    "points": [
+      "Hooks give deterministic control over formatting, blocking commands and notifications (S005 learning objectives).",
+      "They are configured in .claude/settings.json (S005 screenshot).",
+      "Claude Code in Action: enforce rules that must not be skipped with hooks, and gate turns on real test results with hooks (S005 page, catalog record)."
+    ],
+    "gap": "People write 'never run X' in an instruction file and assume it's enforced. Anthropic teaches hooks as the difference between a request and a guarantee.",
+    "humanRole": "Human: decide which rules must never be broken and make sure they are enforced by code. Agent: follows instructions probabilistically; hooks run regardless of what it decides.",
+    "sids": ["S005"],
+    "status": "established",
+    "outdated": ["If it's in CLAUDE.md, the agent will always obey it."],
+    "severity": "medium",
+    "questions": ["How do I stop the agent from ever running a dangerous command?", "What is a hook?"],
+    "demo": "Add a hook in .claude/settings.json that blocks one command; ask the agent to run it and show the block, compared with the same rule written only in CLAUDE.md."
+  },
+  {
+    "concept": "Model choice, reasoning effort and loop caps are cost dials",
+    "points": [
+      "Model choice and reasoning effort are separate: match the model to the task, raise effort for complexity (Low, Medium, High, Extra high, Ultra) (S008 slide 18).",
+      "More effort uses more time and tokens; keep the lightest setting that meets your quality bar (S008 slides 18-19).",
+      "Ultra spawns parallel agents and uses a lot of tokens (S008 talk 20:02-21:00).",
+      "When you ask it to fix until checks pass, cap the rounds or set exit criteria so it doesn't run an hour when you wanted ten minutes (S008 talk 41:01-42:02).",
+      "Adjust from evidence: missing context, add files; competing approaches, more effort; still short, compare a stronger model on the same checks (S008 slide 19)."
+    ],
+    "gap": "Beginners max every setting or leave defaults and are surprised by usage limits and bills. OpenAI's bootcamp teaches both dials and explicit loop limits.",
+    "humanRole": "Human: pick the lightest setting that works and cap open-ended loops. Agent: spends whatever budget its settings allow.",
+    "sids": ["S008"],
+    "status": "new-2026",
+    "outdated": ["Always use the biggest model on max reasoning."],
+    "severity": "medium",
+    "questions": ["Which model should I use?", "Why did I hit my usage limit so fast?", "What does reasoning effort do?"],
+    "demo": "Run one small task at low and at high effort; compare time, tokens used and quality; then show a 'fix until green, max three rounds' prompt."
+  },
+  {
+    "concept": "Subagents and multi-agent patterns",
+    "points": [
+      "Subagents delegate work and keep the main context clean; a code-reviewer subagent can review the code just written (S005).",
+      "Patterns: a review loop (read-only review, fix confirmed findings, recheck); parallel builds with explicit file ownership; compare strategies against the same success criteria; specialists with a bounded task, context and handoff (S008 slide 27).",
+      "Inspect each agent's evidence before accepting the combined result (S008 slide 27).",
+      "Beginners should not start with multi-agent proposal schemes (S008 talk 45:01)."
+    ],
+    "gap": "Multi-agent setups look like free extra intelligence. The vendors teach them as patterns with costs and with evidence still to be checked at the end.",
+    "humanRole": "Human: decide when parallel work is worth it, and check each agent's evidence. Agent: splits, runs and merges the work.",
+    "sids": ["S005", "S008"],
+    "status": "new-2026",
+    "outdated": ["More agents always means better results."],
+    "severity": "low",
+    "questions": ["What is a subagent?", "Should I run several agents at once?"],
+    "demo": "Ask Claude Code to spawn a code-reviewer subagent on the last change; show it working in its own context and returning findings; verify one finding by hand."
+  },
+  {
+    "concept": "Connected tools act with your access",
+    "points": [
+      "MCP servers and plugins connect the agent to systems like Linear, Jira, GitHub, Gmail, Drive and Slack (S005, S008).",
+      "OpenAI's example use case updates a selected ticket with explicit authorization (S008 slide 21).",
+      "The coach prompt tells the agent to ask before installing anything or changing shared instructions (S008 slide 30).",
+      "The presenter reviews every ticket and doc update the agent makes because he owns that work (S008 talk 12:02)."
+    ],
+    "gap": "Connecting tools is shown as a convenience. What the agent can then change in your work systems, in your name, is rarely spelled out for beginners.",
+    "humanRole": "Human: grant only the access needed, require approval for writes, review what it changed in shared systems. Agent: reads and writes through the connector with your permissions.",
+    "sids": ["S005", "S008"],
+    "status": "established",
+    "outdated": ["Connecting my email to the agent just lets it read."],
+    "severity": "high",
+    "questions": ["What can the agent do once I connect my Gmail / Jira?", "Will it post things without asking?"],
+    "demo": "Connect an issue tracker via MCP; ask the agent to update a ticket and show the approval prompt; then show the ticket's history recording the change under your name."
+  },
+  {
+    "concept": "Someone else's skill is untrusted code",
+    "points": [
+      "OpenAI's presenter is sceptical of any skill someone else built and warns to be very careful running executables (S008 talk 52:01-54:00).",
+      "His practice: usually rebuild the skill yourself from examples of what it should produce (S008).",
+      "Inside a company, an undocumented skill from an unknown author should not be trusted; scan it with a security plugin (S008 talk 54:00-56:02).",
+      "Claude Code 101 teaches building and installing skills (S005)."
+    ],
+    "gap": "Skill and plugin marketplaces make installing others' instructions and scripts one click. A vendor's own trainer now advises rebuilding rather than trusting them.",
+    "humanRole": "Human: decide whose skills to trust, read or scan them, prefer rebuilding. Agent: runs whatever the skill tells it to.",
+    "sids": ["S008", "S005"],
+    "status": "new-2026",
+    "outdated": ["Skills are just text, so they're harmless."],
+    "severity": "high",
+    "questions": ["Is it safe to install skills from GitHub?", "How do I check a plugin before using it?"],
+    "demo": "Open a downloaded skill folder and show its instructions and any bundled script; ask the agent to summarise everything the skill would do before installing it."
+  },
+  {
+    "concept": "Same prompt, different result",
+    "points": [
+      "The same detailed prompt run three times gives three different, similar apps; a vague prompt gives three very different ones (S010, 'Telling AI what you want').",
+      "More specific prompts give more predictable results, but some variation always remains (S010).",
+      "Short, concrete, checkable instructions steer best (S006, Steerability)."
+    ],
+    "gap": "Beginners expect software-like determinism and think something broke when a rerun differs.",
+    "humanRole": "Human: pin down what must not vary (in the prompt, tests or files). Model: samples, so outputs vary.",
+    "sids": ["S010", "S006"],
+    "status": "established",
+    "outdated": ["The same prompt always gives the same result."],
+    "severity": "low",
+    "questions": ["Why did it build something different this time?", "How do I get consistent results?"],
+    "demo": "Run a vague app prompt three times in fresh chats and line up the results; repeat with a specific prompt and compare the spread."
+  },
+  {
+    "concept": "Which surface for which job",
+    "points": [
+      "OpenAI: use Chat while the answer is still taking shape, Work when the output is a knowledge artifact, Codex when the output is working software (S008 slide 8).",
+      "Codex now lives inside the ChatGPT desktop app; the same models sit behind every surface, with simpler interfaces for non-engineers (S008 slide 8; talk 29:00-30:00).",
+      "Claude Code runs in the terminal, VS Code, JetBrains, Claude Desktop and the web (S005)."
+    ],
+    "gap": "Beginners can't tell chat, cowork-style and code agents apart; even the presenter's colleague admitted the difference confused him at first (S008 talk 28:01).",
+    "humanRole": "Human: pick the surface by the output wanted. Agent: same model, different tools and permissions per surface.",
+    "sids": ["S008", "S005"],
+    "status": "new-2026",
+    "outdated": ["Codex and ChatGPT are different AIs."],
+    "severity": "low",
+    "questions": ["What is the difference between ChatGPT and Codex?", "Should I use Claude chat, Cowork or Claude Code?"],
+    "demo": "Give the same request in a chat tab and in a coding agent pointed at a folder; show that only the agent creates and runs files."
+  },
+  {
+    "concept": "Beginner vendor courses skip security review of what was built",
+    "points": [
+      "Claude Code 101's syllabus has no security lesson; hooks for command blocking are the only guardrail topic (S005).",
+      "OpenAI's bootcamp mentions a Codex Security plugin in passing and says that course is not about security (S008 talk 16:02-17:02, 53:02).",
+      "Build with Andrew never mentions security, keys or data; its grader checks only whether the app seems to work (S010).",
+      "Anthropic's builder course does include privacy and unintended consequences under its responsible-impact lens (S007 slide)."
+    ],
+    "gap": "The courses teaching beginners to build with agents in 2026 leave out checking whether what was built is safe. This is the gap Aaron named: people assume the agent made it secure and believe it when it says so.",
+    "humanRole": "Human: treat 'works' and 'safe' as separate checks; run the security review tools; bring in an expert for what you can't verify. Agent: can write and review code for security when asked, but its 'it's secure' is a claim to verify.",
+    "sids": ["S005", "S008", "S010", "S007"],
+    "status": "established",
+    "outdated": ["The agent knows how to make it secure.", "It works, so it's ready to launch."],
+    "severity": "high",
+    "questions": ["Is the app the AI built for me secure?", "How would I even check?"],
+    "demo": "After an agent says a small app is 'ready', run a security review command or scanner on it and show at least one finding the summary did not mention."
+  }
+]

@@ -1,0 +1,530 @@
+[
+  {
+    "concept": "The harness around the model",
+    "points": [
+      "A working coding-agent loop fits in about 150-200 lines: send the conversation to the model, run the tool it asks for, add the result, repeat (S002 l.46, 52-57, 72).",
+      "Everything else Claude Code, Codex or Cursor adds is the harness: system prompt, instruction files (CLAUDE.md/AGENTS.md), tool list, plan mode, subagents, skills, hooks, compaction (S002 l.68-70).",
+      "The model is a remote, private intelligence layer on the provider's servers. The harness is the part you can see and configure (S002 l.50).",
+      "Claude Code ships about 40 built-in tools, and the model is post-trained to use them, so the same model behaves differently in a different harness (S002 l.86-88).",
+      "The Stanford lecturer calls harness design one of the hardest and most important problems in agents, coding or not (S002 l.63).",
+      "Agents outside coding (sales, support, legal) are increasingly built around coding tools such as a shell and files (S002 l.63-66, 84)."
+    ],
+    "gap": "Beginners picture 'the AI' as one model in a chat box, the 2021 picture Aaron sent back in lesson 00.05 v1 (S004). Stanford's Fall 2025 course opened with how an LLM is made and how to prompt. Fall 2026 opens with the agent loop, the core tools and system prompts, and the lecture skips training entirely (S001; S002 l.52).",
+    "humanRole": "Know which layer you are changing. You choose the app/harness and configure it: instruction file, skills, MCP servers, modes, when to compact. You cannot see or change the model or the system prompt. The agent runs the loop.",
+    "sids": ["S001", "S002", "S004"],
+    "status": "established",
+    "outdated": ["An LLM is a next-word predictor behind a chat box, and that is the whole picture", "Learning AI starts with how the model is trained", "Prompt wording is the main skill"],
+    "severity": "high",
+    "questions": ["What is the difference between Claude, Claude Code and Opus?", "Why does the same model act differently in Cursor and in Claude Code?", "What actually happens when I press enter?"],
+    "demo": "Run a coding agent through a logging proxy, as the CS146S assignment does. Open the captured request and show the model name, the system block, the messages list and the tools list side by side."
+  },
+  {
+    "concept": "What one request to the model contains",
+    "points": [
+      "Every turn sends the whole package again: system prompt, every tool definition, injected reminders, your instruction file, memory and the full conversation so far (S002 l.113-134, 150, 203).",
+      "Each tool's name, description, comments and argument signature become prompt text. That text is how the model decides which tool to call (S002 l.93-95).",
+      "Message roles: 'user' holds what you typed and also tool results. 'assistant' holds the model's replies and tool calls. The harness also injects system-level text behind the scenes (S002 l.115-123).",
+      "Text you never typed appears inside your own message: a system reminder carrying your CLAUDE.md, with a note that it overrides the defaults (S002 l.277-282).",
+      "Before your first message, tens of thousands of tokens are already spent on material you did not write (S002 l.229-232)."
+    ],
+    "gap": "Users assume the model sees only what they typed, so they cannot explain why adding connectors or a long instruction file makes it worse or more expensive. The lecture's whole method is to intercept the request and look (S002 l.97-104).",
+    "humanRole": "Know what is in the package and what you added to it (instruction file, enabled servers, pasted files). The harness assembles the request. You decide what goes in on top.",
+    "sids": ["S002"],
+    "status": "established",
+    "outdated": ["The model only sees my prompt", "The model remembers the conversation by itself between turns"],
+    "severity": "medium",
+    "questions": ["Why is my first message already using thousands of tokens?", "Does the model see my CLAUDE.md every time?", "Where do tool results go?"],
+    "demo": "In the captured JSON, collapse the tools block and the system block. Then find the first user message and show the system reminder above the typed question."
+  },
+  {
+    "concept": "Your tools change under you every few weeks",
+    "points": [
+      "Opus 5.5 was about two days old when the 2026-09-24 lecture used it, and OpenAI released a model the same day (S002 l.59-61).",
+      "Claude Code's system prompt shrank from about 200-250 lines to about 50-80 within a month or two. The Git instructions were dropped because the model now knows them (S002 l.212, 225-227).",
+      "Anthropic began supporting AGENTS.md only a few weeks before the lecture (S002 l.266).",
+      "Agents could not open a browser to test their own work six months earlier (S003 l.199-201).",
+      "Stanford rewrote most of its 2025 syllabus for 2026. Five of ten weeks were dropped, merged or replaced (S001).",
+      "Aaron's course sent back two of its first seven lessons as out of date within days of publishing them (S004)."
+    ],
+    "gap": "Material written even a year ago teaches habits the tools have since removed: hand-debugging, the AI IDE, one-prompt app builders. A research step can update the facts but cannot spot a dated topic (S004).",
+    "humanRole": "Assume any how-to older than a few months may be stale. Check the tool's current docs and changelog, and re-test your habits after a model or harness update. The agent cannot know what changed after its training.",
+    "sids": ["S001", "S002", "S003", "S004"],
+    "status": "new-2026",
+    "outdated": ["A tutorial from last year still applies", "Learn a tool once and you are done"],
+    "severity": "medium",
+    "questions": ["Why does advice I read in spring no longer work?", "How do I know if a tutorial is out of date?"],
+    "demo": "Open the Fall 2025 and Fall 2026 CS146S syllabus pages side by side (themodernsoftware.dev/fall2025 and themodernsoftware.dev) and point to the dropped weeks."
+  },
+  {
+    "concept": "Instruction files: CLAUDE.md and AGENTS.md",
+    "points": [
+      "CLAUDE.md (Claude Code) and AGENTS.md (the cross-tool standard) do the same job. You can symlink one to the other (S002 l.266-269).",
+      "It is the part of the prompt you control. The harness injects it into every request, next to the system prompt you don't control (S002 l.271, 277-282).",
+      "Good content: the exact commands to run the tests and start the server, and where things are in the project. Not whole blocks of code (S002 l.273-295).",
+      "Too much text overconstrains the agent, almost like overfitting it to your instructions (S002 l.291-293).",
+      "Stanford now gives it a week, covering what goes where, alongside hooks and subagents (S001 Week 4).",
+      "Aaron lists system prompts and instruction files as a gap (S004)."
+    ],
+    "gap": "Some beginners have no instruction file, so the agent rediscovers the project every session and ignores team conventions. Others paste everything in and make the agent worse. The Fall 2025 syllabus did not list instruction files at all (S001).",
+    "humanRole": "Write and maintain the file: commands, conventions, which libraries the project uses, what not to touch. The agent reads it every turn and can draft it, but the human decides what goes in and keeps it current.",
+    "sids": ["S001", "S002", "S004"],
+    "status": "new-2026",
+    "outdated": ["The longer and more detailed the instructions, the better", "Each tool needs its own different config file"],
+    "severity": "high",
+    "questions": ["What should I put in CLAUDE.md?", "What is the difference between CLAUDE.md and AGENTS.md?", "Why does the agent ignore my team's style?"],
+    "demo": "Open a project's CLAUDE.md and show the same text inside the intercepted request. Then symlink AGENTS.md to it and show a second tool picking it up."
+  },
+  {
+    "concept": "Agent memory is files the harness writes",
+    "points": [
+      "Claude Code's system prompt has a large memory section. The agent learns from your behaviour and writes memories, in a set format, to a project-level folder on disk (S002 l.216-221, 253).",
+      "Memory is added to the request as its own block. It is not baked into the model (S002 l.255).",
+      "Flat-file memory often works as well as RAG or GraphRAG retrieval, and the lecturer's company uses flat files too (S002 l.260-264).",
+      "Aaron lists the different ways apps remember: searching old chats, the agent's own memory, and files or Notion reached through tool calls (S004)."
+    ],
+    "gap": "People think the model 'remembers' them, or are surprised when it acts on something from last week. The lecture describes memory as a fairly new addition that earlier attempts got wrong (S002 l.216-219). Aaron's 00.05 rebuild added a lesson on how AI apps remember (S004).",
+    "humanRole": "Know where memory lives for each tool. Read it, correct or delete wrong entries, and keep secrets out of it. The agent writes and retrieves memory itself.",
+    "sids": ["S002", "S004"],
+    "status": "new-2026",
+    "outdated": ["The model learns from my chats", "Memory means the model was retrained on me"],
+    "severity": "medium",
+    "questions": ["How does Claude remember things between sessions?", "Where is memory stored, and can I edit it?", "Is memory the same as searching chat history?"],
+    "demo": "Open the memory folder named in the agent's system prompt and show a memory file. Edit it, then start a new session that uses the change."
+  },
+  {
+    "concept": "Context engineering replaced prompt engineering",
+    "points": [
+      "Stanford's 2025 Week 1 taught how to prompt effectively and 'power prompting'. In 2026, prompting is one bullet under Advanced Context Engineering (S001).",
+      "Context engineering means choosing what enters the window: which tools, which docs, which research summary, and when to compact or clear (S002 l.154, 367; S003 l.51-53).",
+      "RePPIT's research step distils the codebase into a document instead of feeding the agent raw code (S003 l.87).",
+      "Irrelevant material in context makes the agent perform worse (S002 l.154)."
+    ],
+    "gap": "Beginners still hunt for magic phrasings, while the measurable gains come from what is in the context. The prompt-engineering guides on the 2025 reading list are gone from the 2026 list (S001).",
+    "humanRole": "Decide what the agent should and should not see for each task: files, docs, servers, earlier decisions. The agent gathers context itself but cannot judge what is stale or irrelevant to your intent.",
+    "sids": ["S001", "S002", "S003"],
+    "status": "established",
+    "outdated": ["The right magic words unlock better answers", "Prompt engineering is the core AI skill"],
+    "severity": "medium",
+    "questions": ["Is prompt engineering still a thing?", "Why does the agent do better in a fresh session?"],
+    "demo": "Give the same task in two sessions: one with a dozen unrelated files and servers loaded, one with only a short research summary. Compare the plans."
+  },
+  {
+    "concept": "Advertised vs usable context, and when to compact",
+    "points": [
+      "A 1M-token window is not 1M useful tokens (S003 l.51).",
+      "The study Stanford assigns (LangWatch, 2026-08-02) recommends compacting between 250k and 450k tokens, depending on the kind of work, and found no benefit in running near 1M (S003 l.227; cited reading).",
+      "In that study, the part of the window the agent actually used stayed around 8k tokens while the window grew 16.6 times (cited reading).",
+      "Each doubling of context costs about 6x more tokens over a session, because every tool call re-sends the whole window (cited reading).",
+      "Compaction runs automatically near the limit, or when you ask. In the study, a median 575k-token window became a 4.4k-token summary, and the user's corrections more than doubled for at least 30 steps afterwards (S002 l.350-352; cited reading).",
+      "'Dumb zone' is the informal name for when the model gets less effective as the window fills (S002 l.367)."
+    ],
+    "gap": "Aaron lists models getting worse as their context fills as a gap (S004). Even the Stanford lecturer paraphrased the study loosely: about half a million useful tokens, where the study measured roughly 8k (S003 l.231 vs the cited reading). Cited reading: https://langwatch.ai/blog/context-tax-when-to-compact (2026-08-02).",
+    "humanRole": "Watch the context meter and compact or restart deliberately, ideally at a natural break. The harness compacts by itself only at the limit, and the agent does not notice its own quality dropping.",
+    "sids": ["S002", "S003", "S004"],
+    "status": "new-2026",
+    "outdated": ["A bigger context window is always better", "Let the agent run until it compacts by itself"],
+    "severity": "high",
+    "questions": ["Why does Claude get dumber in long sessions?", "When should I use /compact?", "Is a 1M-context model worth it?"],
+    "demo": "Show the context meter in a long session, run a manual compact, and show the token counts before and after and the summary that replaced the conversation."
+  },
+  {
+    "concept": "Clear after deciding; hand off through a file",
+    "points": [
+      "After choosing between proposals, clear the context. Otherwise the rejected option stays in the window and can confuse the agent about which one it is building (S003 l.233).",
+      "Past a few hundred thousand tokens, have the agent write the relevant state to a file and start a fresh session from that file (S003 l.235).",
+      "Subagents start with a fresh window and return only their result, which keeps exploration out of the main context (S002 l.341-343).",
+      "For big tasks, use separate sessions per phase and one agent per issue (S003 l.255)."
+    ],
+    "gap": "Beginners keep one endless chat, so dead ends and rejected designs keep steering the agent. The Stanford lecturer admits he skipped the clear in his own demo and says he would not recommend that (S003 l.233).",
+    "humanRole": "Decide when a decision is final and start clean with only the chosen plan. The agent can write the handoff file, but it will not clear its own context.",
+    "sids": ["S002", "S003"],
+    "status": "established",
+    "outdated": ["Keep everything in one conversation so the AI has full context"],
+    "severity": "medium",
+    "questions": ["Should I start a new chat or keep going?", "What is the difference between /clear and /compact?"],
+    "demo": "Have a session write plan.md, run /clear, start again with 'read plan.md and implement it', and show the context meter near empty."
+  },
+  {
+    "concept": "Subagents, forks and runaway token use",
+    "points": [
+      "Subagents are helpers with their own fresh context windows. They can run in parallel and report back to the main agent (S002 l.341-345).",
+      "In the study Stanford assigns, one day of the author's Claude Code use burned 2.25 billion tokens, 82% of them in subagents, and his session limit ran out within minutes (cited reading).",
+      "Two forked subagents, spawned with a full copy of the parent's conversation, started at 523k and 304k tokens instead of about 30k. Told to do one thing and stop, they ran 10.7 and 8.7 hours (cited reading).",
+      "At that size, every lint, typecheck or test command re-reads the whole window. One test run cost about 568k tokens (cited reading)."
+    ],
+    "gap": "Parallel agents look free on a flat plan until the limit hits, and a per-token key bills for every one of them. The Fall 2026 course adds fleets of parallel agents (Week 8) and cost optimization (Week 9) (S001). Cited reading: https://langwatch.ai/blog/context-tax-when-to-compact (2026-08-02).",
+    "humanRole": "Set limits (budgets, timeouts, a fresh subagent rather than a fork) and check usage after big multi-agent runs. The agent spawns and runs subagents itself and will not stop a runaway one.",
+    "sids": ["S001", "S002", "S003"],
+    "status": "new-2026",
+    "outdated": ["More agents in parallel is always faster and cheaper"],
+    "severity": "high",
+    "questions": ["Why did I hit my usage limit so fast?", "Do subagents cost extra?", "What is a forked subagent?"],
+    "demo": "Run the same task with and without subagents and compare the token counts in the usage view."
+  },
+  {
+    "concept": "Token meters: input, output, cache reads, cache writes",
+    "points": [
+      "Aaron lists caching, and the difference between cache reads, cache writes, input and output tokens, as a gap (S004).",
+      "Cache reads are about 10x cheaper per token, but a long session re-reads the whole window on every step. Cache reads were 95% of the study's blowup day (cited reading).",
+      "The study counted context per call as cache reads plus cache writes plus fresh input. It found that naive sums of Claude Code's usage logs come out 1.7 times too high, because the same usage repeats on several lines (cited reading).",
+      "Aaron's ledger prices each lesson at API list prices ($46-$134) although he pays a flat subscription, so the same work has two different costs (S004)."
+    ],
+    "gap": "Users see one number (messages or dollars) and cannot tell why a long session costs more than a short one. Aaron's 00.05 rebuild added a lesson on prompt caching and token meters (S004). Cited reading: https://langwatch.ai/blog/context-tax-when-to-compact (2026-08-02).",
+    "humanRole": "Read the usage breakdown, know whether you are on a subscription limit or a pay-per-token key, and set spend limits on keys. The provider caches automatically; the agent does not manage your bill.",
+    "sids": ["S003", "S004"],
+    "status": "established",
+    "outdated": ["Cached tokens are free", "Cost is per message"],
+    "severity": "medium",
+    "questions": ["What is a cache read?", "Why is my bill mostly cache reads?", "Am I paying per token on a subscription?"],
+    "demo": "Open a provider's usage page, or one session's usage log, and point out the four token classes on a single request."
+  },
+  {
+    "concept": "Pick the model per phase",
+    "points": [
+      "Use the strongest model for research, proposals and planning, where the thinking happens. Lighter models can implement and test (S003 l.237).",
+      "Stanford's Week 9 covers LLM gateways, model routing and cost optimization for teams (S001)."
+    ],
+    "gap": "Beginners use one model for everything, so they overpay for routine typing work or underpower design decisions. Model routing was not on the Fall 2025 syllabus (S001).",
+    "humanRole": "Choose the model for each phase, or set the routing rule. The agent will not switch to a cheaper model on its own.",
+    "sids": ["S001", "S003"],
+    "status": "established",
+    "outdated": ["Always use the biggest model", "Always use the cheapest model"],
+    "severity": "low",
+    "questions": ["Which model should I use for planning and which for coding?", "Is the top model worth the price?"],
+    "demo": "Switch the model between the planning step and the implementation step in one session."
+  },
+  {
+    "concept": "MCP connectors: what they are and what they cost",
+    "points": [
+      "MCP adds external tools and resources to a harness. Each MCP tool is a primitive, like one API call (S002 l.91, 181-183).",
+      "MCP tools show up with an mcp__ prefix, and every enabled server's full tool list is sent with every request (S002 l.150, 173).",
+      "In late 2024, GitHub's MCP server shipped about 110 tools. The trend since is fewer, more powerful tools such as Bash (S002 l.190-196).",
+      "The model reads tool names, descriptions and argument types to choose a tool, so vague ones get misused (S002 l.93-95).",
+      "Context7 is an MCP server that pulls current library documentation (S003 l.107). Playwright MCP gives an agent a browser (S003 l.203).",
+      "Stanford now teaches MCP servers, clients, tools and transport plus tool ergonomics (Week 2), and permissioned MCP portals for organisations (Week 9) (S001)."
+    ],
+    "gap": "Aaron lists connectors as a gap (S004). Beginners install every connector they find, not knowing that each one is sent with every request and can make the agent worse (S002 l.154).",
+    "humanRole": "Choose which connectors to enable for each project, remove unused ones, and decide which ones may touch real accounts. The agent decides when to call them.",
+    "sids": ["S001", "S002", "S003", "S004"],
+    "status": "established",
+    "outdated": ["More MCP servers make the agent more capable"],
+    "severity": "medium",
+    "questions": ["What is MCP?", "Why is my agent slower after I added connectors?", "Is a connector the same as a skill?"],
+    "demo": "List the enabled MCP servers and show their tools in the captured request. Disable one and show the request shrink."
+  },
+  {
+    "concept": "Skills and plugins",
+    "points": [
+      "A skill is a written procedure (SKILL.md plus scripts) that ties several tool calls and prompts into one workflow (S002 l.183, 324-328).",
+      "Only the skill's short description sits in context until it is needed; then the harness loads the whole file. This is called progressive disclosure (S002 l.148-152, 335).",
+      "A skill runs when you ask for it, or when the agent decides it fits the task (S002 l.326).",
+      "Skills committed to a repo come with every clone, and plugins package skills for a whole organisation (S003 l.111).",
+      "Superpowers, a very popular framework, is just a set of skills: brainstorming, writing plans, executing plans, code review (S003 l.257-261).",
+      "Stanford added a full week on skills in Fall 2026; Fall 2025 had none (S001)."
+    ],
+    "gap": "Aaron lists skills, connectors and plugins as a gap (S004). Beginners confuse skills with MCP tools, and do not know they can write their own team procedures as skills.",
+    "humanRole": "Decide which repeated procedures are worth a skill, write or review them, and keep them in version control. The agent loads and follows them.",
+    "sids": ["S001", "S002", "S003", "S004"],
+    "status": "new-2026",
+    "outdated": ["Skills are the same as plugins or MCP servers"],
+    "severity": "medium",
+    "questions": ["What is a Claude skill?", "Skill vs MCP vs plugin?", "How do I share a skill with my team?"],
+    "demo": "Open a SKILL.md, invoke it, and show the harness pulling its contents into the captured request only at that moment."
+  },
+  {
+    "concept": "Spec-driven work: RePPIT",
+    "points": [
+      "Research: a skill documents only what the code does today, with no suggestions, as a structured document (S003 l.87-93).",
+      "Propose: two distinct, orthogonal solutions, each with trade-offs, validation and open questions. Returns fall off after two (S003 l.127-133, 149-151).",
+      "The human chooses between the proposals (S003 l.133-137).",
+      "Plan: a design document with requirements, the files that change (with line numbers), tests, observability, security, rollout, and an explicit out-of-scope list so the agent does not wander (S003 l.169-181).",
+      "Implement: the prompt is little more than 'implement the plan'. Then Test (S003 l.197).",
+      "The lecturer calls spec-driven work the de facto industry method for hard tasks, and this framework a starting point to adapt (S003 l.55, 165)."
+    ],
+    "gap": "Vibe coding works for small changes but not for extending a codebase you did not write (S003 l.59-69). The 2025 course taught 'PRDs for agents' inside an AI IDE week; 2026 makes RePPIT a core Week 2 topic (S001).",
+    "humanRole": "Be most involved in proposing and planning: choose the approach, check the requirements and scope, review the spec. The agent researches, writes the documents, implements and tests.",
+    "sids": ["S001", "S003"],
+    "status": "new-2026",
+    "outdated": ["Just describe the feature and let it go", "Specs are bureaucracy"],
+    "severity": "high",
+    "questions": ["How do I get the AI to build something big without it going off the rails?", "What is spec-driven development?", "Should I plan before coding with AI?"],
+    "demo": "In a real repo, run research, propose and plan as three prompts. Open the two proposals and pick one, then clear the context and implement from the plan file."
+  },
+  {
+    "concept": "Match the process to the task size (and what plan mode is)",
+    "points": [
+      "A copy change or small fix needs only a plain request (S003 l.251).",
+      "A small feature across several files needs a plan (S003 l.253).",
+      "Medium features, refactors and migrations need repeated research, propose and plan, with separate sessions and subagents (S003 l.255).",
+      "Very large projects need several issues, one agent per issue, with the issues stacked on each other (S003 l.255).",
+      "Plan mode is a tool that switches the harness into planning. It injects a prompt with phases (understand, design, review, final plan) and ends in a plan file (S002 l.304-319).",
+      "Built-in planning in Claude and Codex is good enough that the lecturer does not always use his own (S003 l.163)."
+    ],
+    "gap": "Beginners either over-process a one-line fix or try to do a whole migration in one prompt. Plan mode looks like magic until you see it is a prompt and a file (S002 l.310).",
+    "humanRole": "Judge the size and risk of the task, pick the level of process, and read and approve the plan. The agent writes the plan.",
+    "sids": ["S002", "S003"],
+    "status": "established",
+    "outdated": ["Every task needs the same workflow"],
+    "severity": "medium",
+    "questions": ["When should I use plan mode?", "Why did the agent rewrite half my app for a small change?"],
+    "demo": "Enter plan mode, show the plan file it writes, and approve it. Compare with a direct request for a one-line copy change."
+  },
+  {
+    "concept": "Keep a map-level mental model of your code",
+    "points": [
+      "The lecturer, who says he is not a frontend developer, still needs a mental model good enough to tell good work from bad (S003 l.77, 121-123).",
+      "That means knowing the parts (frontend, backend, framework, data models) and being able to look in when needed, not knowing every line (S003 l.123).",
+      "RePPIT's research document doubles as the human's map of the code (S003 l.121).",
+      "Aaron: when non-programmers build with AI, the code works and the failures move to places they cannot see (S004)."
+    ],
+    "gap": "People either think they must understand every line (the old curriculum) or nothing at all (vibe coding). The current position is in between, and it is rarely said out loud.",
+    "humanRole": "Read the agent's research summary or architecture notes, and be able to say what the parts are and where the data goes. The agent reads and writes the code.",
+    "sids": ["S003", "S004"],
+    "status": "established",
+    "outdated": ["You must understand every line the AI writes", "You don't need to understand anything"],
+    "severity": "high",
+    "questions": ["Do I need to understand the code AI writes?", "How much programming do I need to know now?"],
+    "demo": "Ask the agent for a one-page map of a repo (components, data flow, framework) and check it against the folder tree."
+  },
+  {
+    "concept": "The verification rule: trust AI only on what it can verify",
+    "points": [
+      "Aaron's rule: AI can handle anything that is verifiable. What it cannot verify, the human must check, or bring in an expert who can (S004, Playback 2026-10-03).",
+      "Asking the AI to 'make sure it's secure' or 'make sure it's ready to deploy' gets an answer you cannot check (S004).",
+      "Stanford: humans still matter most in intent and architecture, and in code review (S003 l.155-157).",
+      "Tests are the best verification. As the implementation matters less, checking the output must be strict (S003 l.193-195).",
+      "A behavioural check (upload a CSV and see the chart) is separate from quality checks (performance, readability, security), which belong to review (S003 l.207-211).",
+      "Aaron notes the AI gets better at verifying its own work every day, so the boundary keeps moving (S004)."
+    ],
+    "gap": "People believe the agent when it says the work is safe or done. Even researched lessons kept teaching the old human-does-it workflow, because the research could not see how the work itself had changed (S004).",
+    "humanRole": "For every claim, ask whether a machine check exists: a test passes, a page renders, a scanner runs. If one does, let the agent run it. If not (security, legal, deploy readiness, fit with the team), check it yourself or bring in an expert.",
+    "sids": ["S003", "S004"],
+    "status": "new-2026",
+    "outdated": ["If the AI says it's secure or done, it is", "The human's job is to find bugs by reading code"],
+    "severity": "high",
+    "questions": ["How do I know the AI did it right?", "Can I trust it when it says the app is secure?", "When do I need a real developer?"],
+    "demo": "Ask the agent 'is this secure?' and get a confident yes. Then run a scanner and a test on the same code and show what each can and cannot prove."
+  },
+  {
+    "concept": "Hand-debugging is no longer the core skill",
+    "points": [
+      "The agent reads its own errors, fixes them and re-runs. Aaron has not debugged an error himself since he started using Claude Code (S004).",
+      "Stanford's Fall 2026 outline drops 'Debugging and diagnostics' (2025 Week 7) and 'Triaging and debugging' (2025 Week 9). Debugging appears nowhere in the 2026 outline (S001).",
+      "The agent now tests its own work, including in a browser (S003 l.199-201).",
+      "What remains for the human: give the agent a way to check (tests, a browser, logs), and judge what those checks cannot cover (S003 l.193-203; S004)."
+    ],
+    "gap": "Most learning material, including the course's own first draft of lesson 00.06, still teaches the five-step routine for an error: read it, search it, read the docs, ask AI, make a tiny test (S004).",
+    "humanRole": "Describe the expected behaviour and make sure the agent can run the app and the tests. The agent reads the errors, fixes them and re-runs.",
+    "sids": ["S001", "S003", "S004"],
+    "status": "new-2026",
+    "outdated": ["Read the error, search the exact message, read the docs, then ask AI", "Learning to debug is the first skill"],
+    "severity": "high",
+    "questions": ["Do I still need to learn debugging?", "What do I do when the AI is stuck on an error?"],
+    "demo": "Introduce a failing test and let the agent read the trace, fix the code and re-run until the test passes, with no human input."
+  },
+  {
+    "concept": "The agent tests its own work in a browser",
+    "points": [
+      "While implementing, Cursor opened a browser by itself, created synthetic data, uploaded it through the app's CSV form and checked the new chart (S003 l.199).",
+      "The lecturer says this was not possible six months earlier (S003 l.201).",
+      "If your agent has no browser, add one with something like Playwright MCP (S003 l.203).",
+      "This is a behavioural check. It is not a review of quality, performance or security (S003 l.207-211)."
+    ],
+    "gap": "People still click through their app by hand after every change, or assume the agent cannot see the user interface.",
+    "humanRole": "Give the agent a runnable app and a browser tool, then look at the final result yourself. The agent drives the browser and fixes what it sees.",
+    "sids": ["S003"],
+    "status": "new-2026",
+    "outdated": ["The AI cannot see or use the app it built"],
+    "severity": "medium",
+    "questions": ["Can the AI test the website itself?", "How do I let Claude use a browser?"],
+    "demo": "Ask an agent that has a browser tool to add a feature, and watch it open the page, fill in a form and screenshot the result."
+  },
+  {
+    "concept": "Agent-ready repos: tests, checks and hooks",
+    "points": [
+      "Stanford's Week 5 covers what makes a repo agent-ready (structure, docs, tests and checks), how to score readiness, and the common gaps that block agents (S001).",
+      "Week 4 pairs hooks with lint gates, test runs and guardrails (S001). The lecture lists hooks as a standard harness component (S002 l.70).",
+      "The instruction file should hold the exact commands to run the tests and start the server (S002 l.291-295).",
+      "Unit, integration and smoke tests are the main way to verify agent output (S003 l.193).",
+      "Evidence limit: the hooks lecture (2026-10-13) and the agent-readiness lecture (2026-10-20) had not been given when this was read. Only the syllabus topic lines exist so far."
+    ],
+    "gap": "In a repo with no tests or runnable checks, the agent has nothing to verify against, so its 'done' means nothing. Testing moved from a topic of its own (2025 Week 6) to infrastructure the agent uses (S001).",
+    "humanRole": "Make sure the project has tests and checks the agent can run, and set hooks so they run automatically. The agent writes and runs tests, but the human decides what correct means.",
+    "sids": ["S001", "S002", "S003"],
+    "status": "new-2026",
+    "outdated": ["Testing is a separate phase done at the end"],
+    "severity": "medium",
+    "questions": ["How do I make my project work better with AI?", "What are hooks?"],
+    "demo": "Add a hook that runs the linter and tests after every edit, then have the agent break a test and watch the hook stop it."
+  },
+  {
+    "concept": "Stale docs are worse than no docs",
+    "points": [
+      "Reuse existing docs only if they are accurate and maintained (S003 l.141).",
+      "If the choice is bad docs or nothing, start from nothing, so stale information does not confuse the agent (S003 l.145).",
+      "Delete outdated docs or bring them up to date. Agents can run on a schedule to keep docs current (S003 l.143-145).",
+      "Docs are one of the agent-readiness checks in Stanford's Week 5 (S001)."
+    ],
+    "gap": "People assume more documentation always helps the agent, but an old README or CLAUDE.md quietly misleads it.",
+    "humanRole": "Own which docs are true. Delete or date stale ones, including instruction files. The agent can rewrite docs but cannot tell which ones describe the past.",
+    "sids": ["S001", "S003"],
+    "status": "established",
+    "outdated": ["Any documentation is better than none"],
+    "severity": "medium",
+    "questions": ["Should I give the AI our old docs?", "Why does the agent keep using an old API?"],
+    "demo": "Leave an outdated setup section in a README and show the agent following it. Delete the section and run the task again."
+  },
+  {
+    "concept": "AI code review in a team workflow",
+    "points": [
+      "Stanford's Week 6 covers what AI review catches well and what it misses, review architectures and custom rules, and fitting review into a team's PR workflow (S001).",
+      "In practice: four or five reviewer agents, each on one area (security, performance, style, consistency, edge cases), run by a GitHub action, with a coordinating agent merging their findings into one report (S003 l.215).",
+      "The lecturer's demo review skill sorts findings into must fix, recommended and consider (S003 l.213).",
+      "Aaron's 00.06 rebuild added lessons on review and security agents and on team norms for AI-written code (S004)."
+    ],
+    "gap": "Solo builders skip review, and team members assume the AI reviewer catches everything. Fall 2025 put review under 'Modern Software Support', next to debugging (S001).",
+    "humanRole": "Set the review rules (conventions, banned libraries, security checks), read the must-fix items and decide. The reviewer agents produce the findings.",
+    "sids": ["S001", "S003", "S004"],
+    "status": "new-2026",
+    "outdated": ["One AI pass is a full review", "Code review means a human reading every diff line by line"],
+    "severity": "medium",
+    "questions": ["Can AI review my pull requests?", "What does AI code review miss?"],
+    "demo": "Open a PR and show an automated multi-agent review comment with must-fix and consider sections."
+  },
+  {
+    "concept": "AI code ignores team conventions and keeps adding dependencies",
+    "points": [
+      "AI-written code can differ from a team's conventions, which makes life harder for the people who write code by hand (S004, Playback).",
+      "Projects with a fixed set of modules get code that imports different libraries (S004).",
+      "Without someone who owns the dependency list, the AI keeps adding dependencies (S004).",
+      "Stanford's levers: instruction files (Week 4), custom review rules (Week 6) and SCA dependency scanning (Week 7) (S001)."
+    ],
+    "gap": "The code works, so nobody notices the drift until the project has three HTTP libraries and two coding styles. Aaron's 00.06 rebuild added a lesson on team norms for AI-written code (S004).",
+    "humanRole": "Name a person who decides which libraries are allowed, and write the conventions and allowed dependencies into the instruction file and the review rules. The agent follows them only if they are written down and checked.",
+    "sids": ["S001", "S004"],
+    "status": "new-2026",
+    "outdated": ["If it works, it's fine"],
+    "severity": "high",
+    "questions": ["Why does the AI use a different library than the rest of our code?", "How do I stop the AI adding packages?"],
+    "demo": "In a repo that uses one HTTP library, ask an agent for a feature and show it adding another. Add the rule to AGENTS.md and run it again."
+  },
+  {
+    "concept": "Working code is not secure code",
+    "points": [
+      "Code that runs can still contain a security hole. Asking the AI to make it secure gets an answer you cannot verify (S004).",
+      "When you cannot verify, learn to check it yourself or have an expert review it before real users arrive (S004, Playback).",
+      "Stanford's Security week covers SAST and SCA scanning, dependency vulnerabilities, secret leaks, and agent-assisted triage and fixes (S001 Week 7).",
+      "The Claude Code system prompt contains security instructions (S002 l.214). The lecture does not claim they make the output secure.",
+      "The 00.06 v1 research cited a 2026 study in which about one AI coding answer in twenty named a package that does not exist (S004, second-hand; the study itself was not read in this batch)."
+    ],
+    "gap": "Builders assume the agent knows how to make code safe, and believe it when it says so. Aaron's 00.06 rebuild added lessons on checks before real users and on review and security agents (S004).",
+    "humanRole": "Run scanners (SAST, dependency scanning, secret scanning) and treat their findings as evidence. Before real users or real data, get a review from someone who can verify security. The agent can run scanners and fix findings, but cannot certify its own work as safe.",
+    "sids": ["S001", "S002", "S004"],
+    "status": "established",
+    "outdated": ["The AI writes secure code by default", "Ask the AI 'is this secure?' and trust the answer"],
+    "severity": "high",
+    "questions": ["Is AI-written code safe to ship?", "How do I check my app for security holes?", "Who should review security?"],
+    "demo": "Run a SAST scanner and a secret scanner on an agent-built app and walk through one real finding."
+  },
+  {
+    "concept": "Prompt injection and agent attack surfaces",
+    "points": [
+      "Stanford's 2026 Security week names prompt injection and agent-specific attack surfaces as a core topic (S001 Week 7).",
+      "The 2025 syllabus already assigned a reading on remote code execution in GitHub Copilot through prompt injection (embracethered.com, 2025) (S001, Fall 2025 Week 6 reading list; the reading itself was not read).",
+      "Aaron's 00.06 rebuild added a lesson on prompt injection (S004).",
+      "Text the agent reads (tool results, files, web pages) enters the same request as your instructions (S002 l.121)."
+    ],
+    "gap": "Builders connect agents to email, the web and repos without knowing that any text the agent reads can try to steer it. The evidence in this batch is topic lines only: read the Security-week lecture (2026-11-03) and the security batch for specifics.",
+    "humanRole": "Limit what an agent can do while it reads untrusted content (permissions, approval before risky actions), and treat instructions found inside data as an attack. The agent cannot reliably tell your instructions from instructions planted in content.",
+    "sids": ["S001", "S002", "S004"],
+    "status": "established",
+    "outdated": ["Only I can give my agent instructions"],
+    "severity": "high",
+    "questions": ["Can a website hack my AI agent?", "What is prompt injection?"],
+    "demo": "Have an agent summarise a web page with hidden 'ignore previous instructions' text, and show the attempt in the captured tool result."
+  },
+  {
+    "concept": "Background agents, fleets and always-on agents",
+    "points": [
+      "Stanford's Week 8 covers async, cloud-delegated agents, fleets of parallel agents, and issue-to-PR pipelines triggered from Slack, Linear and GitHub (S001).",
+      "For very large projects the lecturer splits the work into issues, runs one agent per issue and stacks them (S003 l.255).",
+      "One open-source partner's maintainer runs dozens of agents in parallel (S003 l.35).",
+      "Aaron lists always-on personal agents like OpenClaw as a gap (S004). The lecturer believes Pi is the coding agent that powers OpenClaw (S003 l.27).",
+      "Week 10 covers running and securing agents after deployment (S001)."
+    ],
+    "gap": "Beginners only know the chat they are watching. Agents that run unattended raise new questions of cost, permissions and review. None of this was on the 2025 syllabus (S001).",
+    "humanRole": "Decide which tasks may run unattended, with what permissions and budget, and review the PRs or other output they produce. The agents do the work on their own.",
+    "sids": ["S001", "S003", "S004"],
+    "status": "new-2026",
+    "outdated": ["An AI agent is a chat you sit and watch"],
+    "severity": "medium",
+    "questions": ["Can Claude work while I sleep?", "What is a background agent?", "Is OpenClaw safe to leave running?"],
+    "demo": "Trigger an agent from a GitHub issue and show it opening a PR by itself."
+  },
+  {
+    "concept": "Chat vs Cowork vs Code, across surfaces",
+    "points": [
+      "Aaron lists chat, Cowork and Code across browser, desktop, CLI and cloud as a gap (S004).",
+      "The post reports that a merge of chat and Cowork was announced on 16 September (S004, second-hand; not re-checked).",
+      "The same harness ideas apply across Claude Code, Codex, Cursor, Windsurf and Devin (S002 l.52; S003 l.163, 199).",
+      "Stanford keeps one bullet on working effectively from the CLI (S001 Week 3)."
+    ],
+    "gap": "Users do not know which app or surface to use for which job, or that the surfaces can share a model while differing in harness. CS146S does not cover this; it needs a vendor-docs batch.",
+    "humanRole": "Pick the surface for the job: conversation, file work, code, or unattended runs. The harness differs from surface to surface; the model may be the same.",
+    "sids": ["S001", "S002", "S004"],
+    "status": "beta",
+    "outdated": ["Claude is a chat website"],
+    "severity": "medium",
+    "questions": ["What is the difference between Claude, Cowork and Claude Code?", "Should I use the desktop app or the CLI?"],
+    "demo": "Do the same small task in the chat app, in Cowork and in Claude Code, and compare what each one could touch on the computer."
+  },
+  {
+    "concept": "Multimodal models and diffusion",
+    "points": [
+      "Aaron lists models that take and make images, audio and video, and diffusion, as gaps (S004).",
+      "His 00.05 rebuild added lessons on diffusion models, multimodal APIs, voice AI and AI design tools (S004).",
+      "The post reports that Meta's Muse and OpenAI's dots launched in September 2026 (S004, second-hand; not re-checked).",
+      "Stanford's CS146S does not cover multimodal models or diffusion at all; it is a software course (S001)."
+    ],
+    "gap": "Aaron's audience includes media makers, and the coding course gives them nothing here. This needs a separate batch of sources.",
+    "humanRole": "To be filled by another batch.",
+    "sids": ["S001", "S004"],
+    "status": "established",
+    "outdated": ["AI means text chat"],
+    "severity": "medium",
+    "questions": ["How do image models work differently from chat models?", "Can the model read my screenshots?"],
+    "demo": "To be decided by the multimodal batch."
+  },
+  {
+    "concept": "Onboarding yourself and the agent onto a codebase you didn't write",
+    "points": [
+      "Stanford now grades open-source contributions at 30% of the course, and each student works with at least two partner projects (S001; S003 l.15-21).",
+      "Before directing an agent in an unfamiliar codebase, you need enough understanding to steer it. RePPIT's research step builds that map for both you and the agent (S003 l.69, 87-123).",
+      "The partner projects' maintainers review the students' PRs (S003 l.33).",
+      "If the repo has trustworthy docs, start from them. If they are stale, start from scratch (S003 l.141-145)."
+    ],
+    "gap": "Most beginners only build new projects alone, then struggle to contribute to existing ones, such as a community-maintained course like this one.",
+    "humanRole": "Have the agent research the codebase, read the research yourself, follow the project's contribution rules, and expect a maintainer to review. The agent maps and edits the code.",
+    "sids": ["S001", "S003"],
+    "status": "established",
+    "outdated": ["Contributing to open source means reading the whole codebase first"],
+    "severity": "low",
+    "questions": ["How do I use AI to contribute to an open-source project?", "How do I understand a repo I didn't write?"],
+    "demo": "Clone an open-source repo, run a research prompt, and open the resulting map next to the folder tree."
+  },
+  {
+    "concept": "The software factory",
+    "points": [
+      "Stanford's 2026 course description lists loop engineering and the software factory, and its final week covers self-running, self-improving software systems (S001).",
+      "Warp, an open-source partner, sells software factories and lets students build them (S003 l.45)."
+    ],
+    "gap": "This is where the course says the field is heading. The only evidence in this batch is syllabus wording, because the 2026-12-03 lecture has not happened yet.",
+    "humanRole": "Not yet known. Follow up after the Week 10 lecture.",
+    "sids": ["S001", "S003"],
+    "status": "speculation",
+    "outdated": [],
+    "severity": "low",
+    "questions": ["What is a software factory?"],
+    "demo": "None yet."
+  }
+]

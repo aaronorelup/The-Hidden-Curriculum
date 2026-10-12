@@ -1,0 +1,649 @@
+# G06 Cost, limits and spend: concept entries
+
+Written 2026-10-12 by the concepts-cost-limits agent from `taxonomy.md` (C055-C061), the batch notes (`cost-and-limits`, `model-context-tokens`, `courses-teach-now`, `practitioners-now`, `surveys-and-learning`, `vendor-academies`, `exposed-backends-secrets`, `.json` and `.md`), and `sources-candidates.md`.
+
+**Re-checked today.** S014, S016, S017, S018, S019, S020, S033, S035 and S046 were fetched again on 2026-10-12 to check the numbers used below. Sources marked X01-X14 have no S-ID yet. Each one was fetched and read today. None came from a new web search (the shared search budget was used up). Each is either already cited in the taxonomy or the candidates list, or linked from a selected source. Every point below ends with the IDs it rests on. Where a number is the crew's own arithmetic on a source's figures, the point says so.
+
+## Corrections and cautions found while checking
+
+1. **Sonnet 5.5 cache reads now cost half what AO-026 used.** AO-026 (S017, 2026-09-28) priced cache reads at $0.20 per million tokens on both Opus 5.5 and Sonnet 5.5, and its "2% cheaper" result rests on that. On 2026-10-07 Willison reported that Anthropic "announced today that they are halving the price of cache reads for Sonnet 5.5" (X08). Anthropic's pricing page now lists Sonnet 5.5 cache hits at $0.10 (0.05x input) and Opus 5.5 at $0.20 (X07). The model-context batch had recorded 0.05x for both (S012), which only looked like a conflict with S017 until the price change explained it. **Do not teach the 2% figure as current. It was measured at the old price.** Teach the method, and re-run or re-price the test before quoting a ratio.
+2. **Changing effort no longer always breaks the cache.** The taxonomy line for C057 says switching "model or effort" forces a full re-read. Claude Code's prompt-caching docs say that on Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1, signed in with an API key or a Claude subscription, changing effort keeps the cache. It still breaks the cache on most other models, and on Bedrock, Google Cloud, a Claude apps gateway or a HIPAA configuration (X03). Switching models always breaks it (X03).
+3. **"Webhooks instead of polling" came from a community member (Zachariah), not from Cursor staff.** The staff fixes were: a fresh chat per task, quieter handoffs, and spacing out routines. The fleet's owner later said there was "Almost no polling" (S018).
+4. **Ronacher's token figures disagree with each other on his own page.** His 35-hour run used "around 1B tokens for a total of around 1200 USD in raw API costs". Elsewhere he says he burned "a full reset's worth of ChatGPT tokens", which "appears to be around 4 billion tokens". Cite the 1B and $1,200 figure for the 35-hour run (S035).
+5. **Truffle post date.** The byline says 2026-02-25. On today's fetch the page metadata lists 2026-10-08. Treat the post as February 2026, possibly edited later (S020).
+6. **Willison's hard-caps post names only AWS and Google Cloud.** It says nothing about OpenAI, Anthropic, Vercel or Cloudflare (X01). Anthropic's own spend controls come from S016 and X05. Which providers offer hard caps must be rechecked when the lesson is made.
+
+## Sources added in this file (no S-ID yet)
+
+| ID | Title | Author | Date | URL | How it was reached |
+|---|---|---|---|---|---|
+| X01 | We're going to need default hard budget caps on pretty much everything | Simon Willison | 2026-10-03 | https://simonwillison.net/2026/Oct/3/default-hard-budget-caps/ | Cited in the taxonomy (C061) and the practitioners batch; fetched again today |
+| X02 | The Context Tax: When to Compact | Rogerio Chaves (LangWatch) | 2026-08-02 | https://langwatch.ai/blog/context-tax-when-to-compact | Week 2 reading in S001; cited in the taxonomy (C056, C057) |
+| X03 | How Claude Code uses prompt caching | Anthropic (Claude Code docs) | Undated live docs; cites up to v2.1.283; fetched 2026-10-12 | https://code.claude.com/docs/en/prompt-caching | The S015 companion page the model-context batch read; linked from S016 |
+| X04 | Model configuration (effort levels, default model) | Anthropic (Claude Code docs) | Undated; cites up to v2.1.293; fetched 2026-10-12 | https://code.claude.com/docs/en/model-config | Linked from S016 |
+| X05 | Errors reference (usage limits, credit balance) | Anthropic (Claude Code docs) | Undated; cites up to v2.1.296; fetched 2026-10-12 | https://code.claude.com/docs/en/errors | S016 companion read by the cost batch |
+| X06 | Using Claude Code with your Pro or Max plan | Claude Help Center | "Updated this week" (as of 2026-10-12) | https://support.claude.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan | S016 companion read by the cost batch |
+| X07 | Pricing (Claude Platform Docs) | Anthropic | Undated live docs; fetched 2026-10-12 | https://platform.claude.com/docs/en/about-claude/pricing | Linked from S016 and X03 |
+| X08 | Claude Haiku 5.5 | Simon Willison | 2026-10-07 | https://simonwillison.net/2026/Oct/7/claude-haiku-5-5/ | In `sources-candidates.md` (dropped; flagged for tokenizer pricing) |
+| X09 | CLI reference (`--max-budget-usd`, `--max-turns`) | Anthropic (Claude Code docs) | Undated; cites up to v2.1.290; fetched 2026-10-12 | https://code.claude.com/docs/en/cli-reference | Linked from S016 |
+| X10 | Interactive mode: Wait for a usage limit to reset | Anthropic (Claude Code docs) | Undated; feature needs v2.1.234 or later; fetched 2026-10-12 | https://code.claude.com/docs/en/interactive-mode | Linked from S016 |
+| X11 | Google users fight for refunds as unauthorized API usage bills soar | O'Ryan Johnson (The Register) | 2026-05-13, with a later update on reimbursement | https://www.theregister.com/ai-ml/2026/05/13/google-users-fight-for-refunds-as-unauthorized-api-usage-bills-soar/5239160 | S020 companion read by the cost batch |
+| X12 | Purpose-built model for leaked secret detection | GitHub Changelog | 2026-10-07 | https://github.blog/changelog/2026-10-07-purpose-built-model-for-leaked-secret-detection | S047 companion read by the secrets batch |
+| X13 | Context Engineering in 2026: Why We Stopped Compacting Our Agent's Context | Louis-François Bouchard | 2026-08-18 | https://www.louisbouchard.ai/context-engineering-2026/ | In `sources-candidates.md` (dropped; "covered by" S012 and S017) |
+| X14 | AO-044: Nine Claudes painted the same picture in oil, and the first tries were the art | Aaron Orelup | 2026-10-11 | https://aaronorelup.com/ledger/nine-claudes-one-painting/ | In `sources-candidates.md` (effort on a creative task) |
+
+S-IDs used here (titles, authors and dates are in the taxonomy source index): S001, S003, S004, S008, S012, S013, S014, S016, S017, S018, S019, S020, S033, S034, S035, S046, S047, S080, S082.
+
+---
+
+### C055 Know your meter
+
+- **In one line:** On a subscription, usage draws on a rolling five-hour allowance and a weekly allowance, shared with the other Claude products. An API key bills every token. A stray `ANTHROPIC_API_KEY` in your environment silently moves you from the first to the second, and the different limit messages mean different things.
+- **Why it is a gap:**
+  - Anthropic's cost page has a whole section on telling limits apart, because "Developers usually bring limit questions to their admin" (S016).
+  - The errors reference covers the stray-key mistake twice: once under `Credit balance is too low` and once under 429 errors (X05).
+  - Even the course's author keeps two numbers for the same work. Aaron prices lessons at API list prices ($46-$134) while paying a flat subscription (S004), and labels his gauntlet figures "API-equivalent" dollars because on Max the real limit is usage (S017).
+  - The CTO in the $1,500 Cursor fleet was nearly locked out of the tool he needed in order to fix the problem (S018).
+  - In the 2026 Stack Overflow survey, only 23.8% of individuals said their usage is metered, and 32.6% monitor their own use (n = 1,033, a small sample; treat as indicative) (S080).
+  - None of the vendors' beginner courses teaches cost control beyond OpenAI's effort dial (vendor-academies notes, across S005, S007, S008, S009 and S010).
+- **What to teach (specific points):**
+  - There are two billing worlds:
+    - Pro, Max, Team and Enterprise draw on a plan allowance.
+    - An API key, the Claude Console or a cloud provider (Bedrock, Google Cloud, Foundry) bills every token.
+    - In a mixed organisation, each developer is metered by whichever method they signed in with. (S016)
+  - The dollar figure in the `/usage` Session block is computed locally, at list price.
+    - For Pro and Max subscribers it "isn't relevant for billing purposes".
+    - For API users, the authoritative bill is the Console Usage page. (S016)
+  - If `ANTHROPIC_API_KEY` is set, Claude Code uses that key instead of your subscription, and the work is billed as API charges. (X06)
+    - Symptoms: `Credit balance is too low` while you are on a plan, or 429 errors from a low-tier key.
+    - Fix: run `/status`, check the `API key` row, then unset the variable and remove it from your shell profile. (X05)
+    - `claude auth status` reports `authMethod` as `claude.ai`, `api_key` or another method. (X09)
+  - Plan usage counts against the five-hour session window and the weekly window at the same time. (X05, X06)
+    - On Pro and Max, limits are shared between Claude and Claude Code. (X06)
+    - On Team and Enterprise, the seat allowance is also shared with chat and Cowork. (S016)
+    - Max has a separate weekly limit for Fable. (X06)
+    - One large workflow fan-out can use up the weekly allowance before the session window resets. (X05)
+  - The `/usage` breakdown is built from local history on this machine only. It leaves out claude.ai and your other devices, so it can understate what you have used. (S016)
+  - Read the limit message before acting on it. (X05, S016)
+    - `session limit` or `weekly limit`: shared across all models, so `/model` does not help.
+    - `Opus limit` or `Sonnet limit`: covers one model family, so switching family works. The next request then re-reads the whole conversation with no cache hits.
+    - `spend limit` (individual, org or team): a cap on usage credits that someone set.
+    - `Server is temporarily limiting requests (not your usage limit)`: a short server throttle, which Claude Code retries on its own.
+    - A context or auto-compact warning is not a usage limit at all.
+    - The early warning reads `You've used 85% of your session limit`.
+  - Usage credits let a subscriber keep working past the limit at standard API rates.
+    - With credits on and no monthly spend limit set, `/usage` shows `Unlimited`. (S016)
+    - While you draw on credits, the main conversation's cache lifetime drops from one hour to five minutes, so the same work re-reads more context at full price. (S016, X03)
+  - When a limit stops a task, Claude Code (v2.1.234 or later, interactive, signed in with a subscription) waits by default and continues the task on its own after the reset.
+    - It re-arms the wait at most twice in a row.
+    - Turn it off with `Esc` or `/rate-limit-options`. (X10)
+  - The API credits that come with Max "can't be used in Claude Code or the Claude apps, including for extra usage". (X06)
+    - Anthropic announced a new monthly API credit for Max and Team subscribers "for use on the Claude Platform" in the week of 2026-10-07. (X08)
+  - The same two-meter pattern shows up elsewhere:
+    - Cursor bills "extra usage" on top of the plan and shows it at cursor.com/dashboard/usage. (S018)
+    - Zapier Agents bill per "activity". (S019)
+    - Ronacher burned "a full reset's worth of ChatGPT tokens". (S035)
+- **You vs the agent (as of 2026-10-12):**
+  - **What the agent can check:** it can run `/usage`, `/status` and `claude auth status`, read the Session block, and explain any limit message (S016, X05, X09).
+  - **What it cannot see or do:**
+    - It cannot see claude.ai Settings > Usage, the Console bill, or usage on your other devices (S016).
+    - It cannot turn usage credits on or off, raise a spend limit, or buy credits (S016, X05).
+  - **What the human must do:**
+    - Know which meter each tool is on, and re-check `/status` after any change to the environment.
+    - Keep stray keys out of shell profiles.
+    - Set the monthly spend limit on purpose instead of leaving it at `Unlimited`.
+    - When a limit hits, decide whether to wait, switch model family or pay. (S016, X05)
+  - **Who to bring in:** on Team or Enterprise, the admin who owns Organization settings > Usage. Only they can raise org, group or member limits (S016).
+- **Currency:** The two-meter mechanism is established. What changed in 2026:
+  - Automatic continue after a reset (v2.1.234) (X10).
+  - Usage-credit rows in `/usage` (before v2.1.236 they showed only on Pro and Max) (S016).
+  - A separate Fable weekly limit on Max (X06).
+  - Monthly Platform API credits for Max and Team, rolling out the week of 2026-10-07 (X08).
+  - Anthropic itself warns that cost reporting changes between versions ("Claude Code regularly receives updates that may change how features work, including cost reporting") (S016).
+  - Re-check plan names, windows and credits at lesson time.
+- **Outdated framings to avoid:**
+  - "The `/usage` dollar figure is my bill." True only on API or cloud billing (S016).
+  - "With a subscription, Claude Code can never charge me per token." An environment key or usage credits do exactly that (X05, X06, S016).
+  - "Switching to a cheaper model gets me past the limit." Only for model-family limits (X05).
+  - "Chat and coding have separate allowances." (X06, S016)
+  - "My Max API credits cover Claude Code." (X06)
+- **Questions it answers:**
+  - "Why does `/usage` say I spent $40 when I pay a flat monthly price?"
+  - "Why did Claude Code say `Credit balance is too low` when I have Max?"
+  - "Am I paying per token or per month?"
+  - "Does using Claude in the browser use up my Claude Code limit?"
+  - "I hit my limit: can I just switch to Sonnet?"
+  - "When does my limit reset?"
+  - "Is the context warning the same as a usage limit?"
+  - (cost-and-limits batch items 1-3, from S016 and S017)
+- **Show it for real:**
+  - In Claude Code on a plan, run `/usage`. Compare the Session block's dollar estimate with the plan bars, and press `d` and `w` to switch between the 24-hour and 7-day views.
+  - Run `/status` and point at the `API key` row. Set a dummy `ANTHROPIC_API_KEY` in one shell, re-run `/status`, and show the credential change. Use an invalid placeholder, never a real key.
+  - Open claude.ai Settings > Usage to show the usage-credits toggle and the monthly spend limit.
+  - Show the `Usage limit reached · continuing automatically at …` line and `/rate-limit-options`. (S016, X05, X10)
+- **Priority:** must.
+  - Every other cost concept assumes you know which meter you are on.
+  - One item is rated high severity: a silent switch to per-token billing.
+  - Six sources agree. They include Anthropic's own docs, updated through October 2026, and Aaron's own first-hand measurements.
+  - The mechanics changed during 2026 (auto-continue, credits, the Fable limit).
+
+### C056 Cost is context length times turns times agents
+
+- **In one line:** Every turn re-reads the whole conversation (cache reads were 97% of Aaron's tokens). So long chats, forked subagents and bots that wake other bots multiply the bill.
+- **Why it is a gap:**
+  - The CTO behind a ~$1,500 week of Cursor bots found only after a week that he could start a fresh chat, and felt it defeated the point of the setup. Cursor staff found nothing anomalous: the bill came from how the bots were used (S018).
+  - Anthropic lists long context as the first reason usage climbs in a long session (S016).
+  - Aaron measured cache reads at 97% of his tokens (S017).
+  - The LangWatch author ran out of his session limit within minutes, twice, on a day dominated by subagents (X02).
+  - Stanford's Fall 2026 CS146S added fleets of parallel agents and cost optimization to the syllabus (S001).
+- **What to teach (specific points):**
+  - The model remembers nothing between requests. The agent re-sends the system prompt, project context, every earlier message and tool result, plus the new message, every time. Each batch of tool results is another request. (X03, S016)
+    - So a one-line question in an all-day session pays for the whole conversation. (S016)
+  - Aaron's 31.6 billion tokens across 128,000 requests (S017):
+    - Cache reads were 97.0% of tokens.
+    - An average Opus request read about 334,000 cached tokens to write about 1,000 output tokens.
+    - Uncached input was about 2 tokens per request.
+  - In the Cursor fleet, the busiest bots re-read "roughly 80k to 90k tokens per step", and "about a third of all turns are bots waking other bots". Each wake costs a full turn on the receiving bot's history. (S018)
+  - Cost grows faster than context. LangWatch measured roughly 6x more cost for each doubling of context (a power-law fit, exponent 2.55). With 25 tool calls at 500k context you pay for 25 x 500k, not for one request. (X02)
+  - Forks copy their parent's size. (X02, X03)
+    - Two forked subagents started at 523K and 304K tokens, against the roughly 30k a fresh subagent gets. Told to do one thing and stop, they ran for 10.7 and 8.7 hours. One `pnpm test` cost about 568k tokens of context. (X02)
+    - A fork inherits the parent's whole history. A fresh subagent starts its own small context. (X03)
+  - Agents multiply the bill. (S016, S035)
+    - Each agent has its own context window.
+    - Agent teams use about 7x the tokens of a standard session when teammates run in plan mode, and each teammate keeps consuming tokens until it exits.
+    - Subagents keep verbose output out of your main context, but their requests still draw on your usage. (S016)
+    - Ronacher's 35-hour multi-agent run used about 1B tokens and about $1,200, with about 1,400 inter-agent messages, and "delivered absolutely nothing of value". (S035)
+  - Fixes that work: (S016, S018, S003)
+    - Run `/clear` between unrelated tasks. It costs nothing and resets the Session totals.
+    - Start a fresh chat per task.
+    - Keep standing instructions in a profile, CLAUDE.md or skills, and keep task state in files or a tracker, so a fresh start loses little.
+    - Past a few hundred thousand tokens, write what matters to a file and start fresh from it.
+  - Quiet the chatter. Each bot's profile should say: message another bot only when it must act, send no acknowledgments, thanks or progress pings, and send one summary at the end. (S018)
+  - Shorter is not automatically cheaper. (X02, S016, X13)
+    - LangWatch says compact somewhere between 250k and 450k tokens. (X02)
+    - But `/compact` is itself a large request. (S016)
+    - A tutor-app team found summarizing cost about twice as much as keeping full history, because it rewrote the cached prefix. (X13)
+    - Test which pattern is cheaper on your own work.
+  - Budget a coding seat higher than a chat seat: "one debugging session can consume more than a day of chat". (S016)
+    - Enterprise deployments average about $13 per developer per active day ($150-250 a month), and 90% of users stay under $30 per active day. (S016)
+- **You vs the agent (as of 2026-10-12):**
+  - **What the agent does on its own:**
+    - It keeps working in one ever-growing conversation.
+    - It spawns subagents and forks.
+    - It answers other bots, unless its instructions say otherwise.
+    - It does not feel the bill. (S018, X02, S016)
+  - **What the agent can do when asked:** write a handoff file, summarise, and add a hook that filters a 10,000-line log down to its error lines (S016).
+  - **What the human must decide:**
+    - Where tasks begin and end.
+    - Whether to start fresh or fork.
+    - What persists outside the chat.
+    - The handoff rules between bots.
+    - Then check the attribution view after any fan-out. (S016, S018)
+  - **Who to bring in:** at organisation scale, whoever owns the LLM gateway or model routing (Stanford's Week 9 topic) (S001).
+- **Currency:** The mechanism is established (the API is stateless) (S012). New in 2026:
+  - The scale: agent teams, forks, bot fleets, and multi-hour runs (S016, S018, S035, X02).
+  - Changing now: 1M-token windows make compaction rare. Aaron saw one compaction across twenty long sessions (S017). So sessions can now grow far larger before anything forces a reset.
+- **Outdated framings to avoid:**
+  - "You pay for what you type and read." (S016, S017)
+  - "One long chat is cheaper because the model already has the context." (S018)
+  - "Caching makes a long context free." Cache reads were 45% of Aaron's cost at Opus prices (S017).
+  - "More agents get the same work done faster for the same cost." (S016)
+  - "A 1M window is 1M useful tokens." (X02)
+- **Questions it answers:**
+  - "Why did a one-line question cost so much?"
+  - "Should I keep one chat open all day or start new ones?"
+  - "What is `/clear` for, and will I lose my work?"
+  - "Why did my bot bill explode when nothing seemed wrong?"
+  - "Do subagents cost extra?"
+  - "What is a forked subagent?"
+  - "Why does my multi-agent setup cost so much more than one agent?"
+  - (cost-and-limits items 4 and 9; courses-teach-now item 9)
+- **Show it for real:**
+  - After a long session, run `/usage`. Show `Usage by model`, with cache reads dwarfing output, and the attribution breakdown with the subagent share. Run `/clear` and show the Session total back at $0. Run `/context` to show what fills the window.
+  - Show Aaron's Playback Lens split of his own tokens (97% cache reads).
+  - Re-enact a bot thread where a "thanks!" wakes the other bot for a full turn. (S016, S017, S018)
+- **Priority:** must.
+  - All 3 items are rated high severity.
+  - Five independent sources agree: vendor docs, Aaron's measurements, a forum incident, a practitioner study and a practitioner essay.
+  - All are from July-October 2026 except S012.
+  - This is the mental model behind every other cost lesson.
+
+### C057 Prompt caching: an exact-prefix discount that silently breaks
+
+- **In one line:** Cached re-reads are cheap only while the start of the request is identical and the cache is still warm. Switching model, toggling tools, a timestamp in the prompt or a long break forces a full re-read, and so does changing effort on most models (but no longer on the 5.5 models with an API key or subscription).
+- **Why it is a gap:**
+  - Aaron's own gap list names caching, and the difference between cache reads, cache writes, input and output tokens (S004).
+  - In April 2026, dropped thinking blocks caused cache misses, which Anthropic believes "drove the separate reports of usage limits draining faster than expected". Users blamed the vendor. Anthropic reset all subscribers' limits on 2026-04-23 (S014).
+  - Claude Code has since added a `Prompt cache (main)` line to `/usage`, a "likely cause" field, and a confirmation prompt before a model switch while the cache is warm. That is vendor UI built because users kept tripping on this (S016, X03).
+  - The API docs list putting a timestamp in the cached prefix as a common mistake (S012).
+- **What to teach (specific points):**
+  - The cache matches the start of each request (the prefix) exactly, in the order tools, then system, then messages. A change anywhere re-computes everything after it. There is no per-file caching. (S012, X03)
+  - The price list per million tokens, Opus 5.5 vs Sonnet 5.5: (X07, X08)
+    - input $4 vs $2
+    - 5-minute cache write $5 vs $2.50
+    - 1-hour cache write $8 vs $4
+    - cache read $0.20 vs $0.10 (Sonnet's was halved on 2026-10-07)
+    - output $20 vs $10
+    - Writes cost more than input (1.25x for 5 minutes, 2x for 1 hour). Reads cost 0.05x input on Opus and Sonnet 5.5, 0.025x on Fable 5.1, and 0.1x on other models.
+  - A miss is expensive. The next request re-processes the context and writes it back to the cache at the write rate.
+    - On Opus 5.5, a 1-hour write costs 40x a read per token ($8 vs $0.20; crew arithmetic from X07).
+    - In Aaron's history, cache writes were 2.5% of tokens but 34% of cost at Opus prices. (X03, X07, S017)
+  - How long the cache lives: (X03, S016)
+    - The main conversation gets one hour on a subscription within plan usage. It gets five minutes on usage credits, an API key or a cloud provider.
+    - Subagents, workflows, teammates, forks and compaction get five minutes, even on a subscription.
+    - Each hit resets the timer. The first message after a longer break re-processes everything.
+    - `promptCacheTtl` or `CLAUDE_CODE_PROMPT_CACHE_TTL` (v2.1.242 or later) chooses the lifetime.
+  - What breaks the cache in Claude Code: (X03)
+    - switching model, including `opusplan` plan-mode toggles, a skill whose frontmatter names another model, and automatic model fallback
+    - changing effort, on most models
+    - turning on fast mode
+    - connecting or removing an MCP server when tools are loaded upfront
+    - denying a whole tool without tool search
+    - `/compact`
+    - many images piling up
+    - upgrading Claude Code
+  - What keeps the cache: (X03)
+    - editing repo files
+    - editing CLAUDE.md (which also does not take effect until `/clear`, `/compact` or a restart)
+    - changing permission mode
+    - changing output style
+    - invoking skills
+    - `/recap` and `/rewind`
+    - spawning a subagent
+  - Effort is a special case. On Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1 (Fable since v2.1.260), with an API key or a subscription, changing effort keeps the cache. It breaks the cache on Bedrock, Google Cloud, a Claude apps gateway, or when experimental betas are disabled. (X03)
+  - For people building apps on the API: (S012, X03)
+    - Put stable content first and variable content last.
+    - A timestamp or per-user data at the top means the cache never hits.
+    - Toggling web search or citations, changing `tool_choice`, adding or removing images, or changing thinking parameters breaks part of the cache.
+    - Prompts under 512 tokens (on 5.x models) are silently not cached.
+    - If `cache_creation_input_tokens` and `cache_read_input_tokens` are both 0, nothing was cached.
+    - A gateway that strips the cache markers bills your whole history as uncached input on every turn.
+  - Compaction and the cache: (X03, X13)
+    - Run on a warm cache, `/compact` reads the history from cache, so it costs only a fraction of the context size.
+    - Run on a cold cache, it re-processes the full history uncached. That is the most expensive way to resume an old session.
+    - `/rewind` truncates back to a prefix that is already cached.
+    - In a tutor app, a compacting setup sent about 41% fewer tokens but cost roughly twice as much as keeping the full history.
+  - Where to see it: (S016, X03)
+    - `/usage` shows a `Prompt cache (main)` line (v2.1.251 or later): the share of input served from cache, the misses, a likely cause (v2.1.260 or later), and whether the cache is warm or cold.
+    - On Pro and Max, when you return to a large session after a long break, Claude Code offers to resume from a summary.
+- **You vs the agent (as of 2026-10-12):**
+  - **What the harness does on its own:** Claude Code caches automatically and asks before a model switch while the cache is warm (X03).
+  - **What the agent can check in an app:** whether caching works is verifiable from the usage fields. An agent can add caching, call the API twice and show the write-then-read numbers (S012).
+  - **What only the human knows:** when they are about to walk away. The agent cannot see that.
+  - **What the human must decide:**
+    - Pick model and effort at the start of a session.
+    - Avoid switching mid-task without a reason.
+    - Choose between resuming a cold session and starting from a summary.
+    - Check the cache line when usage looks high.
+    - In an app: decide the prompt layout, and confirm that any gateway forwards the cache markers. (X03, S012)
+- **Currency:** Prompt caching itself is established (S012). New in 2026 and changing now:
+  - Read multipliers of 0.05x on Opus and Sonnet 5.5 (X07).
+  - The Sonnet 5.5 cache-read price halved on 2026-10-07 (X08).
+  - Effort changes keep the cache on 5.5 models (X03).
+  - The `/usage` cache line (v2.1.251 and v2.1.260) and the TTL settings (v2.1.242) (S016, X03).
+  - These details move month to month, so re-check them at lesson time.
+- **Outdated framings to avoid:**
+  - "Cached tokens are free." Reads were 45% of Aaron's cost at Opus prices (S017).
+  - "Caching is automatic everywhere." Short prompts and stripping gateways are not cached (S012, X03).
+  - "Caching saves context space." It saves money and time, not window space (S012).
+  - "Changing effort always throws away the cache." Not on 5.5 with an API key or subscription (X03).
+  - "Putting the date in the system prompt is harmless." (S012)
+  - "Compacting always saves money." (X13, X03)
+- **Questions it answers:**
+  - "What is a cache read, and why is my bill mostly cache reads?"
+  - "Why did my first message after lunch use so much and take so long?"
+  - "Is it bad to switch models in the middle of a session?"
+  - "Why is my API bill not going down with caching?"
+  - "Why does adding the current time break caching?"
+  - "Why did my Claude usage run out so fast?"
+  - (courses-teach-now item 10; model-context-tokens items 14-15; cost-and-limits item 7)
+- **Show it for real:**
+  - In Claude Code, run `/usage` and read the `Prompt cache (main)` line. Switch `/model` mid-session, accept the warning, send one message, and run `/usage` again to show the miss and its likely cause.
+  - Run `claude -p "hello" --output-format json` and read `usage.cache_creation`.
+  - For app builders: call the API twice with an identical long system prompt and print the two cache fields (write, then read). Then add a timestamp at the top and show the read count stay at 0. (X03, S016, S012)
+- **Priority:** must.
+  - Aaron named caching as a gap himself (S004).
+  - There are 4 items from 3 batches. One is rated high severity: the hidden usage drain.
+  - The April 2026 incident shows the real-world cost (S014).
+  - Prices and cache rules changed this month, so the lesson must be current (X03, X07, X08).
+  - Teach it right after C056.
+
+### C058 A cheaper model is not a cheaper result
+
+- **In one line:** On paper Sonnet 5.5 was half the price of Opus 5.5 per token, but it saved Aaron only about 2%, because it took more turns. This was measured before Anthropic halved Sonnet 5.5 cache reads on 2026-10-07. Pick the model per phase of the work, and measure cost per useful result on your own tasks.
+- **Why it is a gap:**
+  - The pricing table invites a per-token comparison.
+  - Anthropic's own cost guidance says "Sonnet handles most coding tasks well and costs less than Opus" (S016). Aaron's measured gauntlet found total cost depends on turns and cached context, not the sticker price (S017).
+  - A quarter of individual developers (25.3%, n = 1,033, small sample) say they choose cheaper models when possible (S080).
+  - Practitioners disagree on which way the trade goes:
+    - Ball predicts smarter models win because they need fewer turns (S034).
+    - Ronacher says the most expensive models' results don't justify the price for his engineering work (S035).
+    - So the answer has to be measured, not assumed.
+- **What to teach (specific points):**
+  - Today's list prices per million tokens, Opus 5.5 vs Sonnet 5.5: (X07)
+    - input $4 vs $2
+    - output $20 vs $10
+    - cache writes $5/$8 vs $2.50/$4
+    - cache reads $0.20 vs $0.10
+  - Aaron's gauntlet (2026-09-28): three long tasks, ten headless sessions each, both models at every effort level. (S017)
+    - Loom: Opus cost $60.92 and Sonnet $79.97, with identical 10/10 scores. Sonnet made 1.2-2.4x as many requests.
+    - Lockkeeper: Sonnet was 13% cheaper ($132.00 vs $151.97).
+    - All three tasks together: about $255 vs $249, about 2% cheaper for Sonnet.
+  - Why the saving shrank: at the time, cache reads cost the same on both models ($0.20), and cache reads were 97% of tokens. (S017)
+    - Repricing his whole history at Sonnet rates saved about 27%, not 50%.
+    - A model that needs more turns re-reads the cached conversation on every extra turn.
+  - This changed on 2026-10-07, when Anthropic halved Sonnet 5.5 cache reads to $0.10. (X08, X07)
+    - In Aaron's history, cache reads were 62% of cost at Sonnet prices (S017).
+    - So the 2% figure is out of date. Re-run or re-price before quoting any ratio (crew inference).
+  - Per-token prices do not compare across tokenizers. (X08)
+    - Haiku 5.5's new tokenizer uses about 1.25x the tokens Haiku 4.5 used for the same prompt, "so there's a hidden price increase there".
+    - Haiku 5.5's price also rises 5x for prompts over 100,000 tokens.
+  - The price per task varies by hundreds of times. (S033)
+    - Willison's pelican drawings ranged from 0.4 cents (GPT-6 Luna, "competent-ish") to $3.30 (Claude Fable 5.1).
+    - He compares price and timing across reasoning levels within one model family.
+  - Pick the model per phase. (S003, S001, S016)
+    - Use a strong model for research, proposals and planning, where the thinking happens. Lighter models can implement and test (Stanford CS146S lecture).
+    - Anthropic's docs suggest Sonnet for teammates and `model: haiku` for simple subagents.
+    - Treat both as starting points to measure, not rules.
+  - Quality is part of the price.
+    - Opus won four of five Lockkeeper head-to-heads (S017).
+    - The Microsoft study frames it as "a question of value, not throughput" (S082).
+  - Professionals already manage this. In the Stack Overflow survey, among organisations (n = 11,468): (S080)
+    - 38.1% set limits on usage or spending
+    - 28.3% reviewed usage or spending data
+    - 27.2% approved different tools for different work
+    - Only 6.4% of tool switches were for lower cost, against 25.1% for better output (n = 13,144).
+  - Measure on your own work. Aaron counted exact tokens per session from transcripts (with Playback Lens) instead of estimating. (S017)
+- **You vs the agent (as of 2026-10-12):**
+  - **What the agent can do:** tally tokens from transcripts and run the same task on two models when asked (S017).
+  - **What it will not do on its own:** switch to a cheaper model, or warn you that a run is being wasted (courses-teach-now item 11, from S003; practitioners item 6, from S033 and S035).
+  - **What the human must decide:**
+    - Decide what counts as a "useful result" on their work. That is a judgment the agent cannot verify.
+    - Choose the model for each phase.
+    - Re-check the choice after price changes (X08).
+  - **Who to bring in:** for team-wide routing, whoever runs the LLM gateway (S001, S016).
+- **Currency:** New in 2026: measured in September 2026 (S017), and the price picture is changing now (Sonnet cache reads halved 2026-10-07; Haiku 5.5 tokenizer and tiered pricing, 2026-10-07) (X08). Expect the numbers to change again. Teach the method, not the ratio.
+- **Outdated framings to avoid:**
+  - "Half the per-token price means half the bill." (S017)
+  - "Always use the cheapest model." / "Always use the biggest model." (S003, S033, S035)
+  - "Per-token prices are comparable across models." Tokenizers differ (X08).
+  - "Sonnet is only 2% cheaper." That was measured at pre-2026-10-07 prices (X08, X07).
+- **Questions it answers:**
+  - "Is Sonnet really cheaper than Opus?"
+  - "Which model should I use to save money?"
+  - "Which model should I use for planning and which for coding?"
+  - "Is the expensive model worth it?"
+  - "How much does using an agent cost?"
+  - (cost-and-limits item 5; courses-teach-now item 11; practitioners item 6; surveys item 6)
+- **Show it for real:**
+  - Put the pricing table next to Aaron's Loom results (requests and cost per session).
+  - Run one small task on two models with `claude -p ... --output-format json` and compare the token counts and requests.
+  - Show Willison's Haiku 5.5 note on the 1.25x tokenizer. (X07, S017, X08)
+- **Priority:** should.
+  - There are 4 items from 4 batches, but none is rated high severity.
+  - The idea is a correction to an everyday decision.
+  - It is very current (the price change was five days ago), so the lesson must avoid the stale 2% figure.
+
+### C059 Effort is a work dial and a quality knob
+
+- **In one line:** Higher effort mostly means more steps (Max cost 16-18x Low for the same score). Defaults have changed under users who never touch them. Open-ended loops need a cap.
+- **Why it is a gap:**
+  - In March 2026, Claude Code lowered its default effort. Users felt Claude got less intelligent, yet "most users retained the medium effort default" even after UI notices. Anthropic reverted on April 7 and called it "the wrong tradeoff" (S014).
+  - Aaron notes that many people run Opus at max "to be safe" (cost-and-limits item 6, from S017).
+  - OpenAI's bootcamp teaches effort and loop caps explicitly, because beginners max every setting or leave the defaults (S008).
+  - A setting a user saved may not even apply: "a top-level `effortLevel` in your user settings file doesn't count for Opus 5.5" (X04).
+- **What to teach (specific points):**
+  - Effort levels are `low`, `medium`, `high`, `xhigh` and `max`. (X04)
+    - Defaults: `medium` on Opus 5.5, Sonnet 5.5 and Haiku 5.5; `xhigh` on Opus 4.7; `high` elsewhere.
+    - Opus 5.5 is the default model on Pro, Max, Team, Enterprise and the API.
+    - The scale is calibrated per model, so the same name is not the same amount of work on two models.
+  - Defaults move under you. (S014, X04)
+    - The default effort went from high to medium on 2026-03-04 (Sonnet and Opus 4.6) and was reverted on 2026-04-07.
+    - Before v2.1.280, the default model on Pro was Sonnet 5. It is now Opus 5.5.
+    - Check `/effort` and `/model` after an update instead of assuming.
+  - Effort mostly sets how much work gets done. (S017)
+    - On Lockkeeper, Opus at Max took about 9x as many actions as at Low, but thought only about 1.7x as long per action.
+    - On Loom, Max cost 16x Low on Opus ($2.00 to $32.40) and about 18x on Sonnet ($2.45 to $43.86), for the same 10/10 score.
+    - Willison's Haiku 5.5 pelican cost 0.0936 cents at low effort (7 seconds) and 3.3826 cents at max (5 minutes 9 seconds), about 36x (crew arithmetic). (X08)
+  - More effort is not reliably better. (S017, X04, S033, S013)
+    - Both XHigh runs on Lockkeeper scored worse than both Low runs. (S017)
+    - Anthropic says `max` "may show diminishing returns and is prone to overthinking, so test before adopting it broadly". (X04)
+    - Opus 5.5 "thought for 128,000 tokens and then gave up!" (S033)
+    - Output caps include thinking, so hitting the cap can return an empty or cut-off answer that is still billed. (S013)
+  - Where higher effort earns its price: (S017, X04)
+    - Max produced Aaron's two most original music videos ($20 and $24). (S017)
+    - Anthropic suggests `high` for work where verification matters or edge cases are likely, such as fixing a bug in an existing codebase, and `max` for hard problems Claude works through without you, such as finding security vulnerabilities. (X04)
+  - Thinking tokens are billed as output tokens, the most expensive kind. (S016, X04)
+    - You are charged for them "even when collapsed or redacted".
+    - Thinking cannot be turned off on Opus 5.5, Sonnet 5.5, Haiku 5.5 or the Fable models.
+  - Thoroughness can come from outside the model instead of from Max: (S017, X14)
+    - an explicit checklist
+    - a stop hook that will not let the session end until the list is done
+    - a director agent
+    - In AO-044, the paintings that came closest to the reference came from runs that checked their work against it after a follow-up prompt asked them to. Haiku at max put in the most hours, kept painting by eye, and ended up least like the picture. (X14)
+  - Cap open-ended loops. (S008, X09, S017, S035)
+    - For "fix until the checks pass", cap the rounds or give exit criteria, so a ten-minute job doesn't run for an hour. (S008)
+    - In Claude Code print mode, `--max-turns` (no limit by default) and `--max-budget-usd` set the ceiling. (X09)
+    - Aaron stopped a Sonnet Max session by hand after 8 h 42 min. (S017)
+    - Ronacher says GPT-6 Astra "will continue until it succeeds, even if it burns through an entire subscription". (S035)
+  - How to set effort: (X04, X03)
+    - `/effort` or the slider in `/model`
+    - `--effort`
+    - `CLAUDE_CODE_EFFORT_LEVEL`
+    - `modelSettings`
+    - skill or subagent frontmatter
+    - `ultrathink` in a prompt deepens a single turn. "Think hard" is not a keyword.
+    - On 5.5 models with an API key or subscription, a mid-session change keeps the cache.
+- **You vs the agent (as of 2026-10-12):**
+  - **What the agent does on its own:** it works at whatever effort it is given. It does not decide when a loop has run long enough (S017, S008, S035).
+  - **What the agent can verify:** whether a task passes its checks. It can iterate on that inside a cap.
+  - **What the human must decide:**
+    - The effort level per task, based on whether extra work is worth the cost. That is a cost-and-value judgment.
+    - The cap: turns, budget, exit criteria.
+    - Re-check the defaults after updates.
+    - Supply checklists or hooks when thoroughness matters. (S014, X04, S017, S008)
+- **Currency:** New in 2026:
+  - Defaults changed three times this year: lowered in March, reverted in April, and `medium` on the 5.5 models, with the default model moving to Opus 5.5 at v2.1.280 (S014, X04).
+  - OpenAI's ladder ends at "Ultra", which spawns parallel agents (S008).
+  - Changing now: per-model effort scales, and effort changes that keep the cache (X03, X04).
+- **Outdated framings to avoid:**
+  - "Effort controls how hard the model thinks per step." It mostly controls how many steps it takes (S017).
+  - "Max is the safe default." (S017, X04)
+  - "The model has one fixed intelligence, and the default is the best setting." (S014)
+  - "Typing 'think hard' makes it think harder." (X04)
+  - "My saved effort setting applies to every model." (X04)
+- **Questions it answers:**
+  - "What does the effort setting do?"
+  - "Should I always use max?"
+  - "Does max effort give better code?"
+  - "Why did the same task cost 16 times more on max?"
+  - "Why does the agent sometimes skip edge cases?"
+  - "Why did the model think for ages and give me nothing?"
+  - "What is ultrathink?"
+  - (cost-and-limits item 6; model-context-tokens item 11; vendor-academies item 24; practitioners item 6)
+- **Show it for real:**
+  - Run `/effort` to show the slider and the current default.
+  - Run the same small task with `claude -p --effort low` and `--effort max --output-format json`, and compare requests, tokens and time.
+  - Show the Loom table from AO-026.
+  - Run a "fix until green" prompt with `--max-turns 3` and show it exit at the cap. (X04, X09, S017, S008)
+- **Priority:** should (high end).
+  - There are 3 items from 3 batches. One is rated high severity: effort as the quality knob users never touch.
+  - All are new in 2026, and the defaults changed this year.
+  - Could merge with C058 into one "dials" lesson.
+
+### C060 Automations bill per action and per wake-up
+
+- **In one line:** Pay-per-action agents charge per step, per record and per search. Schedules fire with the full context while you are idle. Loops between an agent and an automation repeat until something stops them.
+- **Why it is a gap:**
+  - Schedules feel free because nothing visible happens.
+  - Two routines firing every ~8 and ~30 minutes were part of the Cursor fleet's $1,500 week (S018).
+  - Zapier published a troubleshooting article (updated 2026-10-01) because monthly quotas were draining fast, sometimes because of one agent or a few runs (S019).
+  - Claude Code's idle goal check-ins were uncapped until v2.1.246, and a `Loops` row was added to `/usage` to expose recurring spend (S016).
+- **What to teach (specific points):**
+  - Some things start a turn while you are idle, and each one sends your full context. (S016)
+    - scheduled tasks and `/loop`
+    - messages from another of your sessions
+    - goal check-ins (capped at three per goal since v2.1.246)
+    - To turn these off: `CLAUDE_CODE_GOAL_CHECKIN_MINUTES=0` and `crossSessionInbound: hold`.
+  - `/usage` has a `Loops` row (v2.1.242 or later) for the heaviest scheduled tasks: how often each fires, how many times it ran, and tokens per run. (S016)
+  - Interval arithmetic: (S018)
+    - The fleet's routines ran about every 8 and every 30 minutes.
+    - Cursor staff advised hourly or a few times a day, since each run costs a full turn on that bot's history.
+    - Every 8 minutes means 180 runs a day (crew arithmetic).
+  - Prefer events to polling. A community member (not staff) suggested webhooks: whatever creates the task wakes only the responsible bot, and the payload carries the task, so the bot skips the list-read-search steps. The fleet's owner later said polling was not his main cost, old context was. (S018)
+  - Pay-per-action billing (Zapier Agents): (S019)
+    - Each action is one activity.
+    - A trigger that returns 10 records repeats the actions 10 times.
+    - Each knowledge-source search, page visit and search query is an activity.
+    - Tests count on Free plans.
+    - Pointing a trigger at all existing records instead of new or updated ones reprocesses everything.
+    - Keep each agent to 3-5 related actions.
+  - Loops: an agent triggers a Zap that updates data the agent monitors, and the cycle can repeat. (S019, S018)
+    - Fixes: a filter that stops after one cycle, a "processed" flag the agent skips, or separate data sources for input and output. (S019)
+    - The conversational version: a third of the fleet's turns were bots waking bots. (S018)
+  - Built-in per-run caps exist. Zapier Agents pause and ask after 10 activities (Free) or 40 (paid). If runs hit the cap regularly, the agent is doing too much. (S019)
+  - Agents built on the API are metered the same way. (X07)
+    - Claude's web search tool costs $10 per 1,000 searches, on top of tokens.
+    - Search results then count as input tokens on later turns.
+    - Claude Managed Agents also bill $0.08 per session-hour while a session is running (not while it is idle).
+  - The general shape is cost = actions per item x items per trigger x trigger frequency. A loop makes it unbounded. (Crew generalisation from S019 and S018, not a vendor claim.)
+  - What agents spin up keeps billing too: paid APIs, hosted apps, storage and compute. You can wake to a warning email after a rogue service has burned "several hundred (or several thousand) more dollars". (X01)
+  - Unattended continuation is now a default. When a plan limit stops an interactive Claude Code task, it continues on its own after the reset, re-arming up to twice. (X10, S017)
+    - It still stops at permission prompts.
+    - The opposite failure also happens: two of Aaron's headless runs ended their turn while waiting on a render, and nothing woke them. (S017)
+- **You vs the agent (as of 2026-10-12):**
+  - **What the agent does when asked:** it sets up a 5-minute loop without questioning the cost. An agent wiring a workflow may not notice that it closes a loop. It follows its instructions step by step, regardless of quota (cost-and-limits items 8, 11 and 12, from S016, S018 and S019).
+  - **What the agent can do when asked:** map the trigger-and-output graph, and test a workflow once in a sandbox to show whether it re-triggers itself. Both are verifiable.
+  - **What the human must decide:**
+    - The intervals.
+    - Events or polling.
+    - Scoping triggers to new records.
+    - Adding a stop condition before switching it on.
+    - Checking the `Loops` row or the Activity log after the first runs.
+    - Whether automatic continue should stay on. (S016, S019, X10)
+- **Currency:**
+  - Metering per action (Zapier, Make and similar) is established (S019).
+  - Idle agent turns (schedules, check-ins, cross-session messages, auto-continue) are new in 2026: v2.1.234 (auto-continue), v2.1.242 (Loops row), v2.1.246 (check-in cap) (S016, X10).
+  - Changing now: Zapier is moving Agents to "AI by Zapier", so re-check its billing terms at lesson time (S019).
+- **Outdated framings to avoid:**
+  - "An idle session costs nothing." (S016)
+  - "Polling every few minutes is harmless." (S018)
+  - "One automation run costs one task." (S019)
+  - "Tests are free." Not on Zapier Free (S019).
+  - "The agent will stop when it's finished." (S017)
+- **Questions it answers:**
+  - "Why is my usage going up when I'm not using it?"
+  - "How often should a scheduled agent run?"
+  - "What is the difference between polling and a webhook?"
+  - "Why did my Zapier agent use my whole month in a day?"
+  - "Do tests count?"
+  - "How do I make my agent only handle new rows?"
+  - "Why does my automation keep running by itself?"
+  - "Can I leave an agent running overnight safely?"
+  - (cost-and-limits items 8 and 10-12)
+- **Show it for real:**
+  - Create a `/loop` in Claude Code, let it fire a few times, then show its `Loops` row in `/usage` with tokens per run.
+  - Open a Zapier agent's Activity tab, expand a run and count the activities per step. Switch a spreadsheet trigger from all rows to new rows.
+  - Draw the agent -> Zap -> sheet -> agent cycle, add a "processed" checkbox and a filter, and show that the second run does nothing. (S016, S019)
+- **Priority:** should.
+  - There are 3 items, all from one batch. One is rated high severity: idle and scheduled spend.
+  - The sources are recent (2026-09-22 to 2026-10-01) and concrete.
+  - It matters most to the course's automation and agent-fleet builders.
+
+### C061 Caps that alert are not caps that stop
+
+- **In one line:** Budget alerts don't stop spending, tiers can rise automatically, and usage data arrives late. A stolen key ran up about $600,000 unnoticed. Set hard caps on every key, and know how to cut one off.
+- **Why it is a gap:**
+  - People set a budget and assume it is a ceiling.
+  - One Google Cloud victim was charged $10,138, and his comment on his caps was "all you get is alerts" (X11).
+  - Another set a $250 cap, which Google raised automatically to its Tier 3 ceiling of about $100,000 (X11).
+  - METR, a research organisation, did not notice a stolen key consuming about $600,000 of credits for three weeks (S046).
+  - GitHub has to tell admins that "Budget alerts alone don't stop usage" (X12).
+  - Willison, 2026-10-03: soft caps "will not cut it" (X01).
+  - Uber capped employee AI spending after blowing through its budget in four months (S033).
+  - 38.1% of organisations set limits on usage or spending (S080). Someone building alone with a personal key has none of those guardrails.
+- **What to teach (specific points):**
+  - Alerts are not caps. (X11, S020)
+    - Rod Danan's caps only alerted. He was charged $10,138, almost all of it for Veo 3 video and Gemini image output. The spending ran until he shut the API down himself.
+  - A tier can rise on its own. (X11)
+    - Isuru Fonseka's $250 Tier 1 cap was raised automatically, because the attacker's own usage met the Tier 3 criteria (at least $1,000 paid and 30 days since the first payment). Tier 3 caps run from $20,000 to $100,000.
+    - His damage came to about AUD 17,000.
+    - Google says it is keeping automatic upgrades.
+  - Usage data arrives late. Charges landed within minutes, but support can take "up to 36 hours" to see a customer's usage. (X11)
+  - Unpaid keys still leak. In METR's case: (S046)
+    - The attacker prompted an exposed agent app into revealing its model-provider key, then used it for about three weeks: about $600,000 of credits.
+    - Nobody noticed, for four reasons: rate-limit errors were routine, the dashboard did not show rate-limited requests for all users, the free credits meant no bill spiked, and that type of key could not take a spending limit.
+    - Afterwards METR added spend alerts, monitoring for unusual key usage, and shorter credential lifetimes.
+  - Find the setting that actually stops spending. (X12, X05)
+    - GitHub: "Configure Stop usage when budget limit is reached … if you want a spending cap." Its AI push-protection checks consume credits even when they don't block a push. (X12)
+    - A prepaid balance stops when it runs out. Anthropic's docs suggest auto-reload so the balance never hits zero, which removes that stop. Pair it with per-workspace spend caps. (X05)
+  - Where Anthropic's caps live (S016, X09):
+    - Console (API): workspace spend limits and workspace rate limits.
+    - Team and Enterprise: spend limits at organisation, group or member level.
+    - Pro and Max: the monthly usage-credit spend limit. Without one, `/usage` shows `Unlimited`.
+    - Cloud providers: your cloud's budget controls.
+    - A self-hosted Claude apps gateway: per-user spend limits.
+    - Per run: `--max-budget-usd` (print mode) stops at the client-side estimate. Spend can pass the cap, subagent spend counts, so leave headroom. (X09)
+  - Hard caps are arriving, slowly. (X01)
+    - AWS announced project spend limits on 2026-09-16 ("your project is paused for that month"), in limited rollout.
+    - Google Cloud launched Spend Caps in July 2026.
+    - Willison wants hard caps as the default and agents that "bias towards recommending providers with hard budget caps".
+    - Check what each of your providers offers today.
+  - A key's power can change after you publish it. (S020)
+    - Enabling the Generative Language (Gemini) API on a Google Cloud project silently gives existing keys Gemini access, including Maps keys already public in page JavaScript.
+    - New keys defaulted to "Unrestricted".
+    - Truffle found 2,863 live vulnerable keys in one Common Crawl.
+    - Restrict every key by API and by application, and rotate exposed keys.
+  - Know your kill switch, and expect the money to be hard to get back. (X11, S020)
+    - The fastest stop is disabling the key or the API.
+    - Refunds are not guaranteed. Google first refused, both victims feared a chargeback would get their projects suspended, and both were reimbursed only after press coverage.
+  - Agents make large spend easy. Willison: "Last year it was difficult to spend more than $50 on AI tokens … now you can actually spend $1,000 in a day doing real work". Ronacher's 35-hour run cost about $1,200. (S033, S035)
+- **You vs the agent (as of 2026-10-12):**
+  - **What the agent cannot see:**
+    - It cannot see or change billing settings.
+    - It cannot tell whether a provider's cap is an alert or a hard stop.
+    - It will not notice that a teammate enabled Gemini on the project holding your public Maps key.
+    - It will not stop because a run is getting expensive. (S020, S046, practitioners item 5)
+  - **Willison's wish:** he hopes agents will start recommending capped providers. That is a hope, not current behaviour (X01).
+  - **What the agent can do when asked:** scan a repo for keys and write the restriction steps (S020).
+  - **What the human must do:**
+    - Set a hard cap, or a "stop usage" setting, on every key before handing it to an agent or an app.
+    - Prefer prepaid balances without auto-reload where possible.
+    - Restrict each key by API and by application.
+    - Treat unexplained rate-limit errors as a signal, not noise.
+    - Practise the cut-off once. (S046, X05, X12, S020)
+  - **Who to bring in:** someone who knows cloud identity, access management and billing, when keys and budgets span several projects. When money is already gone, the provider's billing support (S020, X11).
+- **Currency:**
+  - The problem is established.
+  - New in 2026:
+    - Hard spend caps at Google Cloud (July 2026) and AWS (2026-09-16, limited rollout) (X01).
+    - GitHub AI Credits with an explicit "stop usage" setting (2026-10-07) (X12).
+    - The Gemini key escalation, and Google now requiring API restrictions when a key is created (S020, X11).
+  - Changing now: which providers offer hard caps. Re-check at lesson time (X01).
+- **Outdated framings to avoid:**
+  - "A budget cap stops spending." (X11, X12, X01)
+  - "Free credits mean no risk." (S046)
+  - "Errors and rate limits are just noise." (S046)
+  - "Google Maps and Firebase keys aren't secrets, so paste them in your HTML." (S020)
+  - "My provider will refund fraud." (X11)
+  - "It's hard to spend much on AI tokens." (S033)
+- **Questions it answers:**
+  - "If I set a budget cap, can I still get a huge bill?"
+  - "What's the difference between a budget alert and a spending limit?"
+  - "How do I stop a leaked key from running up a huge bill?"
+  - "What do I do if my API key gets stolen?"
+  - "Will Google refund unauthorized charges?"
+  - "Can an AI agent run up a huge bill?"
+  - "How do I put a dollar cap on a run?"
+  - (cost-and-limits items 10 and 14; exposed-backends-secrets item 13; practitioners item 5)
+- **Show it for real:**
+  - Open a cloud billing page and put a budget alert (email only) next to a hard Spend Cap.
+  - In the Claude Console, open the workspace Limits page and set a spend limit.
+  - In GitHub billing, find "Stop usage when budget limit is reached".
+  - In Google Cloud, open APIs & Services > Enabled APIs, then Credentials, show the warning icon on an unrestricted key, and add API and referrer restrictions.
+  - Run `claude -p --max-budget-usd 0.25 "..."` and show it stop.
+  - Use throwaway projects and blur every key. (X01, S016, X12, S020, X09)
+- **Priority:** must.
+  - All 3 items are rated high severity. They come from 3 batches, and the incidents involve real money ($10,138, about AUD 17,000, about $600,000).
+  - The sources are recent (2026-05 to 2026-10-07).
+  - It sits on the security boundary the course rule calls out: a key's spend is something the agent cannot verify, so the human has to check it.

@@ -1,0 +1,409 @@
+[
+  {
+    "concept": "Trust follows verifiability (the course rule, as measured)",
+    "points": [
+      "Stack Overflow 2026 (n = 14,304): 48.0% trust AI output only when they can easily verify it; 16.3% trust it for many tasks but not important decisions; 16.3% for low-risk tasks only; 12.3% do not trust it for most work.",
+      "Only 6.6% trust AI for important work decisions; about 4% among developers with 1-5 years' experience.",
+      "Experienced developers like AI more (69% favorable at 16+ years vs 53% at 1-5 years) and still trust it conditionally: liking a tool and trusting its output are separate.",
+      "Where stakes are highest, AI is held back: 19.9% use it for deploying or operating production and 36.0% do not and do not plan to; 18.9% delegated 'changing production' in the last 30 days vs 72.9% who delegated writing code.",
+      "The results page says trust rose from 31% to over 87%, but the 87% counts 'I trust it when I can easily verify the output' as trust. It is not evidence that trust tripled.",
+      "The press release frames developer skepticism as a safeguard and says trust must be earned through transparency, source attribution and technical context."
+    ],
+    "gap": "Beginners hear either 'AI is unreliable' or 'everyone uses AI now' and conclude they must either distrust everything or accept everything. The 2026 survey shows the professional middle: near-universal use, with trust set by how cheaply the output can be checked. Hardly anyone trusts AI for important decisions. People new to the work rarely have a way to sort outputs by checkability, so they apply one trust level to everything.",
+    "humanRole": "The agent can verify what is mechanically checkable: it compiles, tests pass, output matches the docs, the page renders. The human sorts each result by whether it can be checked and by whom. Delegate what the agent can verify. Personally check what it cannot (does this meet the real goal, is this decision right, is this safe for real users). When you cannot check it yourself, bring in someone who can.",
+    "sids": ["S080", "S084"],
+    "status": "established",
+    "outdated": [
+      "Developers don't trust AI (the 2024-25 'trust gap' headline)",
+      "Trust in AI tripled in a year (a misreading of the 87% vs 31% comparison)",
+      "A top model's answer can be taken as correct"
+    ],
+    "severity": "high",
+    "questions": [
+      "Should I trust what the AI tells me?",
+      "When is it okay to use AI output without checking it?",
+      "Do professional developers trust AI?"
+    ],
+    "demo": "After an agent finishes a task, put its claims in two columns on screen. Left: 'verified by the agent', with the test run or screenshot it produced. Right: 'only a person can check', such as whether this is what the user needed and whether the data handling is safe. Then show who checks the right-hand column."
+  },
+  {
+    "concept": "'It runs' is the most common check and the weakest",
+    "points": [
+      "Before using an AI answer (n = 13,162): run it locally 76.5%, compare against codebase context 63.9%, inspect tests or security implications 53.0%, read official docs 38.0%, use as-is 9.6%.",
+      "Running only shows that it runs. Barely half look at tests or security before using AI output.",
+      "Among vibe coders (S085), run-and-see validation and asking the AI to fix its own mistakes were equally common in all experience groups. What differed was the ability to evaluate beyond that.",
+      "Code that runs can still solve a different problem than you asked (the Silent Mismatch in the companion paper), and can contain the security vulnerabilities and functional defects that S085 cites from prior work.",
+      "Osmani: ask the agent for evidence you can review, such as tests and screenshots, not a summary saying the task is complete.",
+      "Microsoft respondents describe reviewing agent output for correctness, completeness and sanity, not just whether it runs."
+    ],
+    "gap": "Running the program is the first and often the only check people make. In S080, 76.5% run it and only 53.0% look at tests or security. In S085, run-and-see was universal while deeper evaluation tracked experience. Beginners take 'it works on my screen' as done.",
+    "humanRole": "The agent runs the code, writes and runs tests, and captures screenshots. That is verifiable and it should do it unprompted. The human decides what 'correct' means for this goal, checks that the tests test the right thing, asks what the agent did NOT check, and arranges a security review by someone qualified when the app handles real users, money or data.",
+    "sids": ["S080", "S085", "S084", "S082"],
+    "status": "established",
+    "outdated": [
+      "If it runs, it works",
+      "Testing means clicking around the app",
+      "The agent said it's done, so it's done"
+    ],
+    "severity": "high",
+    "questions": [
+      "The app works when I try it. Is that enough?",
+      "How do I check code I can't read?",
+      "What should I ask the agent to show me before I accept its work?"
+    ],
+    "demo": "Run an agent-built app and show the happy path working. Then ask the agent for evidence: its test output, a screenshot of an edge case, and a list of what it did not check. Show the gap between 'it runs' and 'it is right'."
+  },
+  {
+    "concept": "Where did this answer come from? Source attribution and freshness",
+    "points": [
+      "93% rate source attribution at least somewhat important when deciding whether to trust an AI-generated technical answer (n = 13,945); 78.6% rate it important or very important.",
+      "Top trust signals for work information (n = 12,996): recent or clearly up to date 72.6%, from an official or trusted source 60.0%, consistent with other trusted information 45.9%, includes sources or citations 37.6%.",
+      "Code repositories (48.1%) and official docs (43.7%) are the sources people most want to trace quickly before relying on them.",
+      "Only 15.9% visit Stack Overflow more in order to verify AI answers, down from last year per the blog. Attribution is valued more than it is checked.",
+      "The Stack Overflow blog notes that AI answers reuse community answers without always crediting their authors, so the origin of a claim is often hidden."
+    ],
+    "gap": "Developers say attribution matters (93%) and freshness is the top trust signal (72.6%). Yet an AI answer arrives without a date or a source unless you ask for one. Beginners treat the answer as the source and do not know that facts about versions, prices and APIs go stale.",
+    "humanRole": "The agent can fetch documentation, cite URLs and report dates and versions. The human requires sources for factual claims that matter, opens at least one, and checks that the date and version match what is actually installed or in use. Uncited claims about APIs, limits, prices and versions are treated as unverified.",
+    "sids": ["S080"],
+    "status": "established",
+    "outdated": [
+      "The AI's answer is the source",
+      "If it sounds specific, it's current"
+    ],
+    "severity": "medium",
+    "questions": [
+      "How do I know if the AI made it up?",
+      "Is the AI's information up to date?",
+      "Should I ask the AI for sources?"
+    ],
+    "demo": "Ask the agent a version-specific question. Have it answer with a link and a date. Open the link and compare the version on the page with the version recorded in the project's own files."
+  },
+  {
+    "concept": "Missing context: the agent cannot read what is only in your head",
+    "points": [
+      "Barriers to getting work context (n = 12,374): incomplete 63.2%, lives in people's heads 60.9%, outdated 56.5%, spread across too many tools 53.4%, AI tools lack context 20.0%, AI uses the wrong context 16.8%.",
+      "78.6% discover important context only after starting or finishing a task at least sometimes (n = 12,687). 75% spend 5+ hours a week looking for information, and 11% spend 20+ hours.",
+      "What people say they most need (n = 12,678): project goals or requirements 85.2%, code/repos/docs 73.3%, prior decisions and rationale 44.0%, related tickets 36.9%. Only 19.7% list compliance, security or policy requirements.",
+      "How people manage it: notes or prompts in a separate doc 53.9%, starting new AI chats to reset context 45.0%, manually selecting files for AI tools 34.7%.",
+      "Osmani: each new session is like onboarding a new hire with amnesia. Turn corrections into durable artifacts (a lessons file, lint rules, type constraints, tests, documentation conventions), because chat memory can be lost to compaction. Be selective.",
+      "Stack Overflow's CPTO said, in substance, that AI forces organisations to write down judgment they used to get from people."
+    ],
+    "gap": "Beginners assume the agent 'knows the project'. Professionals say the hardest part of their work is context that is incomplete, outdated or unwritten, and that they usually discover it late. The agent inherits all of these gaps and adds amnesia between sessions. Security and compliance requirements are rarely listed as context at all (19.7%), so agents are seldom told about them.",
+    "humanRole": "The agent reads whatever files and docs it is given, and can draft the notes. The human supplies goals, constraints, past decisions and the reasons for them, including security and privacy requirements. The human keeps these in files the agent loads every session, and updates them when a correction is made, so the same mistake is not re-taught.",
+    "sids": ["S080", "S084"],
+    "status": "new-2026",
+    "outdated": [
+      "The AI knows my project",
+      "Prompting is about clever wording (rather than supplying context)",
+      "The agent remembers what I told it last week"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why does the agent keep making the same mistake?",
+      "Why did the agent build the wrong thing?",
+      "What should I tell the agent before it starts?"
+    ],
+    "demo": "Make the same request twice. First in a fresh session with no project notes. Then with a short project file listing the goal, one constraint (e.g. a privacy rule) and one past decision. Show the outputs side by side."
+  },
+  {
+    "concept": "Ask the agent first, but know which questions need a person",
+    "points": [
+      "Actions turned to first for a problem (n = 16,664): search online 82.7%, ask an AI agent 69.9%, search a known repository 43.7%, message someone you trust 28.8%.",
+      "For work-specific questions (n = 14,462), people still go most to coworkers (71.9%), code (62.7%) and internal docs (60.1%). Stack Overflow is 24.0%.",
+      "22.6% of people who don't post publicly say their questions are too specific to their company or context. That kind of knowledge is exactly what an agent cannot have.",
+      "64.1% visit Stack Overflow less for simple questions and 26.5% contribute less. The public answers that agents learned from are being added to more slowly.",
+      "The CEO framed each person as becoming almost a manager of agents. The work is shifting from finding answers to judging them."
+    ],
+    "gap": "Asking an agent first is now normal (69.9%). Beginners extend that to every question, including ones that depend on unwritten local knowledge, organisational judgment, or expertise they cannot check. Professionals still route those to coworkers.",
+    "humanRole": "The agent answers general, checkable questions quickly. The human recognises three kinds of question and takes them to a person (a teammate, maintainer, or paid expert): questions whose answers live in someone's head, questions that need a judgment call, and questions where the human cannot check the answer.",
+    "sids": ["S080"],
+    "status": "new-2026",
+    "outdated": [
+      "Search Stack Overflow first",
+      "The AI can answer anything about my project"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Is it okay to just ask the AI instead of searching?",
+      "Who do I ask when the AI can't know the answer?",
+      "When should I pay an expert?"
+    ],
+    "demo": ""
+  },
+  {
+    "concept": "Token cost and model choice are everyday decisions",
+    "points": [
+      "Organisations (n = 11,468): 38.1% set limits on usage or spending, 28.3% reviewed usage or spending data, 27.2% approved different tools for different work, 25.3% limited who can use AI, 20.6% increased spending because results justified it.",
+      "Individuals (n = 1,033, small sample): 32.6% monitor their own use, 25.3% choose cheaper models when possible, 23.8% say usage is metered, 16.6% are more selective about tasks.",
+      "Prompt changes (n = 560, small sample): 75.4% changed prompts to improve quality, 38.4% to reduce cost. Quality dominates, but cost is a real lever.",
+      "Adoption factors (n = 11,462): useful, accurate results 30.7%, security or privacy requirements 28.7%, price acceptable for value 27.0%.",
+      "Reasons for switching tools (n = 13,144): better output 25.1%, organisation required it 10.6%, lower cost 6.4%.",
+      "Microsoft study: token spend can run into millions of dollars a year at organisation scale. Whether output justifies cost is a question of value, not throughput."
+    ],
+    "gap": "Beginners think of AI as a flat subscription and never see the meter. In 2026, professionals and their organisations routinely cap spending, pick cheaper models for some work, and review usage. A newcomer with a pay-per-use key has none of those guardrails unless they set them up.",
+    "humanRole": "The agent can report its usage and use whichever model it is configured with. It does not feel the cost. The human sets spending limits, decides when a cheaper or faster model is good enough for a task, and checks the real bill. (See cost-and-limits notes for the mechanics.)",
+    "sids": ["S080", "S082"],
+    "status": "new-2026",
+    "outdated": [
+      "AI is a fixed monthly price",
+      "Always use the biggest model"
+    ],
+    "severity": "medium",
+    "questions": [
+      "How much does using an agent cost?",
+      "Should I use a cheaper model?",
+      "How do companies stop AI bills from getting out of hand?"
+    ],
+    "demo": "Open the usage or billing page of the AI provider next to a spending-limit setting. Show where a limit is set and where actual usage is read."
+  },
+  {
+    "concept": "How much code agents write now (calibrating the baseline)",
+    "points": [
+      "JetBrains Developer Ecosystem Survey 2026 (15,000+ professional developers, May-July 2026, self-reported share of last month's work code): about 47% fully agent-generated, 38% AI-assisted and 27% manual on average. Bucketed answers make the averages sum to over 100%.",
+      "Over half of developers write less than 20% of their code manually. One in five writes no code without AI. About 22% generate over 80% of their code with agents.",
+      "Clusters: agentic coders about 31% (about 84% agent-generated), AI-assisted coders about 47%, manual coders about 23% (about 75% manual).",
+      "Seniors move to agents first (about a quarter generate over 80% with agents). Juniors lean toward AI-assisted rather than fully agentic work.",
+      "Go, JavaScript and TypeScript average 54-55% agent-generated. C and C++ are least agentic (about 38% manual). 32-35% of developers in China, Japan and South Korea are heavy agent users vs about 16% in Europe and the UK.",
+      "Stack Overflow 2026: 65.9% use coding assistants or agents at work, 73.0% of them daily. 30.9% of daily users spend 4+ hours a day with AI.",
+      "Tool figures differ by survey: JetBrains cites 39% work adoption for Claude Code, while Stack Overflow reports 65.5% 'used in the past year' (n = 12,255). Treat tool popularity as a snapshot."
+    ],
+    "gap": "Many courses and degrees still present AI as autocomplete next to code you write yourself. 2026 surveys show agents generating a large share of professional code, with seniors furthest along. Learners who don't know this either feel they are cheating or aim to master hand-writing everything, instead of the skills that now carry the weight.",
+    "humanRole": "For many professionals the agent now writes most of the code. The human's work shifts to deciding what to build, specifying it, steering the agent and verifying the result (S084). The human also needs to read these shares as rough self-reports, not precise measurements.",
+    "sids": ["S081", "S080", "S084"],
+    "status": "new-2026",
+    "outdated": [
+      "AI suggests the next line; you write the program",
+      "Real developers write their own code",
+      "Tool X is the number one coding agent (rankings depend on the survey and change)"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Do professional developers really let AI write their code?",
+      "Am I cheating if the agent writes everything?",
+      "Which coding agent should I use?"
+    ],
+    "demo": ""
+  },
+  {
+    "concept": "More output is not proof of better software",
+    "points": [
+      "Microsoft's early-2026 rollout (tens of thousands of engineers, 2026-01-05 to 2026-04-29): adopters merged about 24% more PRs per engineer per day than a synthetic control predicted (95% CI +14.5% to +33.7%). The lift held: +29.4% in February, +20.0% in March-April.",
+      "By tool: Copilot CLI +24.9%, Claude Code +11.4%. Heavier weekly use goes with a larger lift (+15.0% at 3 days a week to +50.1% at 5+), but this is an association only.",
+      "There is no quality measure. The authors say merged PRs reward small, frequent PRs and can miss quality costs such as added complexity. Whether the extra throughput yields better software is the open question.",
+      "Caveats: one company; authors employed by Microsoft, which sells these tools; only Azure DevOps PRs counted; self-selected adopters; preprint.",
+      "Compare S083: while learning, AI gave no significant speed gain. And S084: plausible code can arrive faster than judgment."
+    ],
+    "gap": "Productivity headlines count output (PRs, commits, features). Beginners and their managers take more output to mean better software. The strongest 2026 field study measures only throughput, and its authors say quality is unmeasured.",
+    "humanRole": "The agent produces more commits, PRs and features. The human defines what 'done' and 'good' mean for this project (works for its users, secure, maintainable) and checks for that, not for the count. The human also keeps changes small enough to review.",
+    "sids": ["S082", "S083", "S084"],
+    "status": "new-2026",
+    "outdated": [
+      "AI makes you X% more productive, so more output is better",
+      "If the PR merged, the work is done"
+    ],
+    "severity": "high",
+    "questions": [
+      "Does AI actually make developers more productive?",
+      "How do I know if the agent made my project better or just bigger?"
+    ],
+    "demo": "Show a commit history filling with agent commits. Then open one diff and ask the agent to list everything it changed beyond the request, and what it did not test."
+  },
+  {
+    "concept": "Agents reward people who break work down and review it",
+    "points": [
+      "Microsoft survey respondents (609, self-selected attendees of an internal agentic-engineering event) said the tools fit experienced developers who can break work into smaller chunks for the AI to implement.",
+      "Some respondents doubted juniors could use the tools as effectively, and worried about how juniors would develop a sense for code.",
+      "Practices they named: small chunks, reviewing output for correctness, completeness and sanity, and steering the tool toward the best solution.",
+      "Osmani's four skills: deciding (what is worth doing), specifying (making the outcome explicit), steering (correcting mid-flight), verifying (deciding the evidence is enough).",
+      "S085: professionals give richer context and work in iterative dialogue. Non-developers rely more on AI-led generation.",
+      "JetBrains: seniors are the heaviest agent users. Microsoft: senior ICs were more likely to try the tools, and social exposure (peers, managers) was the strongest predictor of first use."
+    ],
+    "gap": "Beginners give an agent a whole app in one prompt and conclude that agents work only for small things. The 2026 evidence shows that the people who get most from agents decompose the work, give context and review each piece. Those are skills nobody teaches as such.",
+    "humanRole": "The agent implements each chunk and fixes its own errors. The human decides what to build, splits it into reviewable pieces, states what each piece must do, steers when it drifts, and reviews each piece. For pieces the human cannot review (authentication, payments, data access), the human brings in someone who can.",
+    "sids": ["S082", "S084", "S085", "S081"],
+    "status": "new-2026",
+    "outdated": [
+      "Give the agent the whole app in one prompt",
+      "Agents make experience irrelevant"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why does the agent do well on small things but mess up big projects?",
+      "Why do experienced developers get more out of the same tool?",
+      "How big a task should I give the agent?"
+    ],
+    "demo": "Request the same feature two ways: as one big prompt, and as a three-step plan with a check after each step. Compare what each run produces and how much of it the user can review."
+  },
+  {
+    "concept": "Learning with AI: delegate and you finish, ask why and you learn",
+    "points": [
+      "Anthropic RCT (52 mostly junior engineers learning the Trio async library): the AI group scored 50% on a follow-up quiz vs 67% for hand-coders (Cohen's d = 0.738, p = 0.01). They were about 2 minutes faster, which was not significant.",
+      "The largest gap was on debugging questions: recognising when code is wrong and why. That is the skill needed to supervise AI.",
+      "Low-scoring patterns (under 40%): full AI delegation (fastest), progressive reliance (start by asking, end by delegating), iterative AI debugging (asking AI to debug or verify instead of to explain).",
+      "High-scoring patterns (65%+): generation-then-comprehension (generate, then ask follow-ups), hybrid code-explanation (code plus explanation), conceptual inquiry (ask only conceptual questions, fix errors yourself). Conceptual inquiry was the second-fastest pattern.",
+      "Recommendations: accept cognitive effort and getting stuck. Use learning modes; the post names Claude Code's Learning and Explanatory modes and ChatGPT Study Mode.",
+      "Limits: small sample, immediate quiz only, one library, and the patterns are associations.",
+      "Stack Overflow 2026: 17.1% avoid AI for fear of losing job skills or being replaced. 79% are focusing on AI skills."
+    ],
+    "gap": "Learners either avoid AI to 'really learn' or delegate everything and assume they are learning. The 2026 trial shows that how AI is used decides the outcome. Letting the AI debug while you are learning costs you most of the skill you need to oversee it later. This is not a call to hand-debug at work: in shipped work the agent should read and fix its own errors.",
+    "humanRole": "When shipping, the agent writes, runs and fixes. When learning something you will have to oversee (a new library, a new domain), the human keeps the thinking: asks conceptual questions, predicts what the code will do before running it, and makes the agent explain its choices. The aim is enough understanding to judge the output, not hand-written code.",
+    "sids": ["S083", "S084", "S080"],
+    "status": "new-2026",
+    "outdated": [
+      "Learn to code by fixing errors by hand (as a work method)",
+      "Using AI while learning automatically makes you learn faster",
+      "Never use AI while learning"
+    ],
+    "severity": "high",
+    "questions": [
+      "Will using AI make me a worse programmer?",
+      "How should I use AI when I'm learning something new?",
+      "Do I still need to understand the code if the agent writes it?"
+    ],
+    "demo": "Ask the agent the same new-library task twice: once 'just do it', once in a learning or explanatory mode with 'explain why before you write'. Then answer a question about the code without the agent, and show which run left you able to answer."
+  },
+  {
+    "concept": "Verification is the floor: skill decay when agents skip the reps",
+    "points": [
+      "Osmani: what you can keep is limited by what you can verify, and what you can ask for by what you can imagine.",
+      "Plausible code can arrive faster than a person about three years into their career can judge it. Judgment used to come from debugging failures, reviewing others' code and living with leaky abstractions, the reps agents now skip.",
+      "Using AI as a code vending machine (outcomes only) leaves you good at prompting but weak at verifying. Use it as a pair that explains instead.",
+      "To stay sharp: form a hypothesis before prompting; ask why while it works (what it ruled out, what it assumed); read the diff and predict what could still fail; work some problems by hand in areas you are learning; ask for explanations, not just results.",
+      "His example: a first version of a 3D album site rendered, but used the wrong interaction pattern and performed poorly on mobile. Noticing that took expertise.",
+      "He cites an Anthropic study of about 400,000 Claude Code sessions in which intermediate task expertise raised the chance of verified success (secondary; not read here)."
+    ],
+    "gap": "Beginners assume that once an agent can do a thing, understanding it is optional. Osmani, who works on Claude Code, argues the reverse: what you can ship is capped by what you can verify. That ability decays unless it is practised on purpose, and it decays fastest for people early in their careers.",
+    "humanRole": "The agent produces plausible output quickly. The human keeps the judgment needed to recognise wrong-but-plausible output: predicting before running, reading the diff, asking why, and doing some reps by hand in areas still being learned.",
+    "sids": ["S084", "S083"],
+    "status": "new-2026",
+    "outdated": [
+      "Once the agent can do it, you don't need to understand it",
+      "Prompting is the core skill"
+    ],
+    "severity": "high",
+    "questions": [
+      "If the agent writes it, why do I need to understand it?",
+      "How do I keep my skills when the agent does the work?"
+    ],
+    "demo": "Before accepting an agent's diff, pause on screen and write one prediction of what could still fail. Then ask the agent to test exactly that case."
+  },
+  {
+    "concept": "The perception-action gap: knowing AI code is risky is not the same as being able to check it",
+    "points": [
+      "162 vibe coders (54 non-developers, 54 novices, 54 professionals): no significant group differences in how they perceive AI code quality. All rate it as fast but flawed, fragile and misleadingly confident.",
+      "But about 45% of professionals always check code before use, novices mostly check 'often', and non-developers are the only group that reports never checking.",
+      "Non-developers report more re-prompting instead of debugging and more QA breakdown or confusion than professionals.",
+      "Skipped QA, run-and-see, manual testing and delegating QA to the AI did not differ by group. Everyone runs it and asks the AI to fix it; only experience adds real evaluation.",
+      "The authors say tools support generation, not evaluation. Evaluating AI code should be taught as its own skill (testing outputs, edge cases, challenging assumptions, reasoning about behaviour). Teams need explicit verification practices, including human code review.",
+      "Caveats: self-report, Prolific sample, no security-specific items. Re-prompting can sometimes be efficient."
+    ],
+    "gap": "Warnings that 'AI code can be insecure' have reached everyone. Awareness is the same across experience levels. Acting on the warning still depends on experience. Non-developers, who are the people building more and more apps, are the only group reporting they never check, and nothing in their tools pushes them to.",
+    "humanRole": "The agent can run, test and re-prompt itself. A human who cannot evaluate the code does not fix that by 'being careful'. The fix is getting an evaluator: tests the agent writes and the human reads in plain language, a reviewer, and a qualified expert for security before real users or real data are involved.",
+    "sids": ["S085", "S080"],
+    "status": "new-2026",
+    "outdated": [
+      "Being aware of AI risks is enough",
+      "Vibe coding democratises software engineering (access widened; the ability to judge did not)"
+    ],
+    "severity": "high",
+    "questions": [
+      "I'm not a developer. How can I check code I can't read?",
+      "Is vibe coding safe for a real app?",
+      "When do I need an expert to look at my app?"
+    ],
+    "demo": ""
+  },
+  {
+    "concept": "Invisible failures: the answer looks right but misses what you needed",
+    "points": [
+      "A Paradox of AI Fluency (26,958 WildChat chat transcripts, May 2023-July 2025, LLM-annotated): invisible failures were 85.6% of minimal-fluency users' failures vs 22.1% of high-fluency users'. An invisible failure is a conversation that appears to succeed but misses the need.",
+      "Paradox: fluent users fail more often overall (24% to 64%) because they take on harder tasks (complexity 3.1 vs 1.5 on a 5-point scale). Their failures are visible and often partly recovered.",
+      "Named failure types: Confidence Trap (wrong information stated with certainty and accepted), Silent Mismatch (the AI plausibly answers a different goal), Walkaway (ends unresolved with no failure signalled; most associated with the lowest fluency). Also Drift, Death Spiral, Contradiction Unravel, Partial Recovery.",
+      "Passive acceptance is the strongest marker of low fluency. 93% of high-fluency interactions work the problem with the AI, vs under 1% for the lowest fluency.",
+      "Recommendation: engage actively rather than accept passively. Product builders should favour engagement over frictionless experiences.",
+      "Caveats: chat, not agents; older OpenAI models (GPT-3.5-turbo to GPT-4.1-mini); correlational; LLM labels. The failure types carry over to agents, but the rates come from chat."
+    ],
+    "gap": "Beginners judge AI by whether it reported a problem. The study shows that the least fluent users' failures are mostly invisible to them: they leave thinking it worked. Seeing more failures can be a sign of skill, not of worse results.",
+    "humanRole": "The agent produces confident, plausible output and rarely flags that it answered a different question. The human writes down the goal and an acceptance check before starting, compares the result against that goal rather than against how plausible it looks, and pushes back when the result drifts.",
+    "sids": ["S085"],
+    "status": "new-2026",
+    "outdated": [
+      "If the AI didn't report an error, it worked",
+      "Fewer visible failures means you're using AI well"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why did the AI say it was done when it wasn't what I asked for?",
+      "How do I know when the AI misunderstood me?"
+    ],
+    "demo": "Give the agent a slightly ambiguous request. It completes a plausible but different interpretation without complaint. Then check the result against a one-line acceptance test written beforehand, and show the mismatch."
+  },
+  {
+    "concept": "When the agent loops, re-prompting harder is not the fix",
+    "points": [
+      "S085: less experienced vibe coders replace debugging with re-prompting more often (non-developers significantly more than professionals) and report more breakdowns when code is hard to understand. The authors note re-prompting can sometimes be efficient.",
+      "Companion paper: the Death Spiral, a repetitive loop with no progress despite user corrections.",
+      "S083: 'iterative AI debugging' (asking the AI to debug or verify without trying to understand) was a low-learning pattern, and slower.",
+      "What the sources say works instead: break the task into smaller chunks (S082), steer mid-flight (S084), supply the missing context (S080), ask conceptual questions to understand the failure (S083)."
+    ],
+    "gap": "The agent reading and fixing its own errors is normal and correct. Beginners don't recognise when that process has turned into a loop, and their only move is to say 'fix it' again. The evidence ties heavy re-prompting to inexperience and to QA breakdown.",
+    "humanRole": "The agent reads errors, fixes and re-runs; that is verifiable and it should do it. The human notices a loop (the same error returning, fixes that undo each other), stops it, and changes the input: a narrower task, missing context, a different approach, or a person who knows the domain.",
+    "sids": ["S085", "S083", "S082", "S084", "S080"],
+    "status": "new-2026",
+    "outdated": [
+      "Debug errors by hand line by line",
+      "Just keep telling it to fix it"
+    ],
+    "severity": "medium",
+    "questions": [
+      "The AI keeps going in circles on the same bug. What do I do?",
+      "When should I stop the agent?"
+    ],
+    "demo": "Show a terminal where the same error comes back across three agent attempts. Stop the agent, add one missing constraint or split the task, and rerun."
+  },
+  {
+    "concept": "Your attention is the bottleneck when you run many agents",
+    "points": [
+      "Osmani: agent throughput grows faster than his attention. The more agents he runs, the more carefully he must choose where his limited time, taste and judgment go.",
+      "Microsoft respondents describe prompting and switching to another task, and running parallel streams of work. More weekly use goes with more merged PRs.",
+      "Stack Overflow's CEO: each individual is becoming almost a manager of agents.",
+      "Review capacity, not generation, limits safe output, and the extra throughput in S082 has no quality measure."
+    ],
+    "gap": "Beginners see that agents can run in parallel and assume more agents means more done. Practitioners report that the limit becomes their own review and judgment. Output nobody reviewed is output nobody verified.",
+    "humanRole": "Agents generate in parallel. The human budgets review time, decides which work gets a careful look (Osmani names correctness, safety and user impact), and does not merge or ship what nobody reviewed.",
+    "sids": ["S084", "S082", "S080"],
+    "status": "new-2026",
+    "outdated": [
+      "More agents means more done"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Should I run several agents at once?",
+      "How many agents can I manage?"
+    ],
+    "demo": ""
+  },
+  {
+    "concept": "Know what your AI tool can see, send and remember",
+    "points": [
+      "Control over the work information AI uses (n = 13,243): 44.8% decide exactly, 19.3% pick from what's available, 10.4% let the tool choose automatically, 6.3% are not sure what it uses.",
+      "Memory (n = 12,825): 53.6% want to control what AI remembers themselves, 14.2% want no retained memory, 14.7% want central control by their organisation.",
+      "Privacy and security: 13.0% avoid AI at work over them, 10.0% deliberately limit the context they share, and security/privacy is the second-ranked adoption factor (28.7%).",
+      "Governance lags: 29.7% say AI use at work is mostly optional and up to individuals; only 24.0% have approved tools and guidance."
+    ],
+    "gap": "About one in six professionals let the tool choose what it reads or don't know what it uses, and most workplaces leave the rules to individuals. Beginners rarely ask which files, accounts and memories an agent can reach, or what leaves their machine.",
+    "humanRole": "The agent uses whatever it is given or can reach. The human decides which files, accounts and data it may read, checks what it remembers between sessions, and follows (or, if self-employed, sets) a policy on what may be sent to an AI provider.",
+    "sids": ["S080"],
+    "status": "new-2026",
+    "outdated": [
+      "The AI only sees what I paste in"
+    ],
+    "severity": "medium",
+    "questions": [
+      "What can the AI see of my files?",
+      "Does the AI remember what I told it?",
+      "Is it safe to give the AI my company's or my customers' data?"
+    ],
+    "demo": "Open the agent tool's settings and memory or context view on screen, and list which folders, connectors and saved memories it currently has access to."
+  }
+]

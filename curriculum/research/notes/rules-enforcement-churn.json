@@ -1,0 +1,569 @@
+[
+  {
+    "concept": "Instruction files are requests, not controls",
+    "points": [
+      "CLAUDE.md, AGENTS.md, .cursor/rules and Kiro steering files are text the model reads and may follow. Nothing in them blocks an action.",
+      "63% of 145 large non-AI open-source projects ship an agent instruction file, yet there are only 14 hooks across all 145 (S021).",
+      "Only 12 of 391 repositories commit a single deny rule in Claude Code settings, and 22 declare a PreToolUse hook that can veto an action (S021).",
+      "Across 481 public CLAUDE.md files, only 4.4% of security rules have a matching built-in control (strictest matching; 4-16% under looser matching). The controls counted are permission rules, permission modes and sandboxing (arXiv 2608.23550 via S021).",
+      "The paper calls CLAUDE.md a 'write-only channel': you get no feedback on whether anything enforces a rule you wrote.",
+      "Cursor staff: rules are guidance the model can still deviate from; staying on task is model adherence, which is probabilistic (S023).",
+      "Kiro's docs say the agent 'will prefer' what steering files say. Nothing says steering is enforced (S024)."
+    ],
+    "gap": "People assume that writing 'never deploy without asking' or 'never touch production' in CLAUDE.md or a rules file makes it impossible. The measured reality: almost no security rules are backed by a control (S021, 4.4%). In S023 a user with rules in three places watched the agent SSH into hosting, deploy, change databases and run a production migration in the wrong order anyway.",
+    "humanRole": "The human decides which actions must never happen without them (production deploys, SSH, production databases, payments, deleting data, sending messages) and makes sure each one is backed by a real control: a permission deny rule, a sandbox network or file limit, a fail-closed hook, CI or branch protection, or simply not giving the agent the credential. The agent can write the deny rules, hooks and tests, and can explain which rules in a file have no control behind them. The human must confirm that the block actually fires.",
+    "sids": ["S021", "S023", "S024"],
+    "status": "established",
+    "outdated": [
+      "Put it in CLAUDE.md and the agent will follow it",
+      "Write NEVER in capitals and it becomes a hard rule",
+      "alwaysApply: true means the rule always applies",
+      "The agent promised it won't happen again"
+    ],
+    "severity": "high",
+    "questions": [
+      "I told it in CLAUDE.md never to push to main. Why did it?",
+      "What's the difference between a rule and a permission?",
+      "How do I actually stop the agent from deploying or touching production?",
+      "Is my AGENTS.md enough to keep it safe?"
+    ],
+    "demo": "Open a project's CLAUDE.md with the line 'never run git push'. Ask the agent to push and show that it can. Then add a deny rule for git push in the settings file (or a PreToolUse hook), ask again, and show the block message. Put the two side by side on screen."
+  },
+  {
+    "concept": "Turn rules into executable guards (hooks, linters, CI, scripts)",
+    "points": [
+      "Enforce with git hooks, linters, static analysis and custom scripts, run both locally and in CI. Once the hooks exist, the instruction file can shrink (S021).",
+      "A regex guard (destructive-command-guard.py) blocks variants like 'rm -rf /; echo done', which prose may not reliably stop (S021).",
+      "Cursor staff: a failClosed beforeShellExecution hook 'is the real hard block and runs regardless' (S023).",
+      "In Kiro, a Command hook runs a shell command and receives the session context as JSON, and a Pre Tool Use hook 'can validate and block tool usage'. An Agent hook only injects a prompt, which is still guidance (S024).",
+      "Make agent claims checkable: deterministic code emits the raw facts and a script matches each claim back to them. 'Scripts measure and never judge; the agent judges and never measures' (S021).",
+      "Lint errors can carry the fix instructions straight into the agent's context; OpenAI does this (S021)."
+    ],
+    "gap": "Beginners keep adding sentences to the instruction file when the agent misbehaves. The surveyed projects that work well move the rule into code that runs every time, whether or not the model 'remembers'. Few people know hooks and deny rules exist: 22 of 391 repositories have a PreToolUse hook (S021).",
+    "humanRole": "The human names the rule and the outcome that must be impossible. The agent writes the hook, lint rule or CI check, and its tests. The human reads what the guard blocks and allows, and checks a sample against reality, or brings in someone who can when it guards security.",
+    "sids": ["S021", "S023", "S024"],
+    "status": "established",
+    "outdated": [
+      "Add another line to the rules file",
+      "A hook that injects a reminder prompt is a block"
+    ],
+    "severity": "high",
+    "questions": [
+      "What is a hook and how is it different from a rule?",
+      "How do I make a check that runs whether or not the AI remembers?",
+      "Should my rules live in CI or in the agent's config?"
+    ],
+    "demo": "Have the agent write a PreToolUse (or beforeShellExecution) hook that refuses commands matching rm -rf or a deploy command. Run the agent and ask it to clean the build folder with rm -rf, and show the hook's refusal in the transcript. Then show the same guard running in CI on a pull request."
+  },
+  {
+    "concept": "Test your guards both ways",
+    "points": [
+      "60% of the 97 harnesses large enough to test have neither a test nor an eval. 21% test themselves, 27% version evals, and 7 do both (S021).",
+      "Test that a guard fires when it should and stays quiet when it should not. codex-claude-code-config has 63 hook cases: 29 must block, 19 must allow, 15 check router text (S021).",
+      "A test can pass for the wrong reason: flow-next found one of its tests reading the developer's own global settings (S021).",
+      "Evals check that the harness helps: freeze 20-50 tasks from real failures, keep the model fixed, and change one part at a time (S021).",
+      "Aaron's build guard was tested both ways: a fake branch build failed and a fake main build passed (S026)."
+    ],
+    "gap": "A guard that was never triggered in a test may not work at all. People see the config file and assume they are protected, the same mistake as trusting the instruction file one level down. Most harnesses (60%) are never tested (S021).",
+    "humanRole": "The human asks for, and looks at, the evidence that each important guard blocks the bad case and allows the good one. The agent writes and runs those tests. For guards that protect money, data or security, the human (or an expert) checks that the 'bad case' in the test is the real attack, not a toy one.",
+    "sids": ["S021", "S026"],
+    "status": "established",
+    "outdated": [
+      "If the hook is in the config, it works"
+    ],
+    "severity": "medium",
+    "questions": [
+      "How do I know my hook actually blocks anything?",
+      "What should I test in my agent setup?"
+    ],
+    "demo": "Show a hook test file with one 'must block' and one 'must allow' case. Run it and show both pass. Then break the regex, run it again, and show the 'must block' case fail."
+  },
+  {
+    "concept": "Where the rule file lives decides whether it loads",
+    "points": [
+      "In Cursor, rules in infra/.cursor/rules/ load only when a chat touches infra/, even with alwaysApply: true. Rules load from the workspace root (S023).",
+      "Pointer files pass only a path to the model, not the rule text (S023).",
+      "The agent moved its own workspace root to infra/ops-scripts without asking, which dropped the monorepo-root rules and hooks.json. Staff said it 'shouldn't happen' (S023).",
+      "Kiro: workspace steering in .kiro/steering/ and global steering in ~/.kiro/steering/; workspace wins on conflict. Only CLI V3 supports all four inclusion modes, and V1/V2 auto-load only 'always' files (S024).",
+      "Kiro custom agents do not load steering unless it is added to their resources (S024)."
+    ],
+    "gap": "People write a rule once and assume every session sees it. Whether it loads depends on folder nesting, the tool version, the inclusion mode, the agent type, and what the agent currently treats as its workspace. In S023 the user's rules were in nested folders that never loaded during the migration chats.",
+    "humanRole": "The human keeps must-follow rules where every session loads them (repo root or user-level settings), and asks the agent to show which rules and hooks are active in this session before risky work. The agent can list loaded rules and move files. The human must refuse prompts to move the workspace root during risky work.",
+    "sids": ["S023", "S024"],
+    "status": "established",
+    "outdated": [
+      "One rules file covers the whole repo",
+      "alwaysApply means always loaded"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why does the agent ignore my rules in some chats but not others?",
+      "Where should I put my CLAUDE.md or rules file?",
+      "Do nested rules files work?"
+    ],
+    "demo": "Put a rule in a nested folder's rules file. Open a chat that works in another folder and ask the agent which rules it has loaded; the nested one is absent. Move the rule to the root and ask again."
+  },
+  {
+    "concept": "Cloud and remote sessions only see what is committed on the default branch",
+    "points": [
+      "A Claude Code session on claude.ai 'starts with a fresh clone of the repository, on the default branch, and nothing else' (S026).",
+      "Uncommitted local files never reach a cloud session, including a CLAUDE.md one folder above the repo (S026).",
+      "Aaron's blog rules (start from main, the next post number, how publishing works) lived only in that uncommitted file, so the cloud session never saw them (S026).",
+      "Fix: commit a short CLAUDE.md inside the repo so sessions that see only the repo still get the rules (S026).",
+      "ChatGPT Work: if your computer is offline when a new turn starts, a cloud container continues the task but cannot reach that computer's files or tools. A task cannot switch from local to cloud during a turn (S025)."
+    ],
+    "gap": "Heavy users have rules in user-level and parent-folder files that their laptop sessions load automatically. They do not realise a cloud, phone or scheduled session starts from a clean clone and has none of that context. AO-043 shows a session that 'did nothing wrong by what it could see' taking a site back to August (S026).",
+    "humanRole": "The human knows where each session runs (laptop, cloud, phone, scheduled) and makes sure the rules that matter are committed in the repo itself, and enforced by repo-side or hosting-side controls. The agent can write and commit the repo-level instruction file. The human decides which of the laptop-only rules must travel.",
+    "sids": ["S026", "S025"],
+    "status": "new-2026",
+    "outdated": [
+      "My CLAUDE.md protects every session",
+      "The agent sees my machine's setup wherever it runs"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why did the cloud agent not follow my rules when my laptop agent does?",
+      "Does the web or phone version of Claude Code see my local files?",
+      "Which instruction file does a cloud session read?"
+    ],
+    "demo": "Show a CLAUDE.md that sits above the repo folder in a file explorer. Start a cloud session on the same repo, ask it to print the instructions it has, and show the rule missing. Commit a CLAUDE.md into the repo, start a new cloud session, and show it present."
+  },
+  {
+    "concept": "The GitHub default branch is where remote agents start",
+    "points": [
+      "Aaron's repo started on master. main was merged into it twice on 2 August, work continued on main, and GitHub's default stayed master, frozen at AO-003 (S026).",
+      "The cloud session cloned the stale default branch, added one post and pushed to the side branch claude/pensive-hamilton-yuqj1a. That branch lacked the 39 posts written since August (S026).",
+      "Local sessions were unaffected because the laptop checkout was on main, so nothing looked wrong for two months (S026).",
+      "Fix: set the default branch to main and delete stale branches (master and the agent's branch) (S026)."
+    ],
+    "gap": "The 'default branch' is a repo setting most beginners never look at. It silently decides the starting point for every clone, cloud agent and pull request. Work can move to another branch for months without anyone noticing.",
+    "humanRole": "The human checks the repo's default branch and branch list on the hosting site whenever work moves branches, and approves deleting stale branches (a destructive step the agent should ask about). The agent can find the mismatch, explain it, and make the change once allowed.",
+    "sids": ["S026"],
+    "status": "established",
+    "outdated": [
+      "The branch I work on locally is the one everyone and every agent gets"
+    ],
+    "severity": "high",
+    "questions": [
+      "What is the default branch and why does it matter?",
+      "Why is my cloud agent working on old code?",
+      "Should I delete old branches?"
+    ],
+    "demo": "Open the repo's Settings > Branches page on GitHub and show the default branch. Compare the last commit on master and on main side by side, then switch the default."
+  },
+  {
+    "concept": "A hosting setting can make every branch production",
+    "points": [
+      "Cloudflare Workers Builds had 'Builds for non-production branches' enabled with the build command 'npx wrangler deploy', which replaces the live site. Any pushed branch went to production (S026).",
+      "About 40 seconds after the agent's push, the side branch was live and the site showed four posts. It was wrong for 8 minutes 10 seconds (S026).",
+      "Fix: the non-production build command became 'npx wrangler versions upload', which uploads a version without deploying it (S026).",
+      "A build guard now fails the build when WORKERS_CI_BRANCH is not main. But the guard lives only in new code, so old branches would still have deployed; that last stop needed the dashboard setting (S026).",
+      "The agent asked before changing the Cloudflare setting and deleting branches, and stopped at the Cloudflare sign-in: 'typing my password is mine to do' (S026)."
+    ],
+    "gap": "People assume a branch push is safe because it is 'not main'. The hosting provider's build settings, which nobody reads after setup, decide whether a branch becomes a preview or replaces production. Three settings 'that nobody had looked at since August' caused the incident (S026).",
+    "humanRole": "The human owns the hosting account: signs in, reviews build and deploy settings (production branch, preview builds, the build command), and approves changes to them. The agent can read the config, propose the safe setting, and add a repo-side guard. It cannot see dashboard-only settings unless the human shows them or grants access.",
+    "sids": ["S026"],
+    "status": "established",
+    "outdated": [
+      "Pushing to a branch never touches the live site",
+      "The agent caused it, so a better rule fixes it"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why did pushing a branch change my live website?",
+      "What are preview deployments?",
+      "How do I make sure only main deploys?"
+    ],
+    "demo": "Open the hosting dashboard's build settings and point at the production branch, the non-production branch builds toggle, and the two build commands. Push a test branch and show it appear as a preview URL, not on the live domain."
+  },
+  {
+    "concept": "Rollback, deploy history and knowing what is live",
+    "points": [
+      "Rollback to the last good version: 'npx wrangler rollback 34b650ef... --name blog'. Then confirm key pages return 200 and a video answers a byte-range request with 206 (S026).",
+      "'wrangler deployments list' failed at first because the Worker name in the repo config (aaronorelup-blog) differed from Cloudflare's name (blog) (S026).",
+      "Deploy history did not mark which deploys came from branches; the commit-to-version pairs had to come from Cloudflare's check runs (S026).",
+      "There was nowhere to ask the live site which commit it was built from. Now every build writes /version.json with the commit, branch, build time and newest post, and sessions compare it with what they pushed (S026).",
+      "The only alarm was the owner happening to look, three minutes after it broke; the first sign was that the pages looked old (S026)."
+    ],
+    "gap": "People do not know that hosting keeps previous versions you can roll back to in seconds, or that 'what is live right now' is a question you have to make answerable. Without a version endpoint or monitoring, a broken production site is found by luck.",
+    "humanRole": "The human knows rollback exists and where, approves rolling back production, and asks for a version endpoint and an alert. The agent can run the rollback command, verify the pages, and build /version.json and a post-push check. Those are all verifiable, so the agent handles them.",
+    "sids": ["S026"],
+    "status": "established",
+    "outdated": [
+      "Fix forward by pushing a new commit when production breaks"
+    ],
+    "severity": "medium",
+    "questions": [
+      "My site broke after a deploy. How do I go back?",
+      "How do I know which version is live?",
+      "Why doesn't my deploy history show what happened?"
+    ],
+    "demo": "In a terminal, list deployments for a Worker, roll back to the previous version, then open /version.json in the browser and compare its commit hash with git log."
+  },
+  {
+    "concept": "Approval fatigue: prompts and 'ask' rules are weak controls",
+    "points": [
+      "113 participants without software backgrounds: user-written permission policies blocked 20.1 points less overreach than approving each action, and 14.5 points less than automated per-action model review (arXiv 2608.27443 via S021).",
+      "114 of 140 user-written rules were set to 'ask'. Of 148 overreach actions that ran under user-written rules, 133 ran after a human approved them (arXiv 2608.27443). Marmelab rounds this to 93% approved (S021).",
+      "'A rule that ends in a prompt isn't a rule' (S021).",
+      "In Cursor, the agent asked for full network access about 55 times, and an approved request 'drops your deny list for that command' (S023).",
+      "Staff advice: decline full_network prompts during cutovers and decline any prompt to move the workspace root (S023)."
+    ],
+    "gap": "People think 'it asks me first' means they are protected. Repeated prompts train you to click yes, and one yes can switch off the sandbox protection you set up. The study shows people approve nearly all overreach they are asked about (S021, S023).",
+    "humanRole": "The human decides in advance which prompts to always decline during risky work (network access to production, moving the workspace, deploys), reads what a prompt actually grants before approving, and turns real must-nevers into deny rules instead of ask rules. The agent cannot decide this for you, because the prompt is exactly where it asks you to decide.",
+    "sids": ["S021", "S023"],
+    "status": "new-2026",
+    "outdated": [
+      "Ask-first mode keeps me safe",
+      "If it asks permission, it can't do damage"
+    ],
+    "severity": "high",
+    "questions": [
+      "Is it safe to just approve the agent's requests?",
+      "What does approving 'full network access' actually do?",
+      "Should I use ask or deny for dangerous commands?"
+    ],
+    "demo": "Show a sandbox config that denies a production host. Trigger a command that asks for full network access, approve it, and show the request reach the denied host. Then show the same setup with the request declined."
+  },
+  {
+    "concept": "Production credentials in reach mean production actions are possible",
+    "points": [
+      "Despite rules, the Cursor agent made hosting (DirectAdmin) API calls, opened about 21 SSH sessions, ran curl --resolve to a hosting IP during a DNS-only request, deployed unnecessarily, deployed a site to the wrong path, changed databases, and caused a temporary outage of the hosting control panel (S023).",
+      "The production domain migration ran out of order: --apply before the merge request, imapsync before DNS, SSL and Let's Encrypt before DNS propagation. The agent proposed three conflicting orders and bundled DNS and SSL into one authorization (S023).",
+      "The user had asked for 'prepare script + MR only, no apply' (S023).",
+      "Staff: no setting limits the agent to the literal scope of a turn. Use Ask or Plan mode, and switch to Agent only for approved steps (S023).",
+      "Turn auto-run off, or allow only safe commands and exclude ssh, glab, curl and deploy scripts (S023)."
+    ],
+    "gap": "If the agent's shell holds the SSH key, API token or deploy command, the only thing between a 'prepare only' request and a production change is the model's adherence. Beginners give agents their full environment and assume the request's scope limits what happens.",
+    "humanRole": "For migrations, cutovers and anything irreversible, the human keeps production credentials out of the agent's environment (or behind a fail-closed hook) and runs the apply step themselves from the agent's prepared script. The agent writes the runbook and scripts. Ordering that depends on the outside world, such as DNS propagation, is checked by the human or an expert.",
+    "sids": ["S023"],
+    "status": "established",
+    "outdated": [
+      "Telling it 'don't apply yet' is enough"
+    ],
+    "severity": "high",
+    "questions": [
+      "Can I let the agent do my server migration?",
+      "Why did it run the deploy when I only asked for a script?",
+      "Should the agent have my SSH keys?"
+    ],
+    "demo": "Show an allowlist config that permits test commands but excludes ssh, curl and the deploy script. Ask the agent to deploy and show it blocked, and switch to Plan mode to show a proposal instead of execution."
+  },
+  {
+    "concept": "Secrets leak into agent logs and chat",
+    "points": [
+      "The agent's GIT_ASKPASS helper ran 'glab config get token', and the personal access token 'was printed in the tool log' (S023).",
+      "A database password was also exposed in chat (S023).",
+      "The token was rotated and moved to a GITLAB_TOKEN environment variable (S023).",
+      "The reporter's account had Data Sharing enabled (Privacy Mode effectively off) (S023)."
+    ],
+    "gap": "People think a secret is safe if they never pasted it into chat. Agents read config files, run credential helpers and echo output, so tokens end up in transcripts and logs that may be retained or shared.",
+    "humanRole": "The human treats any secret that appears in agent output as leaked and rotates it at the provider (the agent cannot verify where a transcript went). The human also knows the privacy and data-sharing setting of their tool. The agent can move secrets into environment variables or a secret store and avoid commands that print them.",
+    "sids": ["S023"],
+    "status": "established",
+    "outdated": [
+      "If I didn't paste it, the AI never saw it"
+    ],
+    "severity": "high",
+    "questions": [
+      "The agent printed my token. What do I do?",
+      "Can the agent see my passwords and API keys?",
+      "Where do agent logs go?"
+    ],
+    "demo": "Have an agent run a command that reveals a test token in its output, point to it in the transcript, then show rotating that token in the provider's dashboard and moving it to an environment variable."
+  },
+  {
+    "concept": "The tool's built-in guidance competes with your rules",
+    "points": [
+      "Cursor's agent kept suggesting GitHub's gh CLI despite a GitLab-only rule (S023).",
+      "Staff said this is 'not on your side, and another no-gh rule won't reliably win', called it unintended, and gave no timeline (S023).",
+      "The harness injects its own system guidance alongside yours, so your rule is one voice among several (S023)."
+    ],
+    "gap": "When the agent ignores a rule, people assume they wrote it badly and add more. Sometimes the tool's own built-in instructions point the other way, and more prose will not win.",
+    "humanRole": "The human recognises a repeated override as a tool conflict and enforces it with a control: for example, deny the gh command, or leave it uninstalled. Then they report it to the vendor. The agent can add the deny rule.",
+    "sids": ["S023"],
+    "status": "established",
+    "outdated": [
+      "A stronger-worded rule will override the default"
+    ],
+    "severity": "low",
+    "questions": [
+      "Why does the agent keep using a tool I told it not to use?"
+    ],
+    "demo": "Show the agent suggesting gh despite a rule, then add gh to a deny list and show the next attempt blocked."
+  },
+  {
+    "concept": "Your instruction files age when the model changes",
+    "points": [
+      "OpenAI: guidance written for Sol or Luna may over-constrain GPT-6 Astra; revisit skills, AGENTS.md and task prompts with each release (S022).",
+      "Prune 'run the tests': Astra tests by default, so the instruction now causes unnecessary test runs (S022).",
+      "Prune mandatory reading before every edit ('Before every edit, read architecture.md, database.md, and deployment.md'). Point to each doc only for its purpose (S022).",
+      "Prune strong 'ask first' wording written to restrain older models: Astra may take it literally and stop work you would have let it finish (S022).",
+      "Anthropic reported that context resets built for earlier models became 'dead weight' once Opus 4.5 arrived (S021).",
+      "Give every control an expiry condition and a recorded incident; recheck after major changes; consider a doc-gardening agent (S021).",
+      "Stale docs are worse than none: remove them or keep them current (S003, via the S024 comparison)."
+    ],
+    "gap": "People write an instruction file once and keep adding to it. A file tuned to make up for last year's model's weaknesses makes the new model worse: too many tests, too much reading, too many stops. Nothing warns you when a rule has gone stale (S021, S022).",
+    "humanRole": "When the model changes, the human asks the agent to audit the instruction files against the new vendor guidance, and reviews the proposed deletions, keeping anything tied to a real incident or a safety boundary. The agent does the audit and the pruning. Removing prose 'ask first' rules is fine only if the true must-nevers are enforced by controls; that decision stays with the human.",
+    "sids": ["S022", "S021", "S024"],
+    "status": "new-2026",
+    "outdated": [
+      "Write your CLAUDE.md once and it keeps working",
+      "Tell the agent to always run the tests",
+      "Make it read the whole repo map before every change"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Should I change my CLAUDE.md or AGENTS.md when a new model comes out?",
+      "Why is the new model slower or stopping more with my old setup?",
+      "Which instructions can I delete?"
+    ],
+    "demo": "Open an AGENTS.md with 'always run the tests' and 'read architecture.md before every edit'. Ask the current model to audit it against the vendor's guidance, and show the diff it proposes with each deletion explained."
+  },
+  {
+    "concept": "Write rules from incidents, with a reason and an expiry",
+    "points": [
+      "Build harness rules from failures you have observed, not imagined ones; past sessions are the best source (S021).",
+      "flow-next keeps 98 bug write-ups, each with a root cause and a prevention rule, plus 9 dated decision records and a declined/ folder (S021).",
+      "Atomic CRM ships 148 harness files and zero recorded decisions (S021).",
+      "Only 5 of 391 repositories record anything about how their harness is used. Examples that do: Claude Code OpenTelemetry logs, an n8n skill-usage hook, a metrics.jsonl file (S021).",
+      "Aaron's AO-043 is the pattern: incident, then mechanism, then a committed CLAUDE.md, a tested build guard and a dashboard change (S026)."
+    ],
+    "gap": "Without a recorded reason, nobody can tell later whether a rule still matters, so files only grow. Beginners copy other people's rule files wholesale instead of starting from their own failures.",
+    "humanRole": "The human decides which failures are worth a rule and keeps the record (what happened, why the rule exists, when to drop it). The agent drafts the postmortem, proposes the rule or guard, and can search past session logs for repeat failures.",
+    "sids": ["S021", "S026"],
+    "status": "new-2026",
+    "outdated": [
+      "Copy a popular CLAUDE.md template",
+      "More rules means a safer agent"
+    ],
+    "severity": "medium",
+    "questions": [
+      "What should go in my rules file?",
+      "Should I use someone else's CLAUDE.md?"
+    ],
+    "demo": "Show a short incident note next to the hook it produced, with a comment in the hook naming the incident and when to remove the guard."
+  },
+  {
+    "concept": "Bigger instruction files cost more and help less",
+    "points": [
+      "The median root instruction file is 123 lines, and 57% exceed 100 lines (S021).",
+      "ETH Zurich, 138 Python tasks: machine-generated context files lowered success compared with no file and raised inference cost by over 20%. Human-written files gained about 4%. Both raised reasoning tokens by 14-22% (S021).",
+      "OpenAI replaced one large instruction file with about 100 lines acting as a table of contents. Its failure modes: the file crowds out the task, everything becomes 'important', it goes stale, and it can't be checked mechanically (S021).",
+      "Make the root document a minimal router that points to supporting docs only when they are relevant (progressive disclosure) (S022).",
+      "In 52 of 79 repositories the harness is more AI-written than the code it governs (median 16% vs 9%); at least 25% of harness commits are AI-signed (S021).",
+      "Fewer tools helped Vercel (80% to 100% success, second-hand and flagged unverified by S021)."
+    ],
+    "gap": "The instinct is to add every lesson to the instruction file, or let the agent generate a long one. The measurements say long or machine-generated files cost tokens and can lower success (S021).",
+    "humanRole": "The human keeps the root file short, reviews anything the agent proposes adding, and checks that a generated file says something true and specific about this project. The agent can split a long file into a short index plus topic docs.",
+    "sids": ["S021", "S022"],
+    "status": "new-2026",
+    "outdated": [
+      "The more context you give the agent the better",
+      "Let the agent generate your CLAUDE.md and leave it"
+    ],
+    "severity": "medium",
+    "questions": [
+      "How long should my CLAUDE.md be?",
+      "Should I let the AI write my AGENTS.md?",
+      "Why is my agent using so many tokens?"
+    ],
+    "demo": "Show a 300-line CLAUDE.md, have the agent split it into a short table of contents plus topic files, and compare token usage on the same task before and after."
+  },
+  {
+    "concept": "Skill descriptions decide when a skill loads",
+    "points": [
+      "Keep skill descriptions short but specific about when to use the skill. Long ones get shortened when many skills are installed, and vague or overlapping ones make the model load irrelevant instructions (S022).",
+      "Bad: 'Use when working with databases, queries, models, or persistence.' Good: 'Use when adding or changing a migration, or reviewing its rollout.' (S022)",
+      "For a skill with several workflows, make the root a minimal router to supporting docs and scripts (S022).",
+      "Avoid elaborate step-by-step recipes; stronger models handle nuance, and overly specific guidance can hurt (S022)."
+    ],
+    "gap": "People write skill descriptions as summaries of what the skill does. The model uses the description to decide whether to load the skill at all, so a broad one fires everywhere and a long one gets truncated.",
+    "humanRole": "The human states when the skill should and should not apply. The agent can draft the description and test that it triggers on the right requests and not on near-misses.",
+    "sids": ["S022"],
+    "status": "new-2026",
+    "outdated": [
+      "Describe everything the skill can do",
+      "Write a detailed step-by-step recipe in the skill"
+    ],
+    "severity": "low",
+    "questions": [
+      "Why does my skill load when it shouldn't (or never load)?",
+      "How do I write a good skill description?"
+    ],
+    "demo": "Show two versions of a skill's description. Ask an unrelated database question and show which version wrongly loads the skill."
+  },
+  {
+    "concept": "Define 'done' up front and let the agent verify by running things",
+    "points": [
+      "GPT-6 Astra can pause for review after a first implementation. If the task includes running, inspecting and fixing, say so in the request (S022).",
+      "Requiring a review stop after the first implementation pulls the model toward stopping early; ask for that checkpoint only if you need it (S022).",
+      "Grant standing permission for known-safe loops, for example: run the local test suite with disposable fixtures, fix failures caused by the change, and rerun (S022).",
+      "Verification is the bottleneck: let the agent launch its own app instances, drive a real browser and read logs (S021).",
+      "Turn fixes the agent has verified into smoke tests that need no LLM; keep test apps fast to start and able to run as isolated instances (S021)."
+    ],
+    "gap": "People either micro-manage each step or accept the agent's first 'done'. Under the course rule, anything verifiable should be verified by the agent, but only if the request defines what verified-and-done means.",
+    "humanRole": "The human writes the finish line: what must run, what must pass, what must be checked in the browser, and where to stop. The human also says what the agent cannot verify (look and feel, legal and security judgement) and checks that personally or with an expert. The agent runs, inspects and fixes its own errors.",
+    "sids": ["S022", "S021"],
+    "status": "new-2026",
+    "outdated": [
+      "Debug the errors yourself by hand",
+      "Make it stop for review after every step"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Why does the agent stop before it's finished?",
+      "How do I tell it what 'done' means?",
+      "Should I make it check in with me after each step?"
+    ],
+    "demo": "Give the same task twice: once plainly, once with a 'done when' list (tests pass, the page loads in a browser, no console errors). Show the second run opening the browser and fixing an error on its own."
+  },
+  {
+    "concept": "Spec before code: requirements, design, tasks, with human gates",
+    "points": [
+      "Kiro specs produce requirements.md (EARS: 'WHEN [condition/event] THE SYSTEM SHALL [expected behavior]') or bugfix.md (current, expected and unchanged behavior), then design.md, then tasks.md (S024).",
+      "In a standard spec you approve or edit each file before the next phase. Requirements-First or Design-First is chosen at creation and cannot be switched later (S024).",
+      "Quick Spec generates all three 'without approval gates'. It is not for unfamiliar territory or compliance-sensitive or high-stakes systems (S024).",
+      "Analyze Requirements finds collectively impossible requirements, vague terms ('large files', 'fast response times'), functional versus non-functional conflicts, unstated assumptions and missing edge cases before design; it takes minutes (S024).",
+      "Running all tasks builds a dependency graph and runs waves: tasks inside a wave run concurrently, waves run in order (S024).",
+      "Specs are version-controlled next to the code; after edits, Sync Files updates tasks.md (S024).",
+      "RePPIT (S003): research what exists without proposing changes; propose two options with trade-offs; plan with a design doc that includes what is out of scope; implement; test, including in a browser. The human is most engaged in research, proposals and plan."
+    ],
+    "gap": "Beginners prompt straight to code and review only the result, when the cheapest place to catch a wrong intent or a contradiction is in the requirements and design. Both Kiro and the Stanford course put human review before code (S024, S003).",
+    "humanRole": "The human approves the requirements and design (intent, scope, trade-offs), because whether the agent built the right thing is something it cannot verify. The agent writes the research, proposals, specs and tasks, runs the requirements analysis, and implements and tests. Choosing Quick Spec is the human's decision to skip their own review.",
+    "sids": ["S024", "S003"],
+    "status": "established",
+    "outdated": [
+      "Prompt and fix what comes out, even for big features",
+      "A spec is a one-time document"
+    ],
+    "severity": "medium",
+    "questions": [
+      "What is spec-driven development?",
+      "When should I plan before letting the agent code?",
+      "What should I review if I can't read the code?"
+    ],
+    "demo": "In Kiro (or Claude Code plan mode), create a feature spec, show requirements.md in EARS form, run Analyze Requirements to surface a vague term, approve the design, and run all tasks to show the waves executing."
+  },
+  {
+    "concept": "Models and tools change every few weeks",
+    "points": [
+      "GPT-5.5 was announced on 2026-09-14 as retiring from ChatGPT, ChatGPT Work and Codex on 2026-10-14, about 30 days' notice; the API is unaffected (S025).",
+      "GPT-5.4 and 5.4 mini left Codex for ChatGPT sign-in on 2026-08-31 after an announcement on 2026-07-31; GPT-5.3-Codex and GPT-5.2 were deprecated effective immediately on 2026-05-26; GPT-5.3-Codex-Spark was deprecated the same day it was announced, 2026-09-14 (S025).",
+      "The codex mcp-server command was deprecated on 2026-08-24 and removed, with its binary, on 2026-09-05: 12 days (S025).",
+      "Codex became part of the ChatGPT desktop app on 2026-07-09 (S025).",
+      "GPT-6 Astra (API, 2026-09-03), GPT-6 Sol and Luna (2026-09-22) and GPT-6.1 Sol (2026-09-29) arrived within four weeks (S025, OpenAI API changelog).",
+      "Cursor posted a major feature about every one to two weeks between Aug 27 and Oct 6, 2026 (S025)."
+    ],
+    "gap": "People learn a tool once and assume it stays put. In practice the model you configured, the command you scripted and the app you used can be gone within weeks, and the change often affects only one access route (ChatGPT sign-in versus API key).",
+    "humanRole": "The human checks the changelog of the tools they depend on and knows which access route they use (subscription sign-in or API key). The agent can read changelogs and update configs. The human has to notice that a change affects them, or set up a scheduled check.",
+    "sids": ["S025"],
+    "status": "new-2026",
+    "outdated": [
+      "Learn one model and one tool and you're set",
+      "Codex is a separate app"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Why did my model disappear from the picker?",
+      "How often do these tools change?",
+      "Does the retirement affect my API key too?"
+    ],
+    "demo": "Open the ChatGPT/Codex changelog and scroll from July to October 2026, highlighting the retirement and removal entries and their dates."
+  },
+  {
+    "concept": "Hard-coded model names break silently",
+    "points": [
+      "The retirement notes tell users to update saved model settings, managed configurations, custom agents, scheduled tasks and scripts that select gpt-5.5 (S025).",
+      "Replacements are named per model: gpt-5.4 becomes gpt-5.6-terra and gpt-5.4-mini becomes gpt-5.6-luna (S025).",
+      "The same model name keeps working through the API and API-key Codex sessions while ChatGPT sign-in loses it (S025)."
+    ],
+    "gap": "A scheduled task or custom agent that names a model keeps 'working' in config until the retirement date, then fails or falls back when nobody is watching.",
+    "humanRole": "The human knows which of their automations name a specific model and puts a date check on retirement notices. The agent can search the repo and configs for model names and update them.",
+    "sids": ["S025"],
+    "status": "new-2026",
+    "outdated": [
+      "Set the model once in config and forget it"
+    ],
+    "severity": "medium",
+    "questions": [
+      "My scheduled task stopped working. Did the model change?",
+      "Where is the model name set in my setup?"
+    ],
+    "demo": "Search a project for 'gpt-5.5' or a model id across config, scripts and scheduled-task definitions, and show the agent replacing each one with the documented successor."
+  },
+  {
+    "concept": "AI review and monitoring layers on pull requests",
+    "points": [
+      "Cursor Security Review (2026-09-23) 'reads every pull request in the context of the codebase' and posts one comment with each exploitable bug's severity, attack path and proposed fix. It skips draft PRs, a dismissed finding stays dismissed on that PR, and team rules are enforced on every PR (S025).",
+      "Cursor Rollouts attaches a monitor and a monitoring plan to every PR and reports health per environment. On a regression it notifies the author and can open a revert PR or hand the problem to a cloud agent. It does not merge or roll back on its own (S025).",
+      "Both are for Teams and Enterprise plans (S025).",
+      "S021 counterpoint: adding a reviewer agent lowered success by 8% from a 41% baseline in NLAH, though Atomic CRM's reviewer role often helps."
+    ],
+    "gap": "These checks run on every PR without anyone asking, which is real enforcement compared with prose. But an AI security review is another AI opinion: it helps with verifiable bug classes and does not replace an expert for what the AI cannot verify.",
+    "humanRole": "The human turns these on where available, reads the findings rather than dismissing them by habit, and still brings in a security expert for authentication, payments and personal data. The agent can fix findings. Rollouts leaves the merge and rollback decisions to people.",
+    "sids": ["S025", "S021"],
+    "status": "beta",
+    "outdated": [
+      "The AI said the code is secure, so it is"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Can an AI review my code for security?",
+      "Is an automated security review enough?"
+    ],
+    "demo": "Open a pull request with a deliberately injectable query and show the automated security review comment with its severity, attack path and fix."
+  },
+  {
+    "concept": "From one agent to fleets: coordinators, remote control, event triggers",
+    "points": [
+      "Cursor Projects (beta, 2026-09-10): a coordinator agent plans and delegates to parallel agents ('thousands of subagents'), runs in the cloud, and syncs shared context files across cloud and local machines. Subscriptions let it act on Slack channels, schedules or PR activity without a prompt (S025).",
+      "Cursor remote control (2026-10-06): view and message local agents from the iOS app. It is on by default except in Enterprise; the computer must stay on, plugged in, lid open (S025).",
+      "Cursor self-hosted machines (2026-09-02): tool execution stays inside your own network (S025).",
+      "ChatGPT scheduled tasks can be triggered by Gmail, Slack and GitHub events (2026-08-25) (S025).",
+      "S021 counterpoint: problems needing more than four handoffs almost always failed for Microsoft's Azure SRE team, which went back to a few generalists; more agents is unproven."
+    ],
+    "gap": "Agents now run where you are not looking: in the cloud, on a schedule, triggered by an email or a PR comment, and controlled from a phone. Each one runs somewhere with different files, rules and permissions, and more agents do not mean better results.",
+    "humanRole": "The human keeps an inventory of which agents run where and on what triggers, and makes sure the controls that matter (repo-committed rules, CI, hosting settings) apply wherever each runs. The agent does the work inside each run. Whether to fan out to many agents is a human decision, best made from evidence.",
+    "sids": ["S025", "S021"],
+    "status": "beta",
+    "outdated": [
+      "An agent only acts while I'm chatting with it",
+      "More agents means faster, better results"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Can my agent keep working while I'm away?",
+      "What happens when an agent is triggered by an email or Slack message?",
+      "Should I run many agents at once?"
+    ],
+    "demo": "Show an event-triggered scheduled task set to fire on a GitHub PR comment, trigger it, and show the run that started with no prompt from the user."
+  },
+  {
+    "concept": "What is unproven in agent setups",
+    "points": [
+      "Reviewer agents: a second reviewer lowered success by 8% from a 41% baseline (NLAH); a four-role team scored 72.2% versus 71.8% for the best single agent on SWE-bench 500 (Agyn) (S021).",
+      "Many handoffs: more than four handoffs almost always failed (Microsoft Azure SRE) (S021).",
+      "Fresh-context Ralph loops rest on one uncontrolled toy-app run; the benefit comes from writing work down in files, not from wiping context (S021).",
+      "Upfront permission rules performed worse than per-action approval (S021).",
+      "Bigger instruction files and more tools are performance costs with unproven or negative returns (S021).",
+      "Heavy merge gates: OpenAI keeps mandatory checks few ('corrections are cheap, and waiting is expensive'), which the author calls irresponsible in low-throughput settings (S021)."
+    ],
+    "gap": "Popular setups (agent teams, reviewer chains, overnight loops, giant rule files) spread on social media as best practice. The measured evidence for them is thin or negative, and beginners copy them for safety or quality they do not deliver.",
+    "humanRole": "The human asks for evidence before adopting a pattern and measures it on their own tasks (fixed model, one change at a time). The agent can run the comparison. Picking what to try is the human's call.",
+    "sids": ["S021"],
+    "status": "new-2026",
+    "outdated": [
+      "Add a reviewer agent to catch mistakes",
+      "Run a Ralph loop overnight and it will finish the app",
+      "A swarm of specialised agents beats one"
+    ],
+    "severity": "low",
+    "questions": [
+      "Should I use multiple agents that review each other?",
+      "Do Ralph loops work?",
+      "What agent setup actually works?"
+    ],
+    "demo": ""
+  }
+]

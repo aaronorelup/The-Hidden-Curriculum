@@ -1,0 +1,455 @@
+[
+  {
+    "concept": "Subscription allowance vs pay-per-token key: two different meters",
+    "points": [
+      "A subscription (Pro, Max, Team, Enterprise) draws from a plan allowance. An API key, the Claude Console or a cloud provider (Bedrock, Google Cloud, Foundry) bills every token to a card or an org account.",
+      "The dollar figure in the /usage Session block is computed locally at list price. For Pro and Max subscribers it is not what you pay. For API users, the bill that counts is on the Console usage page.",
+      "If ANTHROPIC_API_KEY is set in your environment, Claude Code uses that key instead of your subscription, and the same work is billed as API charges. Symptoms: 'Credit balance is too low' while on a subscription, or 429 errors from a low-tier key. Check the API key row in /status.",
+      "Max plans' included monthly API credits cannot be spent in Claude Code or the Claude apps.",
+      "Usage credits let a subscriber keep working past the plan limit, billed at standard API rates. With credits on and no monthly spend limit set, /usage shows 'Unlimited'.",
+      "Anthropic's baseline: enterprise deployments average about $13 per developer per active day and $150-250 per month, and 90% of users stay under $30 per active day."
+    ],
+    "gap": "Beginners treat 'Claude' as one product with one price. S016 and its companion pages show two billing worlds, an environment variable that silently switches between them, and a cost figure that looks like a bill but is only a list-price estimate for subscribers. Aaron labels his own measurements (S017) API-equivalent dollars, because on his Max plan the real limit is usage, not money.",
+    "humanRole": "The agent can read /usage and /status and report token counts. The human must know which meter they are on, decide whether usage credits are on and how high the monthly cap is, keep stray API keys out of shell profiles, and read the real bill in the Console or claude.ai settings, which the agent cannot see.",
+    "sids": [
+      "S016",
+      "S017"
+    ],
+    "status": "established",
+    "outdated": [
+      "The /usage dollar figure is my bill (true only on API or cloud billing)",
+      "Having a subscription means Claude Code can never charge me per token"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why does /usage say I spent $40 when I pay a flat monthly price?",
+      "Why did Claude Code say 'Credit balance is too low' when I have Max?",
+      "Am I paying per token or per month?",
+      "What happens when I hit my plan limit: does it start charging me?"
+    ],
+    "demo": "On a subscription, run /usage in Claude Code and compare the Session cost estimate with the plan usage bars. Run /status and show the API key row. Open claude.ai Settings > Usage to show the usage-credits toggle and the monthly spend limit."
+  },
+  {
+    "concept": "Rolling five-hour and weekly usage windows, shared across Claude products",
+    "points": [
+      "Subscription usage resets on a rolling five-hour session window and on a weekly window, and every request counts against both at once.",
+      "On Team and Enterprise seats the allowance is shared with Claude chat and Cowork. The Help Center article for Pro and Max says limits are shared across Claude and Claude Code.",
+      "One heavy burst, such as a large multi-agent fan-out, can use up the weekly allowance before the session window resets.",
+      "The /usage breakdown is computed from session history on this machine only. It leaves out usage on claude.ai and on other devices, so it can understate what you have used.",
+      "Budget more for a coding seat than for a chat seat. Each Claude Code turn carries file contents, tool calls and multi-step reasoning, so one debugging session can use more than a day of chat.",
+      "In Aaron's gauntlet, one Sonnet 5.5 Max session hit his Max plan's usage limit 73 minutes in and had to be resumed after the reset."
+    ],
+    "gap": "People think of limits as per chat or per day. They do not expect chatting on claude.ai to eat the allowance their coding agent needs, or one fan-out to use up a week. Evidence: S016 (the Team and Enterprise section and the errors page) and S017 (one long run hit the plan limit).",
+    "humanRole": "The agent does not plan around your allowance unless told to. The human decides when to run heavy fan-outs (not the day before a deadline), watches the usage bars or a status line, and chooses whether to wait for a reset or buy usage credits.",
+    "sids": [
+      "S016",
+      "S017"
+    ],
+    "status": "established",
+    "outdated": [
+      "Limits are per conversation",
+      "Chat and coding have separate allowances"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Why am I out of Claude Code usage when I barely coded today?",
+      "When does my limit reset?",
+      "Does using Claude in the browser use up my Claude Code limit?"
+    ],
+    "demo": "Open /usage and press d and w to switch between the 24-hour and 7-day views. Point at the session and weekly bars and their reset times. Show the Desktop app's usage ring."
+  },
+  {
+    "concept": "Reading limit and warning messages correctly",
+    "points": [
+      "'You've hit your session limit' or 'You've hit your weekly limit': these are shared across all models, so /model does not help. Wait for the reset time shown, or use usage credits.",
+      "'You've hit your Opus limit' or 'You've hit your Sonnet limit': only that model family is blocked, so switching to another family keeps you working. Each model has its own prompt cache, though, so the next request re-reads the whole conversation with no cache hits.",
+      "'You've hit your individual spend limit', 'org's monthly spend limit' or 'team's shared budget': usage credits reached a cap that you or an admin set. Raise it in claude.ai usage settings, or wait for the plan window to reset if the message names a reset time.",
+      "A context or auto-compact warning is not a usage limit. It means the conversation is nearly full and will be summarised.",
+      "Messages that look similar but mean something else: 'Server is temporarily limiting requests (not your usage limit)' is a short server throttle; lowercase 'spend limit reached' is a self-hosted gateway's cap; 'Request rejected (429)' is the rate limit on your API key or cloud project.",
+      "The early warning looks like 'You've used 85% of your session limit · resets 3:45pm'."
+    ],
+    "gap": "Anthropic's admin guidance has a whole section on telling these limits apart, because developers bring every limit message to admins as if it were the same problem (S016). Beginners switch models to get past a session limit, which does not work, or read a context warning as running out of usage.",
+    "humanRole": "The agent can explain a message if asked, but cannot raise spend limits or buy credits. The human must recognise which limit it is and decide whether to wait, switch model family or raise a cap. On a team, they need to know which admin controls which limit.",
+    "sids": [
+      "S016"
+    ],
+    "status": "new-2026",
+    "outdated": [
+      "Switching to a cheaper model gets you past any limit",
+      "The auto-compact warning means you are out of usage"
+    ],
+    "severity": "medium",
+    "questions": [
+      "I hit my limit: can I just switch to Sonnet?",
+      "What is the difference between a session limit and a spend limit?",
+      "Is the context warning the same as a usage limit?"
+    ],
+    "demo": "Show the four message families side by side from the Claude Code errors reference, then the /usage screen that tells them apart."
+  },
+  {
+    "concept": "Every turn re-reads the whole conversation: cost is context length x turns x agents",
+    "points": [
+      "An agent sends the full conversation, plus each new batch of tool results, with every request. A one-line question in an all-day session pays for the whole history.",
+      "In the bot fleet that ran up $1,500 in one week, Cursor staff found the busiest bots re-reading about 80-90k tokens per step. There was no bug, only long-lived chats.",
+      "In Aaron's 31.6 billion tokens of Claude Code history, cache reads were 97% of tokens. An average Opus request read about 334,000 cached tokens to write about 1,000 output tokens.",
+      "Fix 1: start fresh between unrelated tasks. In Claude Code, /clear costs nothing; in a bot product, start a fresh chat per task.",
+      "Fix 2: keep standing instructions where they load cheaply (a bot profile, CLAUDE.md, skills), and keep task state in files or a tracker such as Notion. Then a fresh chat loses very little.",
+      "Compaction keeps a session going, but /compact is itself a large request, because it reads everything it summarises."
+    ],
+    "gap": "Beginners assume they pay for what they type and read back, and that one long chat that 'remembers everything' is efficient. The CTO in S018, non-technical by his own account, discovered fresh chats only after a week and felt they defeated the point. S016 lists long context as the first reason usage climbs, and S017 measures it as the bulk of the bill.",
+    "humanRole": "The agent will happily keep working in one ever-growing conversation. The human decides where tasks begin and end, clears or starts fresh between unrelated work, and makes sure anything that must persist lives in files or profiles rather than in chat history.",
+    "sids": [
+      "S016",
+      "S017",
+      "S018"
+    ],
+    "status": "established",
+    "outdated": [
+      "You pay for the words you type and read",
+      "One long chat is cheaper because the model already knows the context",
+      "Caching makes a long context free"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why did a one-line question cost so much?",
+      "Should I keep one chat open all day or start new ones?",
+      "What is /clear for, and will I lose my work?",
+      "Why did my bot bill explode when nothing seemed wrong?"
+    ],
+    "demo": "After a long Claude Code session, run /usage to show cache reads dwarfing output. Run /clear and show the Session block reset to $0. Run /context to show what fills the window."
+  },
+  {
+    "concept": "Headline per-token prices mislead: a cheaper model can cost the same or more",
+    "points": [
+      "Prices per million tokens in September 2026, Sonnet 5.5 vs Opus 5.5: input $2 vs $4; output $10 vs $20; 5-minute cache writes $2.50 vs $5; 1-hour cache writes $4 vs $8; cache reads $0.20 on both.",
+      "Cache reads dominate long agent runs and cost the same on both models. Repricing Aaron's whole history at Sonnet rates saves about 27%, not 50%.",
+      "A cheaper model that needs more turns re-reads the cached conversation on every extra turn. On the Loom task, Sonnet made 1.2-2.4x as many requests and cost $79.97 against Opus's $60.92, for identical scores.",
+      "Which model comes out cheaper depends on the task: on Lockkeeper, Sonnet was 13% cheaper. Across all three tests it was about 2% cheaper ($249 vs $255).",
+      "Exchange rate at Opus prices: 1 output token = 100 cache reads = 4 cache writes = 5 input tokens.",
+      "Measure your own workload before switching models to save money. The price table alone cannot tell you."
+    ],
+    "gap": "The pricing page invites a per-token comparison, and Anthropic's own cost guidance (S016) says Sonnet costs less than Opus for most coding. Aaron's measured gauntlet (S017) shows that total cost depends on turns and cached context, not the sticker price. Most people never see their own tokens split by type.",
+    "humanRole": "If asked, the agent can tally tokens from transcripts. The human chooses the model, measures a real task on each before assuming a saving, and weighs quality as well: Opus won four of five Lockkeeper head-to-heads.",
+    "sids": [
+      "S017",
+      "S016"
+    ],
+    "status": "new-2026",
+    "outdated": [
+      "Half the per-token price means half the bill",
+      "Always use the cheapest model to save money"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Is Sonnet really cheaper than Opus?",
+      "Which model should I use to save money?",
+      "What are cache reads and why are they on my bill?"
+    ],
+    "demo": "Show Aaron's Playback Lens split of his own tokens by type (cache reads 97%), then the Loom results table with requests and cost per session."
+  },
+  {
+    "concept": "Effort is a cost multiplier: it sets how much work the agent does",
+    "points": [
+      "On Aaron's Lockkeeper task, Opus at Max effort took about 9x as many actions as at Low, but thought only about 1.7x as long per action. Higher effort mostly means more steps.",
+      "On Loom, Max cost 16x Low on Opus and 18x on Sonnet, for the same perfect 25/25 score.",
+      "More effort did not reliably give better results: on Lockkeeper's hidden canals, both XHigh runs scored worse than both Low runs.",
+      "Max earned its price mainly on open-ended creative work: it produced the two most original music videos, at $20 and $24.",
+      "Thinking tokens are billed as output tokens, the most expensive kind. Thinking cannot be turned off on Opus 5.5, Sonnet 5.5, Haiku 5.5 or the Fable models, but /effort lowers it.",
+      "To get more thoroughness without paying for Max, push from outside the model: an explicit checklist, a stop hook that will not let the session end until the list is done, or a director agent."
+    ],
+    "gap": "People assume effort sets how hard the model thinks per step, so they run Max by default 'to be safe'. Aaron noted that many people run Opus at max. His measurements (S017) show effort is a dial for how much work gets done, with a 16-18x cost range. S016 confirms thinking is billed as output.",
+    "humanRole": "The agent uses whatever effort it is given. The human picks the effort level for each task (low for well-specified work, higher for search or creative exploration) and supplies checklists or hooks when they need thoroughness, rather than paying for Max.",
+    "sids": [
+      "S017",
+      "S016"
+    ],
+    "status": "new-2026",
+    "outdated": [
+      "Higher effort means a smarter answer",
+      "Max effort is the safe default"
+    ],
+    "severity": "medium",
+    "questions": [
+      "What effort level should I use?",
+      "Does max effort give better code?",
+      "Why did the same task cost 16 times more on max?"
+    ],
+    "demo": "Run the same small task with /effort low and with /effort max and compare request counts and tokens in /usage, or show the Loom table from AO-026."
+  },
+  {
+    "concept": "Prompt cache lifetime: breaks, model switches and compaction cause full re-reads",
+    "points": [
+      "Cached context is cheap to re-read only while the cache is warm. The lifetime is one hour on a subscription, drops to five minutes once you are drawing on usage credits, and is five minutes by default on an API key or cloud provider.",
+      "The first message after a break longer than the cache lifetime misses the cache and reprocesses the full context at full price.",
+      "Switching model mid-session means the next request gets no cache hits, because each model has its own cache.",
+      "Cache writes cost more than input (Sonnet 5.5: $2.50 vs $2 for input; 1-hour writes cost double the input price), so rebuilding a large cache over and over is expensive.",
+      "/usage shows a 'Prompt cache (main)' line: the share of input served from cache, the misses with a likely cause, and whether the cache is warm or cold.",
+      "On Pro and Max, when you return to a large session after a long break, Claude Code offers to resume from a summary instead of re-sending the full history."
+    ],
+    "gap": "Caching is invisible: people do not know their cost depends on how long they paused or whether they switched models. S016 lists cache misses among the main reasons usage climbs in a long session, and Claude Code added a dedicated /usage line to show them.",
+    "humanRole": "The agent cannot see when you walk away. The human decides whether to resume a large stale session or start fresh from a summary, avoids switching models mid-task without reason, and checks the cache line when usage looks high.",
+    "sids": [
+      "S016",
+      "S017"
+    ],
+    "status": "established",
+    "outdated": [
+      "Context is cached once and stays cheap forever"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Why did my first message after lunch use so much?",
+      "Does switching models mid-chat cost extra?",
+      "What is a cache miss?"
+    ],
+    "demo": "Show the /usage Prompt cache line before and after an idle break or a /model switch, with the misses and the cold state."
+  },
+  {
+    "concept": "Idle and scheduled spend: routines, loops and check-ins fire with the full context",
+    "points": [
+      "A scheduled task or /loop fires on its interval even while you are idle, and sends the session's full context each time.",
+      "Messages from another of your sessions, and goal check-ins, also start new turns on an idle session. Claude Code caps idle goal check-ins at three per goal; earlier versions had no cap.",
+      "In the $1,500 bot fleet, two routines ran about every 8 and every 30 minutes. Cursor staff advised running them hourly or a few times a day, since each run costs a full turn on that bot's history.",
+      "A community member suggested webhooks instead of polling routines. Whatever creates the task calls a webhook that wakes only the bot responsible, and the webhook carries the message itself, so the bot skips the list-read-search steps.",
+      "On a plan, /usage shows a Loops row for the heaviest scheduled tasks: how often each fires, how many times it ran, and tokens per run.",
+      "Rough arithmetic: a routine every 8 minutes runs 180 times a day. Multiply that by the context re-read on each run."
+    ],
+    "gap": "Schedules feel free because nothing visible happens. S016 lists scheduled tasks, cross-session messages and goal check-ins among the reasons usage climbs while idle. S018 shows real routines, every 8 and every 30 minutes, contributing to a $1,500 week.",
+    "humanRole": "Asked for a 5-minute loop, the agent will set one up without questioning the cost. The human chooses the intervals, prefers event-driven triggers (webhooks) to polling, and reviews the Loops view in /usage for recurring jobs they have forgotten.",
+    "sids": [
+      "S016",
+      "S018"
+    ],
+    "status": "new-2026",
+    "outdated": [
+      "Polling every few minutes is harmless",
+      "An idle session costs nothing"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why is my usage going up when I'm not using it?",
+      "How often should a scheduled agent run?",
+      "What is the difference between polling and a webhook?"
+    ],
+    "demo": "Create a /loop in Claude Code, let it fire a few times, then show its Loops row in /usage with tokens per run. Contrast it with a run triggered by a webhook."
+  },
+  {
+    "concept": "Multi-agent multiplication: teammates, subagents and bots waking bots",
+    "points": [
+      "Each agent has its own context window, so token usage scales roughly with the number of active agents and how long each one runs.",
+      "Claude Code agent teams use about 7x the tokens of a standard session when teammates run in plan mode. Each teammate keeps consuming tokens until it exits.",
+      "In the bot fleet, about a third of all turns were bots waking other bots. Each wake costs a full turn on the receiving bot's history, and its reply wakes the sender again.",
+      "Cursor staff's fix: a line in each bot's profile telling it to message another bot only when that bot must act, with no acknowledgments or progress pings, and to send one summary at the end.",
+      "Use a smaller model for teammates and simple subagents, keep spawn prompts focused, and shut agents down when they are done.",
+      "Subagents keep verbose output out of the main context, but their own requests still count against your usage."
+    ],
+    "gap": "Multi-agent setups are sold as 'a team of colleagues', and the polite chatter that makes them feel like a team is billed per message. S018's owner considered scrapping the whole team model. S016 puts agent teams at about 7x the tokens.",
+    "humanRole": "Unless told not to, agents will thank, acknowledge and ping each other. The human designs the handoff rules, limits team size, chooses a model for each role, and checks attribution to see which agents spend the most.",
+    "sids": [
+      "S016",
+      "S018",
+      "S017"
+    ],
+    "status": "new-2026",
+    "outdated": [
+      "More agents means the work gets done for the same cost, just faster"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why does my multi-agent setup cost so much more than one agent?",
+      "Should my bots talk to each other?",
+      "Do subagents use my usage?"
+    ],
+    "demo": "After a fan-out, show the /usage attribution breakdown with the subagent share. Show a bot thread where an acknowledgment triggers a reply turn."
+  },
+  {
+    "concept": "Agents do not stop or budget themselves: caps and stop decisions are yours",
+    "points": [
+      "Aaron had to stop a Sonnet Max session by hand after 8 hours 42 minutes. It was still tuning, and nothing in the session would have ended it.",
+      "The opposite also happens: two headless runs ended their turn while waiting on a background render, and nothing woke them. Aaron's launcher now resumes them.",
+      "Claude Code's --max-budget-usd caps a run by its session cost figure. Zapier Agents have a built-in cap per run (10 activities on Free plans, 40 on paid), after which the agent pauses and asks.",
+      "Plans have spend limits for usage credits. Set one deliberately rather than leaving it at Unlimited.",
+      "Each Lockkeeper Max run cost $54-62. A long unattended run needs a ceiling chosen before it starts."
+    ],
+    "gap": "People assume the agent will stop when the job is 'done enough', or will tell them when spending gets high. S017 shows that sessions do not know when to stop or how to wait. S016 and S019 show that the caps exist, but the human has to set them or understand them.",
+    "humanRole": "The agent reports progress, not budget. Before launching unattended work, the human sets the run budget, the turn or activity cap, and the spend limit, and checks in on long runs.",
+    "sids": [
+      "S017",
+      "S016",
+      "S019"
+    ],
+    "status": "new-2026",
+    "outdated": [
+      "The agent will stop when it is finished",
+      "The agent will warn me before it spends too much"
+    ],
+    "severity": "high",
+    "questions": [
+      "Can I leave an agent running overnight safely?",
+      "How do I put a dollar cap on a run?",
+      "Why did my agent stop halfway?"
+    ],
+    "demo": "Launch claude -p with a low --max-budget-usd and show it stopping at the cap. Show a Zapier run pausing at its activity limit."
+  },
+  {
+    "concept": "Pay-per-action automations: every step, record and lookup is a billable unit",
+    "points": [
+      "Zapier Agents bill one activity per action, so a single run with many steps uses many activities.",
+      "When a trigger returns several records (for example 10 new leads), the agent repeats its actions for each one, which multiplies the count.",
+      "Each knowledge-source search, each web page visit and each search query is a separate activity.",
+      "On Free plans, tests count toward the monthly quota.",
+      "A trigger pointed at all existing records (a whole spreadsheet) instead of new or updated ones reprocesses everything.",
+      "Keep each agent to about 3-5 related actions, and read the agent's Activity log to see which actions use the most.",
+      "The general shape for any metered automation is actions per item x items per trigger x trigger frequency. This is the crew's generalisation from S019 and S018, not Zapier's claim."
+    ],
+    "gap": "No-code automation feels like 'one workflow, one price'. Zapier published a troubleshooting article (updated 2026-10-01) because users' monthly quotas were draining, sometimes because of a single agent or a few runs.",
+    "humanRole": "The agent follows its instructions step by step and does not care about quota. The human scopes triggers to new data, limits the actions per agent, avoids paid-for tests on Free plans, and checks the activity log after the first runs.",
+    "sids": [
+      "S019",
+      "S018"
+    ],
+    "status": "established",
+    "outdated": [
+      "One automation run costs one task"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Why did my Zapier agent use my whole month in a day?",
+      "Do tests count?",
+      "How do I make my agent only handle new rows?"
+    ],
+    "demo": "Open a Zapier agent's Activity tab, expand a run and count the activities per step. Change a spreadsheet trigger from all rows to new rows."
+  },
+  {
+    "concept": "Feedback loops between an agent and the automation it triggers",
+    "points": [
+      "An agent triggers a Zap that updates data the agent monitors, and that change triggers the agent again: an infinite loop, billed per action.",
+      "Fixes: a filter that stops the loop after one cycle, a 'processed' field that the Zap sets and the agent ignores, or separate data sources for agent input and Zap output.",
+      "The same shape appears when agents message agents: each reply wakes the other, as in the bot fleet where a third of turns were bots waking bots."
+    ],
+    "gap": "Loops are invisible when you design one automation at a time. S019 names agent-Zap loops as a cause of runaway activity use, and S018 shows the conversational version.",
+    "humanRole": "An agent wiring up a workflow may not notice that it closes a loop. The human checks every trigger-and-output pair for cycles and adds a stop condition before switching it on.",
+    "sids": [
+      "S019",
+      "S018"
+    ],
+    "status": "established",
+    "outdated": [],
+    "severity": "medium",
+    "questions": [
+      "Why does my automation keep running by itself?",
+      "How do I stop an agent from re-processing its own output?"
+    ],
+    "demo": "Draw the agent -> Zap -> sheet -> agent cycle. Add a 'processed' checkbox column and a filter, and show that the second run does nothing."
+  },
+  {
+    "concept": "A key is a permission set, and its power can change after you publish it",
+    "points": [
+      "Google Cloud uses one key format (AIza...) both as a public project identifier (Maps, Firebase) and as a credential. For years Google told developers these keys are not secrets and can go in page HTML.",
+      "Enabling the Generative Language (Gemini) API on a project silently gives the project's existing keys Gemini access, including keys already public in JavaScript, with no warning or email.",
+      "New Google Cloud keys defaulted to 'Unrestricted', meaning valid for every enabled API in the project.",
+      "With a scraped key, an attacker can read uploaded files and cached content, run up LLM charges and exhaust quotas. Truffle found 2,863 live vulnerable keys in the November 2025 Common Crawl, including a Google key that had been public since at least February 2023.",
+      "What to do: check every project for the Generative Language API; audit Credentials for unrestricted keys or keys that allow that API; check that those keys are not public (oldest first); rotate exposed ones; restrict by API and by application (HTTP referrer, IP, Android app); use separate keys per environment.",
+      "Scan code and web assets with TruffleHog (--only-verified) to see which leaked keys are live.",
+      "By May 2026, The Register reported, Google required API restrictions when a key is created, no longer allowed one key to reach both Gemini and Maps, and had introduced a separate Gemini key type."
+    ],
+    "gap": "Beginners, and the agents writing their code, follow 'this key is safe to embed' advice that was true when it was written. S020 shows the risk changed underneath keys that were already published. The victims in The Register's story had followed Google's own instructions.",
+    "humanRole": "The agent can paste a key where the docs say to, and can even scan a repo. It cannot see which APIs are enabled on your cloud project, or who on your team enabled Gemini. The human must audit key restrictions in the cloud console and rotate exposed keys, and if they cannot, bring in someone who knows cloud identity and access management (IAM).",
+    "sids": [
+      "S020"
+    ],
+    "status": "new-2026",
+    "outdated": [
+      "Google Maps and Firebase API keys are not secrets, so paste them in your HTML",
+      "A key only does what it was created for"
+    ],
+    "severity": "high",
+    "questions": [
+      "Is it safe to put my Google Maps API key in my website?",
+      "What does 'unrestricted' mean on an API key?",
+      "How would someone run up a bill on my account?"
+    ],
+    "demo": "In the Google Cloud Console, open APIs & Services > Enabled APIs and look for the Generative Language API. Then open Credentials, show the warning icon on an unrestricted key, and add API and referrer restrictions."
+  },
+  {
+    "concept": "Budget caps that alert rather than stop, auto-raised tiers, delayed usage data",
+    "points": [
+      "On Google Cloud, the budget caps one victim had set only sent alerts. $10,138 was charged within minutes, mostly for Veo 3 video and Gemini image output he had never used.",
+      "A developer's $250 Tier 1 cap was raised automatically to Tier 3 (about $100,000), because the attacker's own usage met the criteria: $1,000 paid and 30 days since the first payment. Google said it is keeping this automatic-upgrade policy.",
+      "Charges can land within minutes, while support may need up to 36 hours to show what they were for.",
+      "Refunds are not guaranteed. Google first said it found no evidence of fraud. Both victims hesitated to file chargebacks, fearing their production projects would be suspended, and both were reimbursed only after the press covered it.",
+      "For each provider, know whether a cap is a hard stop or an alert, whether tiers rise automatically, and how to cut off a key within minutes."
+    ],
+    "gap": "People set a budget and assume it is a ceiling. The Register's reporting (S020 companion, 2026-05-13) shows caps that only alert, ceilings raised by the abusive usage itself, and support that could not see the usage for a day and a half.",
+    "humanRole": "The agent cannot see or change your cloud billing settings. The human must read what each cap actually does, prefer hard caps or prepaid credit where they are offered, keep the kill switch (disabling the API or the key) within reach, and handle any dispute.",
+    "sids": [
+      "S020"
+    ],
+    "status": "new-2026",
+    "outdated": [
+      "A budget cap stops spending",
+      "My provider will refund fraud automatically"
+    ],
+    "severity": "high",
+    "questions": [
+      "If I set a budget cap, can I still get a huge bill?",
+      "What do I do if my API key gets stolen?",
+      "Will Google refund unauthorized charges?"
+    ],
+    "demo": "Open a cloud billing budget and show what it does when crossed (an alert email or a shutdown). Show where the quota tier appears and how to disable a key or an API in one click."
+  },
+  {
+    "concept": "Context you did not type: CLAUDE.md, skills, MCP servers and tool output",
+    "points": [
+      "CLAUDE.md is loaded into context at every session start. Anthropic suggests keeping it under 200 lines and moving specialised workflows into skills, which load only when needed.",
+      "MCP tool definitions are deferred by default, but CLI tools (gh, aws, gcloud) still use less context than MCP servers. Disable unused servers with /mcp.",
+      "Agent teammates automatically load CLAUDE.md, MCP servers and skills, and everything in a spawn prompt adds to their starting context.",
+      "Hooks can preprocess output, for example by grepping a 10,000-line log for ERROR, so the agent reads hundreds of tokens instead of tens of thousands.",
+      "Vague prompts like 'improve this codebase' trigger broad scanning. Specific prompts let the agent read fewer files.",
+      "/context shows what is taking up space. The /usage attribution shows usage by skill, subagent, plugin and MCP server."
+    ],
+    "gap": "Beginners count only their own prompt. S016 has a whole section on overhead from setup files, MCP servers and verbose tool output, all of which is re-read every turn.",
+    "humanRole": "The agent reads whatever is loaded and whatever tools return. The human keeps standing files lean, removes unused servers, and asks the agent to add filtering hooks for noisy commands.",
+    "sids": [
+      "S016"
+    ],
+    "status": "established",
+    "outdated": [
+      "Only my prompt counts toward usage"
+    ],
+    "severity": "low",
+    "questions": [
+      "Why is my context already full at the start?",
+      "Do MCP servers cost tokens?",
+      "How long should CLAUDE.md be?"
+    ],
+    "demo": "Run /context in a fresh session to show the baseline from CLAUDE.md, skills and MCP. Disable a server and run /context again."
+  },
+  {
+    "concept": "Finding what is spending: attribution and activity views",
+    "points": [
+      "On a plan, Claude Code's /usage breaks recent usage down by skill, subagent, plugin and individual MCP server. It flags behaviours that account for 10% or more of recent usage (long context, cache misses) and lists the heaviest loops.",
+      "For API users, the bill that counts is on the Claude Console usage page. Teams use the spend report in org analytics, and cloud-provider users use their billing console or OpenTelemetry.",
+      "Cursor staff pointed the bot-fleet owner to Cursor's usage dashboard (cursor.com/dashboard/usage) to watch how his daily spend changed.",
+      "Zapier's agent Activity log shows which actions used activities in each run.",
+      "Aaron measured exact tokens per session from Claude Code transcripts (with Playback Lens) instead of estimating."
+    ],
+    "gap": "When a bill spikes, beginners guess (the model? a bug? a loop?) instead of reading the breakdown. All four products have a view that names the culprit. The fleet owner in S018 asked support whether it was a bug, when the answer was in his usage pattern.",
+    "humanRole": "Pointed at these views, the agent can read and summarise them. The human checks them after the first runs of any new setup and after any spike, and decides what to change.",
+    "sids": [
+      "S016",
+      "S018",
+      "S019",
+      "S017"
+    ],
+    "status": "new-2026",
+    "outdated": [],
+    "severity": "low",
+    "questions": [
+      "How do I see what used my tokens?",
+      "Which of my agents is the expensive one?",
+      "Is this a bug or normal usage?"
+    ],
+    "demo": "Open /usage, press d and w to switch time windows, and read the attribution and Loops rows. Open the Zapier Activity tab, which serves the same purpose."
+  }
+]

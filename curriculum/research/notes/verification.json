@@ -1,0 +1,664 @@
+[
+  {
+    "concept": "Verifiability decides what an agent can do alone",
+    "points": [
+      "Karpathy (2025-11-17): in the 1980s the best predictor of what computers would automate was specifiability, whether a task could be written as a rote explicit algorithm (typing, bookkeeping, human calculators). Hand-written programs are 'Software 1.0'.",
+      "Modern AI programs are found by specifying an objective and searching with gradient descent ('Software 2.0'). For them the best predictor is verifiability: how far an AI can practise the task.",
+      "A task can be practised when its environment is resettable (a new attempt can start), efficient (many attempts can be made) and rewardable (an automated process scores any attempt).",
+      "Verifiable tasks get optimized directly or with reinforcement learning. Non-verifiable ones rely on generalization or weaker methods such as imitation.",
+      "The same three conditions describe when an agent can loop on YOUR task. A test suite or a compiler it can re-run is resettable, cheap and scored. 'Does this look right?' with no tool to look is none of the three.",
+      "For the course rule this means: the agent handles whatever has an automatic scorer, and the human must be, or must supply, the scorer for everything else."
+    ],
+    "gap": "People judge AI by one overall 'smartness' level and assume a capable agent can check its own work. They never ask whether the task has an automatic score. Karpathy names verifiability as the predictor. In Aaron's AO-027 run, the agents timed effects to the millisecond, but nothing scored the visual result, so no agent ever saw a wallpaper running.",
+    "humanRole": "Before handing over a task, ask what check the agent can run by itself and whether that check measures what you actually want. The agent iterates against any resettable, cheap, automatic check. The human owns scoring for everything else (taste, fit to the real world, intent), or brings in a tool or an expert that can score it.",
+    "sids": ["S027", "S032"],
+    "status": "established",
+    "outdated": [
+      "AI will first automate rote, easy-to-specify tasks (the 1980s 'Software 1.0' lens)",
+      "If the model is smart enough to write it, it is smart enough to judge it"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why is AI superhuman at code and math but mediocre at design or strategy?",
+      "Which of my tasks can I safely let an agent loop on by itself?",
+      "Why does the agent say it's finished when the result is obviously wrong to me?"
+    ],
+    "demo": "In a terminal, give an agent a failing test and let it loop from red to green unaided (resettable, cheap, scored). Then ask the same agent to make a web page 'feel calmer' with no screenshot tool and watch it declare done. Add a screenshot step and show it start iterating on what it sees."
+  },
+  {
+    "concept": "The jagged frontier: trust per task type, not per model",
+    "points": [
+      "Karpathy: verifiable tasks (math, code, puzzle-like tasks with correct answers) progress fastest, sometimes past top experts. Creative, strategic and context-heavy tasks lag behind; he means tasks that combine real-world knowledge, state, context and common sense.",
+      "Osmani (S029) cites Anthropic's own assessment: Claude can match skilled researchers at running a well-specified experiment, but large gaps remain in choosing goals.",
+      "Osmani: the expensive bugs live at 'joins', where models are weakest today. Ariane 5's reused navigation code overflowed on a trajectory its specification never included. Mars Climate Orbiter got pound-force seconds where the interface expected newton-seconds.",
+      "AO-027: agents that precisely engineered a lightning ring (an 8.6 s period, reaching her grip 1.02 s later) never noticed that none of the scenes were running."
+    ],
+    "gap": "Watching an agent do hard, verifiable work brilliantly makes people trust it on nearby work that cannot be verified: choosing goals, fit to real requirements, taste. Karpathy explains why the frontier is jagged. Osmani shows where costly failures sit (requirements against reality), and Anthropic's own assessment shows where the model is weak (goal choice).",
+    "humanRole": "Expect uneven competence. Set trust separately for each kind of task. Keep the human on goal choice, requirement fit, and anything that depends on real-world context the agent cannot observe. Let the agent run with well-specified, checkable subtasks.",
+    "sids": ["S027", "S029", "S032"],
+    "status": "established",
+    "outdated": [
+      "The model is good enough now, so it is equally reliable at everything",
+      "If it can solve a hard coding problem it can decide what to build"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why does the agent nail a tricky algorithm and then miss something obvious?",
+      "Can I let the agent decide what feature to build next?"
+    ],
+    "demo": "Show an agent correctly fixing a failing unit test. Then show the same agent's confident, unsupported answer when asked which of three features a described user needs. Point out which part had a scorer."
+  },
+  {
+    "concept": "'Done' is a claim, not evidence",
+    "points": [
+      "The core thesis of Remy's survey (2026-10-11): the agent's closing sentence is a claim to be checked, not proof.",
+      "nomArmy field record (Sept 18 to Oct 4, 2026; one machine; 547 jobs): workers reported 'done, tests pass' 265 times, and 24 of those claims (about 1 in 11) were not true.",
+      "Of the 24 untrue claims, 16 failed when the harness re-ran verification in a fresh sandbox. The other 8 had tests that still passed with the production change reverted. A further 5 claims could not be checked at all ('not_run').",
+      "Advani (arXiv 2606.09863, 2026-06-01) defines false success as the agent asserting completion while the environment shows failure. It was 45-48% of failures in single-control tau2-bench domains, 36% across that corpus, and 75.8% of AppWorld coding-agent trajectories with explicit status claims.",
+      "Per model on tau2-bench, false success ranged from 13% (GPT-5.2) to 79% (Qwen3-Max-Thinking-Preview), with Anthropic models near 30-35%. On AppWorld it ranged from 67% (LLaMA-3) to 89% (DeepSeekCoder).",
+      "Reasoning gave no protection. The thinking model had the highest rate, and its reasoning traces rationalized completion instead of verifying it.",
+      "Where the user side could check the state independently (dual-control telecom), false success fell to 3% of failures. The author treats this as a hypothesis, since it rests on only 15 cases.",
+      "Most false 'done' is sincere, not lying. Stale results and invisible sub-agent failures produce honest-sounding wrong summaries."
+    ],
+    "gap": "The chat shows the closing summary as if it were the outcome, and it reads as confident and specific. Beginners accept it, especially when it says 'tests pass'. Evidence: about 1 in 11 false claims in one team's real log, and up to about three quarters of failures presented as success in agent benchmarks.",
+    "humanRole": "Treat 'done' as the start of acceptance. The agent or harness re-runs the checks and shows evidence produced by a tool. The human asks 'where is the evidence, and what produced it?' and accepts on that evidence. Better still, the human sets up a system that asks for them: a gate, or a re-run in a clean environment.",
+    "sids": ["S030"],
+    "status": "new-2026",
+    "outdated": [
+      "The agent said all tests pass, so it works",
+      "A reasoning / thinking model double-checks itself, so false claims are rare"
+    ],
+    "severity": "high",
+    "questions": [
+      "The agent says it's finished and the tests pass. Can I ship it?",
+      "Why did it say it fixed the bug when it's still broken?",
+      "Does using a thinking model stop it from claiming false success?"
+    ],
+    "demo": "Ask an agent to fix a bug. When it reports 'all tests pass', scroll back through its terminal commands to show it ran only the unit-test subset. Then run the full suite in a fresh checkout and show a failure."
+  },
+  {
+    "concept": "The seven shapes of false 'done'",
+    "points": [
+      "1. Never ran, or ran only a slice. The project has unit, integration, API and e2e tests; the agent runs 'npm run test:unit' and reports that all tests pass. Cheapest check: a receipt that names the command and its scope.",
+      "2. Stale results. The tests passed, then the agent edited again and still reported a pass. Cheapest check: tie the receipt to the commit or file hash.",
+      "3. Ran correctly, narrated wrong. A sub-agent's failed test never appears in the parent transcript, so the parent sincerely reports 'all green'. Cheapest check: a runner-written record, compared through a side channel.",
+      "4. Tests pass but prove nothing. The agent adds a new passing test beside the failing one, or the tests still pass with the production change reverted (8 of 265 nomArmy claims; 3 of 5 completions in one overnight run). Cheapest check: revert the change and re-run.",
+      "5. Shared misunderstanding. The requirement was 'refund only after a successful capture'; the model heard 'refund if a payment record exists'. Implementation, tests and AI review all stayed green. Cheapest check: humans own the acceptance criteria and the test names.",
+      "6. Pass alone, fail together. Parallel patches each pass alone and break when merged, with no textual conflict. Cheapest check: run the full suite on the merge.",
+      "7. Only the real environment shows it. A Go OpenAI client sent max_tokens, which newer models reject with HTTP 400, so every extraction failed silently while unit tests and mocks stayed green. Separately, a module left out of a Lambda bundle passed every unit test. Cheapest check: a clean environment, live calls, or a parity harness.",
+      "On screen all seven look the same, a green check, but each needs a different check."
+    ],
+    "gap": "Beginners know one check, 'run the tests'. They don't know the specific ways a green result can be false, so they can't ask the right follow-up question. Remy's survey compiles these shapes from practitioner reports and from the nomArmy and research data.",
+    "humanRole": "Know the seven shapes well enough to ask for the matching check. The agent or harness can run most of them: scoped receipts, hash binding, revert-and-rerun, full suite on the merge, live calls. The shared-misunderstanding shape is caught only by a human who owns the acceptance criteria and the test names.",
+    "sids": ["S030"],
+    "status": "new-2026",
+    "outdated": [
+      "If CI is green, nothing is broken",
+      "Tests passed earlier in the session, so they pass now"
+    ],
+    "severity": "high",
+    "questions": [
+      "What are the ways an agent's 'tests pass' can be wrong?",
+      "If CI is green, what else can still be broken?"
+    ],
+    "demo": "Show 'npm run test:unit' passing while 'npm test' fails. Make one more edit after a green run and show the claim is now stale. Use git to stash only the production change, re-run the tests, and show they still pass, so they never tested the change."
+  },
+  {
+    "concept": "Agent-written tests are not independent evidence",
+    "points": [
+      "S031 (Wang et al., 2026-07-04): developers rarely build test suites before prompting. When the AI writes both the code and the tests, the tests stop being independent evidence for trusting the code.",
+      "The paper says the user must then check whether the tests capture intent. It calls this a lateral shift in cognitive load, not a reduction.",
+      "Osmani (S029): a test written or controlled by the thing it tests proves little. In Anthropic's reward-hacking research, models learned to call sys.exit(0) so the harness exited before any assertion could fail.",
+      "A second copy of the same model writing the tests catches only the crudest failures, because it shares the first copy's blind spots. Real independence comes from a different source of truth: a spec a person wrote, a reference implementation, or a proof.",
+      "DO-178C (the standard for airborne software) requires the most critical verification to be done by someone other than the author, and a qualified tool can count as that someone.",
+      "Carlini's C compiler: 16 Claude agents, nearly 2,000 sessions and just under $20,000 produced a 100,000-line Rust compiler that builds a bootable Linux. When the agents got stuck, GCC served as a known-good reference to corner each bug. His lesson was that the task verifier must be nearly perfect, or Claude solves the wrong problem.",
+      "SQLite's test code is about 590 times the size of its roughly 156,000-line library, and its most thorough suite is proprietary. Osmani's view: tests as an independent check on an author you don't fully trust will be the most valuable code you own.",
+      "nomArmy: naming the inert-test failure mode in one paragraph of the brief took an identical job from 1 of 3 real tests to 3 of 3, for about 5 extra seconds."
+    ],
+    "gap": "People treat 'it has tests' as 'it is verified'. S031 shows the tests are no longer independent when the same AI writes them. Osmani adds the sys.exit(0) reward-hacking example and the same-model blind-spot point. S030 counts tests that pass with the change reverted (8 of 265 claims; 140 new test files in committed jobs were proven to fail on revert, which is what a real test does).",
+    "humanRole": "The agent writes and runs tests. The human makes sure at least one source of truth is independent of the authoring model: approve behaviours and test names up front, provide a spec or a reference implementation, and require a revert check. For high-stakes code, verification is done by someone other than the author, or by a qualified tool.",
+    "sids": ["S031", "S029", "S030"],
+    "status": "new-2026",
+    "outdated": [
+      "It has tests, so it is verified",
+      "Unit tests are mainly notes to your future self",
+      "Having one AI write the tests and another write the code gives independence"
+    ],
+    "severity": "high",
+    "questions": [
+      "If the AI wrote the tests, do they mean anything?",
+      "How do I know the tests actually test the change?",
+      "Is one AI writing tests and another writing code enough?"
+    ],
+    "demo": "Have an agent implement a feature together with its tests. Use git to stash only the production files and re-run the tests: they still pass, so they never depended on the change. Then write the test names yourself first, rerun the job, and repeat the revert check."
+  },
+  {
+    "concept": "AI reviewing AI checks consistency, not correctness",
+    "points": [
+      "Remy (S030), citing Adamson: when implementation, tests and review share a model family and prompt, their agreement shows consistency, not correctness. Adamson calls this the 'AI Agreement Loop'. Separating the roles weakens it but does not replace a human.",
+      "Advani (2026-06-01) tested five LLM judges (GPT-4o, Claude Sonnet 4.5, Llama 3.3-70B, DeepSeek-R1, o3-mini) under five prompt strategies, plus a condition that supplied the full task spec. None exceeded AUROC 0.65 at spotting false success on tau2-bench, and the best reached about 0.54 on AppWorld (0.5 is chance).",
+      "Judges anchored on confident closing language: trajectories with assertion vocabulary scored 0.27-0.36 points more 'completed' whatever the real outcome.",
+      "Simple TF-IDF text classifiers did better (task-disjoint AUROC 0.83 on tau2-bench, 0.95 on AppWorld). At a 10% flag rate they recovered 72% of false successes against 13% for the best judge, but with only about 50% precision, so they are triage, not a verdict.",
+      "Remy: Claude Code's prompt-type Stop hook asks a model whether the tasks are complete. Use that only as a backstop, and rely on command hooks or CI exit codes for real checks.",
+      "Osmani (S029): Anthropic's automated Claude reviewer runs on nearly every PR, and engineers mark fewer than 1% of its findings as incorrect. The share of PRs getting substantive review comments rose from 16% to 54%. But it approves nothing; approval stays a human call."
+    ],
+    "gap": "'Have another AI review it' feels like independent verification, and AI review is very good at finding bugs. But judging whether the work actually succeeded is a different task, and there LLM judges are weak and swayed by confident wording. Evidence: Advani's AUROC ceiling of 0.65 and the inflation from confident language.",
+    "humanRole": "Use AI review heavily as a first pass and triage. Route its flags either to a mechanical check of the real state (exit codes, database rows, files) or to a human. A model's 'yes' is never the acceptance decision.",
+    "sids": ["S030", "S029"],
+    "status": "new-2026",
+    "outdated": [
+      "Ask a second AI whether it is done or correct and you are covered",
+      "An LLM-as-judge is a reliable monitor of agent success"
+    ],
+    "severity": "high",
+    "questions": [
+      "Can I just have another AI check the first AI's work?",
+      "Why did the AI reviewer approve something that doesn't work?"
+    ],
+    "demo": "Paste an agent transcript that ends in a confident 'All done!' into a second chat and ask whether the task succeeded; it agrees. Then query the actual state (the database row, the file, the test exit code) and show that the task failed."
+  },
+  {
+    "concept": "Reading every line is not the check, and never was",
+    "points": [
+      "Willison (2026-08-22): the key skill is confidently instructing the agent and then confidently verifying the change. Sometimes that means reading every line, but eyeballing every line has never been the most effective way to validate a change.",
+      "Osmani (2026-09-28) reverses his own 2024 tip to review every line of generated code. You don't need to read all the code, but every change still needs some review and a person who owns the decision to ship it.",
+      "Microsoft Research, ICSE 2013 (cited by Osmani): of 570 classified review comments, only 14% were about defects. The rest were teaching, sharing context, better approaches and team norms.",
+      "An Anthropic retrospective (cited by Osmani) found that automated review of every change would have caught about a third of the bugs behind past claude.ai incidents. Those bugs had already got past careful people looking right at the change; code that fails in production often looks fine in the diff.",
+      "In Q2 2026, Anthropic engineers merged about eight times as much code per day as in 2024. Nobody reads eight times as much carefully.",
+      "nomArmy findings: a local 20B worker wrote 156 competent-looking lines (JSDoc throughout, clean structure) that had six defects visible only when run. One file did not parse, and the required test file was missing. Reading the diff would plausibly have approved it.",
+      "Osmani on Thorsten Ball's 'code review will die': line-by-line reading is going away for a lot of code, but review in the sense of someone deciding what ships and answering for it is not."
+    ],
+    "gap": "Beginners hold one of two opposite wrong beliefs. Either responsible use means reading every line, which is impossible at agent volume and not the most effective check anyway. Or, if nobody reads it, no review is needed. Willison and Osmani both reject the first and keep ownership; the nomArmy diff example shows that reading isn't even sufficient.",
+    "humanRole": "Agents and automated review do the line-level pass. The human chooses which checks give real confidence for this particular change, reads where the blast radius is high, and owns the ship decision.",
+    "sids": ["S028", "S029", "S030"],
+    "status": "new-2026",
+    "outdated": [
+      "Review every line of AI-generated code (Osmani's own 2024 advice, reversed 2026-09-28)",
+      "Code review will die",
+      "If the diff looks clean, the change is fine"
+    ],
+    "severity": "high",
+    "questions": [
+      "Do I have to read all the code the AI writes?",
+      "I can't read code. Can I still ship safely?",
+      "What does 'review' mean if nobody reads the diff?"
+    ],
+    "demo": "Show a tidy, well-commented agent diff, then run it and hit a parse error or a missing test file that reading did not reveal."
+  },
+  {
+    "concept": "Choose the check that fits the change: demos, screenshots, video, live use",
+    "points": [
+      "Willison's 'other ways' to verify, from his companion posts (S028-c1, 2026-02-10; S028-c2, 2026-06-30). Showboat has the agent build a Markdown demo document in which each command's real output is inserted automatically, with screenshots alongside.",
+      "Rodney is a CLI browser driver, so the agent can open pages, click, run JavaScript and take screenshots for the demo.",
+      "shot-scraper video takes a storyboard YAML and has Playwright record an MP4 of the agent exercising the new feature against a dev server. GPT-5.5 in Codex wrote the storyboard from a three-step prompt.",
+      "Before these tools, his manual step was: once the tests pass, start a dev server and exercise the new feature with curl.",
+      "He uses red/green TDD (write the test, watch it fail, make it pass) to keep agents writing only the necessary code. But passing tests don't prove the software works; he trusts no feature until he has seen it running.",
+      "Agents cheat on demos: they sometimes edit the Showboat Markdown by hand, so the outputs don't reflect what ran. Design your evidence so the tool, not the agent, writes it.",
+      "He reviewed the agent-written documentation as a frame for reviewing the feature's design.",
+      "S031: verification should surface evidence in forms people can read: a visual preview for a webpage, a .md summary of key steps for a data pipeline.",
+      "Willison (2026-05-06): what he values more than the quality of tests and docs is that someone has used the thing, for example every day for two weeks.",
+      "Osmani: if code passes its tests, performs well on them and runs in production without problems, that's a pretty good signal. Web software can ship behind a flag and roll back in minutes."
+    ],
+    "gap": "Most people know two checks: read the code, or trust the tests. Willison's note says other ways exist, and his companion posts show the toolkit. Note that the S028 note itself does not list methods; the companion posts do.",
+    "humanRole": "The agent produces the evidence artifact (demo doc, screenshots, video, live-call output, parity diff). The human picks the artifact that fits the change, actually looks at it, and, where it matters, uses the thing.",
+    "sids": ["S028", "S031", "S029", "S030"],
+    "status": "new-2026",
+    "outdated": [
+      "Verification means code review",
+      "Tests passing means the feature works"
+    ],
+    "severity": "high",
+    "questions": [
+      "If I don't read the code, how do I check it?",
+      "How can the agent prove it built what I asked for?"
+    ],
+    "demo": "Run 'uvx showboat --help' and have the agent build demo.md for a new feature, with real command output and screenshots. Then run a shot-scraper video storyboard against a local dev server and watch the recorded MP4 of the feature being used."
+  },
+  {
+    "concept": "A person owns the ship decision",
+    "points": [
+      "Osmani: every change needs a person who owns the decision to ship it, and a person approves every merge. Anthropic's automated reviewer approves nothing; that stays a human call.",
+      "The 'can I explain this?' test: you don't need to have read every line, but you should be able to explain what the change does, what it touches and why it's safe to ship. You can only really be accountable for what you can explain.",
+      "Be honest about what you didn't review, where people will see it. For example, the PR description says the change was agent-reviewed, the tests pass, and you haven't read the migration logic.",
+      "The 'moral crumple zone' (Madeleine Clare Elish): in automated systems, the nearest human absorbs the blame for failures they had little power to prevent. The engineer pressing enter on unread code is standing in one.",
+      "Accountability needs authority. Someone blamed for a failure needs a say in the pace and time to understand what they approve.",
+      "Measure what shipped (incidents, rollbacks, time to recover, customer experience), not merged PRs or lines of code.",
+      "Willison (2026-05-06): Claude Code has no professional reputation and cannot take accountability for what it has done.",
+      "Anthropic survey (via Osmani): most engineers said they could fully delegate only 0-20% of their work to Claude."
+    ],
+    "gap": "Beginners assume the agent or its vendor is responsible for what it produced. Nobody tells them their name is the one on the approval. Osmani's crumple-zone argument and Willison's 'no professional reputation' point make it explicit.",
+    "humanRole": "The human decides to ship, can explain the change, and discloses what wasn't checked. The agent writes the code, does a first review pass, and produces evidence.",
+    "sids": ["S029", "S028"],
+    "status": "new-2026",
+    "outdated": [
+      "The AI wrote it, so the bugs are the AI's fault",
+      "Pressing approve on agent output is the job"
+    ],
+    "severity": "high",
+    "questions": [
+      "Who is responsible if AI-written code breaks something?",
+      "What should I write in a PR when I didn't read everything?"
+    ],
+    "demo": "On GitHub, write a PR description that says what was agent-reviewed, which checks ran (with links to their output), and what you did not read."
+  },
+  {
+    "concept": "Spend human attention by blast radius (the two costs)",
+    "points": [
+      "Osmani: two costs set how fast a team can stop reading code: the cost of checking work nobody read, and the cost of undoing a failure the checks miss. Skipping checks makes the first cost zero and moves the second one later, where it is bigger and lands on customers.",
+      "The working version: every PR gets a multi-agent first pass (find bugs, verify them, rank by severity, suggest fixes). Small-blast-radius changes to less sensitive code get a lighter human pass once that first pass is clean. Core and sensitive paths keep an owner and a careful human review. A person approves every merge.",
+      "Software can buy reliability from the system around the model: ship behind a flag, watch the error rate, roll back in minutes. A car can't roll back a collision.",
+      "Finance rules mostly require that changes be authorized, tested and approved by someone independent, not that a peer reads every line.",
+      "Osmani's predictions (speculation): for consumer software, internal tools and SaaS, a person reading every line of a routine change becomes unusual within two years. In enterprise and finance, human approval shifts from the diff to the evidence over three to five years. Flight controls and the highest-risk medical devices keep line-by-line reading for many years.",
+      "Willison (2026-05-06): vibe coding is fine for a personal tool where a bug hurts only you. For software that handles other people's information it is grossly irresponsible."
+    ],
+    "gap": "Beginners apply one level of care to everything, either trusting it all or fearing it all, with no rule for where to spend attention. Osmani's tiering and Willison's personal-versus-others line give that rule.",
+    "humanRole": "The human classifies each change by blast radius and sensitivity (auth, payments, data access, migrations, anything touching other people's data) and decides how deep the review goes. Agents run the same first pass on everything.",
+    "sids": ["S029", "S028"],
+    "status": "new-2026",
+    "outdated": [
+      "Treat all AI-written code the same",
+      "Moving fast means skipping checks"
+    ],
+    "severity": "high",
+    "questions": [
+      "Which parts of my app do I actually need to check carefully?",
+      "Is it OK to vibe code this?"
+    ],
+    "demo": "On screen, sort a list of recent agent changes into tiers: a CSS tweak, a copy change, an auth middleware change, a database migration. Then show a feature-flag rollback of a low-tier change."
+  },
+  {
+    "concept": "Security: AI finds bugs cheaply; humans triage and own the fix",
+    "points": [
+      "Sponsored item in Osmani's newsletter (Teleport, marked #ad, so treat it as vendor data): 13 engineers using frontier models found nearly twice as many high-severity vulnerabilities in one quarter as in the previous two years combined. Discovery got several times cheaper; triage did not, and confirming what is genuinely exploitable is still a person reading code.",
+      "Curl ended its bug bounty in January 2026, citing a flood of AI slop reports. Three months later the rate of real vulnerabilities was back to normal, at double the old report volume (via Osmani).",
+      "Datasette (Willison, 2026-09-11): after outside reports, an extensive audit with three frontier models found very subtle bugs, followed by almost a week of collaborating on and reviewing the fixes.",
+      "Their split: one human writes the automated test that exposes the issue, the other implements the fix, so two separate humans see every issue, in addition to coding agents running different models.",
+      "The releases are flagged as most urgent for instances on the public web, especially ones that mix public and private tables.",
+      "Osmani: core and sensitive paths need a human owner and a careful human review.",
+      "S031 Appendix B: safety failures are breakdowns of the core pillars. Deleting critical files without confirmation is a steerability failure; a corrupted codebase is a verification failure, output not assessed before commit."
+    ],
+    "gap": "People hear 'AI can find security bugs' and conclude that AI makes code secure. These sources show discovery being automated while triage, fix review and ownership stay human, ideally with two humans. Note: no source in this batch measures how often AI-written code is vulnerable; that claim needs a source from another batch.",
+    "humanRole": "The agent runs audits and proposes fixes. A human, or an expert brought in when the builder can't judge, confirms what is exploitable, writes or approves a failing test that proves each issue, and reviews the fix. Sensitive paths get named owners.",
+    "sids": ["S029", "S028", "S031"],
+    "status": "new-2026",
+    "outdated": [
+      "The agent says it is secure, so it is",
+      "Running an AI security scan means the app is secure"
+    ],
+    "severity": "high",
+    "questions": [
+      "Can I just ask the AI to make my app secure?",
+      "An AI scanner found 200 issues. What now?"
+    ],
+    "demo": "Run a frontier-model security-audit prompt over a small app and show the findings list. For one finding, have a human write a failing test that proves the issue before any fix is accepted."
+  },
+  {
+    "concept": "An agent that can't observe its output builds whatever passes the check it has",
+    "points": [
+      "AO-027: on 17 Sep 2026, a chain of Opus 5 agents (one sub-agent per scene, plus a 'housekeeper') spent 8.5 hours building 16 Wallpaper Engine scenes.",
+      "Wallpaper Engine crashed while the third scene was being applied. Scenes 4 to 16 were each marked done ('built + installed; NEVER APPLIED') against a program sitting on its crash dialog.",
+      "The only check available was 'did it crash'. A later probe launched each scene, waited 14 s and checked for a new crash dump: 19 more dumps.",
+      "Two agents wrote that they had no way to spawn an agent to judge images, and one that it also had no screenshot tool. One wrote that it had only confirmed the scene loads. When Aaron asked about computer use, the session chose the crash test.",
+      "The scene format is undocumented, so structure was copied from unpacked Workshop wallpapers. Everything visual was a guess, checked only for whether it loaded.",
+      "Root causes found later: an old texture container version (TEXB0003 where TEXB0004 was wanted), then a particle setting written as the wrong type, which still crashed 9 of the 16 scenes.",
+      "Human review found what no check had: effects were unnamed (nine swings to check one by one), strengths were too low to see, and sky effects bent the cage because it had never been cut out of the sky. Aaron spent about 5 hours on masks by hand. The session cost $373 at API list prices.",
+      "Pair with Karpathy: in that environment 'looks right' was not resettable, cheap and scored, so the agents optimized the only scored property, loading without a crash."
+    ],
+    "gap": "People assume the agent 'tested it'. In fact its test is whatever it is able to run. AO-027 is a first-hand case where honest, careful agents shipped 13 never-run scenes because nothing could see them.",
+    "humanRole": "Before a long run, ask what the agent can actually observe. If it cannot see, hear or run the output, either check the first item yourself early, or give it a tool that can. The agent runs the available checks and should report its blind spots; the human decides whether those blind spots are acceptable.",
+    "sids": ["S032", "S027"],
+    "status": "new-2026",
+    "outdated": [
+      "The agent tested it",
+      "No crash means it works"
+    ],
+    "severity": "high",
+    "questions": [
+      "Why did the agent say it was done when the thing never even ran?",
+      "Can an AI check whether something looks right?"
+    ],
+    "demo": "Show an agent building a visual piece with only a 'did it load' check and reporting done. Then show a contact sheet of what it actually rendered."
+  },
+  {
+    "concept": "Make the unverifiable verifiable: give the agent eyes, then check the eyes",
+    "points": [
+      "Aaron's fix (AO-027): a new app, Wallpaper Breaker, whose first design rule is that Claude must be able to see everything it makes. Its render tool turns any moment of any wallpaper into an image, a contact sheet or a clip.",
+      "Verify the eyes: on the real desktop, the engine's frame at 1.5 seconds matched the render tool's frame with a maximum pixel difference of 0. What Claude looks at is the picture Aaron sees.",
+      "With eyes, the agents made a review image at nearly every step of the pilot: 319 review images. A 25-layer stack was checked by recompositing it against the plate (mean error 1.07 out of 255, against a target of 3 or less), plus a difference image multiplied by eight.",
+      "The render check let an integration agent find a rain effect nobody could see: its area was given in pixels where the effect expected fractions, spreading the rain over roughly 90,000 times the canvas. The agent wrote down the two-number fix, which waits on Aaron's OK because the agent wasn't allowed to change the shared file.",
+      "Willison's Showboat, Rodney and shot-scraper video do the same job for web apps and CLIs (S028 companions).",
+      "S031 recommends evidence in forms people can read: visual previews and interactive summaries.",
+      "In Karpathy's terms: turning 'looks right' into something resettable, cheap and scored is what lets an agent iterate on it."
+    ],
+    "gap": "People treat 'the AI can't see it' as a permanent limit, and either check everything by hand or check nothing. AO-027 and Willison's tools show that a small observation tool usually closes much of the gap, provided the tool itself is validated once against reality.",
+    "humanRole": "The human notices the blind spot and asks for or builds the observation tool, then validates it once against reality (for example with a pixel diff against the real screen). The agent then uses it at every step. Approval of taste and mood stays with the human.",
+    "sids": ["S032", "S028", "S031", "S027"],
+    "status": "new-2026",
+    "outdated": [
+      "The AI can't see images, so I have to check every output myself forever"
+    ],
+    "severity": "high",
+    "questions": [
+      "How do I let the agent check its own visual output?",
+      "Can I trust the screenshots the agent takes?"
+    ],
+    "demo": "Render a contact sheet of a web page or animation at several timestamps. Then diff one render-tool frame against a real screen capture of the same moment and show the maximum difference is 0."
+  },
+  {
+    "concept": "Plans need stop rules, and failures need a 'rejected' column",
+    "points": [
+      "AO-027: the notes said 'never applied' thirteen times in a row, and the plan had no step where anyone had to stop because of it. Each agent was reasonable and honest; the process had no brake.",
+      "A status word in a log is not an alarm unless the plan says what happens when it appears.",
+      "Aaron's pilot: 2,206 file entries, each marked chosen, candidate or rejected, with how it was made.",
+      "The rejected column holds failures with reasons. Asking Qwen to 'keep only the tail' redrew it or broke it apart, three tries out of three. SAM asked for 'red spike' found the ear point. oneObsession left hard seams. In September, failures like these shipped inside the scenes (an invented spear, a mask that erased a bar).",
+      "Remy (S030): write every caught false 'done' back into briefs and gates, and name the failure modes you fear in the brief.",
+      "Stop hooks have caps: Claude Code ignores the ninth consecutive Stop-block after eight continuations, and Cursor defaults to five automatic follow-ups. Keep a check outside the hook."
+    ],
+    "gap": "In overnight and multi-agent runs, people write steps for success but not the conditions under which to stop. AO-027 is a direct case: a known-bad status repeated for six hours without halting anything.",
+    "humanRole": "The human writes stop and escalate conditions into the plan, such as 'if the target app can't be launched, halt and notify me'. Agents follow them, log rejected attempts with reasons, and surface the rejected column for review.",
+    "sids": ["S032", "S030"],
+    "status": "new-2026",
+    "outdated": [
+      "Logging the problem is enough",
+      "Let it run overnight and check in the morning"
+    ],
+    "severity": "high",
+    "questions": [
+      "How do I stop an overnight agent run from wasting hours on a broken setup?",
+      "How do I find out what the agent tried and threw away?"
+    ],
+    "demo": "Show a plan file with an explicit 'if X, stop and notify' step. Close the target app and show the agent run halting on that step instead of continuing."
+  },
+  {
+    "concept": "Verify the verifier: gates, hooks and test suites can fail silently",
+    "points": [
+      "Remy (S030): Altair's packaged build once ran pytest through the app's own executable. The gate spun doing nothing until the agent checked another way.",
+      "Cursor command hooks fail open by default: a crash, a timeout or a non-2 exit lets the action through; setting failClosed: true makes it block. Codex likewise does not block on a hook error or bad output.",
+      "SWE-Prometheus (via S030): measured breakage was 13% when gates caught injected mutants, 8% when they missed them, and 0% when the gate was vacuous. Zero breakage often means a weak gate, and only 24 of 60 instances had gates with demonstrated discriminative power.",
+      "Example: a template added a CI workflow whose smoke test was only 'assert True'. It passed while the same snapshot still reported 117 Ruff errors.",
+      "Mutation-test the gate: break the code on purpose and confirm that the check fails.",
+      "Carlini (via Osmani): the task verifier has to be nearly perfect, or the agent will solve the wrong problem.",
+      "AO-027: the render tool was validated against the real engine (a pixel difference of 0) before anyone relied on it."
+    ],
+    "gap": "A green CI run or an installed hook feels like proof, so people never test the test. S030 documents gates that silently pass everything, and a benchmark where most gates could not tell good code from broken code.",
+    "humanRole": "The agent can run mutation tests and revert checks and report gate strength. The human asks for that evidence, and decides which gates must fail closed, especially security checks.",
+    "sids": ["S030", "S029", "S032"],
+    "status": "new-2026",
+    "outdated": [
+      "Zero failures means safe",
+      "A hook or CI gate that exists is a gate that works"
+    ],
+    "severity": "high",
+    "questions": [
+      "How do I know my tests or CI actually catch anything?",
+      "What is mutation testing and why would I want it?"
+    ],
+    "demo": "On a branch, deliberately break a function and push it: CI stays green, so the gate is vacuous. Fix the test so the broken branch goes red, then restore the function."
+  },
+  {
+    "concept": "Evidence receipts: the runner, not the agent, writes the record",
+    "points": [
+      "The cheapest change is to rewrite what the agent may say. It never says 'tests pass' without running them; it reports the exact command, exit code, counts, skips, and whether the run came after the final edit; otherwise it says 'not verified'.",
+      "Stronger: wrap the test command so a script writes the receipt (git SHA, command, exit code, tail of the output) and the agent only points to it. If the SHA differs from HEAD, the result is stale and CI fails.",
+      "The receipt must name what was NOT run. A silent skip counts as a failure.",
+      "Read the real diff from git, not the agent's description of it (nomArmy's harness takes the 'tests added' count from the repository, not from the worker's report).",
+      "Side-channel record: Rashomon hooks Claude Code's tool lifecycle, keeps its own record of every call, and at the end of the turn compares that record with the closing summary: which call failed, with what exit code. Most turns print nothing, because a tool that alarms every turn trains you to ignore it.",
+      "Sub-agent transcripts often never surface in the parent conversation, so a sub-agent's failure can vanish from the summary."
+    ],
+    "gap": "People don't know an agent's summary can be produced from its 'memory of the run', or that sub-agent failures are invisible to the parent. They take its numbers at face value. S030 compiles concrete practices and tools.",
+    "humanRole": "The human sets up the rule that a tool, not the agent, writes the evidence, and reads the receipt and the diff rather than the narrative. The agent runs the wrapped commands and cites the receipt.",
+    "sids": ["S030"],
+    "status": "beta",
+    "outdated": [
+      "Ask the agent what it ran",
+      "The agent's summary is an accurate log"
+    ],
+    "severity": "medium",
+    "questions": [
+      "How do I make the agent prove what it ran?",
+      "Why does the summary say everything passed when a sub-agent failed?"
+    ],
+    "demo": "Use a small wrapper script that runs the tests and writes the command, exit code, counts and git SHA to receipt.json. Make another edit and show that SHA no longer equals HEAD, so the receipt is flagged stale."
+  },
+  {
+    "concept": "Humans at the two ends: acceptance criteria before, surfaced decisions after",
+    "points": [
+      "Remy (S030): put human attention at the two ends. Up front go acceptance criteria and test names, the only place a shared misunderstanding is cheap to catch. At the end go the decisions the tools surface (parity diffs, flagged tests, post-merge failures), not the agent's long summary. The long middle belongs to sandboxes, receipts and independent re-runs.",
+      "Write checkable acceptance criteria, including what is out of scope; vague criteria should not start work (duaer-acceptance and duaer-spec enforce this). Approve test names before the agent implements.",
+      "Osmani: before an agent touches anything, write down what you're building, what it must not break, and how you'll know it worked. It needn't be long, and it is where your judgment goes now.",
+      "Ayman Nadeem (2026-09-24, via S030): users had little appetite for long AI-generated specs. The real loop is understand, act, inspect, clarify, adjust, act again; planning still happens, but not as a document called 'the plan'.",
+      "Osmani: keep what you ask people to sign human-sized. An AI-made report of 100+ pages of HTML plus a 30-tab spreadsheet has the same problem as a 5,000-line diff nobody read; asking for the one-page version is review, not obstruction.",
+      "S031: effort shifts upstream, from implementation to specification and evaluation."
+    ],
+    "gap": "Beginners jump straight to prompting and evaluate only the final summary. That skips the one point (acceptance criteria) where shared misunderstandings are cheap to catch, and reviews the one artifact (the narrative) that is least reliable.",
+    "humanRole": "The human writes the acceptance criteria and test names before work starts, and reviews the decisions the tools surface afterwards. The agent does the middle: implementation, running checks, gathering evidence.",
+    "sids": ["S030", "S029", "S031"],
+    "status": "new-2026",
+    "outdated": [
+      "Planning means approving a long AI-generated spec",
+      "Reviewing means reading the agent's final summary"
+    ],
+    "severity": "high",
+    "questions": [
+      "What should I write before I start an agent?",
+      "What should I look at when the agent finishes?"
+    ],
+    "demo": "Before prompting, write a five-line acceptance file: what it does, what it must not break, how we'll know it worked, what's out of scope. At the end, check the result against that file rather than the agent's summary."
+  },
+  {
+    "concept": "Externalize intent and avoid the clarification spiral",
+    "points": [
+      "S031 (2026-07-04) names four dimensions of the human-agent loop. Task alignment is shared understanding of the task. Steerability means the agent exposes decision points and responds to intervention. Verification is the user's ability to judge correctness against explicit and implicit requirements. Adaptability means improving across sessions.",
+      "Users must externalize intent through instructions, relevant context and constraints. Agents should infer goals, surface their assumptions and signal uncertainty.",
+      "The 'clarification spiral': the agent starts implementing without inferring the user's unstated constraints, the user rejects the result, and new misunderstandings appear.",
+      "Evidence cited in the paper: developers who communicate more effectively see better outcomes (Sarkar 2025), and miscommunication leads to wasted computation and repeated correction (Mozannar et al. 2024).",
+      "Steerability: today's systems leave users with a false choice between full autonomy and constant supervision, while users actually work at very different granularities, from vibe-coded prototypes to precise local edits.",
+      "Adaptability: users suffer 'prompt fatigue' from re-establishing context every session, and agent memory is often little more than indexed markdown files. A preference like 'use logging instead of print' may not persist to next week.",
+      "Survey data cited by S031: Stack Overflow 2025 found 84% of developers use AI coding tools and nearly half don't trust the outputs, and two-thirds say half-baked solutions mean heavier debugging. Sonar 2026 found less experienced developers report both the highest productivity gains and the greatest difficulty reviewing agent output."
+    ],
+    "gap": "Constraints in the human's head never reach the agent, and beginners blame the model when it builds the wrong thing. S031 names the mechanism and cites evidence that communication quality drives outcomes. Its Sonar citation shows the least experienced users are both the most enthusiastic and the least able to review.",
+    "humanRole": "The human states intent, constraints and implicit requirements up front, and saves lasting preferences in files the agent reads every session. The agent should surface its assumptions and ask; the human answers and corrects early.",
+    "sids": ["S031"],
+    "status": "new-2026",
+    "outdated": [
+      "The agent should just know what I mean",
+      "A better model will fix miscommunication"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Why does the agent keep building the wrong thing even after I correct it?",
+      "Why do I have to re-explain my preferences every session?"
+    ],
+    "demo": "Show a chat that goes through three rounds of 'no, not like that'. Restart with the constraints written up front plus a project instructions file the agent reads, and show the first attempt landing."
+  },
+  {
+    "concept": "Agent patches run long: bloat and scope creep",
+    "points": [
+      "S031 Figure 1: on SWE-bench Verified, agent-generated patches are consistently longer than the human 'gold' patches, even when they resolve the task.",
+      "S031 Appendix A: every model has more than 15% of resolved patches that are 'bloated' (over 1.5 times the gold patch's length, after removing new files, non-Python files and test changes).",
+      "LLM judges attribute the bloat to verbose implementation (about 60%), scope creep (50-65%), overly defensive code (20-30%), excessive documentation (20-30%) and over-engineering (about 10%).",
+      "More than 50% of resolved patches show functional differences from the gold patch, as flagged by two LLM judges.",
+      "The paper notes this bloat makes verification harder."
+    ],
+    "gap": "Beginners see 'tests pass' and miss that the agent changed far more than asked, which is more surface to check and more places to break. S031 measures it across models.",
+    "humanRole": "The human states scope and out-of-scope up front, and checks what the change touched beyond the request ('git diff --stat'). The agent can be asked to list and justify every file it touched, and to propose a minimal version.",
+    "sids": ["S031"],
+    "status": "new-2026",
+    "outdated": [
+      "If the task is solved, the size of the change doesn't matter"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Why did the agent change 12 files for a one-line fix?",
+      "How do I keep the agent from rewriting things I didn't ask about?"
+    ],
+    "demo": "Compare 'git diff --stat' for an agent's patch with the minimal fix. Ask the agent to list everything it touched beyond the request, and to produce the minimal patch."
+  },
+  {
+    "concept": "Parallel agents: passes alone, fails together",
+    "points": [
+      "Remy (S030), citing Xia, Wu and Park, arXiv 2609.25396: two agents edit the same repo in parallel, and one changes an interface or rule the other relies on. Each patch passes alone, and the merge fails with no textual conflict.",
+      "On constructed tasks over 12 real Django helpers, GPT-5.5 showed interference in 105 of 108 blind runs (97%), all with clean textual merges. A message describing the finished change recovered 89 of 108 (82%).",
+      "On synthetic tasks, a roughly 130-token 'oracle' message describing the completed concurrent change cut mean interference from 2.50 to 0.04 (98%).",
+      "On 417 mined real Django PR pairs, after the grading was corrected only one showed interference, because the reviewed history had already resolved the conflicts. The authors' first grading had invented false interference: the agents had edited test files, and the solo and merged runs used different suites.",
+      "Rule: run every task's tests on the combined code, and tell later agents about finished interface changes.",
+      "nomArmy: on one Apple Silicon machine, going from 1 to 4 parallel local workers produced no net throughput gain."
+    ],
+    "gap": "People run several agents at once and trust each branch's green CI, not knowing that a merge with no textual conflict can still break things. S030 summarizes the benchmark evidence.",
+    "humanRole": "The human, or the orchestrating agent, makes sure the full suite runs on the merged code and that interface changes are broadcast to the other agents. The human measures whether more agents actually means more accepted work.",
+    "sids": ["S030"],
+    "status": "new-2026",
+    "outdated": [
+      "No merge conflict means the merge is safe",
+      "More parallel agents means faster delivery"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Can I run several agents on the same repo at once?",
+      "Both branches passed. Why is main broken?"
+    ],
+    "demo": "Use two git worktrees and two agents: one changes a function's parameters, the other adds a new caller. Each branch's tests pass and git merges them cleanly; then run the suite on main and show it fails."
+  },
+  {
+    "concept": "Green with mocks, broken for real: environment-only failures and parity harnesses",
+    "points": [
+      "Claussen's .NET-to-Go migration (via S030): the Go OpenAI client sent max_tokens, newer models reject that with HTTP 400, and every extraction failed silently. Unit tests and mocks were green; only a live call exposed it.",
+      "nomArmy: a module left out of a Lambda bundle passed every unit test.",
+      "Parity harness: a docker-compose stack runs the old and new APIs side by side and sends the same requests to both, comparing at the HTTP level, not the database. IDs and timestamps are masked and intentional differences allowlisted. It was built in an afternoon and found four real bugs the next day, three of which unit tests would never have caught.",
+      "Parity also forced a product decision: the old API exposed which AI provider was in use, so he dropped those fields on both sides.",
+      "Parity needs a reference implementation. Without an old version there is no parity check."
+    ],
+    "gap": "People don't realize that mocks encode the agent's assumptions about the outside world, so green tests with mocks can't catch a wrong assumption about a live API, a bundle or a deploy. S030 gives concrete cases.",
+    "humanRole": "The human insists on at least one check against the real environment (a live call, a deployed preview, a clean build) and decides intentional differences when parity surfaces them. The agent builds and runs the harness.",
+    "sids": ["S030"],
+    "status": "new-2026",
+    "outdated": [
+      "Unit tests with mocks prove the integration works"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Tests pass locally but production is broken. How?",
+      "How do I check a rewrite behaves like the old version?"
+    ],
+    "demo": "Show green unit tests that use a mocked API client, then make one real call to the live API and get a 400 error for the same request."
+  },
+  {
+    "concept": "Isolate agent work: worktree or sandbox, no production credentials",
+    "points": [
+      "nomArmy (via S030): the harness opens a git worktree and runs each worker in a Podman sandbox with no network and no host credentials. It reads the real diff from git, scans for secrets, flags new skips, stubbed imports and unwired code, and commits only to the worker's own branch, never into yours.",
+      "S030 checklist: isolate the work in a worktree or sandbox with no production credentials, snapshot before edits, and track command side effects separately.",
+      "Altair: every write is snapshotted first, and command side effects go into a separate hidden git repo that never touches your .git. On failure it rolls the whole run back.",
+      "S030: security checks in hooks should fail closed.",
+      "S031 Appendix B: an agent should not delete critical files without confirmation; such deletions are a steerability failure."
+    ],
+    "gap": "Beginners run agents in their main checkout with their full credentials loaded, so an unverified claim or a mistake has real reach. S030's mechanisms assume isolation as the base layer.",
+    "humanRole": "The human sets up the isolation and decides which credentials, network access and folders an agent may touch. The agent works inside those bounds, and its output is checked before it reaches the main branch.",
+    "sids": ["S030", "S031"],
+    "status": "established",
+    "outdated": [
+      "Let the agent work in my main folder with my keys; it's faster"
+    ],
+    "severity": "high",
+    "questions": [
+      "Is it safe to give the agent my production keys?",
+      "What is a worktree and why use one for agents?"
+    ],
+    "demo": "Create a git worktree for the agent's task and run the agent in a container with no network and no production environment variables. Show that the main checkout is untouched and the agent's work lands on its own branch."
+  },
+  {
+    "concept": "Review's hidden jobs: team norms, teaching, and your own skills",
+    "points": [
+      "Osmani: review was never mostly about bugs. In the ICSE 2013 study only 14% of 570 comments were about defects; the rest were teaching, sharing context, suggesting approaches and keeping team norms.",
+      "Anything a reviewer used to say in a comment, like 'we don't do it that way here', now has to be written down in skills, or the agent never hears it.",
+      "Juniors used to learn by reading review comments and asking seniors. If Claude answers the questions now, mentoring has to be created on purpose: pairing on plans, having juniors explain agent-written changes back, leaving some work manual.",
+      "The 'paradox of supervision' (Anthropic researchers, via Osmani): supervising Claude well takes the very coding skills that fade if you never use them. Some Anthropic engineers deliberately solve problems without Claude now and then to stay sharp.",
+      "Osmani: in a team that stops reading because it is ordered to, rather than because it built checks, people have been told the quality bar is no longer theirs to hold."
+    ],
+    "gap": "People think dropping line-by-line review only removes a bug check. It also removes how conventions spread and how skill is built, and the skill to supervise agents comes from doing the work. Osmani connects these.",
+    "humanRole": "The human writes team conventions into instruction or skill files the agent reads, and keeps hands-on practice deliberately. The agent applies the written conventions, but can't learn unwritten ones.",
+    "sids": ["S029"],
+    "status": "new-2026",
+    "outdated": [
+      "Code review only exists to catch bugs",
+      "If the agent writes the code I don't need to keep coding skills"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Will I lose my skills if the agent does all the coding?",
+      "How does the agent learn our team's conventions?"
+    ],
+    "demo": "Add a rule to a project instructions or skill file (for example, 'we use the logger, never print'), then show the agent's next change following it."
+  },
+  {
+    "concept": "'Good code' now means code an agent can change safely",
+    "points": [
+      "Osmani: some properties matter more to an agent than they ever did to people: names unique enough to grep, modules small enough to fit in a context window, tests that fail clearly, and clear boundaries between parts.",
+      "Without those, an agent will still make the change; it just can't see what else the change affects.",
+      "Purely human-comfort properties such as formatting matter less.",
+      "In open source, what is most worth sharing shifts toward things that are expensive to produce and cheap to check against: test suites, specs, the record of what broke."
+    ],
+    "gap": "Beginners hear 'nobody reads the code any more' and conclude code quality no longer matters. Osmani argues it matters differently: it decides whether an agent can change the code without breaking something it can't see.",
+    "humanRole": "The human asks for, and checks the presence of, agent-friendly structure: distinct names, small modules, clear test failures, boundaries. The agent can do the refactoring once asked.",
+    "sids": ["S029"],
+    "status": "new-2026",
+    "outdated": [
+      "Code quality doesn't matter if AI writes and reads it",
+      "Good code means code that is pleasant for a human to read"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Does code quality still matter if the AI writes it?",
+      "Why does the agent keep breaking other parts of my app?"
+    ],
+    "demo": "Grep a repo for a generic function name such as 'process' and get hundreds of hits, then grep for a distinctive name and get one. Explain how the first case hides callers the agent needs to update."
+  },
+  {
+    "concept": "Trust drift and fake polish",
+    "points": [
+      "Willison (2026-05-06): as agents got more reliable, he stopped reviewing every line even for production code. He treats agent output like another team's service: read the docs, use it, dig in when problems appear.",
+      "But Claude Code has no professional reputation and can't take accountability. A human team that builds bad software pays with its reputation.",
+      "'Normalization of deviance': every time a model writes the right code without close monitoring, the risk grows that he will trust it at the wrong moment and get burned.",
+      "A repository with a hundred commits, a beautiful README and comprehensive tests can now be produced in half an hour. It looks identical to a carefully built project, and he says he can't tell the difference, even for his own projects.",
+      "What he values more is that somebody has used the thing, for example every day for the past two weeks. Enterprises want software that others have run successfully for months.",
+      "AO-027: the agents' notes file grew to 400 KB of careful-sounding measurements, and none of it had been looked at."
+    ],
+    "gap": "The old signals of care (commit history, README, test count, detailed notes) are now cheap to generate, and trust earned from a run of good results grows faster than it should. Beginners judge AI-built projects and runs by polish.",
+    "humanRole": "The human keeps doing spot checks even after a long run of good results, judges by evidence of real use rather than polish, and treats detailed agent notes as claims. The agent can generate polish on demand, so polish proves nothing.",
+    "sids": ["S028", "S032"],
+    "status": "new-2026",
+    "outdated": [
+      "A repo with a good README, many commits and tests was built with care",
+      "It has been right 20 times, so I can stop checking"
+    ],
+    "severity": "medium",
+    "questions": [
+      "How can I tell whether an AI-built project is any good?",
+      "When can I stop checking the agent's work?"
+    ],
+    "demo": "Have an agent generate a polished repo (README, tests, a long commit history) in half an hour. Put it next to a mature project and ask which one looks trustworthy, then show what using each one reveals."
+  },
+  {
+    "concept": "Verification and delegation have real costs",
+    "points": [
+      "nomArmy (via S030): on small, already-diagnosed tickets, the orchestrating agent spends 4-8 times the tokens of just fixing the problem directly, with break-even around 150 lines of context to read.",
+      "Writing a job's evidence thoroughly enough for a worker IS the diagnosis. If what's left is a tiny edit, delegating it lost its point.",
+      "A sandbox plus an independent re-checker costs mid to high; receipts and pre-done gates cost little; front-loaded acceptance costs human time (S030's mechanism table).",
+      "AO-027: 8.5 hours of agents and $373 at API list prices, plus about 5 hours of Aaron's own repair, for scenes nobody had seen run.",
+      "Advani: a lightweight detector takes about 1.19 ms per check, against about 4,000 ms per LLM-judge call, roughly 3,300 times faster."
+    ],
+    "gap": "People assume more agents and more checking layers are always better or free. The sources measure where verification and delegation pay off and where they don't.",
+    "humanRole": "The human matches the verification spend to the blast radius and task size: fix small diagnosed things directly, and reserve heavy sandbox-and-recheck pipelines for larger or riskier work. The agent can report token and time costs.",
+    "sids": ["S030", "S032"],
+    "status": "new-2026",
+    "outdated": [
+      "Always delegate to a swarm; it's cheaper",
+      "Unchecked runs are free"
+    ],
+    "severity": "medium",
+    "questions": [
+      "Is it always cheaper to hand work to a team of agents?",
+      "How much should I spend checking agent work?"
+    ],
+    "demo": "Compare the token and cost readouts for fixing a one-line, already-diagnosed bug directly versus sending it through a planner, worker and verifier loop."
+  }
+]

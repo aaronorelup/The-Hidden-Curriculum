@@ -1,350 +1,161 @@
 # The Hidden Curriculum — Master Curriculum
 
-The "hidden curriculum": everything working developers are assumed to know that nobody formally teaches.
-**Conceptual, not how-to.** Each lesson builds a mental model (what it is, where it lives on the map,
-what it's like, what it connects to, what will surprise you) so nothing is confusing when you meet it.
-See `COURSE.md` for the lesson contract. Live at aaronorelup.com/courses/the-hidden-curriculum/ ("for Dummies" is a Wiley trademark).
+Everyone can build almost anything with AI now. What stops people is small gaps in what they know, and those gaps move every week because the tools do. This course fills them in the order a builder meets them: one real thing built, then put in other people's hands with the safety checks that takes, then one district at a time that deepens what you met on the way. Each lesson is a mental model, not a click-by-click tutorial: what the thing is, where it lives, what it connects to, what will surprise you, and what you do versus what the agent does. The rule under all of it: the agent handles what can be verified; you check what it cannot, and when you cannot, you bring in an expert who can.
 
-Each lesson = one animated video: ~5 min for orientation and each module's first lesson, ~10 min mid-module, 20 min max (COURSE.md). IDs are stable once a lesson is published; the daily job takes the first `todo` in order.
+Every lesson is built from other people's current, hard-won knowledge (courses, practitioner essays, incident reports, surveys, standards, tool docs and real beginner questions), listed with dates in `curriculum/sources.md`, and teaches concepts from `curriculum/concepts.md`. Each row below names the concepts a lesson teaches and the 2 to 5 sources it is built on and credits by name; the lesson's spec names its lead source (`lead:`), the one or two whose work it delivers and credits on its title card.
 
-Status key: `todo` · `scripted` · `narrated` · `animated` · `published`  (proof-of-concept builds don't change status)
+Lesson numbers (00.01, 03.02 ...) are for display and change when the map changes. Each lesson's key (its spec file under `curriculum/lessons/`, its folder and its URL) never changes.
 
-The map: **Start** (00) · six districts, each a run of modules — **1 The Machine** (01–03) · **2 The Code** (04–07) · **3 The History** (08) · **4 The Network** (09–13) · **5 Trust** (14–16) · **6 Shipping** (17–20) · **Finish** (21, the capstone).
-The `# District` headings below are read by `tools/publish.py` (the site draws the map from them) and must match engine/map.js.
+Something you wish you had known, a question you want answered, a source the course should be built on, or something wrong or out of date: open an issue at https://github.com/aaronorelup/The-Hidden-Curriculum/issues/new/choose. Each one becomes evidence for a concept, or a new one, and the map is rebuilt as the gaps move.
 
-AI is not a district: it is the lanterns strung over every district (COURSE.md). Lessons whose subject is AI sit in the
-district they belong to and are listed here; the course page marks them with a lantern. Keep this list in sync when IDs change.
-Lantern lessons: 00.04 00.05 00.06 01.10 01.11 01.12 01.13 03.08 03.09 03.10 06.06 06.07 07.07 08.11 08.12 10.06 10.08 10.09 10.10 10.11 10.12 10.13 10.14 10.15 10.16 12.04 14.12 15.13 15.14 15.15 15.16 16.10 16.11 16.12 16.13 17.10 18.17 20.06 21.02
+Status key: `todo` · `published` · `legacy` (a lesson published before 2026-10-12 covers this slot for now; it will be rebuilt later)
+
+Lantern lessons: model-harness-and-memory trust-what-you-can-verify where-your-agent-works before-you-let-it-loose saying-what-you-want when-it-breaks-you-supply-the-eyes done-is-a-claim working-is-not-secure your-apps-ai-feature what-the-agent-sees-each-turn rules-it-reads-rules-it-cant-break skills-mcp-hooks-and-plugins plan-first-then-build-in-slices checking-what-you-cant-read know-your-meter whose-words-is-it-reading contain-it-dont-babysit-it the-narrowest-keys-and-verbs agents-that-run-while-youre-away checking-research-numbers-and-parts making-media-with-ai labelling-ai-media own-it-sell-it-publish-it
 
 ---
 
-# Start · Orientation — what this course is, and the lantern you carry
+# Start · Orientation — What this is, and your job
 
-## Module 00 — Orientation: The Map and the Lantern
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 00.01 | The hidden curriculum | CS teaches theory, IS teaches business systems; the day-to-day tooling is learned by apprenticeship, forums and breaking things | published |
-| 00.02 | The map of everything | One picture: your computer → the network → the internet → services → AI, and where every later lesson sits | published |
-| 00.03 | How old is all this? | A timeline from Unix (1969) to MCP (2024) — most of it is older than you think, the AI layer is brand new | published |
-| 00.04 | Model vs app vs agent | GPT/Claude/Gemini (models) vs the apps wrapping them vs agents that act | published |
-| 00.05 | How AI models work today | ~20 min. Five years of change: LLMs → multimodal models (see/hear/generate, some via API), diffusion models (image, video, audio; rarely text); tokens, context and why models degrade as it fills; memory and RAG (chat search, self-kept memory, files/Notion via tools); system prompts and injected instruction files (CLAUDE.md); settings (temperature, top-p...); caching and token billing (input, output, cache write, cache read); modes (chat, Cowork, Code) and platforms (web, desktop, CLI, cloud); skills vs connectors vs plugins and their marketplaces; individual vs enterprise; other surfaces (Claude Design, voice modes); personal agents (OpenClaw and similar). Brief here, own lessons later | published |
-| 00.06 | Trust what you can verify | Agents now write, run and debug their own code, so hand-coding and hand-debugging are nearly obsolete; your new job is judging what you cannot see: security holes in code that works, team norms and the project's chosen libraries (AI drifts and keeps adding dependencies), and "ready to deploy" claims. You can only trust AI on what it can verify; past that, learn to check it yourself or bring in an expert | published |
+## Module 00 — Orientation
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 00.01 | [The hidden curriculum](curriculum/lessons/the-hidden-curriculum.md) | Building with AI is open to anyone now, and what stops people is small gaps nobody teaches, which move in weeks (models retire on about 30 days' notice, a command vanishes 12 days after deprecation, harnesses ship several releases a week) while the model's own knowledge stops at its training date; so this course is a map rebuilt as the gaps move and fed by the people who use it, and your habit is to check dates, versions and sources and re-test what you know after every update. | C024, C052 | S004, S033, S025, S125, S011 | legacy |
+| 00.02 | [What you're really using](curriculum/lessons/model-harness-and-memory.md) | You never use a bare model but a model inside a harness (system prompt, tools, instruction files, memory, effort setting) that changes results as much as the model does (Anthropic's April 2026 quality drop came from three harness changes), and what it "knows" lives in frozen weights, the context window and memory files the product writes and puts back; so when results change, name the whole setup before blaming the model. | C021, C023 | S002, S014, S101, S011 | legacy |
+| 00.03 | [Trust what you can verify](curriculum/lessons/trust-what-you-can-verify.md) | An agent can keep iterating on anything with a cheap, automatic check, so let it write, run and fix; set trust per kind of task, not per model, and for what no machine can check (security, deploy readiness, fit, intent) check it yourself or bring in an expert, because a beginner's failures look like successes. | C001, C002, C006 | S004, S027, S080, S085 | legacy |
 
-# District 1 · The Machine — what's on your computer
+# District 1 · First Build — How do I build my first thing?
 
-## Module 01 — Your Computer, Under the Hood
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 01.01 | Files are just bytes | A .py file is a text file; the extension is a label that tells the OS which program opens it | published |
-| 01.02 | File extensions & associations | Showing hidden extensions, renaming .txt → .py, "Open with", default apps | published |
-| 01.03 | Folders, paths & the working directory | Absolute vs relative paths, `C:\` vs `/`, why "run it from the right folder" matters | published |
-| 01.04 | Hidden files & dotfiles | `.git`, `.env`, `.venv`, `AppData`, `~/.config` — the invisible config layer | published |
-| 01.05 | Environment variables & PATH | How typing `python` finds the right program; why "not recognized as a command" happens | published |
-| 01.06 | Programs, processes & services | A program on disk vs a running process vs a background service; Task Manager tour | published |
-| 01.07 | Users, admin & permissions | Admin vs standard, UAC prompts, "Run as administrator", file permissions | todo |
-| 01.08 | Windows vs macOS vs Linux | Same ideas, different names: line endings, path slashes, case-sensitivity, package managers | todo |
-| 01.09 | CPU, RAM, disk, GPU & VRAM | What each does and why AI cares about the GPU and its VRAM | todo |
-| 01.10 | Running AI models on your own computer | Ollama, LM Studio, ComfyUI; VRAM limits; quantization | todo |
-| 01.11 | The copilot zoo | OS (Windows Copilot, Apple Intelligence), browser, email, IDE (GitHub Copilot), vendor (NVIDIA app/G-Assist), Office — what each can see | todo |
-| 01.12 | What AI is already on your PC? | How to inventory assistants, background AI services and their data access | todo |
-| 01.13 | How image, video and sound generators work | Diffusion and flow models: noise to picture in steps; why image, video, music and voice generators work this way; diffusion for text exists but is rare | todo |
+## Module 01 — Your workbench
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 01.01 | [The folder is the agent's world](curriculum/lessons/the-folder-is-the-agents-world.md) | Every agent session starts in a folder that becomes its world (paths resolve from it, rules and trust climb up from it), but it is not a wall: your home folder holds keys and AI logins, hidden dotfiles hold history, secrets and instructions out of sight but not locked, and a copy on the same drive is not a backup. | C123 | S206, S208, S211, S176 | legacy |
+| 01.02 | [Where your agent works](curriculum/lessons/where-your-agent-works.md) | Chat, Cowork, desktop apps and terminal agents can share a model but differ in what they can reach, which machine the work runs on (yours, a VM, a container, a cloud box) and where your files go; the terminal is just a window where a shell runs commands as you, so pick the surface by the output you need and check where the data goes before you hand it anything private. | C022, C103, C122, C128 | S102, S184, S207, S209, S249 | todo |
+| 01.03 | [Git without typing it: save points and the agent's trail](curriculum/lessons/save-points-and-the-agents-trail.md) | Git gives you save points (commits), parallel lines (branches) and a copy that lives elsewhere (the remote), and the agent types every command; your part is recognition: read its trail for the verb and the target, check the diff and which branch is live, and notice anything it touched that you never named. | C117, C124 | S026, S208, S212, S117 | todo |
 
-## Module 02 — The Command Line
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 02.01 | Terminal vs console vs shell vs CLI | Terminal = the window; shell = the interpreter inside it; CLI = any program you drive by typing; console = the old name | todo |
-| 02.02 | The shells: cmd, PowerShell, bash, zsh, Git Bash, WSL | Which one you're in, why syntax differs, when to use each | todo |
-| 02.03 | Moving around | `cd`, `ls`/`dir`, `pwd`, tab-completion, up-arrow history, opening a terminal in a folder | todo |
-| 02.04 | Running programs: commands, arguments, flags | `python app.py --verbose`: program, argument, flag; `--help` | todo |
-| 02.05 | Input, output, pipes & redirects | stdout, stderr, `|`, `>`, exit codes — how programs talk to each other | todo |
-| 02.06 | Script files: .bat, .cmd, .ps1, .sh | Saving commands to a file; execution policy; shebangs; double-click vs run | todo |
-| 02.07 | OS package managers | winget, Chocolatey, Scoop, Homebrew, apt — installing software by typing | todo |
-| 02.08 | Reading errors without panic | Stack traces, "command not found", permission denied, and what each means | todo |
+## Module 02 — Your first build
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 02.01 | [Before your agent runs commands on your computer](curriculum/lessons/before-you-let-it-loose.md) | A command the agent runs has your permissions on every drive you can reach, shell deletes skip the Recycle Bin, and people approve nearly every prompt they are shown; so choose the permission mode on purpose, prefer a tool with mechanical delete guards, keep a copy off the machine, and at a prompt check the targets, not the syntax. | C077, C081, C097 | S063, S052, S051, S226 | todo |
+| 02.02 | [Saying what you want](curriculum/lessons/saying-what-you-want.md) | The job moved from typing code to directing: agents brute-force any clearly stated goal, so most failures move upstream into what you asked for; write the goal, the constraints and a checkable "done when", and have the agent surface your unknowns and its own assumptions before it builds. | C033, C034, C035, C036, C038 | S037, S034, S008, S036, S081 | todo |
+| 02.03 | [When it breaks: what the agent needs from you](curriculum/lessons/when-it-breaks-you-supply-the-eyes.md) | The agent now reads errors, adds logging, reproduces bugs and re-runs until fixed, but only on what it can run or see; so your part is a reliable reproduction, what correct looks like and a way for it to observe the real result (a test, a browser, a render tool you checked once against reality), and when the same error keeps coming back, stop it, name what is missing and change the input instead of saying "fix it" again. | C003, C019, C042 | S094, S009, S003, S008, S032 | todo |
+| 02.04 | [When the agent says 'done'](curriculum/lessons/done-is-a-claim.md) | An agent's closing "done, tests pass" is a claim, not evidence (about 1 in 11 were false in one team's log), because agents shape results to pass the checks they believe exist and polish costs them nothing; so treat "done" as the start of acceptance, ask for the evidence, insist on one check against the real thing, and judge yourself (or with users and experts) whether it is good, not just running. | C004, C005, C011, C016 | S030, S064, S252, S092, S093 | todo |
 
-## Module 03 — Development Environments
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 03.01 | Text editor vs IDE | Notepad → VS Code → full IDEs; what an IDE adds | todo |
-| 03.02 | VS Code tour | Explorer, integrated terminal, extensions, command palette, settings | todo |
-| 03.03 | The IDE family | Cursor/Windsurf, JetBrains (PyCharm etc.), Visual Studio, Xcode, Android Studio, Unity/Godot editors — when to use which | todo |
-| 03.04 | Linters, formatters & type checkers | Tools that catch mistakes before you run | todo |
-| 03.05 | The debugger | Breakpoints and stepping instead of print() everywhere | todo |
-| 03.06 | Notebooks | Jupyter, Colab — when notebooks beat scripts and when they don't | todo |
-| 03.07 | WSL, dev containers & cloud dev environments | Linux on Windows, Codespaces, why teams standardize environments | todo |
-| 03.08 | Coding agents in your editor and terminal | Claude Code, Codex, Copilot agent, Cursor — how they read, edit, run | todo |
-| 03.09 | Instruction files: prompts as code | Instructions files (CLAUDE.md etc.), versioning prompts | todo |
-| 03.10 | Context engineering: managing the window | Why models get worse as the window fills (context rot); compaction, clearing tool results, sub-agents, loading tools and skills on demand | todo |
+# District 2 · Going Live — How do others safely use it?
 
-# District 2 · The Code — what programs are made of
+## Module 03 — Putting it online
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 03.01 | [Browser, server, database: where your app really runs](curriculum/lessons/what-runs-where.md) | An app is several places, not one: the browser is public, the server is where secrets and permission checks must live, and the database is a separate service with its own rules and backups, so rolling back code does not roll back data; the bar for all of it rises the moment real users, data or money arrive. | C008, C125 | S212, S039, S041, S010 | todo |
+| 03.02 | [Keys: public, secret and leaked](curriculum/lessons/keys-public-secret-and-leaked.md) | A key is a permission set that reaches a program as a setting (from your shell, a .env file or a hosting dashboard): anything shipped to the browser is public, secret keys never are, agent logs and config files leak them, and a leaked key stays live until you revoke and rotate it, because deleting the commit does nothing. | C069, C070, C071, C126 | S020, S048, S213, S061 | todo |
+| 03.03 | [From your laptop to a URL](curriculum/lessons/from-your-laptop-to-a-url.md) | Deploying is build, upload and switch on a host that keeps earlier versions, under a domain you rent and point with DNS; local, preview and production are different places with different settings, the host's rollback leaves your database and sent messages untouched, and a public URL is likely found and probed within days. | C063, C098, C099, C127 | S212, S026, S066, S046, S179 | todo |
 
-## Module 04 — Programming Languages
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 04.01 | What a programming language actually is | Human-readable instructions → something the machine runs | todo |
-| 04.02 | Compiled vs interpreted vs bytecode | C/Rust/Go vs Python/JS vs Java/C# — what "runtime" means | todo |
-| 04.03 | The language tour | Python, JavaScript/TypeScript, HTML/CSS, SQL, Bash/PowerShell, C/C++, C#, Java/Kotlin, Swift, Go, Rust, Lua/GDScript — what each is for | todo |
-| 04.04 | Choosing a language | By target: web, AI/data, scripting, mobile, games, systems, automation | todo |
-| 04.05 | Libraries, frameworks, SDKs & runtimes | Library = you call it; framework = it calls you; SDK = a vendor's toolkit | todo |
-| 04.06 | Data formats | JSON, YAML, TOML, CSV, XML, Markdown — config and data files you'll meet daily | todo |
-| 04.07 | Text encoding: Unicode, UTF-8 and garbled characters | Text is bytes plus an agreement: code points, UTF-8 vs UTF-16, why Ã© (mojibake) appears and how to read it (deferred from 01.01) | todo |
+## Module 04 — Safe for strangers
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 04.01 | [Working is not secure](curriculum/lessons/working-is-not-secure.md) | AI code almost always compiles but passes security checks only about 56% of the time, because agents skip security nobody stated and clear errors by weakening controls; so state the stakes, never take "it's secure" from the agent, spend your attention where a mistake costs most (sign-in, payments, permissions, personal data, secrets), and see what every fix to those changed. | C007, C062, C064, C065 | S039, S038, S040, S029 | todo |
+| 04.02 | [Test it as a stranger](curriculum/lessons/test-it-as-a-stranger.md) | Logged in is not allowed: authorisation must be checked on the server for every request, a Supabase-style database and its storage answer anyone holding the public key, and your users' data also lives in logs, analytics, AI providers and backups; so have every table and bucket tested as an anonymous stranger after every schema change (and after Supabase makes grants opt-in for new tables on 2026-10-30), collect less, and know every copy. | C067, C068, C119 | S044, S148, S152, S216, S055 | todo |
+| 04.03 | [Your app's AI feature](curriculum/lessons/your-apps-ai-feature.md) | An AI feature in a public app is a meter strangers can run and a voice that speaks for you: require sign-in before any model call, set per-user and global caps that stop spending, treat the model's output as untrusted, say it is AI, ask before users' data goes to an AI provider, and let them report what it makes. | C121, C131 | S055, S220, S233, S195 | todo |
+| 04.04 | [Before you ship: who signs off](curriculum/lessons/before-you-ship-who-signs-off.md) | Scans, AI security reviews and checklists are a floor, not a certificate: have the agent list every route, TODO and deploy step the build left to you and run every check a machine can (accessibility checkers included), bring that list to a qualified expert for what no machine can verify, and remember that a person, not the agent, owns the ship decision and the patches after it. | C009, C066, C072, C118, C120 | S043, S146, S214, S218, S221 | todo |
 
-## Module 05 — Python & JavaScript Ecosystems (Packages)
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 05.01 | Why there are so many Pythons on your computer | Installer vs Store vs uv; multiple versions; the `py` launcher; which one "python" means | todo |
-| 05.02 | What "running a file" really means | An interpreter reads your text file; the working directory decides what it can find; why imports fail from the wrong folder | todo |
-| 05.03 | Virtual environments (.venv) | Per-project package boxes; activate/deactivate; why global installs break things | todo |
-| 05.04 | pip, requirements.txt, pyproject.toml, uv | Declaring and reproducing dependencies | todo |
-| 05.05 | Node.js, npm & npx | package.json, node_modules, scripts (`npm run dev`), npx one-offs | todo |
-| 05.06 | Lockfiles & semantic versioning | 1.4.2 means what; why lockfiles exist | todo |
-| 05.07 | Who can publish packages? | Anyone — PyPI/npm accounts, publishing flow, trust signals | todo |
-| 05.08 | Supply-chain risk | Typosquatting, malicious packages, install scripts, how to vet a package | todo |
-| 05.09 | Version managers & shims | mise, pyenv, nvm, asdf: tools that put a stand-in (shim) first on PATH and pick the version per project; why `which python` can name a shim, not the real program (deferred from 01.05) | todo |
+# District 3 · Directing Well — How do I direct and check it?
 
-## Module 06 — Data & Databases
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 06.01 | Why apps need databases | Beyond files | todo |
-| 06.02 | SQL & relational databases | SQLite, Postgres, tables, queries | todo |
-| 06.03 | NoSQL & key-value stores | Documents, KV, when they fit | todo |
-| 06.04 | Hosted backends | Supabase, Firebase, Neon, Cloudflare D1 | todo |
-| 06.05 | Migrations & backups | Changing a database without losing data | todo |
-| 06.06 | Vector databases & embeddings | How AI "searches by meaning" (RAG) | todo |
-| 06.07 | How AI apps remember | The model keeps nothing: memory is text put back in the window. Re-sent conversation, self-kept memory, chat search, memory files and connectors (Notion, Drive) via tool calls | todo |
+## Module 05 — What the agent sees
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 05.01 | [What the agent sees each turn](curriculum/lessons/what-the-agent-sees-each-turn.md) | Every turn resends the whole package (system prompt, tool definitions, instruction files, memory and the full history), and accuracy falls as the window fills, so curate what goes in, clear once a decision is made, carry plans in files rather than chat, and brief subagents fully because they start blind and return only a summary. | C025, C026, C027, C028 | S002, S003, S107, S105 | todo |
+| 05.02 | [CLAUDE.md, AGENTS.md and rules that actually hold](curriculum/lessons/rules-it-reads-rules-it-cant-break.md) | An instruction file (CLAUDE.md, AGENTS.md) is a short map the agent reads on every request, but anything in prose is a request it may skip; only a deny rule, a blocking hook, a sandbox, CI or a withheld credential makes an action impossible, a rule works only in sessions that load it, and a stale file misleads, so keep it short, dated and backed by checks you have seen fire. | C044, C045, C046, C047, C048 | S123, S021, S023, S026, S022 | todo |
+| 05.03 | [Skills, MCP, hooks and plugins](curriculum/lessons/skills-mcp-hooks-and-plugins.md) | A skill is a written procedure, an MCP server connects outside tools, a hook is code the harness runs on an event, a subagent is an isolated worker and a plugin bundles them; each one you enable costs context, and skills, plugins and local MCP servers are code running with your permissions that can change after you approve them. | C049, C050, C051, C091, C092 | S015, S130, S071, S162 | todo |
 
-## Module 07 — Concurrency: Doing Many Things at Once
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 07.01 | Processes vs threads | Separate houses vs roommates | todo |
-| 07.02 | The event loop | One worker juggling many waiting tasks (JavaScript, Python asyncio) | todo |
-| 07.03 | async / await | Writing code that waits without freezing | todo |
-| 07.04 | Worker threads & worker pools | Handing heavy work to helpers | todo |
-| 07.05 | Job queues & the worker loop | "Take a job, do it, report, repeat" — how render queues and AI pipelines work | todo |
-| 07.06 | Race conditions & locks | Why two workers touching one thing breaks it | todo |
-| 07.07 | Multi-agent orchestration | Fan-out, review, verify; cost and when it's worth it | todo |
+## Module 06 — Scaling up
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 06.01 | [Plan first, then build in slices](curriculum/lessons/plan-first-then-build-in-slices.md) | For anything bigger than a one-sentence change, keep research and planning apart from building: react to cheap throwaway mockups first, have the agent map what exists read-only, compare two options and review a short plan with an out-of-scope list, then build in slices small enough to review, choosing between options on evidence. | C037, C039, C040, C041 | S003, S036, S117, S118 | todo |
+| 06.02 | [Checking code you can't read](curriculum/lessons/checking-what-you-cant-read.md) | You cannot read every line an agent writes and need not: accept work on records something outside the agent wrote (the real diff, CI on another machine, server logs, the destination), pick the evidence that fits the change, keep one source of truth from outside the session that wrote the code, treat AI review as triage rather than acceptance, and break things on purpose to prove your checks bite. | C012, C013, C014, C015, C017 | S030, S029, S042, S064, S040 | todo |
+| 06.03 | [What your AI work really costs, and how to cap it](curriculum/lessons/know-your-meter.md) | Know which meter you are on (a subscription's rolling allowances, or an API key that bills every token, which a stray key in your environment switches you to), that cost is context times turns times agents, that caching discounts only an identical prefix, that a cheaper model is not always a cheaper result and higher effort mostly buys more steps, and that budget alerts don't stop spending, so set caps that do. | C055, C056, C057, C058, C059, C061 | S016, S017, S128, S139 | todo |
 
-# District 3 · The History — how work is saved & shared
+# District 4 · Agent Power — What can your agent touch?
 
-## Module 08 — Git, GitHub & Agents on Git
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 08.01 | What version control is | Save points for code with a full history | todo |
-| 08.02 | Git basics | repo, stage, commit, log, diff | todo |
-| 08.03 | Branches & merging | Parallel timelines; merge conflicts demystified | todo |
-| 08.04 | Git vs GitHub | Git = the tool on your PC; GitHub/GitLab/Bitbucket = hosting + collaboration | todo |
-| 08.05 | Remotes: clone, push, pull, fork | Syncing your copy with the server copy | todo |
-| 08.06 | Pull requests, issues & code review | How teams (and agents) propose changes | todo |
-| 08.07 | .gitignore & never committing secrets | What stays out of the repo and why | todo |
-| 08.08 | Gists | Tiny single-file repos for sharing snippets | todo |
-| 08.09 | GitHub Actions (CI/CD) | Robots that test/build/deploy on every push | todo |
-| 08.10 | Releases, tags & GitHub Pages | Shipping versions and free static hosting | todo |
-| 08.11 | How AI coding agents use git | Agents on branches/worktrees, opening PRs, why git makes agent work safe to undo | todo |
-| 08.12 | Contributing with AI: team norms and AI policies | Mixed human/AI teams: AI code drifting from conventions and the agreed libraries, open-source AI disclosure policies, reviewing AI-written pull requests | todo |
+## Module 07 — Reach and trust
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 07.01 | [Prompt injection: when what it reads gives it orders](curriculum/lessons/whose-words-is-it-reading.md) | Everything an agent reads (web pages, issues, READMEs, tool output, even data from an official MCP server) lands in the same stream as your request, so anyone who can write text it reads can try to steer it; filters catch most attempts but attackers retry, so never give one agent private data, untrusted content and a way to send data out at once, and review what gets written into its memory and rules. | C073, C074, C075, C076, C086 | S049, S050, S058, S051, S054 | todo |
+| 07.02 | [Sandboxes: a safe box for your agent](curriculum/lessons/contain-it-dont-babysit-it.md) | Approving each step does not hold, so put the boundary in the environment: run risky, unattended or package-installing work in a container or VM with the network off and no production keys, know exactly what your sandbox covers (Claude Code's is off by default, shell-only and absent on native Windows), and remember isolation limits where code runs, not what your granted access can reach. | C078, C079, C080 | S050, S052, S064, S063 | todo |
+| 07.03 | [Give your agent only the access it needs](curriculum/lessons/the-narrowest-keys-and-verbs.md) | Assume anything the agent can see can be extracted and anything it can reach it will treat as permitted: keep production keys out of where it runs, grant the narrowest verbs, roles, targets and domains, give browser agents a separate profile, and keep spending, messages to outsiders, sensitive data and publishing behind a human approval. | C082, C083, C084, C085, C104 | S053, S046, S055, S070, S189 | todo |
+| 07.04 | [Other people's code](curriculum/lessons/other-peoples-code.md) | Installing a package, opening or testing a repo, trusting a folder and pasting a command all run someone else's code as you, so have the agent check that every new dependency it names exists and has a history, set a minimum release age, open untrusted repos only in a disposable box, and never run a command a web page tells you to. | C087, C088, C089, C090, C093, C130 | S060, S061, S056, S057, S062 | todo |
 
-# District 4 · The Network — how computers talk
+# District 5 · Running Alone — What runs while you're away?
 
-## Module 09 — Networking & the Internet
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 09.01 | LAN, WAN & the internet | Your home network vs everyone else's; router, switch, Wi-Fi | todo |
-| 09.02 | IP addresses & ports | Address = building, port = apartment; private vs public IPs | todo |
-| 09.03 | localhost | 127.0.0.1 — your computer talking to itself; `localhost:3000` explained | todo |
-| 09.04 | Clients & servers | Who asks, who answers; any computer can be a server | todo |
-| 09.05 | DNS & domains | Names → numbers; registrars, records (A, CNAME, TXT, MX) | todo |
-| 09.06 | HTTP & HTTPS | Requests, responses, methods, status codes, headers | todo |
-| 09.07 | TLS certificates | The padlock; Let's Encrypt; why HTTPS is free now | todo |
-| 09.08 | Firewalls, NAT, port forwarding & VPNs | Why your PC isn't reachable from the internet (and how to change that safely) | todo |
-| 09.09 | CDNs, latency & bandwidth | Why sites are copied worldwide | todo |
+## Module 08 — Unattended work
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 08.01 | [Agents that run while you're away](curriculum/lessons/agents-that-run-while-youre-away.md) | Background, cloud, scheduled and always-on personal agents act without a prompt, each with its own files, rules, permissions and bill; list where yours run, keep scheduled work low-consequence, give long runs stop rules, budgets and checkpoints enforced outside the model, and treat more agents as more to review, not more done. | C094, C096, C105, C060, C095 | S167, S035, S019, S161 | todo |
+| 08.02 | [Automations that fail silently](curriculum/lessons/green-is-not-success.md) | An automation can run green for weeks while doing nothing (an expired token, a renamed field, a filter that matches nothing), so check outcomes in layers (did it run, is the output right, did it arrive), feed known answers through the live pipeline, and watch from outside with a heartbeat and at the destination. | C100, C101, C102 | S067, S182, S180, S032 | todo |
+| 08.03 | [Whose account is your automation using?](curriculum/lessons/every-automation-runs-as-someone.md) | Every automation acts as the account that owns it, and every shipped app rests on a chain of accounts (code host, hosting, domain, database, AI provider, payments); so list each one with its owner, protect them with passkeys or 2FA and stored recovery codes, and move anything a business depends on to a service account with narrow access and a second owner. | C135, C129 | S246, S245, S247, S142 | todo |
 
-## Module 10 — APIs, Webhooks & MCP
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 10.01 | What an API is | A menu of things a program lets other programs do | todo |
-| 10.02 | Web APIs & REST | Endpoints, JSON bodies, GET/POST/PUT/DELETE | todo |
-| 10.03 | Anatomy of one API call | URL, method, headers, key, JSON body, status code: one request taken apart | todo |
-| 10.04 | SDKs, rate limits, pagination & errors | The practical realities of APIs | todo |
-| 10.05 | Webhooks | "Don't call us, we'll call you" — reverse APIs; polling vs push | todo |
-| 10.06 | WebSockets & streaming | Live two-way connections; why AI replies stream token by token | todo |
-| 10.07 | GraphQL & RPC (brief) | Other API styles you'll bump into | todo |
-| 10.08 | MCP — Model Context Protocol | A standard plug that lets AI apps use tools; client, server, tools, resources | todo |
-| 10.09 | MCP transports & installing servers | stdio (local program) vs HTTP (remote); config files; auth for remote MCP | todo |
-| 10.10 | Tools, skills & MCP in practice | Giving an agent abilities | todo |
-| 10.11 | Subscriptions vs API billing | Chat plans vs pay-per-token keys | todo |
-| 10.12 | Plugin and skill marketplaces | Skills vs connectors vs plugins; directories, the Claude Marketplace, git-repo plugin marketplaces; every add-on is code you trust (malicious skills in the wild) | todo |
-| 10.13 | Prompt caching and the token meters | Input, cache write, cache read, output; the prefix rule and what breaks a cache; time to live (5 min / 1 h); why long chats cost more each turn | todo |
-| 10.14 | Multimodal APIs | Sending images, audio, video and PDFs to a model; models that generate media natively vs apps that hand off to a generator model | todo |
-| 10.15 | Voice AI | Voice modes: speech-to-text, model, text-to-speech pipelines vs native speech-to-speech; turn-taking and interruptions | todo |
-| 10.16 | What "Opus made this" leaves out | ~20 min, case study (Aaron asked for it out of sequence, 2026-10-03/04). Bare Opus 5.5 vs Opus connected to engines, generators and pipelines, from controlled experiments run for this lesson: what the model really did, what references, generators, songs and people supplied, its narrow default taste, that it never hears or plays its own work, and the bill (Seedance 2.5, keep ratios, the 10,000-character "one prompt"). Uses real media exhibits (first lesson with video clips and played audio) | todo |
+# District 6 · Beyond Code — What if it isn't software?
 
-## Module 11 — Websites & Hosting
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 11.01 | HTML, CSS, JavaScript | Structure, style, behavior | todo |
-| 11.02 | Static vs dynamic sites | Pre-made pages vs pages built per request | todo |
-| 11.03 | SSG, SSR, SPA & islands | The rendering acronyms explained | todo |
-| 11.04 | Astro | Content-first static sites with islands of interactivity | todo |
-| 11.05 | React, Next.js & friends | When you need a heavier framework | todo |
-| 11.06 | Build steps & dev servers | `npm run dev` vs `npm run build`, the `dist` folder | todo |
-| 11.07 | How a domain name finds your site | Registrar → DNS → host: who owns what in the chain | todo |
-| 11.08 | Where to host | GitHub Pages, Cloudflare Pages, Vercel, Netlify, VPS — tradeoffs and costs | todo |
-| 11.09 | Deploying from git | Push → auto-deploy; preview deployments | todo |
+## Module 09 — Facts, media, rights
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 09.01 | [Checking research, numbers and parts](curriculum/lessons/checking-research-numbers-and-parts.md) | Whether a cited link exists is something the agent can check, so make it; whether the source supports the claim, whether a spreadsheet's logic is right and whether a part fits a real board are not, so you or an expert check those, with a known-answer test, a separate checker session and the distributor's data, before anything is filed, sent or ordered. | C106, C107, C108, C109 | S072, S073, S074, S075 | todo |
+| 09.02 | [Making media with AI](curriculum/lessons/making-media-with-ai.md) | A model that reads images is not one that makes them: generation runs through separate media models, in the cloud or on your own machine, whose results vary run to run and converge across users, cost per second, resolution and retry, and cannot be seen or heard by the agent without a tool, so test cheap before the expensive render and bring your own taste. | C030, C031, C032, C134 | S110, S111, S244, S242 | todo |
+| 09.03 | [Labelling AI media](curriculum/lessons/labelling-ai-media.md) | A generator's watermark is for machines, not your label: since 2026-08-02, publishing professionally in the EU means telling people where they see it (from first exposure, spoken for audio), AI-written public-interest text needs a responsible human reviewer or a label, and each platform's own rules on AI content apply on top. | C110, C111, C112, C116 | S076, S195, S200, S079 | todo |
+| 09.04 | [Own it, sell it, publish it](curriculum/lessons/own-it-sell-it-publish-it.md) | The generator's terms, the model's own licence and copyright law each decide something different: free tiers can be personal-use only, purely AI-made work has no US copyright, a local model's licence can forbid commercial use, voices and faces need written consent, and owning an output doesn't clear someone else's logo or character, so log which plan made each asset and bring in an IP lawyer before selling. | C113, C114, C115, C132, C133 | S077, S201, S203, S235, S238 | todo |
 
-## Module 12 — Cloudflare & the Edge
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 12.01 | What Cloudflare is | DNS, CDN, proxy, DDoS shield in front of your site | todo |
-| 12.02 | Pages & Workers | Hosting sites and running code at the edge | todo |
-| 12.03 | Storage: KV, D1, R2, Durable Objects | Where edge apps keep data | todo |
-| 12.04 | Workers AI & the Agents SDK | Running models and stateful agents on Cloudflare | todo |
-| 12.05 | Tunnels & Zero Trust | Safely exposing localhost; protecting private apps | todo |
+# Finish · Capstone — Can you ship it end to end?
 
-## Module 13 — Containers, Servers & the Cloud
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 13.01 | "Works on my machine" | The problem containers solve | todo |
-| 13.02 | Docker: images, containers, Dockerfile | Recipe → packaged box → running box | todo |
-| 13.03 | Volumes, ports & docker compose | Data and multiple services | todo |
-| 13.04 | When to use Docker (and when not) | Servers and reproducibility yes; simple desktop scripts usually no | todo |
-| 13.05 | VMs vs containers vs serverless | Three ways to rent compute | todo |
-| 13.06 | The big clouds | AWS, Azure, GCP — and the simpler PaaS options | todo |
-| 13.07 | Environments: dev, staging, prod | Why you don't test on live users | todo |
-
-# District 5 · Trust — who may do what
-
-## Module 14 — Identity, Authentication & Keys (Developer Side)
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 14.01 | Authentication vs authorization | Who are you vs what may you do | todo |
-| 14.02 | Sessions & cookies | How a website remembers you're logged in | todo |
-| 14.03 | API keys, app keys, secret vs publishable keys | Shared secrets; which keys may appear in a browser and which never may | todo |
-| 14.04 | Tokens & JWTs | Access tokens, refresh tokens, expiry, bearer headers | todo |
-| 14.05 | Public/private key cryptography | Lock anyone can close, only you can open; signing vs encrypting | todo |
-| 14.06 | SSH keys | Passwordless login to servers and GitHub | todo |
-| 14.07 | OAuth 2.0: the big idea | Letting an app act for you without giving it your password | todo |
-| 14.08 | OAuth flows | Authorization Code + PKCE, Client Credentials, Device Code, refresh — which to use when | todo |
-| 14.09 | OpenID Connect, SSO & "Sign in with Google" | OAuth + identity | todo |
-| 14.10 | Scopes, consent & revoking access | Least privilege for apps | todo |
-| 14.11 | Service accounts & machine identities | Logins for robots | todo |
-| 14.12 | Giving agents keys safely | Scoped tokens, sandboxes, permission prompts, human-in-the-loop | todo |
-| 14.13 | Signed webhooks (HMAC) | Proving a webhook really came from Stripe/GitHub | todo |
-
-## Module 15 — Personal Security & Secrets
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 15.01 | Passwords & password managers | Bitwarden, 1Password: vaults, master password, autofill | todo |
-| 15.02 | Two-factor authentication | SMS vs authenticator (TOTP) vs push vs hardware keys | todo |
-| 15.03 | Passkeys | Public-key login that can't be phished | todo |
-| 15.04 | Recovery codes & recovery keys | The backup door — where to keep them | todo |
-| 15.05 | Hashing vs encryption vs encoding | One-way, two-way, and not-security-at-all (base64) | todo |
-| 15.06 | Encryption at rest & in transit | BitLocker/FileVault, HTTPS, end-to-end | todo |
-| 15.07 | Keeping app secrets out of plain text | .env + .gitignore → OS credential store → `op run`/Bitwarden Secrets Manager → cloud secret stores | todo |
-| 15.08 | Environment variables: user vs system | Where they live, who can read them, what's fine to put there (paths, flags) and what isn't (long-lived secrets) | todo |
-| 15.09 | Windows Credential Manager & DPAPI | The OS vault; encryption tied to a Windows account, so only that account can read it (Keychain / libsecret on Mac & Linux) | todo |
-| 15.10 | The bootstrap secret problem | Every automation needs one first secret; where that one secret can safely live | todo |
-| 15.11 | When a key leaks | Rotate, revoke, scan history; secret scanning | todo |
-| 15.12 | Least privilege & threat modeling for solo devs | What could go wrong, and cheap defenses | todo |
-| 15.13 | AI privacy & data use | What gets sent, trained on, and retained | todo |
-| 15.14 | AI at work: enterprise plans and admin controls | Individual vs Team/Enterprise: SSO, admin allow-lists for connectors, plugins and skills, audit logs, retention, managed instruction files, training defaults | todo |
-| 15.15 | Prompt injection and attacks on agents | Text in a page, file or email can steer an agent that reads it; why tool access turns that into real damage, and the defenses so far | todo |
-| 15.16 | AI that checks code: review and security agents | What 2026 review and security agents (scanners, /security-review, autofix) catch, what they miss, and why a human still approves | todo |
-| 15.17 | Dangerous files | Double extensions (invoice.pdf.exe), Mark of the Web, risky attachment types: a file's name can lie about what it does (deferred from 01.01) | todo |
-
-## Module 16 — Running Things Without You
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 16.01 | Background processes & services/daemons | Programs with no window | todo |
-| 16.02 | Scheduling | Task Scheduler, cron, scheduled cloud jobs | todo |
-| 16.03 | Running without being logged in | Services, "run whether user is logged on or not", SYSTEM account | todo |
-| 16.04 | The implications | Stored credentials, security, persistence, what malware does the same way | todo |
-| 16.05 | Headless machines & servers | Computers with no screen; remote access (SSH, RDP) | todo |
-| 16.06 | Logs & monitoring | How you find out what happened while you were away | todo |
-| 16.07 | When you leave, does it break? | The "bus factor": automations tied to personal accounts; moving them to company-owned identities | todo |
-| 16.08 | Windows service accounts & scheduled tasks | A login for a robot on one machine, and the scheduled tasks that use it | todo |
-| 16.09 | Robot identities in the cloud | Entra ID app registrations and service principals: how a Microsoft 365 automation runs as an app instead of a person | todo |
-| 16.10 | Workflow automation platforms | n8n, Zapier, Make — when no-code wins | todo |
-| 16.11 | Scheduled & background agents | Agents that run daily without you | todo |
-| 16.12 | Evals & cost tracking | Knowing whether your automation actually works and what it costs | todo |
-| 16.13 | Always-on personal agents | OpenClaw, Hermes Agent, Meta Muse, OpenAI dots: self-hosted vs hosted assistants that act for you around the clock, and their security record | todo |
-
-# District 6 · Shipping — getting it to people
-
-## Module 17 — What "an Application" Is
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 17.01 | Anatomy of an app | Frontend, backend, database, storage, auth | todo |
-| 17.02 | Kinds of apps | CLI, desktop, web, mobile, game, browser extension, bot, agent | todo |
-| 17.03 | How executables work | Double-click → OS loads machine code; .exe, .app, ELF | todo |
-| 17.04 | Turning scripts into apps | PyInstaller, Electron, Tauri, bundlers | todo |
-| 17.05 | Code signing & "Windows protected your PC" | Certificates, SmartScreen, Gatekeeper, notarization | todo |
-| 17.06 | Installers | What they actually do: copy files, registry, shortcuts, PATH; MSI, MSIX, Inno Setup, NSIS | todo |
-| 17.07 | Updaters | Checking a server for new versions, auto-update frameworks | todo |
-| 17.08 | Uninstallers | Undoing the installer; leftover AppData | todo |
-| 17.09 | Desktop app stores | Microsoft Store, Mac App Store, Steam, itch.io: why distribute through a store at all (phone stores are 18.06–18.09) | todo |
-| 17.10 | AI design and app builders | Claude Design, Docs and Slides, and other AI tools that build layouts, pages and apps; what they make (code, not pictures) and where the result lives | todo |
-| 17.11 | Ready to ship? What to check before real users | Who can see what, secrets, costs, rollback and monitoring: the checks an agent cannot vouch for when you ask "is it ready to deploy?" | todo |
-
-## Module 18 — Other Platforms: Phones, App Stores & Physical Devices
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 18.01 | Why cross-platform is hard | Different OSes, CPUs (x64 vs ARM), screen sizes: one program, many machines | todo |
-| 18.02 | Compatibility basics | Minimum vs target OS version, API levels, backward vs forward compatibility, deprecations, CPU architectures, screen sizes and densities, "check for the feature, not the version" | todo |
-| 18.03 | How a phone app is different | Sandboxes, permission prompts, the app lifecycle (the OS can pause or kill you), push notifications, battery and offline | todo |
-| 18.04 | Native, cross-platform or web | Swift/Kotlin vs Flutter, React Native, .NET MAUI vs Electron/Tauri vs Unity/Godot vs installable web apps (PWAs): what each trades away | todo |
-| 18.05 | The mobile toolchains | Xcode (why iOS apps need a Mac) and Android Studio; SDKs, simulators vs emulators, running on your own phone | todo |
-| 18.06 | The app stores | App Store, Google Play, Microsoft Store, Mac App Store, Steam, Amazon and Galaxy stores, EU alternative marketplaces, sideloading; what each one is for and the 15–30% cut | todo |
-| 18.07 | Getting your app into a store | Developer accounts and fees, identity checks, review guidelines and rejections, privacy labels and data-safety forms, beta testing (TestFlight, Play testing tracks) | todo |
-| 18.08 | Signing, IDs & releasing updates | Bundle/package IDs, certificates, provisioning profiles, keystores, version numbers vs build numbers, staged rollouts; why losing a signing key is a disaster | todo |
-| 18.09 | Selling inside apps | In-app purchases and subscriptions, store billing rules, why outside payment links were restricted and how that is changing | todo |
-| 18.10 | VMs, emulators & cloud devices | Testing without owning the hardware | todo |
-| 18.11 | CI build matrices | GitHub Actions building Mac/Linux/Windows, iOS and Android for you | todo |
-| 18.12 | How physical devices work | Microcontrollers vs single-board computers (Arduino, ESP32 vs Raspberry Pi), firmware, sensors and actuators, pins | todo |
-| 18.13 | Prototyping electronics | Dev boards, breadboards, power and voltage levels, the parts that let the magic smoke out | todo |
-| 18.14 | Firmware & talking to devices | Flashing, serial over USB, Bluetooth LE, Wi-Fi, MQTT; the companion app on your phone | todo |
-| 18.15 | From breadboard to product | Circuit boards (KiCad, ordering PCBs), enclosures, CAD and 3D printing, small-batch manufacturing | todo |
-| 18.16 | Certification & selling hardware | FCC/CE marks, pre-certified radio modules, safety, crowdfunding and hardware stores | todo |
-| 18.17 | AI on devices | On-device and edge AI (phone NPUs, tiny models on microcontrollers), and coding agents that write firmware | todo |
-
-## Module 19 — Payments, Users & Selling Software
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 19.01 | Adding login to your app | Auth providers: Clerk, Auth0, Supabase Auth, Firebase Auth — don't roll your own | todo |
-| 19.02 | How online payments work | Card networks, processors, never touching card numbers | todo |
-| 19.03 | Stripe | Checkout, products/prices, subscriptions, test mode | todo |
-| 19.04 | Merchant of record | Lemon Squeezy, Paddle, Gumroad — they handle sales tax/VAT | todo |
-| 19.05 | Fulfillment via webhooks | Payment succeeded → unlock access | todo |
-| 19.06 | License keys for desktop software | Issuing, validating, offline activation | todo |
-| 19.07 | Legal pages | Terms of service, privacy policy, refunds, GDPR/CCPA basics | todo |
-
-## Module 20 — Licenses & Legal
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 20.01 | Copyright is the default | No license = all rights reserved | todo |
-| 20.02 | Permissive licenses | MIT, BSD, Apache 2.0 — do almost anything, keep the notice | todo |
-| 20.03 | Copyleft licenses | GPL, LGPL, AGPL — share-alike obligations | todo |
-| 20.04 | Creative Commons & content licenses | For art, docs, media | todo |
-| 20.05 | Proprietary, EULAs & dual licensing | How closed software is licensed | todo |
-| 20.06 | AI model licenses | Open weights vs open source, non-commercial licenses, output rights | todo |
-| 20.07 | API terms of service | What you agree to when you use someone's API | todo |
-
-# Finish · Capstone — one small real project, from idea to running, using every district
-
-## Module 21 — Capstone
-| ID | Lesson | Key idea | Status |
-|---|---|---|---|
-| 21.01 | Idea → plan | Scoping a small real product | todo |
-| 21.02 | Build with an agent | Repo, venv/npm, git, secrets done right | todo |
-| 21.03 | Ship it | Domain, hosting, auth, payments | todo |
-| 21.04 | Run it | Logs, updates, backups, support | todo |
+## Module 10 — Capstone
+| ID | Lesson | Key idea | Concepts | Sources | Status |
+|---|---|---|---|---|---|
+| 10.01 | [Idea to launch, end to end](curriculum/lessons/idea-to-launch-end-to-end.md) | One small real project walked through every district: you choose a problem worth building and what "done" means, the agent builds in checked slices, you can explain what it built before you merge, and every check the course taught is run by the agent where it can be verified and by you or an expert where it cannot. | C010, C018, C043 | S007, S115, S084, S083 | todo |
+| 10.02 | [After launch: keep it alive](curriculum/lessons/after-launch-keep-it-alive.md) | Shipping starts the work: agents keep adding output and dependencies, so judge the project by outcomes (escaped defects, rollbacks, users served) rather than lines, write the house rules and a named owner for the dependency list into files the agent reads, and keep the code one an agent can change safely, with formatters, linters and a final-diff review catching its habits. | C020, C053, C054 | S082, S029, S035, S036 | todo |
 
 ---
 
-## Suggested "Season 1" fast path (~25 lessons, zero → shipped)
-00.01, 01.01–01.05, 02.01–02.04, 03.02, 05.02–05.05, 08.01–08.07, 09.03, 10.01, 10.02, 15.07, 11.02, 11.08
+## Legacy lessons (published before 2026-10-12; kept, marked, rebuilt later)
+| Legacy lesson | Slug | Covers | Note |
+|---|---|---|---|
+| 00.01 The hidden curriculum | 00-01-the-hidden-curriculum | the-hidden-curriculum | Partial cover only, so 00.01 stays `todo` and is the first lesson the daily job rebuilds. Its core ("the gap is in the syllabus, not in you") stands, but it draws the retired six-district map and describes change over years; the rebuild draws this map, adds the weekly pace (C052) and the model's knowledge date (C024), and invites contributions through GitHub issues. |
+| 00.02 The map of everything | 00-02-the-map-of-everything | the-hidden-curriculum | Its five-stop road (your computer, network, internet, services, AI) is retired as the course map; the new map is drawn in the rebuilt 00.01. Its "which stop broke?" habit comes back in 03.01 (`what-runs-where`). Not rebuilt as its own lesson. |
+| 00.03 How old is all this? | 00-03-how-old-is-all-this | the-hidden-curriculum | Its change arc and its "an AI learned from a snapshot" segment feed the rebuilt 00.01, which moves the scale from years to weeks: models retired on about 30 days' notice, a CLI command removed 12 days after deprecation, products merging (C052; S025, S033). Not rebuilt as its own lesson. |
+| 00.04 Model vs app vs agent | 00-04-model-vs-app-vs-agent | model-harness-and-memory | Covers 00.02 only until it is rebuilt: the slot is `todo` since the 2026-10-12 audit and is the second lesson the daily job makes, because 00.02's own spec lists this lesson's engine, car and driver (no harness in between) as an out-of-date framing, and the video pins itself on the retired six-district map. The rebuild centres on model plus harness (S002), with the April 2026 quality drop that came from three harness changes while the model was untouched (S014) as the case; surfaces now live in 01.02. Course page, until then: "made before the 2026-10-12 map; being rebuilt". |
+| 00.05 How AI models work today | 00-05-how-llms-work-just-enough | model-harness-and-memory | Covers 00.02 only until it is rebuilt (day 2 of the daily job). Its desk model and "tokens, temperature, top-p" picture are what 00.02's spec calls the 2021 picture. It no longer stands in for 05.01 or 09.02: its context, caching and media segments carry facts that have no entry in sources.md (audit, 2026-10-12). At about 20 minutes it is split on rebuild: the overview shrinks to orientation length and the rest moves to 05.01, 05.03, 06.03, 08.01 and 09.02. Course page, until then: "made before the 2026-10-12 map; being rebuilt". |
+| 00.06 Trust what you can verify | 00-06-how-to-learn-anything-technical | trust-what-you-can-verify | Made from Aaron's 2026-10-03 correction, it already teaches the rule and that agents fix their own errors, but it pins itself on the retired six-district map, so the slot is `todo` since the 2026-10-12 audit and is the third lesson the daily job makes. Course page, until then: "made before the 2026-10-12 map; being rebuilt". On rebuild add the jagged frontier (C002), Stack Overflow 2026's verify-first trust figures (S080), and a pointer to 04.04 for how to bring in an expert (C118). Its "the job moved" segment now has its own home in 02.02 (C033) and debugging in 02.03 (C019). |
+| 01.01 Files are just bytes | 01-01-files-are-just-bytes | — | No current gap: agents now make, name and open files, so the copy-from-chat confusion this lesson fixed is fading (concepts.md, G13 notes). Stays published as background; rebuilt only if beginners report the gap (backlog). |
+| 01.02 File extensions & associations | 01-02-file-extensions-associations | — | Same as 01.01. Its "the extension is a label, not the contents" idea is reused briefly in 07.04 (downloads that are not what their name says, C093). |
+| 01.03 Folders, paths & the working directory | 01-03-folders-paths-the-working-directory | the-folder-is-the-agents-world | With 01.04 it covers C123 well enough for now. Rebuild both as one lesson: the folder as the agent's world and not a wall, rules and trust climbing upward, keys and AI logins in the home folder, a copy on another disk (S206, S208). |
+| 01.04 Hidden files & dotfiles | 01-04-hidden-files-dotfiles | the-folder-is-the-agents-world | Merges into the rebuilt 01.01; keep "hidden means out of sight, never locked" and AI instruction files as dotfiles. |
+| 01.05 Environment variables & PATH | 01-05-environment-variables-path | where-your-agent-works, keys-public-secret-and-leaked | Partial cover: PATH and "not recognized" for C122 (01.02) and the local half of C126 (03.02). Hosting dashboards per environment, build-time prefixes baked into the public bundle and ".env is a naming convention, not a vault" are new in 03.02. |
+| 01.06 Programs, processes & services | 01-06-programs-processes-services | where-your-agent-works, what-runs-where | Partial cover: "a command starts a program" feeds C122 (01.02) and "servers and ports" feeds C125 (03.01). Task Manager, leftover processes and "port in use" are in the backlog row on processes, which now has first-hand evidence (S254). |
 
-## Timeline cheat-sheet (for 00.03)
-Unix & the shell 1969–71 · Ethernet/LAN 1973 · public-key crypto 1976 · MS-DOS & .bat 1981 · DNS 1983 · the Web 1989–91 · Python 1991 · Linux 1991 · JavaScript 1995 · REST 2000 · PyPI 2003 · Git 2005 · PowerShell 2006 · OAuth 1.0 2007 · GitHub & Gists 2008 · Cloudflare 2009–10 · npm 2010 · TOTP standard 2011 · Stripe 2011 · OAuth 2.0 2012 · Python venv 2012 · Docker 2013 · VS Code 2015 · Cloudflare Workers 2017 · GitHub Actions 2019 · GitHub Copilot 2021 · Astro 2021 · ChatGPT 2022 · passkeys go mainstream 2022 · MCP Nov 2024
+## Deep-dive backlog (not scheduled)
+| Topic | Concepts | Sources | Why it waits |
+|---|---|---|---|
+| Thinking tokens and reasoning budgets | C029 | S013, S015, S033 | Should-priority, but its own entry says it mostly matters to people building on the API or watching bills; 06.03 names it in a sentence. The only concept not taught in a core lesson. |
+| Files, bytes and file types (legacy 01.01, 01.02) | — | S211, S210 | No concept: C123 lists this material as an outdated framing (copy-from-chat workflow replaced by agents), and 01.01 already teaches C123. No current gap item: the confusion came from the copy-from-chat workflow agents replaced (G13 notes). Return, with a new concept, if beginners report it. |
+| Processes, ports and servers on your machine (legacy 01.06) | C122, C125, C127 | S207, S212, S254, S170 | Evidence exists (aaron.md P07, 2026-09-24 to 10-08, now S254; A06, S170): many sessions on one PC multiply MCP server processes, memory and GPU use, and sessions can't see each other's changes. Core lessons cover commands (01.02) and servers (03.01), and 08.01 now names the per-session processes in one line (C094). A lesson of its own still waits for a second, outside source on "port in use" and leftover processes: the G13 research batch on beginner questions has not run (search budget, Reddit blocked). |
+| Hardware and physical devices, including the EU Cyber Resilience Act | C109, C008 | S075, S194, S251 | C109 is could-priority as a standalone lesson: one medium-severity item, and the only measurement comes from a vendor-funded benchmark (S194). 09.01 carries a segment and 03.01 the production moment. First candidate to grow, since Aaron asked for physical devices (S248). |
+| Mobile apps, app stores and chatbot law | C131, C116 | S233, S234, S248 | Aaron asked for mobile apps and stores (S248), and 04.03 covers the stores' AI rules. Signing, review and submission have no concept yet, and California's SB 243 returned HTTP 403 to the research crew and must be read before anything about it is taught. |
+| Local and open-weight models in depth | C031 | S112, S033, S011 | Could-priority with two sources; 09.02 covers local media models and 09.04 their licences. A full lesson needs measured hardware and runtime evidence. |
+| Accessibility audits | C120 | S221, S222, S223, S224 | 04.04 teaches the split (the agent runs the checkers; whether a disabled person can actually use it needs an auditor or users). A full lesson is a must for public-sector, shop, banking-type and e-book services, and the EU dates must be re-checked first: the Commission's EAA page gives no application date. Research note (audit, 2026-10-12): check whether current agents' browser tools can run keyboard-only and screen-reader passes before teaching them as human-only; the only measurement of automated checkers read so far (S224) tested 2017 tools. |
+| Your users' data and the law | C119 | S219, S216, S154 | 04.02 teaches the engineering habits. Legal duties differ by country and are a lawyer's job; GDPR Article 33's breach clock (S219) is the one fixed point read so far, and S154 is an unverified vendor scan. |
+| Comparing AI vendors' privacy settings | C103 | S186, S187, S241 | Only Anthropic's and Google's pages were readable; OpenAI's returned HTTP 403 twice (challenge log). A fair per-vendor lesson waits for a readable source. |
+| Parallel agents, worktrees and fleets | C095, C080 | S172, S030, S036 | 08.01 teaches "more agents is not more done". The popular setups (reviewer chains, swarms, overnight loops) are unproven per C095, so a how-to-run-them lesson would teach something not yet shown to work. |
+| Building MCP servers other people use | C067, C092 | S059, S164 | Only for people who publish servers; C067 says their auth design needs someone who can verify it, and S164 is marked draft. |
+| Prompt caching and model choice in depth | C057, C058 | S128, S135, S137 | 06.03 teaches the rules. Deeper mechanics matter to API builders, and Anthropic halved Sonnet 5.5 cache-read prices on 2026-10-07 (S135), so C058's cost comparison (S017) must be re-measured before it is taught in depth. |
+| Game storefronts and creator monetisation | C116, C133 | S239, S250, S205 | 09.03 and 09.04 cover platform rules and infringement. A lesson for game makers and earning creators waits for community questions; YouTube is the only video platform the research read, and the G12 pass collected no game-maker questions. |
+| AI-written public-interest text | C112 | S076, S195 | Could-priority; its entry says to teach it as a two-minute segment of the labelling lesson, which 09.03 does. |
+| Writing skills that load at the right time | C050 | S022, S130, S015 | Could-priority, vendor sources only; 05.03 teaches it as one segment inside C051. |
+| Spreadsheets with agents in depth | C108 | S074 | One benchmark source and no second found (G11 notes); 09.01 carries the segment. |
+| Code licences and matching public code | C053 | S209, S232 | The challenge pass marked the evidence of harm thin (finding 19); 10.02 names it. |
+| Case study: what "Opus made this" leaves out (Aaron's out-of-sequence request, 2026-10-03; paused draft in lessons/10-16-what-opus-made-this-leaves-out/) | C030, C032, C134 | S109, S110, S243 | Not scheduled; 09.02 reuses its exhibits (see its spec). Aaron green-lit it on 2026-10-04 as a 20-minute lesson with a guest segment and recorded seven decisions in its ORCHESTRATOR.md, which bind any reuse. Decide whether it returns as its own lesson (a 37th slot, so one lesson would be cut) or folds into 09.02 (design-decision.md, For Aaron to decide). |
+| Taking money: payment providers, test vs live keys, webhooks, refunds, tax | — | — | No concept yet. Named by Aaron on 2026-09-30 ("payments and auth for apps", aaron.md P01) and a whole module (19 Payments & users) in the old map; 13 specs name payments only as a red zone. No current source has been read: research queued (provider docs, plus incident reports and postmortems of AI-built payment bugs). With two strong 2026 sources it becomes a concept and a Going Live lesson after 04.02, or a segment of 04.04. |
+| Shipping a desktop app, extension or game build: installers, signing, updates, testing on machines you don't own | — | — | No concept yet. Aaron asked on 2026-09-25: "how do I know that it's going to work on anyone else's computer but mine?" (aaron.md P08; installers, updaters and uninstallers also in P01). Only testing on other machines, or by someone who has them, verifies it. No source read yet: research queued (platform signing and distribution docs, one or two beginner threads). Once a source exists, 04.04's release inventory gains one line: tested on a machine and OS you don't own, or by someone who has one. |
 
 ## Build log
+- 2026-10-12: curriculum rebuilt from outside sources (Aaron: Claude's own sense of what to teach was out of date, and the research step could not catch an out-of-date topic). 13 source sweeps found 274 candidates; 85 were read in depth; 251 are cited (78% dated 2026, 58% since 2026-07) in curriculum/sources.md; 135 concepts with sourced points in curriculum/concepts.md; four skeptic lenses (agent-does-it-now, invisible failures, prerequisites, beyond code) produced 40 findings; three competing designs (journey-first won, grafts from map-first and risk-first) became 36 lessons in six districts plus Start and Finish, each with a spec in curriculum/lessons/. The 210-row curriculum of 2026-10-11 is kept as curriculum/research/old-curriculum-2026-10-11.md. The 12 published lessons are legacy (kept, marked, rebuilt later); the slots they cover (the-hidden-curriculum, model-harness-and-memory, trust-what-you-can-verify, the-folder-is-the-agents-world) stay `legacy` so the daily job builds new lessons first. Engine: the map is data (tools/course.py, engine/course.js, generated map section 02), lessons have permanent keys, legacy lessons render on the frozen engine/legacy/map-v1.js, video and real-computer captures (tools/capture.py, K.demo, K.shot, K.termReplay) and Blender shots (tools/blender_shot.py) are in the engine. Course moved into the public repo github.com/aaronorelup/The-Hidden-Curriculum.
+
+### Before 2026-10-12 (the old curriculum; IDs are the old ones)
 - 2026-10-01: map restructured (Aaron): AI is the lanterns over every district, not a district; modules 21 (AI landscape) and 22 (AI automation) were split into the districts their lessons belong to, and the modules were renumbered so each district is one contiguous run (Start 00 · Machine 01–03 · Code 04–07 · History 08 · Network 09–13 · Trust 14–16 · Shipping 17–20 · Finish 21). Only 00.01 was published, so no live lesson changed its ID.
 - 2026-09-30: proof of concept of 00.01 built as a proof of concept (promoted to the official 00.01 on 2026-10-01). 5:15, 8 scenes, 44 agents over ~2 h 7 min (3 scripts → judge → 2 fact-checkers → narrator → designer → 8 animators → 2×2 reviewers + fixes). Narrator RClayton (ElevenLabs voice library; first pick Manish Sharma hesitated and is blocked). 13,127 characters billed incl. the re-roll (final script 3,862). Render 151 s for 9,445 frames. Live: https://aaronorelup.com/course/lessons/poc-00-01-the-hidden-curriculum/ . Master MP4 in digiKam `Library/missing_map/`.
 - 2026-10-01: Aaron promoted the proof of concept to the official 00.01 (folder renamed to `lessons/00-01-the-hidden-curriculum/`, the old `poc-` address redirects). Course folder moved to `My Projects/Courses/The-hidden-curriculum`.

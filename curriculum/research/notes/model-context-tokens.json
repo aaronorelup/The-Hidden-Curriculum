@@ -1,0 +1,451 @@
+[
+  {
+    "concept": "The model is not the product: you use a deployed configuration",
+    "points": [
+      "Pretraining (next-token prediction) produces frozen weights; what you actually use adds a wrapper: system prompt, tools, retrieval, decoding settings, safety filters and logs (Lin 2026 minimal model).",
+      "Tool loops change capability sharply: GeneGPT scored 0.83 on GeneTuring with NCBI API tools versus 0.00-0.44 without; retrieval raised GPT-4's FreshQA accuracy by 32.6-49.0% relative.",
+      "The workflow can matter as much as the model: physicians given GPT-4 scored only 2 points above control (not significant) while GPT-4 alone scored 16 above; a redesigned collaborative workflow lifted clinicians to 82-85% versus 75%.",
+      "Each model call is still next-token prediction, but a loop that feeds tool output back in can act as a decision-making controller.",
+      "Judge or compare AI setups by naming the whole configuration (harness, tools, settings), not just the model name."
+    ],
+    "gap": "People argue about 'the model' (stochastic parrot vs genius) while the outcome is set by the system around it. Lin (PNAS Nexus, 2026-07-08) shows the same model gives very different results with and without tools, retrieval or a redesigned workflow, and argues the deployed configuration, not the base model, is the unit of analysis.",
+    "humanRole": "The agent runs inside whatever harness, tools and settings it is given and cannot choose them. The human chooses and records the configuration (app, model, effort, tools, data sources) and judges results per configuration. When comparing tools or reporting 'it works / it doesn't', the human states the whole setup.",
+    "sids": ["S011", "S014"],
+    "status": "established",
+    "outdated": ["LLMs are just next-token predictors / stochastic parrots / glorified autocomplete", "the model is the product", "pick the best model and you're done"],
+    "severity": "high",
+    "questions": ["Why does the same model feel smart in one app and dumb in another?", "What is a harness?", "Is ChatGPT/Claude 'just autocomplete'?", "Why do benchmark scores not match my experience?"],
+    "demo": "Ask the same factual question about a recent event in an API playground with no tools, then in an agent with web search enabled; show the different answers and point at the tool call in the second transcript."
+  },
+  {
+    "concept": "Three places information lives: weights, context window, external memory",
+    "points": [
+      "Parametric memory lives in the weights as a lossy, biased compression of training data and changes only when the model is retrained.",
+      "Contextual memory is the current input (conversation, retrieved text, tool results) and lasts only while it stays inside the context window.",
+      "External/product memory (logs, user profiles, knowledge bases, vector stores, memory files like CLAUDE.md or MEMORY.md) lives outside the model, follows product retention policy and is selectively injected into prompts.",
+      "'Stateless' means only that the weights are fixed during ordinary use; ordinary chats do not update the weights, but the product may still store and reuse what you typed.",
+      "Ask of any AI product: where is this stored, for how long, and how is it reused? Most privacy and governance risk sits in the external layer."
+    ],
+    "gap": "Users hold two opposite wrong beliefs: 'it learns from my chats and remembers me' and 'it is stateless and remembers nothing'. Lin (2026) traces both to conflating three memory layers and cites Jones et al. 2025 (CHI EA) finding that users misunderstand what different memory layers store and reuse.",
+    "humanRole": "The agent can read and write memory files and context, but cannot tell you the vendor's retention or training policy. The human decides what goes into persistent memory files, checks product data-retention settings, and does not paste secrets on the assumption that the model 'forgets'.",
+    "sids": ["S011", "S012", "S015"],
+    "status": "established",
+    "outdated": ["LLMs learn from my chats and remember me", "LLMs are stateless and remember nothing", "a bigger model remembers more of my conversation"],
+    "severity": "high",
+    "questions": ["Does the AI remember me between chats?", "Is my conversation used to train the model?", "Why did it forget what I told it yesterday?", "What is the memory feature actually storing?"],
+    "demo": "In Claude Code run /memory to open CLAUDE.md and auto memory files; start a new session and show the file content is what 'remembers', not the model; then show /context listing those files as loaded."
+  },
+  {
+    "concept": "Generated is not looked up: a chatbot answer is not a search result",
+    "points": [
+      "Without a search or retrieval tool, an answer is generated from the weights, not fetched from a source.",
+      "Parametric knowledge has a date on it: some models are trained only on content before a particular date and give an incomplete picture of anything after.",
+      "Retrieval and tools are what bring in current facts (FreshQA: +32.6-49.0% relative accuracy for GPT-4 with retrieval).",
+      "Whether output reproduces training text verbatim is an empirical question: most output is recombination, but models can reproduce boilerplate or famous passages (privacy and copyright risk)."
+    ],
+    "gap": "Brachman et al. 2025 (IUI '25), cited by Lin (2026), found users conflate generation with search, so they treat fluent answers as looked-up facts and do not check whether a search tool actually ran.",
+    "humanRole": "The agent can search and cite when it has tools; the human must check whether a tool call actually happened for time-sensitive or factual claims, and open the cited source for anything that matters. When the human cannot judge the source, an expert should.",
+    "sids": ["S011"],
+    "status": "established",
+    "outdated": ["the AI looked it up", "it just regurgitates its training data", "it knows everything on the internet"],
+    "severity": "high",
+    "questions": ["Did the AI search the web for this or make it up?", "How current is the model's knowledge?", "Why does it give a confident wrong date or version number?"],
+    "demo": "Ask a model with tools off about a library's latest version, then enable web search and ask again; show the transcript with and without a search tool call and compare the version numbers."
+  },
+  {
+    "concept": "Everything fills one context window, and it is resent every turn",
+    "points": [
+      "The context window holds everything the model can reference for one response, including the response itself: system prompt, every message, tool definitions, tool results, images, documents, and the model's own output and thinking.",
+      "The API is stateless: each turn sends all previous history plus the new message, and the output becomes input for the next turn.",
+      "Claude Code re-sends system prompt, project context, every prior message and tool result each request; the model doesn't remember anything between requests.",
+      "Each response's usage field reports what the request consumed; a token counting API estimates before sending.",
+      "Cached prefix tokens still occupy the window: caching changes the price, not whether tokens count."
+    ],
+    "gap": "People picture the model 'holding' a conversation. The Claude context-window docs and Claude Code prompt-caching docs state plainly that nothing is held between requests: the whole history is resent and billed (or cache-read) every turn, so long sessions get slower, costlier and noisier.",
+    "humanRole": "The harness assembles the context automatically; the human decides what work belongs in one session, starts fresh (/clear) for unrelated tasks, and understands that a long chat costs more per message because the whole history rides along.",
+    "sids": ["S012", "S015"],
+    "status": "established",
+    "outdated": ["the model remembers the conversation between messages", "only my new message is sent", "caching saves context space"],
+    "severity": "high",
+    "questions": ["Why does each message cost more the longer the chat gets?", "What is a token and what counts as one?", "Why does a long conversation get slow?", "Does the AI see the whole conversation every time?"],
+    "demo": "Call the API twice in a loop while printing usage.input_tokens; show the input count grows every turn because the full history is resent. In Claude Code, run /context before and after reading a large file."
+  },
+  {
+    "concept": "Context rot: more context makes the model worse, not just more expensive",
+    "points": [
+      "As token count grows, accuracy and recall degrade ('context rot'); curating what is in context matters as much as window size.",
+      "Current Claude models default to 1M-token windows, but a bigger window does not prevent rot.",
+      "Too many extensions add noise: skills may not trigger correctly or Claude may lose track of conventions.",
+      "Remedies in Claude Code: /clear between unrelated tasks, delegate large reads to a subagent (example: 6,100 tokens read, 420-token summary returned), compact at natural breaks."
+    ],
+    "gap": "Bigger windows (1M default since 2026 on current Claude models) invite people to dump everything in. Anthropic's context-window docs say accuracy and recall degrade as tokens grow, and the Claude Code features overview warns that extra context adds noise that makes Claude less effective.",
+    "humanRole": "The agent works with whatever is in its window and cannot reliably notice its own degradation. The human keeps sessions focused, clears between tasks, and prunes CLAUDE.md, skills and MCP servers that are not pulling their weight.",
+    "sids": ["S012", "S015"],
+    "status": "established",
+    "outdated": ["a 1M-token window means it remembers everything I said", "give the AI as much context as possible"],
+    "severity": "high",
+    "questions": ["Why does the agent get sloppy late in a long session?", "Should I paste my whole codebase in?", "When should I start a new chat?"],
+    "demo": "Run /context in a long Claude Code session to show the token breakdown, then /clear and run /context again; delegate a large search to a subagent and show only its summary entering the main context."
+  },
+  {
+    "concept": "What you cannot see is already in the window",
+    "points": [
+      "Before you type, Claude Code loads a system prompt (~4,200 tokens in the docs' simulation), auto memory (first 200 lines or 25KB of MEMORY.md), environment info, MCP tool names, skill descriptions, user and project CLAUDE.md.",
+      "Your prompt is tiny compared to what is already loaded.",
+      "The terminal shows a one-line 'Read auth.ts' while 2,400 tokens of file content enter context; test output shows a pass count while 1,200 tokens enter context.",
+      "Path-scoped rules load when a matching file is read; you see a one-line 'Loaded' notice, not the content.",
+      "Hook output reaches Claude only through additionalContext (or exit code 2 stderr); plain stdout on exit 0 goes to the debug log, not the transcript."
+    ],
+    "gap": "The terminal hides most of what the model reads, so users underestimate context use and do not realise their CLAUDE.md, memory and tool lists are in every request. The 'Explore the context window' page in Claude Code docs shows this event by event.",
+    "humanRole": "The agent loads all of this automatically. The human checks /context to see what is actually loaded and edits or trims the always-on files they own.",
+    "sids": ["S015"],
+    "status": "established",
+    "outdated": ["the agent sees what I see in the terminal", "my prompt is most of what the model reads"],
+    "severity": "medium",
+    "questions": ["What does the AI actually see?", "Why is my context half full before I start?", "What is a system prompt and can I see it?"],
+    "demo": "Open a fresh Claude Code session and run /context before typing anything; point at system prompt, memory, skills and MCP entries; then read one file and run /context again."
+  },
+  {
+    "concept": "Long conversations get trimmed or summarized, and instructions can vanish",
+    "points": [
+      "Through the API, previous turns are preserved completely until the window limit; chat interfaces such as claude.ai can manage the window first-in-first-out, dropping the oldest turns.",
+      "If the input alone exceeds the window, the API returns 400 'prompt is too long'; on Claude 4.5+ a generation that hits the limit stops with stop_reason model_context_window_exceeded.",
+      "Claude Code auto-compacts near the limit (about 967K tokens by default on native-1M models): the conversation is replaced by a structured summary; full tool outputs and intermediate reasoning are gone.",
+      "After compaction: system prompt, root CLAUDE.md, unscoped rules and auto memory reload from disk; up to 5 recently modified files are re-read (files over 5,000 tokens come back as a path only); invoked skills re-injected (5,000 tokens each, 25,000 total, oldest dropped).",
+      "Lost or summarized: instructions given only in chat, path-scoped rules and nested CLAUDE.md (reload on demand), the skill listing.",
+      "Controls: /compact focus on X, /rewind 'Summarize from here', /autocompact 500k, /clear."
+    ],
+    "gap": "People give an important instruction once in chat and are surprised when the agent ignores it hours later. Anthropic's context-window docs note claude.ai can drop oldest turns; Claude Code's context-window page lists exactly what survives compaction and what is summarized away.",
+    "humanRole": "The harness compacts automatically. The human puts must-persist rules in root CLAUDE.md (or hooks), compacts with a focus at natural breaks, and re-states key constraints after a compaction.",
+    "sids": ["S012", "S015"],
+    "status": "established",
+    "outdated": ["once I tell it something it remembers for the whole session", "a long chat keeps every message"],
+    "severity": "high",
+    "questions": ["Why did the agent forget my rule after a while?", "What does 'Conversation compacted' mean?", "What happens when the context window is full?"],
+    "demo": "Give a rule in chat, run /compact, then ask the agent to restate the rule; then add the rule to CLAUDE.md, /clear, and show it is present via /context."
+  },
+  {
+    "concept": "Thinking tokens: billed output you mostly do not see",
+    "points": [
+      "Reasoning/thinking tokens are generated before the visible answer, billed as output tokens, and occupy the context window (Gemini, OpenAI and Claude docs agree).",
+      "Gemini bills the full thought tokens even though only a summary is returned; OpenAI never returns raw reasoning; Claude Code: you are charged for all thinking tokens even when collapsed or redacted.",
+      "Thought/reasoning summaries are condensed versions, opt-in, and not the raw reasoning; levels and budgets apply to the raw thoughts, not the summaries.",
+      "Usage fields show it: thoughtsTokenCount (Gemini), usage.output_tokens_details.reasoning_tokens (OpenAI); OpenAI's example shows 1,024 reasoning tokens of 1,186 output tokens.",
+      "On current Claude models previous thinking blocks are kept in context by default and billed again as input on later turns."
+    ],
+    "gap": "Cost intuitions built on 'tokens = words in the answer' are wrong for reasoning models: most output tokens can be invisible thinking. Gemini's thinking page (updated 2026-10-09) and OpenAI's reasoning guide both describe billing for reasoning the user never sees.",
+    "humanRole": "The model decides how much to think within the level it is given. The human picks the level, watches the reasoning-token fields on the bill or usage report, and does not mistake a summary for the model's actual reasoning.",
+    "sids": ["S013", "S012", "S015"],
+    "status": "established",
+    "outdated": ["tokens are the words in the answer", "the thinking I see is the model's full reasoning", "hidden thinking is free"],
+    "severity": "high",
+    "questions": ["Why was my bill so high for a short answer?", "What are reasoning tokens?", "Is the 'thinking' shown the real reasoning?"],
+    "demo": "Send one Gemini or OpenAI request with high thinking and print usage: show reasoning/thought tokens dwarfing visible output tokens; toggle includeThoughts to show the summary is much shorter than the billed thought count."
+  },
+  {
+    "concept": "Empty or truncated answers: the output cap includes thinking",
+    "points": [
+      "max_output_tokens (Gemini, OpenAI) and max_tokens (Claude) include thinking tokens.",
+      "If the cap is hit while the model is still reasoning, Gemini returns finish_reason MAX_TOKENS with truncated or empty output while still billing the thinking; OpenAI returns status incomplete, reason max_output_tokens, possibly before any visible output, still billing input and reasoning.",
+      "OpenAI recommends reserving at least 25,000 tokens for reasoning and output when starting out.",
+      "To save cost, lower the thinking level rather than shrinking the output cap (Google's advice)."
+    ],
+    "gap": "Builders set a small max-token limit to control cost, then get blank responses and assume the model or their code is broken. Both Google (2026-10-09) and OpenAI document this exact failure mode.",
+    "humanRole": "An agent can read the finish/stop reason and fix the parameter if it is in the loop. The human (or the agent writing their app) must set output caps with reasoning in mind and make the app check the finish reason instead of treating an empty string as an answer.",
+    "sids": ["S013"],
+    "status": "established",
+    "outdated": ["an empty response means the model failed", "set max tokens low to save money"],
+    "severity": "medium",
+    "questions": ["Why does my API call return an empty answer?", "What does finish_reason MAX_TOKENS mean?", "How do I cap cost without breaking answers?"],
+    "demo": "Call a reasoning model with a hard prompt and max_output_tokens set to 200; print finish_reason/status and the empty text alongside the billed reasoning token count; rerun with a lower thinking level and a larger cap."
+  },
+  {
+    "concept": "Thinking cannot always be turned off, and 'minimal' is not zero",
+    "points": [
+      "Gemini 3.1 Pro: 'You cannot disable thinking'; Gemini 2.5 Pro's budget starts at 128; Gemini 3 Flash and Flash-Lite cannot fully turn it off.",
+      "Gemini's 'minimal' level may still reason a little on complex tasks.",
+      "OpenAI: GPT-6 Astra rejects reasoning effort 'none' with HTTP 400; GPT-6.1 Sol rejects 'none' and 'minimal'.",
+      "Claude Code: thinking can't be turned off on Opus 5.5, Sonnet 5.5, Haiku 5.5 or Fable models; MAX_THINKING_TOKENS=0 has no effect there.",
+      "Thinking budgets are hints: the model might overflow or underflow the budget."
+    ],
+    "gap": "Older advice says 'turn thinking off for cheap, fast calls'. Current flagship models across three vendors (Gemini thinking page 2026-10-09, OpenAI reasoning guide, Claude Code model-config) refuse or ignore that setting.",
+    "humanRole": "The human picks a model and level that fit the latency and cost budget, accepting that the floor is not zero on many current models; the agent cannot change what the model allows.",
+    "sids": ["S013", "S015"],
+    "status": "new-2026",
+    "outdated": ["turn thinking off to save money", "a thinking budget is a hard limit"],
+    "severity": "medium",
+    "questions": ["Can I turn off thinking to make it faster?", "Why does my request with reasoning 'none' fail?", "Why did it use more thinking tokens than my budget?"],
+    "demo": "In Claude Code on Opus 5.5 open /config and show the 'Thinking can't be turned off' row; in an API call show the HTTP 400 for an unsupported effort value."
+  },
+  {
+    "concept": "Effort / thinking level is a quality knob most people leave on default",
+    "points": [
+      "Claude Code effort levels: low, medium, high, xhigh, max; defaults are medium on Opus 5.5, Sonnet 5.5 and Haiku 5.5, xhigh on Opus 4.7, high elsewhere; Opus 5.5 is the default model on Pro, Max, Team, Enterprise and the Anthropic API.",
+      "Gemini defaults: high on 3.1 Pro, medium on 3.8 Flash and 3.6 Flash; OpenAI defaults to medium on its current models.",
+      "Lower effort is faster and cheaper; higher effort tests more edge cases and verifies more; max is prone to overthinking.",
+      "Change it with /effort, the /model slider, --effort, CLAUDE_CODE_EFFORT_LEVEL, settings, or skill/subagent frontmatter; 'ultrathink' deepens one turn ('think hard' is not a keyword).",
+      "In March 2026 Claude Code lowered its default from high to medium; users felt it got less intelligent, most never changed it even after UI notices, and Anthropic reverted it on 2026-04-07 calling it the wrong tradeoff."
+    ],
+    "gap": "The postmortem (2026-04-23) shows most users keep whatever effort default ships, even when it is surfaced in the UI, and experience the default as 'the model's intelligence'. As of October 2026 the default on Claude Code's default model is medium.",
+    "humanRole": "The agent works at the level it is given. The human sets effort per task (higher for security-sensitive or tricky work, lower for quick edits), knows the current default, and sets it at the start of a session because changing it mid-session can cost a cache rebuild on many models.",
+    "sids": ["S014", "S015", "S013"],
+    "status": "new-2026",
+    "outdated": ["the model has one fixed intelligence", "the default setting is the best setting"],
+    "severity": "high",
+    "questions": ["What does the effort setting do?", "Why does the agent sometimes skip edge cases?", "Should I always use max?", "What is ultrathink?"],
+    "demo": "Run /effort in Claude Code to show the slider and current default; give the same tricky task at low and at high and compare how much the agent tests and verifies."
+  },
+  {
+    "concept": "'It got dumber' is often the harness, not the model",
+    "points": [
+      "Anthropic's April 2026 postmortem traced Claude Code quality complaints to three harness changes while the API and inference layer were unaffected.",
+      "1: default effort lowered from high to medium (2026-03-04 to 2026-04-07).",
+      "2: a context-management change meant to clear old thinking once from sessions idle over an hour instead cleared it every turn (2026-03-26 to 2026-04-10, fixed in v2.1.101); Claude seemed forgetful, repetitive and made odd tool choices.",
+      "3: a system prompt line 'keep text between tool calls to ≤25 words' (plus 100-word final answers) caused a 3% eval drop for Opus 4.6 and 4.7 (2026-04-16 to 2026-04-20).",
+      "Each change hit a different slice of traffic on a different schedule, so it looked like random degradation; the context bug passed code review, tests and dogfooding and took over a week to root-cause.",
+      "Reports via /feedback and reproducible public examples helped; usage limits were reset for all subscribers on 2026-04-23."
+    ],
+    "gap": "Users attribute quality swings to the model ('they nerfed it') or to luck. The postmortem shows the same weights behaving worse because of a default setting, a context bug and one system-prompt line, all invisible to users.",
+    "humanRole": "The agent cannot see its own harness version, system prompt changes or whether its earlier reasoning was dropped. The human notes the tool version and settings when quality changes, checks changelogs and vendor status threads, and files reproducible /feedback reports instead of silently switching tools.",
+    "sids": ["S014", "S011"],
+    "status": "new-2026",
+    "outdated": ["they secretly nerfed the model", "if it got worse, switch models", "the model name tells you the quality"],
+    "severity": "high",
+    "questions": ["Why does Claude Code feel worse this week?", "Did they downgrade the model?", "How do I report a regression usefully?"],
+    "demo": "Run claude --version and /model to show the harness version, model and effort, open the Claude Code changelog for that version, and show /feedback for filing a reproducible report."
+  },
+  {
+    "concept": "Reasoning continuity across turns depends on the harness passing it back intact",
+    "points": [
+      "Because APIs are stateless, earlier reasoning survives only if the harness sends it back: Gemini thought signatures, Claude signed thinking blocks, OpenAI encrypted reasoning items.",
+      "Gemini 3 requires signatures for function calling; pass the whole response back and don't merge or concatenate signed parts; SDKs do this automatically, hand-edited history or raw REST can break it.",
+      "Claude: during tool use you must return the thinking block unmodified with its signature; a modified block returns an error. Current Claude models keep earlier thinking blocks by default; older ones strip them.",
+      "OpenAI: reasoning carries over only within the same model family; for function calling pass back all reasoning items, calls and outputs since the last user message.",
+      "When the harness dropped earlier reasoning every turn (Claude Code, March-April 2026), the agent became forgetful and repetitive."
+    ],
+    "gap": "People building their own agent loops or editing conversation history assume only the visible text matters. Vendor docs (S012, S013) require opaque reasoning artifacts to be passed back, and the postmortem (S014) shows what happens to behaviour when they are dropped.",
+    "humanRole": "An agent writing the code can follow the SDK pattern and test it; the human who builds a custom loop should use the official SDK conversation helpers rather than hand-rolled history edits, and check that multi-turn tool calls keep working after any history trimming.",
+    "sids": ["S012", "S013", "S014"],
+    "status": "established",
+    "outdated": ["only the text of the conversation matters", "you can freely edit or trim the message history"],
+    "severity": "medium",
+    "questions": ["What is a thought signature?", "Why does my function-calling agent error after I trimmed history?", "Why does my homemade agent forget why it did things?"],
+    "demo": "In a small script, send a tool-use turn back with the thinking block altered and show the API error; then send it unmodified and show it succeeds."
+  },
+  {
+    "concept": "Prompt caching: an exact-prefix discount with its own price list",
+    "points": [
+      "Cache hits need 100% identical prompt segments in the order tools, then system, then messages; a change at one level invalidates it and everything after.",
+      "Prices relative to base input: 5-minute cache write 1.25x, 1-hour write 2x, read 0.1x by default (0.05x on Opus 5.5 and Sonnet 5.5; 0.025x on Fable 5.1 and Mythos 5.1).",
+      "Default TTL is 5 minutes, refreshed free on each read; 1-hour TTL is optional.",
+      "Minimum cacheable prefix is 512 tokens on current 5.x models (up to 4,096 on Opus 4.5/4.6 and Haiku 4.5); shorter prompts are silently not cached.",
+      "Silent cache-breakers: changing tool definitions, toggling web search or citations, changing tool_choice, adding or removing images, changing thinking parameters, dropped thinking blocks, a timestamp inside the cached prefix.",
+      "Check usage.cache_creation_input_tokens and cache_read_input_tokens; if both are 0, nothing was cached."
+    ],
+    "gap": "App builders put a timestamp or per-user data at the top of the system prompt or reorder tools and never get a cache hit, paying full price on every call. The prompt-caching docs list these silent invalidators and the price multipliers.",
+    "humanRole": "The agent can implement caching and read usage fields; the human decides the prompt layout (stable content first, variable content last), checks the cache-read numbers on real traffic, and watches the bill.",
+    "sids": ["S012"],
+    "status": "established",
+    "outdated": ["caching is automatic and always on", "caching reduces context-window use", "putting the date in the system prompt is harmless"],
+    "severity": "medium",
+    "questions": ["Why is my API bill not going down with caching?", "What is prompt caching?", "Why does adding the current time break caching?"],
+    "demo": "Call the API twice with an identical long system prompt and print the cache fields (write then read); then add a timestamp to the system prompt and show cache_read_input_tokens stays 0."
+  },
+  {
+    "concept": "Hidden usage drain: actions that throw away the cache in an agent session",
+    "points": [
+      "Claude Code re-sends the whole context every turn and relies on an exact-prefix cache; a miss means the full history is re-processed at full price and more slowly.",
+      "Mid-session cache-breakers: switching models (each model has its own cache, including opusplan plan-mode toggles and skills that name a model), changing effort on most models, turning on fast mode, adding or removing MCP servers when tools load upfront, denying a whole tool without tool search, /compact, many images, upgrading Claude Code.",
+      "Cache-safe: editing repo files, editing CLAUDE.md, changing permission mode or output style, invoking skills, /recap, /rewind, spawning a subagent.",
+      "TTL: main conversation gets 1 hour on a subscription within plan usage, 5 minutes on API key, cloud provider or usage credits; subagents get 5 minutes; the first turn after a break re-processes everything, and /compact on a cold cache is the most expensive.",
+      "In the April 2026 bug, dropped thinking blocks caused cache misses that drained usage limits faster than expected.",
+      "/usage shows a 'Prompt cache (main)' line with hit ratio, misses and likely cause."
+    ],
+    "gap": "Users who switch models or effort mid-task, or step away and come back, see their plan limits drain and assume the vendor changed limits. The postmortem (S014) and Claude Code's prompt-caching page (companion to S015) explain the mechanism and list the triggers.",
+    "humanRole": "The harness caches automatically; the human picks model and effort at the start of a session, compacts at natural breaks, avoids toggling MCP servers mid-task, and checks /usage when consumption looks wrong.",
+    "sids": ["S014", "S015"],
+    "status": "new-2026",
+    "outdated": ["switching models mid-task is free", "usage limits drain only from what I type"],
+    "severity": "high",
+    "questions": ["Why did my Claude usage limit run out so fast?", "Is it bad to switch models in the middle of a session?", "Why is the first message after lunch so slow?"],
+    "demo": "In Claude Code run /usage and point at the Prompt cache (main) line; switch /model mid-session (accept the warning), send one message, and run /usage again to show the miss and its likely cause."
+  },
+  {
+    "concept": "Editing CLAUDE.md mid-session does not apply until /clear, /compact or restart",
+    "points": [
+      "Project-root and user CLAUDE.md are read once at session start and held in memory; edits mid-session neither invalidate the cache nor take effect.",
+      "The new content loads on the next /clear, /compact or restart.",
+      "Nested CLAUDE.md and path-scoped rules load on demand; editing them before they load takes effect, after they load it does not retroactively change history."
+    ],
+    "gap": "Users add a rule to CLAUDE.md and expect the running agent to obey it immediately. The Claude Code prompt-caching page states the edit does not apply to the running session.",
+    "humanRole": "The human runs /clear (or restarts) after editing standing instructions, or restates the rule in chat for the current session.",
+    "sids": ["S015"],
+    "status": "established",
+    "outdated": ["the agent rereads CLAUDE.md every turn"],
+    "severity": "medium",
+    "questions": ["I updated CLAUDE.md, why is it still doing the old thing?", "When does CLAUDE.md load?"],
+    "demo": "Add a visible rule to CLAUDE.md mid-session, ask the agent about it (it doesn't know), run /clear and ask again."
+  },
+  {
+    "concept": "Skills vs commands vs plugins vs connectors vs MCP vs hooks vs subagents",
+    "points": [
+      "CLAUDE.md: always-on project or user context, full content every request, keep under 200 lines; .claude/rules/ splits it and can be scoped to file paths.",
+      "Skill: SKILL.md in ~/.claude/skills, .claude/skills, a plugin or managed settings; description loads every turn (truncated at 1,536 chars), full body loads when used; invoked with /name or automatically.",
+      "Command: .claude/commands/x.md still works, but custom commands have been merged into skills; both create /name.",
+      "MCP server: connection to an external system's tools and data (local/user scope in ~/.claude.json, project scope in .mcp.json); tool names load at start, schemas deferred via tool search.",
+      "Connector: an MCP server added in claude.ai; it is automatically available in Claude Code when logged in with that account.",
+      "Plugin: the packaging layer that bundles skills, hooks, subagents and MCP servers, namespaced as /plugin:skill and distributed through marketplaces.",
+      "Subagent: isolated worker with its own context window, returns only a summary. Hook: script, HTTP call, MCP tool call, prompt or subagent run by the harness on a lifecycle event, zero context unless it returns output.",
+      "Output style: role, tone and format for a session. Code intelligence (LSP): language-server navigation and type errors via a plugin."
+    ],
+    "gap": "The vocabulary overlaps and changed during 2026 (commands merged into skills; connectors are claude.ai's name for MCP servers), so users install the wrong thing or stack redundant ones. The Claude Code features overview compares them by what they are, where they live, when they load and what they cost.",
+    "humanRole": "The agent can write a skill, hook or MCP config on request; the human decides which mechanism fits (always-on rule, on-demand workflow, external connection, enforcement, isolation, distribution) and owns what gets installed.",
+    "sids": ["S015"],
+    "status": "established",
+    "outdated": ["slash commands and skills are different things", "a plugin is a kind of tool", "connectors are something other than MCP"],
+    "severity": "medium",
+    "questions": ["What's the difference between a skill, a command, a plugin and a connector?", "When should I use MCP versus a skill?", "Where do skills live?", "What is a subagent for?"],
+    "demo": "Show a .claude folder with CLAUDE.md, rules/, skills/<name>/SKILL.md and settings.json hooks; run /context (skill listing and MCP tools), /mcp and /plugin to show each list."
+  },
+  {
+    "concept": "Rules in prose are requests; hooks and permissions are enforcement",
+    "points": [
+      "An instruction like 'never edit .env' in CLAUDE.md or a skill is a request, not a guarantee.",
+      "A PreToolUse hook that blocks the edit is enforcement; if a rule must hold every time, make it a hook rather than a prompt instruction.",
+      "CLAUDE.md and output styles are both followed as instructions, so neither is enforced.",
+      "Hooks always fire on their event (the trigger is guaranteed); skills are interpreted, so the outcome can vary.",
+      "Examples of hook jobs: reject rm -rf /, lint after every edit, block edits to secrets, notify when a session ends."
+    ],
+    "gap": "People write safety rules into CLAUDE.md or system prompts and assume the agent will always obey. The Claude Code features overview says outright that these are requests and that guaranteed guardrails belong in hooks.",
+    "humanRole": "The agent can draft a hook; the human decides which rules must never be broken (secrets, destructive commands, production access) and makes sure they are enforced by hooks or permission deny rules, then tests that the block actually fires.",
+    "sids": ["S015"],
+    "status": "established",
+    "outdated": ["put the rule in the system prompt and it will be obeyed", "the agent knows not to touch my secrets"],
+    "severity": "high",
+    "questions": ["How do I stop the agent from ever touching .env?", "Why did it ignore my CLAUDE.md rule?", "What is a hook?"],
+    "demo": "Write 'never edit .env' in CLAUDE.md and show a contrived prompt that gets the agent to try anyway; then add a PreToolUse hook that blocks Edit on .env and show the blocked attempt in the transcript."
+  },
+  {
+    "concept": "Every extension costs context, and too many make the agent worse",
+    "points": [
+      "Context cost by feature: CLAUDE.md full content every request; output style every request; skill descriptions every request (zero with disable-model-invocation: true); MCP tool names at start with schemas deferred; hooks zero unless they return output; subagents isolated.",
+      "Every skill in the listing adds to context on every turn whether or not Claude ever uses it.",
+      "Too much context adds noise: skills may not trigger correctly, or Claude may lose track of conventions.",
+      "MCP tool output over 10,000 tokens triggers a warning and is capped at 25,000 by default (MAX_MCP_OUTPUT_TOKENS); larger results are saved to a file.",
+      "/context shows the live breakdown; /context all shows per-MCP-tool token use; /doctor proposes CLAUDE.md trims."
+    ],
+    "gap": "Users install every plugin, skill and MCP server they find, assuming more capability. The features overview's context-cost table and its warning about noise show the trade-off.",
+    "humanRole": "The human audits what is installed, removes unused servers and skills, marks side-effect skills user-only, and checks /context when the agent starts missing conventions.",
+    "sids": ["S015"],
+    "status": "established",
+    "outdated": ["more tools and skills make the agent smarter"],
+    "severity": "medium",
+    "questions": ["Do MCP servers slow Claude down?", "Why is the agent not using my skill?", "How many skills is too many?"],
+    "demo": "Run /context all to show tokens per MCP tool and skill listing; disable an unused MCP server in /mcp and compare at the start of a fresh session."
+  },
+  {
+    "concept": "Skill selection depends on the description",
+    "points": [
+      "Claude matches your task against skill descriptions to decide which to load; vague or overlapping descriptions lead to the wrong skill or none.",
+      "The combined description and when_to_use text is truncated at 1,536 characters in the listing: put the key use case first.",
+      "Invoke a skill explicitly with /name to be sure it runs.",
+      "Use disable-model-invocation: true for skills with side effects so they run only when you name them; user-invocable: false hides background-knowledge skills from the / menu."
+    ],
+    "gap": "Users write a skill and are puzzled when it never triggers or the wrong one fires. Claude Code docs explain that automatic loading is a match on the description.",
+    "humanRole": "The human writes specific, non-overlapping descriptions, names the skill explicitly when it matters, and gates side-effect skills behind manual invocation.",
+    "sids": ["S015"],
+    "status": "established",
+    "outdated": ["the agent automatically knows which skill to use"],
+    "severity": "low",
+    "questions": ["Why doesn't Claude use my skill?", "How does Claude choose a skill?"],
+    "demo": "Create two skills with overlapping descriptions, give a task and show which one loads; rewrite one description and repeat."
+  },
+  {
+    "concept": "Subagents protect your context but start without your conversation",
+    "points": [
+      "A subagent runs in a separate context window; only its final summary (plus a small metadata trailer) returns. In the docs example it read 6,100 tokens of files and returned 420.",
+      "It starts without your conversation history or the main session's auto memory; it gets its own system prompt, CLAUDE.md (except built-in Explore and Plan), its preloaded skills, and the task prompt the lead agent writes.",
+      "A fork instead inherits the parent's conversation, system prompt and tools, and reads the parent's cache.",
+      "Subagents get a 5-minute cache TTL by default even on a subscription, and their tokens are separate usage."
+    ],
+    "gap": "Users assume a subagent knows everything discussed so far, then get generic results. The context-window page shows it starts with only the task prompt Claude wrote.",
+    "humanRole": "The agent decides much of the delegation; the human checks that a delegated task includes the constraints that matter and treats the returned summary as a claim to verify, not a transcript.",
+    "sids": ["S015"],
+    "status": "established",
+    "outdated": ["a subagent sees the whole conversation"],
+    "severity": "medium",
+    "questions": ["What is a subagent?", "Why did the subagent ignore what we discussed?", "When should I use a subagent?"],
+    "demo": "Ask Claude Code to use a subagent for a codebase search, then show the main context only contains the returned summary via /context."
+  },
+  {
+    "concept": "Extensions are a supply-chain and prompt-injection surface",
+    "points": [
+      "Verify you trust each MCP server before connecting it; servers that fetch external content can expose you to prompt injection.",
+      "Project-scoped servers from .mcp.json require approval in interactive sessions.",
+      "Skills can bundle and run scripts in any language.",
+      "A project skill's allowed-tools applies even in a -p run in a folder you have never trusted; a skill can grant itself broad tool access, so review allowed-tools of skills checked into a repository before running Claude Code there.",
+      "Plugins bundle skills, hooks, subagents and MCP servers, so installing one installs all of them."
+    ],
+    "gap": "Users install skills, plugins and MCP servers from strangers as if they were harmless prompts. Claude Code's MCP and skills docs warn about prompt injection and self-granted tool access.",
+    "humanRole": "The agent cannot vouch for the trustworthiness of a third-party server or skill author. The human reviews what a plugin or skill contains (scripts, allowed-tools, hooks) before installing, prefers vetted sources, and brings in someone who can read the code when they cannot.",
+    "sids": ["S015"],
+    "status": "established",
+    "outdated": ["skills are just text, so they are safe", "an MCP server only does what its name says"],
+    "severity": "high",
+    "questions": ["Is it safe to install this MCP server / plugin?", "Can a skill run code on my machine?", "What is prompt injection through a tool?"],
+    "demo": "Open a cloned repo's .claude/skills/*/SKILL.md and show an allowed-tools line and a bundled script; show the approval prompt Claude Code shows for a project .mcp.json server."
+  },
+  {
+    "concept": "Bland, samey output is a setting, not 'the average of the internet'",
+    "points": [
+      "Models learn a conditional distribution with long-tail structure, not a single average answer.",
+      "Homogenized output usually reflects product choices: low-temperature or greedy decoding, alignment pressure and uniform assistant prompts.",
+      "Doshi & Hauser 2024: LLM-assisted stories were rated more creative individually but became more similar to each other; Zhou, Lee & Gu 2025 (31,076 creators): output volume expanded the idea frontier but per-artifact creativity declined.",
+      "Vary prompts and decoding, and record which settings were used when you compare outputs.",
+      "Evaluator-guided search (FunSearch, AlphaGeometry, AlphaEvolve) can reach results outside human data."
+    ],
+    "gap": "'It's just the average of the internet' leads creators to blame the model for generic results instead of changing prompts, examples or sampling settings. Lin (2026) shows the homogenization comes largely from defaults.",
+    "humanRole": "The agent can generate many variants; the human supplies taste, specific references and constraints, and selects (the paper cites an artist who generated over 100,000 images to keep about 20).",
+    "sids": ["S011"],
+    "status": "established",
+    "outdated": ["the average of the internet, edited for tone", "LLMs regress to the mean", "AI can't be original"],
+    "severity": "low",
+    "questions": ["Why does all AI writing sound the same?", "Can AI produce anything original?", "What does temperature do?"],
+    "demo": "Generate the same short story prompt at temperature 0 and at a higher temperature with a different system prompt; show the variation side by side."
+  },
+  {
+    "concept": "Fluency is not evidence of a mind, and confident tone shifts trust",
+    "points": [
+      "Models show functional competence in bounded domains but lack embodiment, persistent learning and stable internal state.",
+      "Anthropomorphic interface cues change users' accuracy and risk judgments (Cohn et al. 2024; Inie et al. 2024); mental-state attributions influence trust in LLMs (Colombatto et al. 2025).",
+      "Perceived human-likeness of AI has risen over time (Cheng et al. 2026).",
+      "Describe competence functionally: which tasks does it do reliably, and what agency am I attributing?",
+      "Both 'thinks like a human' and 'has no understanding at all' are wrong framings."
+    ],
+    "gap": "Users read confident, human-sounding output as understanding and lower their guard. Lin (2026) cites studies showing interface cues change trust and risk judgments.",
+    "humanRole": "The agent's claims about its own work (for example 'this is secure' or 'all tests pass') are outputs, not guarantees. The human trusts what was verified by running checks, and for what cannot be verified (security, legal, medical) brings in an expert.",
+    "sids": ["S011"],
+    "status": "established",
+    "outdated": ["LLMs think like humans", "LLMs have no understanding at all", "it sounds sure, so it's right"],
+    "severity": "high",
+    "questions": ["Does the AI understand what it's doing?", "Why does it sound so confident when it's wrong?", "Should I trust it when it says the code is safe?"],
+    "demo": "Ask an agent whether a deliberately flawed snippet is secure, show the confident 'yes'; then run a static analysis or test that exposes the flaw."
+  },
+  {
+    "concept": "Post-training is in the weights, not a removable filter",
+    "points": [
+      "Instruction tuning and RLHF change the same weights that hold knowledge; there is no neutral core underneath.",
+      "Separate server-side input and output filters also exist and can be added or removed without retraining.",
+      "DeepSeek-R1 combines weight-level alignment with server-side filters; independent groups have realigned its open weights, and local censorship persists in the weights (Naseh et al. 2025).",
+      "Treat fine-tuning as substantive training: evaluate for regressions and value shifts."
+    ],
+    "gap": "People assume running an open-weights model locally removes the vendor's refusals and biases, or that fine-tuning is a cosmetic layer. Lin (2026) separates weight-level alignment from deployment filters.",
+    "humanRole": "The human choosing a local or fine-tuned model tests its behaviour on their own tasks rather than assuming it matches the hosted version, and re-evaluates after any fine-tune.",
+    "sids": ["S011"],
+    "status": "established",
+    "outdated": ["RLHF is a superficial filter on a neutral model", "local open weights are uncensored by default"],
+    "severity": "low",
+    "questions": ["Is a local model uncensored?", "What does fine-tuning actually change?"],
+    "demo": "Ask the same sensitive question to a hosted model and to the same family's open weights run locally; compare the answers."
+  }
+]
