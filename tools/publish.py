@@ -40,7 +40,7 @@ Staging refuses a lesson that tools/course.py says still needs narration or a re
 its current page; --allow-stale overrides). Restructuring: course.py remap --render, then one publish.py --all.
 
 Before committing, the staged course data is checked against the blog's course page (src/pages/courses/
-the-hidden-curriculum.astro, src/components/LessonList.astro): a curriculum without six districts, a covered slot
+the-hidden-curriculum.astro, src/components/courses/LessonList.astro): a curriculum without six districts, a covered slot
 ("coveredBy") or a legacy row whose own ID differs from its slot's ("legacyId") needs the page to support it first.
 """
 import argparse
@@ -199,9 +199,10 @@ def course_rows(reg):
     Old format (no keys): published lessons are matched by ID, exactly as before 2026-10-12 (the 12 published
     lessons are the legacy ones, so they also get "legacy": true).
     New format: a slot whose new lesson is published (registry entry = its key) links to it; a slot with status
-    `legacy` shows the legacy lesson that covers it, once, at the first slot it covers (its other covered slots
-    in the same module fold into it; one in another module links to it too, marked "coveredBy"); a legacy lesson
-    whose slots have all been rebuilt stays listed, right after the first slot it covered. Everything else is locked."""
+    `legacy` keeps its own row (its new title, locked) and the legacy lessons that cover it are listed right after
+    it, once, at the first slot each covers (a slot whose legacy lessons are all listed in another module is one
+    row marked "coveredBy" that links to them instead); a legacy lesson whose slots have all been rebuilt stays
+    listed, right after the first slot it covered. Everything else is locked."""
     c = COURSE
     plain = lambda s: re.sub(r'`([^`]*)`', r'\1', s or '')
     entries = {s: m for s, m in reg['lessons'].items() if not m.get('poc')}
@@ -251,6 +252,7 @@ def course_rows(reg):
         row = published_row({'id': les['id'], 'title': plain(m.get('title') or lg['title']), 'idea': plain(les['idea'])}, slug, m, legacy=True)
         covered = [c.lesson(t) for t in lg['covers'] if c.lesson(t)]
         row['covers'] = [x['id'] for x in covered]
+        row['coverTitles'] = [plain(x['raw_title']) for x in covered]     # the new lessons' titles, in "covers" order
         row['legacyId'] = m.get('id') or lg['id']
         if any(x['lantern'] for x in covered):
             row['lantern'] = True
@@ -262,12 +264,16 @@ def course_rows(reg):
             covering = [s_ for s_ in les['legacy'] if s_ in legacy]
             if les['status'] == 'legacy' and covering:
                 fresh = [s_ for s_ in covering if s_ not in placed]
+                elsewhere = not fresh and any(placed[s_] != n for s_ in covering)
+                if not elsewhere:               # the slot's own row (its new title, locked), then its legacy lessons
+                    rows.append({**base_row(les), 'status': 'locked', 'key': les['key']})
                 for slug in fresh:              # every legacy lesson first met here is listed here, in table order
                     rows.append(legacy_row(les, slug))
                     placed[slug] = n
-                if not fresh and any(placed[s_] != n for s_ in covering):
+                if elsewhere:
                     slug = next(s_ for s_ in covering if placed[s_] != n)
-                    row = {**legacy_row(les, slug), **base_row(les)}
+                    # the slot's own lantern, never the legacy lesson's (which is set when any slot it covers has one)
+                    row = {**{k: v for k, v in legacy_row(les, slug).items() if k != 'lantern'}, **base_row(les)}
                     row['coveredBy'] = slug     # listed in another module: this slot links to it
                     rows.append(row)
                 continue
@@ -289,7 +295,7 @@ def course_rows(reg):
         n = (m.get('id') or lg['id'] or '00')[:2]
         target = next((x for x in modules if x[0]['n'] == n), modules[0])
         row = published_row({'id': m.get('id') or lg['id'], 'title': plain(m.get('title') or lg['title']), 'idea': ''}, slug, m, legacy=True)
-        row['covers'], row['legacyId'] = [], m.get('id') or lg['id']
+        row['covers'], row['coverTitles'], row['legacyId'] = [], [], m.get('id') or lg['id']
         target[1].append(row)
         placed[slug] = target[0]['n']
     for _, rows in modules:
@@ -336,13 +342,20 @@ def course_data(reg) -> dict:
 
 def foot_links(order, slug):
     """(left, right) footer links of a lesson page: back to the whole curriculum, and on to the next row in
-    curriculum order (a link when it is out; its title marked 'not released yet' while it is locked)"""
+    curriculum order (a link when it is out; its title marked 'not released yet' while it is locked).
+    A legacy page goes on to the next row that can be watched (past the last one, the next slot), so a new slot whose
+    number repeats a legacy one never reads as its next lesson; a new lesson's page goes on to the next slot of the
+    course, never to a legacy lesson listed beside it. "All N lessons" counts the curriculum's slots, not rows."""
     rows = [x for x in order if not x.get('coveredBy')]
-    left = f'<a href="../../#curriculum">← All {len(rows)} lessons</a>'
+    left = f'<a href="../../#curriculum">← All {len(COURSE.lessons) if COURSE else len(rows)} lessons</a>'
     i = next((k for k, x in enumerate(rows) if x.get('slug') == slug), -1)
-    if i < 0 or i + 1 >= len(rows):
+    after = rows[i + 1:] if i >= 0 else []
+    if rows and i >= 0 and rows[i].get('legacy'):
+        nxt = next((x for x in after if x['status'] == 'published'), after[0] if after else None)
+    else:
+        nxt = next((x for x in after if not x.get('legacy')), None)
+    if not nxt:
         return left, ''
-    nxt = rows[i + 1]
     title = re.sub(r'`([^`]*)`', r'', nxt['title'])
     # a legacy row keeps "id" for its place in the order but shows its own old ID, the one its video's badge shows
     shown = nxt.get('legacyId') or nxt['id']
@@ -392,13 +405,18 @@ def stage(repo: pathlib.Path, slugs, reg, media=True, stale='error'):
                 continue
         copy_lesson(LESSONS / slug, site / 'lessons' / slug, meta_of(slug, reg), foot_links(order, slug), reg, media)
         staged.append(slug)
-    # the lesson before each newly staged one gets its "Next" link updated (page only, no media copy)
+    # the pages whose "Next" now points at a newly staged lesson get it updated (page only, no media copy): the
+    # nearest released row before it (a legacy page goes on to the next released row) and the nearest new-lesson
+    # row before it when that one is released (a new lesson's page goes on to the next new-lesson row)
     rows = [x for x in order if not x.get('coveredBy')]
     for slug in staged:
         i = next((k for k, x in enumerate(rows) if x.get('slug') == slug), -1)
-        prev = next((rows[j]['slug'] for j in range(i - 1, -1, -1) if rows[j]['status'] == 'published'), None) if i > 0 else None
-        if prev and prev not in staged:
-            refresh_page(site, prev, order, reg)
+        before = rows[i - 1::-1] if i > 0 else []
+        prev_any = next((x for x in before if x['status'] == 'published'), None)
+        prev_new = next((x for x in before if not x.get('legacy')), None)
+        for prev in {x['slug'] for x in (prev_any, prev_new) if x and x['status'] == 'published'}:
+            if prev not in staged:
+                refresh_page(site, prev, order, reg)
     out = repo / DATA_FILE
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(course_data(reg), indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
@@ -419,29 +437,36 @@ def refresh_page(site, slug, order, reg):
     return True
 
 
-BLOG_PAGES = ['src/pages/courses/the-hidden-curriculum.astro', 'src/components/LessonList.astro']
+BLOG_PAGES = ['src/pages/courses/the-hidden-curriculum.astro', 'src/components/courses/LessonList.astro']
+# comments in those files: a word that only appears in a comment is not handling
+BLOG_COMMENTS = re.compile(r'<!--.*?-->|/\*.*?\*/|(?:^|(?<=\s))//[^\n]*', re.S | re.M)
 
 
 def blog_problems(repo, data):
     """what the staged course data needs that the blog's course page does not support yet (the page is the blog's,
-    edited there; this only reads it). Returns a list of sentences; empty when the page can show the data."""
-    src = ''
+    edited there; this only reads it, comments stripped). The rows are drawn by LessonList, so it must handle
+    "coveredBy" and "legacyId" itself; the page needs "legacyId" too, for the hero. Returns a list of sentences;
+    empty when the page can show the data."""
+    code = {}
     for rel_ in BLOG_PAGES:
         f = pathlib.Path(repo) / rel_
         if f.exists():
-            src += f.read_text(encoding='utf-8') + '\n'
-    if not src:
+            code[rel_] = BLOG_COMMENTS.sub('', f.read_text(encoding='utf-8'))
+    if not code:
         return []
+    src = '\n'.join(code.values())
+    page_src, rows_src = code.get(BLOG_PAGES[0], ''), code.get(BLOG_PAGES[1], '')
     out = []
     rows = [x for m in data.get('modules', []) for x in m.get('lessons', [])]
     if data.get('districtCount') != 6 and (re.search(r'\[\s*0\s*,\s*1\s*,\s*2\s*,\s*3\s*,\s*4\s*,\s*5\s*\]', src)
                                            or re.search(r'\bsix districts\b|\ball six\b|\bthe six\b', src, re.I)):
         out.append(f"the course page hard-codes six districts (copy and lantern row) but this curriculum has "
                    f"{data.get('districtCount')}: use d.districtCount and Array.from({{length: d.districtCount}}) there")
-    if any(x.get('coveredBy') for x in rows) and 'coveredBy' not in src:
+    if any(x.get('coveredBy') for x in rows) and 'coveredBy' not in rows_src:
         out.append('rows covered by a legacy lesson in another module ("coveredBy") would show as ordinary published '
                    'lessons linking to another video: render them as "covered in <legacy title>"')
-    if any(x.get('legacy') and x.get('legacyId') and x['legacyId'] != x['id'] for x in rows) and 'legacyId' not in src:
+    if any(x.get('legacy') and x.get('legacyId') and x['legacyId'] != x['id'] for x in rows) and not (
+            'legacyId' in rows_src and 'legacyId' in page_src):
         out.append('legacy rows would show their slot\'s ID instead of their own ("legacyId"), with duplicate numbers: '
                    'show l.legacy ? l.legacyId : l.id in LessonList and the hero')
     return out
@@ -483,8 +508,8 @@ def check_blog(repo, out, dry=False):
     for pr in probs:
         print(('warning: ' if dry else 'BLOCKED: ') + 'the blog\'s course page: ' + pr)
     if probs and not dry:
-        raise SystemExit('land these in the blog (src/pages/courses/the-hidden-curriculum.astro, '
-                         'src/components/LessonList.astro) first, then publish again; nothing was committed')
+        raise SystemExit(f'land these in the blog ({", ".join(BLOG_PAGES)}) first, then publish again; '
+                         'nothing was committed')
 
 
 def remove(key, reg, a):

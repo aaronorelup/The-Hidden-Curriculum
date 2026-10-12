@@ -173,11 +173,15 @@ characters: check the budget first (the missing-map skill has the one-liner).
 
 publish.py parses curriculum.md through course.py. New lessons are matched by key (course.json entry = the key) and
 legacy lessons by their slug in the Legacy table. The JSON the site reads keeps its shape; a legacy row carries
-`"legacy": true`, `"covers"` (the slot IDs) and `"legacyId"` (its own old ID) and is listed in the module of the first
-slot it covers, with that slot's `id` (for ordering); several legacy lessons on one slot are listed in table order; a
-covered slot in another module links to it (`"coveredBy"`); once all its slots are rebuilt it stays listed right after
-the first one. New-lesson rows carry `"key"`. Next / previous links follow this order and show a legacy row's
-`legacyId`. `"latest"` is the most recently published row the page lists (never a lesson since deleted).
+`"legacy": true`, `"covers"` (the slot IDs), `"coverTitles"` (those slots' new titles, same order) and `"legacyId"`
+(its own old ID) and is listed in the module of the first slot it covers, right after that slot's own row (a slot
+with status `legacy` still gets its row: new title, locked), with that slot's `id` (for ordering); several legacy
+lessons on one slot are listed in table order; a slot whose legacy lessons are all listed in another module is one
+row that links to them (`"coveredBy"`, with the slot's own lantern); once all its slots are rebuilt a legacy lesson
+stays listed right after the first one. New-lesson rows carry `"key"`. A legacy page's Next goes to the next row that
+can be watched (past the last one, the next slot) and shows its `legacyId`; a new lesson's Next skips legacy rows;
+"All N lessons" counts the curriculum's lessons, not rows. `"latest"` is the most recently published row the page
+lists (never a lesson since deleted).
 
 - **Each new lesson's page carries its own course data.** Staging a curriculum lesson writes
   `lessons/<key>/course.js` next to its page (the course data as it is at that moment) and the page loads that, not the
@@ -188,7 +192,8 @@ the first one. New-lesson rows carry `"key"`. Next / previous links follow this 
   narration or a re-render (`--allow-stale` overrides); `--all` skips such lessons and leaves their live pages as
   they are.
 - **The blog's course page must support the data.** Before committing, publish.py reads the blog's
-  `src/pages/courses/the-hidden-curriculum.astro` and `src/components/LessonList.astro` and stops when the data needs
+  `src/pages/courses/the-hidden-curriculum.astro` and `src/components/courses/LessonList.astro` (comments stripped;
+  LessonList itself must handle the rows) and stops when the data needs
   something they do not handle yet: a district count other than six while the page hard-codes six, `"coveredBy"` rows,
   or legacy rows whose `"legacyId"` differs from their slot's `"id"`. Fix the page in the blog first.
 - **Removing a lesson.** `python tools/publish.py --remove <key>` (the row gone from curriculum.md, the key under
