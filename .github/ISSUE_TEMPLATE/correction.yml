@@ -1,0 +1,31 @@
+name: Something in a lesson is wrong or out of date
+description: A fact that is wrong, a framing that no longer matches how people work with AI, or a lesson that teaches the wrong thing.
+title: "Correction: "
+labels: ["correction"]
+body:
+  - type: input
+    id: lesson
+    attributes:
+      label: Which lesson?
+      description: Title, or the link to the lesson page.
+    validations:
+      required: true
+  - type: input
+    id: time
+    attributes:
+      label: Where in it?
+      description: A timestamp or the sentence.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong?
+      description: |
+        "Out of date" counts. A lesson can have current facts and still teach a job the agent now does for you
+        (that happened: a lesson on debugging by hand, when agents debug their own errors).
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: How do you know?
+      description: A link with a date, or what you see in your own work.

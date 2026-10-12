@@ -22,3 +22,9 @@ lessons/poc-*/
 # other people's clips gathered for a lesson are referenced by link, never redistributed
 lessons/*/assets/x_clips/
 lessons/*/assets/video/x_*
+
+# private: verbatim prompts from Aaron's Claude Code history (kept locally; ask Aaron before publishing)
+curriculum/research/sweep/aaron.md
+
+# the temporary hold file for the daily job during a curriculum rework
+REWORK-IN-PROGRESS.md

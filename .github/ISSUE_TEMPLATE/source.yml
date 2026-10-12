@@ -1,0 +1,29 @@
+name: A source the course should be built on
+description: A course, post, talk, report, incident write-up or study that names what people need to know now.
+title: "Source: "
+labels: ["source"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Lessons are built on other people's hard-won knowledge and credit it. The best sources are recent,
+        first-hand (they did the work, ran the survey, wrote the postmortem) and specific.
+  - type: input
+    id: url
+    attributes:
+      label: Link
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Date it was published
+      placeholder: "2026-09-30"
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What does it teach that the course is missing or has wrong?
+    validations:
+      required: true

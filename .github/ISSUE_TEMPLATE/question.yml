@@ -1,0 +1,22 @@
+name: A question I want answered
+description: Something you keep running into while building with AI and want a lesson to explain.
+title: "Question: "
+labels: ["question"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      placeholder: "Why does my app work on my laptop but not after I deploy it?"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: What made you ask?
+      description: What you were doing, what you saw (an error, a screen, a bill), what you expected.
+  - type: input
+    id: lesson
+    attributes:
+      label: Is there a lesson it belongs to?
+      description: Optional. The lesson title or its file in curriculum/lessons/.

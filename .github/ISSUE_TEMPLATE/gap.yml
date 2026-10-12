@@ -1,0 +1,47 @@
+name: Something I wish I'd known
+description: A gap in your knowledge that slowed you down when you built or did something with AI.
+title: "Gap: "
+labels: ["gap"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The course exists to fill the small gaps that stop people from building whatever they want with AI.
+        Yours is evidence. Plain words are fine; you don't need the right vocabulary (that's the point).
+  - type: textarea
+    id: what
+    attributes:
+      label: What did you not know?
+      description: The thing you wish someone had told you before you started.
+      placeholder: "I didn't know my Supabase key was visible to anyone who opened my site."
+    validations:
+      required: true
+  - type: textarea
+    id: when
+    attributes:
+      label: Where did it bite you?
+      description: What you were trying to build or do, and what happened.
+    validations:
+      required: true
+  - type: dropdown
+    id: when-date
+    attributes:
+      label: How recent is this?
+      description: AI tools change every week, so recent gaps matter most.
+      options:
+        - This month
+        - In the last three months
+        - This year
+        - Longer ago
+    validations:
+      required: true
+  - type: input
+    id: tools
+    attributes:
+      label: Which tools were you using?
+      placeholder: "Claude Code, Lovable, Cursor, n8n, ..."
+  - type: textarea
+    id: source
+    attributes:
+      label: Anything that explains it well?
+      description: A link to a post, video, doc or thread that finally made it click (with its date if you know it).
