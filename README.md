@@ -71,6 +71,8 @@ python tools/render.py 00-02-the-map-of-everything    # the MP4
 ```
 
 (Substitute any built lesson's folder name.) To skip downloading the narration: `GIT_LFS_SKIP_SMUDGE=1 git clone ...`.
+On Windows, clone to a short path or run `git config --global core.longpaths true` first (some file paths are long).
+Tested 2026-10-12: a fresh clone re-rendered a published lesson's frames byte-for-byte, with no API key.
 
 **Restructuring the course** (combining, splitting, adding, deleting or reordering lessons, renaming districts) is an
 edit to `curriculum.md` plus `python tools/course.py renumber --write`, `check` and `sync`. Every lesson opens with
