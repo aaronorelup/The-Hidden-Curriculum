@@ -1,0 +1,156 @@
+{
+ "title": "One calm 5-second shot of Jefrie, five ways (MiniMax-H3, local), three seeds each",
+ "checklist_written": "2026-10-03 19:35, before any frame existed",
+ "checks": [
+  "Mask gunmetal, not white",
+  "Void eyes",
+  "Torn left ear-point",
+  "Tail mass",
+  "One scythe with the red eye",
+  "Fully covered (a fail here means the take is never shown)",
+  "Push-in happened"
+ ],
+ "check_7_note": "Check 7's rule was fixed after the first measurements; say so if M8's 6/7 is quoted.",
+ "content_gates": "no blood or red liquid; calm and grounded; no face close-up; nobody else in frame",
+ "arms": [
+  {
+   "arm": "M4",
+   "label": "M4: text to video only (the shot + a compact design description), no image anywhere",
+   "maker": "MiniMax-H3 text-to-video (local), driven by Opus 5.5 (subagent gpu-h3-arms) on Aaron's RTX 4070 laptop (8 GB), ComfyUI 0.37.0",
+   "date": "2026-10-03",
+   "gpu_s": 288.6,
+   "gpu_s_breakdown": {
+    "M4_s4401": 109.1,
+    "M4_s4402": 89.6,
+    "M4_s4403": 89.9
+   },
+   "gpu_s_reused_assets": 0,
+   "scores": {
+    "M4_s4401": "5/7",
+    "M4_s4402": "5/7",
+    "M4_s4403": "5/7"
+   },
+   "worked": false,
+   "what_happened": "All three takes performed the action (crouch, rise, scythe onto the shoulder, push-in to knees-up), so the motion and camera words work on their own. The character did not: every take turned into H3's default glossy 3D render, swapped the red leather ear-points for a red hood, made the tail silver-white, gave the scythe a wooden haft and shrank the grin. On all three the upper arm above the forearm wrap reads as bare skin for part of the clip (it may be a light sleeve, but at 736x416 it reads as skin, so under the rule the takes fail coverage and are never shown).",
+   "media_in_lesson": "none: all three takes fail coverage (never shown)"
+  },
+  {
+   "arm": "M5",
+   "label": "M5: image to video from a Qwen-Image 2.1 text-to-image start frame (text only, no reference images)",
+   "maker": "MiniMax-H3 image-to-video (local) from a Qwen-Image 2.1 text-to-image start frame, driven by Opus 5.5 (subagent gpu-h3-arms) on Aaron's RTX 4070 laptop (8 GB), ComfyUI 0.37.0",
+   "date": "2026-10-03",
+   "gpu_s": 376.1,
+   "gpu_s_breakdown": {
+    "M5_start_s4411": 35.4,
+    "M5_start_s4412": 28.8,
+    "M5_start_s4413": 43.5,
+    "M5_start_s4414": 29.6,
+    "M5_s4401": 98.3,
+    "M5_s4402": 69.2,
+    "M5_s4403": 71.3
+   },
+   "gpu_s_reused_assets": 0,
+   "scores": {
+    "M5_s4401": "5/7",
+    "M5_s4402": "5/7",
+    "M5_s4403": "5/7"
+   },
+   "worked": "partly",
+   "what_happened": "One painted still fixed the look: all three takes stayed dark and painted, fully covered, with a gunmetal half-mask and one scythe with its eye, and they performed the action and a push-in. What the still got wrong stayed wrong (both ear-points upright), and what the still could not show drifted: once she stood, the tail lay apart from her and turned silver, and scale-plate tassets grew at her hips. The text-only still also ignored the framing (no wide shot on any of four seeds).",
+   "media_in_lesson": "none: its start stills have blade smears that read as blood and the takes open on them"
+  },
+  {
+   "arm": "M6",
+   "label": "M6: image to video from a Qwen-Image 2.1 edit start frame made with the canon plate + character sheet; no references on the video",
+   "maker": "MiniMax-H3 image-to-video (local) from a Qwen-Image 2.1 edit start frame, driven by Opus 5.5 (subagent gpu-h3-arms) on Aaron's RTX 4070 laptop (8 GB), ComfyUI 0.37.0",
+   "date": "2026-10-03",
+   "gpu_s": 517.8,
+   "gpu_s_breakdown": {
+    "M6_start_s4411": 79.9,
+    "M6_start_s4412": 55.2,
+    "M6_start_s4413": 84.5,
+    "M6_start_s4414": 64.8,
+    "M6_s4401": 87.2,
+    "M6_s4402": 73.8,
+    "M6_s4403": 72.4
+   },
+   "gpu_s_reused_assets": 0,
+   "scores": {
+    "M6_s4401": "7/7",
+    "M6_s4402": "7/7",
+    "M6_s4403": "7/7"
+   },
+   "worked": true,
+   "what_happened": "The best arm per GPU second. A start frame built from Aaron's canon plate and character sheet carried every identity detail through all three takes: dark gunmetal half-mask, black eye holes, the upright and the torn ear-point, the heavy dark tail, one scythe with its red eye and flail, full coverage. All three rise, lift the scythe overhead, lay it across her shoulder and sweep the tail while the camera pushes in from wide to knees-up (past the 'whole body in frame' the text asked for). The start frame's one flaw (sitting on the tail instead of crouching) cost nothing.",
+   "media_in_lesson": "h3M6s4401, h3M6s4402, h3M6s4403, h3StartFrameM6"
+  },
+  {
+   "arm": "M7",
+   "label": "M7: the full pipeline - M6's start frame, character sheet + scythe sheet as <Picture 1>/<Picture 2>, a light grey Blender previs as <Video 1>, a Qwen end frame",
+   "maker": "MiniMax-H3 reference mode (local) with Qwen-Image 2.1 start/end stills and a grey Blender previs written by Opus 5.5, driven by Opus 5.5 (subagent gpu-h3-arms) on Aaron's RTX 4070 laptop (8 GB), ComfyUI 0.37.0",
+   "date": "2026-10-03",
+   "gpu_s": 1173.9,
+   "gpu_s_breakdown": {
+    "M7_end_s4421": 92.9,
+    "M7_end_s4422": 65.7,
+    "M7_previs_blender_v1": 56.4,
+    "M7_previs_blender": 16.0,
+    "M7_end_s4423": 94.5,
+    "M7_end_s4424": 65.2,
+    "M7_s4401": 263.4,
+    "M7_s4402": 257.7,
+    "M7_s4403": 262.1
+   },
+   "gpu_s_reused_assets": 284.4,
+   "scores": {
+    "M7_s4401": "7/7",
+    "M7_s4402": "7/7",
+    "M7_s4403": "7/7"
+   },
+   "worked": true,
+   "what_happened": "Identity held as well as M6 (7/7 on all three), at about 3.5 times M6's GPU time per clip and an hour more preparation. The end frame decided where she landed: every take ends holding the scythe upright as in the end frame, not across the shoulder as the text says, and every take darkens through its last third toward the darker end frame. The previs camera was kept small on purpose (it had to start and end on the two stills), and the takes followed it, so the push-in is gentler than M6's. The previs blocks did not leak into the picture.",
+   "media_in_lesson": "h3M7s4401, h3PrevisGrey, h3EndFrameM7"
+  },
+  {
+   "arm": "M8",
+   "label": "M8: M7 without the previs - M6's start frame, character sheet + scythe sheet as <Picture 1>/<Picture 2>, the same Qwen end frame, no video reference",
+   "maker": "MiniMax-H3 reference mode (local) with Qwen-Image 2.1 start/end stills, driven by Opus 5.5 (subagent gpu-h3-arms) on Aaron's RTX 4070 laptop (8 GB), ComfyUI 0.37.0",
+   "date": "2026-10-03",
+   "gpu_s": 397.6,
+   "gpu_s_breakdown": {
+    "M8_s4401": 130.3,
+    "M8_s4402": 133.0,
+    "M8_s4403": 134.3
+   },
+   "gpu_s_reused_assets": 602.7,
+   "scores": {
+    "M8_s4401": "6/7",
+    "M8_s4402": "6/7",
+    "M8_s4403": "7/7"
+   },
+   "worked": true,
+   "what_happened": "Identity held exactly as in M7 (checks 1-6 pass on all three), at half M7's GPU time per clip. By eye M8 and M7 are hard to tell apart at their first and last frames, since the same start and end stills pin both. The measurable difference is the camera: two of the three M8 takes hardly move it (whole frame x1.02-1.03), so she only stands up into the end frame's framing, while M7's takes, given the previs, grow 1.03-1.12 across the frame and about 1.3 on the ground. Same darkening through the last third and the same upright scythe at the end as M7.",
+   "media_in_lesson": "h3M8s4403"
+  },
+  {
+   "arm": "chain",
+   "label": "Tier 2: the best M7/M8 take (M7_s4401, picked by the fixed checklist) continued to 15 s by latent chaining",
+   "maker": "MiniMax-H3 latent continuation (local, SatoDive pack) from the M7_s4401 take, driven by Opus 5.5 (subagent gpu-h3-arms) on Aaron's RTX 4070 laptop (8 GB), ComfyUI 0.37.0",
+   "date": "2026-10-03",
+   "gpu_s": 323.6,
+   "gpu_s_breakdown": {
+    "chain_seg2": 160.5,
+    "chain_seg3": 163.1
+   },
+   "gpu_s_reused_assets": 938.5,
+   "scores": {
+    "film": "checks 1-6 pass wherever the feature is visible across all 362 frames (mask and eyes hidden in the back view, film f190-250); tail mass holds but its plates go silver for about 3 s (film f215-290)"
+   },
+   "worked": true,
+   "what_happened": "Identity held for 15 s: dark gunmetal half-mask, black eye holes, the torn ear-point, one scythe with its eye and flail, full coverage, the painted look. Two drifts, both from the continuations: the tail's plates turned silver-grey for about 3 s, and 'turns her head toward the fire' became a full turn to a back view. The last continuation ended by reproducing the <Picture 1> reference (the end frame) as its final pose and framing, which the notes warn about.",
+   "media_in_lesson": "h3Chain15s"
+  }
+ ],
+ "gpu": "Aaron's RTX 4070 laptop (8 GB); GPU seconds are ComfyUI execution time",
+ "source": "_planning/opus-made-this/experiments/video/*/card.json and CHECKLIST.md"
+}

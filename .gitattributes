@@ -1,0 +1,20 @@
+# Paid narration and media live in Git LFS so the repo stays light to clone.
+# (Skip downloading them with: GIT_LFS_SKIP_SMUDGE=1 git clone ...)
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.webm filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.webp filter=lfs diff=lfs merge=lfs -text
+*.blend filter=lfs diff=lfs merge=lfs -text
+*.glb filter=lfs diff=lfs merge=lfs -text
+# text stays text
+*.md text eol=lf
+*.js text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.vtt text eol=lf

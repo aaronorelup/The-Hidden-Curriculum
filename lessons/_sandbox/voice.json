@@ -1,0 +1,20 @@
+{
+ "voice_id": "kK7hqyQA2PSxCWFk5CCm",
+ "public_owner_id": "4ada9b7b4772bb6ffa84cb597f171c5af6553acefd6b284eb119483226ba1b64",
+ "name": "Cecil Ivey - Upbeat and Steady",
+ "description": "The Voice of the King. The King of Ai.",
+ "accent": "us midwest",
+ "gender": "male",
+ "age": "middle_aged",
+ "descriptive": "wise",
+ "use_case": "informative_educational",
+ "cloned_by_count": 422,
+ "usage_character_count_1y": 235688,
+ "lesson": "_sandbox",
+ "chosen": "2026-09-30",
+ "audition": "wer 0%, 2.40 words/s, preview mean -22.7 dB, noise floor -inf dB",
+ "tried": [
+  "Subz : rejected (preview fails: {'mean': -23.5, 'max': -5.8, 'noise': -67.386173, 'dur': 2.275556})",
+  "Cecil Ivey - Upbeat and Steady: OK (wer 0%, 2.40 words/s, preview mean -22.7 dB, noise floor -inf dB)"
+ ]
+}

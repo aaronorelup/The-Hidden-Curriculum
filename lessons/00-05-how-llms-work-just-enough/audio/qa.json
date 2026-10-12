@@ -1,0 +1,102 @@
+{
+ "01": {
+  "hash": "032f7a3fa782a1f9",
+  "wer": 0.0,
+  "heard": "In this lesson, you'll learn how today's AI models work and how much that picture has changed in five years, what they take in and make, how they remember, what they cost, and the many places you'll meet them. Underneath it all is still a model that only knows what's on its desk right now. Nearly everything new since then is about what gets put on that desk, what it hands off to other models, and where the desk sits. Each topic gets a minute or two here. Most get their own lesson later."
+ },
+ "02": {
+  "hash": "544637c140dcebc9",
+  "wer": 0.0,
+  "heard": "On the course map, this lesson sits at the start in orientation, what this course is, and the lantern you carry. The lanterns strung over every district are AI. They aren't a district. They light all six. This lesson is a tour of the whole lantern. You'll know where each piece goes, not how to do it yet. Memory lands in the code, plugins and caching in the network, work plans and personal agents in trust"
+ },
+ "03": {
+  "hash": "30fe36150767f365",
+  "wer": 0.018,
+  "heard": "The model is a brilliant clerk who knows only what is on the desk right now. Five years ago, in autumn twenty twenty-one, the desk was tiny, text cards only, about two thousand tokens worth, and one letter slot in the door, an API for programmers. No ChatGPT, no memory, no tools. Now the desk is the size of a hall, with photos and recordings on it in rooms, phone lines and a picture studio around it. Two things did not change. The clerk still writes one small piece at a time, guessing what comes next, and nothing stays overnight. Every request starts with a clean desk, and everything is handed over again."
+ },
+ "04": {
+  "hash": "f2a1b16b5a903ef8",
+  "wer": 0.015,
+  "heard": "The desk is measured in tokens. A token is a piece of a word, roughly four characters of English. You're limited and billed in tokens. Everything on the desk counts: the app's hidden instructions, every message so far, your files and images, the result of every tool, its thinking, and its reply. The desk grew fast, about two thousand tokens on this in twenty twenty, a hundred thousand on Claude in twenty twenty-three, a million on Gemini in twenty twenty-four, and today, a million is standard on Claude's bigger models. You'll see it as a meter. Context used, context left. One catch, token counts don't compare across models. Newer Claude models can count up to a third more tokens for the same text. Here, the picture breaks. No clerk stays. Each reply is a fresh copy that reads the whole desk at once."
+ },
+ "05": {
+  "hash": "0fedcc38b63aa105",
+  "wer": 0.008,
+  "heard": "A fuller desk is a worse desk. As it fills, the clerk gets worse well before it's full. Researchers at Chroma measured it across eighteen models. In twenty twenty-five, context rot. Things buried in the middle of a long pile get missed most. So tools now tidy the desk. Compaction summarizes the pile onto one page and carries on. Claude Code does it by itself as auto compact, or when you type slash compact. Old tool results get swept off. A sub-agent gets its own fresh desk for a side job and hands back a short report. Prompt engineering has grown into context engineering, choosing what goes on the desk. It gets its own lesson in the machine"
+ },
+ "06": {
+  "hash": "2388ca2a9e757d6a",
+  "wer": 0.025,
+  "heard": "Five years ago, the desk held only text. Now photos, PDFs, recordings, and video can land on it. That's multimodal, and the word hides three different things. One, the model reads many kinds of input. Claude reads text, images, and PDFs. Gemini takes text, images, audio, and video in one request. Two, the model makes pictures or sound itself. That's rarer. Three, the most common, the app hands the job to a separate specialist model through an API or a tool. The clerk phones the studio next door. Claude writes only text. For a chart or a picture, it writes code that draws one or calls another model through a connector. ChatGPT feels like one model, but it stitches several together, one for images, one for voice, and OpenAI shut down its Sora video app this spring. You'll meet all this as a paperclip that accepts some files and refuses others. Its own lesson lives in the network."
+ },
+ "07": {
+  "hash": "1fd12b7974b4136b",
+  "wer": 0.0,
+  "heard": "Most of those studios run a different kind of model called diffusion. Picture a page of pure static. The model wipes away a little of the noise, step by step, each step nudged by your prompt, until a picture is left. The same trick makes images, video, sound effects, and music as far as their makers have said. Voices mostly aren't. Most current ones use a close cousin called flow matching, which needs fewer steps. Not every image model is diffusion though. OpenAI's image models are reported to build pictures piece by piece like text, and diffusion can write text rarely. Inception's Mercury and Google's experimental diffusion models start from a smudged page and sharpen every word at once. Very fast, but not yet frontier quality. Every top chat model still writes one token after another. How generators work gets its own lesson in the machine."
+ },
+ "08": {
+  "hash": "4faee2298e9694ec",
+  "wer": 0.008,
+  "heard": "The lamp over the desk used to have dials. Temperature, how much randomness goes into each guess. Top P and top K, how many candidate words the clerk may choose from. Max output tokens, a hard cap on the length of the reply. This year, the newest Claude model stopped accepting a custom temperature. Send one and you get an error. The dial that matters now is effort, or thinking how long the clerk works before it answers, from low up to max. And the clerk can still be confidently wrong. Less often with search and tools, but not never. Now it can also take a wrong action or invent a package that doesn't exist. The settings get their own lesson in the network"
+ },
+ "09": {
+  "hash": "fbfbd2ed94d1794f",
+  "wer": 0.012,
+  "heard": "The clerk keeps nothing, so every memory is paper put back on the desk. There are five ways it comes back. One, the conversation itself. The app resends every message, every turn. Two, a memory the assistant keeps about you, a profile it writes itself. Claude, ChatGPT, and Gemini all have one, and on Claude, it's no longer a paid extra. Three, searching old chats with a tool. You'll see a line like, \"Searched past chats.\" Four, stores outside the app reached by tool calls, memory files on your computer which Claude Code keeps, or a page in Notion or Google Drive through a connector. Five, RAG, short for Retrieval-Augmented Generation, the general name for what three and four do. Fetch the relevant pieces, put them on the desk, then answer. Vector search is one way to fetch. Coding agents now mostly search with plain file tools. Each one costs a tool call, desk space, or both. Memory and RAG get their own lessons in the code"
+ },
+ "10": {
+  "hash": "8d99f88ff8f88464",
+  "wer": 0.052,
+  "heard": "Some paper sits on the desk every turn. First, the system prompt, the app's own hidden instructions read before anything you type. Anthropic publishes the ones for its Claude apps. Second, your standing instructions, preferences, styles, and project instructions set once and resent every turn. Third, instruction files that load themselves. Put a file called claude.md at the root of a project, and Claude Code reads it at the start of every session there. Your user folder, your company and subfolders can have one too. Agents.md is the open version other tools use, and Claude Code now reads it too when there's no claude.md. gemini.md and cursor's rules are the same idea. But a note is not a lock. Hooks and permissions enforce. A long note gets followed less, and it costs tokens every turn. Instruction files get their own lesson in the machine"
+ },
+ "11": {
+  "hash": "d9847a6662d76ca3",
+  "wer": 0.024,
+  "heard": "Resending the whole desk is slow and expensive, so providers keep it warm. With prompt caching, the provider stores the work it did, reading the start of your request, the prefix, and reuses it when the next request starts exactly the same way. Order matters. Tools first, then the system prompt, then the messages. Change anything near the top and everything below it is laid out again from scratch. The layout sits under a timer. It's time to live. Five minutes by default or an hour at a higher price, and every reuse resets the clock. Claude Code keeps it an hour on a subscription and five minutes on an API key. Take a longer break and your next message rebuilds the whole desk. Other things break it too. Switching models, changing tools, dropping old images, compaction, and on older models, effort. Editing Claude.md doesn't. The edit waits for your next session. The cache isn't the clerk remembering. It's stored arithmetic thrown away when the timer runs out"
+ },
+ "12": {
+  "hash": "91076308089d668f",
+  "wer": 0.022,
+  "heard": "That's why the bill has four meters. Normal input, fresh paper, full price. Cache write, laying the desk out for reuse at a little more than input. On Claude, a quarter more for five minutes, double for an hour. Cache read, reusing the layout at a tenth of the input price or less. Output, everything the clerk writes, its thinking included. That's the expensive meter, about five times the input price. The API reports these four counts. So a long chat costs more every turn, even if you type one word because the whole desk is sent again. It's cheap only while the cache is warm, and cache tokens are cheaper, not smaller. They still fill the desk. OpenAI and Google Cache automatically. On Claude's API, you switch it on. The meters get their own lesson in the network"
+ },
+ "13": {
+  "hash": "99d04729b969fb39",
+  "wer": 0.0,
+  "heard": "The same clerk works in many rooms and buildings. A mode is the kind of job. A platform is where it runs and what it can touch. Claude's modes were Chat, Cowork, and Code. Cowork, launched in January, is an agent for office work on your files. In mid-September, Anthropic began merging Chat and Cowork into one Claude that decides whether to answer you or do the work. It's rolling out to Pro and Max first. Claude Code stays its own room. The buildings, the browser, the desktop app, your phone, the terminal CLI editor extensions, and cloud sessions that run on Anthropic's machines. Local sees your files and stops when your laptop sleeps. Cloud sees only what you give it and keeps going with the lid shut. OpenAI pulled Chat, Work, and Codex into one desktop app in July. Google folded Gemini CLI into Antigravity in June. Coding agents live in the machine."
+ },
+ "14": {
+  "hash": "d106fc7d86fa1ca3",
+  "wer": 0.032,
+  "heard": "A skill is a folder of instructions, a file called skill.md, and sometimes scripts. Only its label sits on the desk. The pages load when the clerk needs them. It's an open format. Other tools now use two. A connector is a phone line to another service like Gmail, Notion, or GitHub built on MCP. A plugin is a boxed kit, skills, connectors, commands, and hooks together. You get them from the apps directory, the Claude Marketplace, reported at over two thousand add-ons and Claude Code plugin marketplaces, which are Git repositories. OpenAI has its own too. Every third-party add-on is code you're trusting. OpenClaude Skill Store held hundreds of malicious ones this February. All three live in the network"
+ },
+ "15": {
+  "hash": "c56b4bc363b9c614",
+  "wer": 0.008,
+  "heard": "Same clerk, different building rules, individual plans, free, pro, and max mostly differ in how much you can use. And since autumn 2025, consumer chats, paid ones included, may be used for training unless you turn that off. Team and enterprise add the company building, single sign-on at the door, admins choosing which connectors, plugins, and skills are allowed, audit logs, custom data retention, and instruction files pushed to every machine. Work plans aren't trained on by default, and admins get notice before products change. Since April, a Claude Subscription's included usage can't power third-party agents like OpenClau. Those are billed separately by usage or an API key. Plans at work get their own lesson in trust."
+ },
+ "16": {
+  "hash": "6de9347a3922656f",
+  "wer": 0.024,
+  "heard": "Claude Design launched in April as a research preview. Describe a visual, and Claude drafts it as layout and code, not with an image model. Since September, it lives inside Chats too, now in beta next to Claude Docs and Slides. And voice. It's built two ways. A pipeline, speech to text, then the model, then text to speech. It takes turns. Or a model that hears and speaks sound directly, catching your tone, and listens while it talks, so you can cut in. OpenAI's GPT Live and Google's Gemini Live work that way. Claude's voice mode can now use the bigger models and your connected apps. It takes turns, and Anthropic hasn't said how it's built. Builders get a lesson in shipping, voice, and the network"
+ },
+ "17": {
+  "hash": "63a656e7344b64a2",
+  "wer": 0.006,
+  "heard": "Last, a desk that never closes. A personal agent runs all the time on its own computer. You message it from a chat app, it keeps a long memory, and it has broad permission to act. One camp is open source and self-hosted. OpenClaw started as ClawBot and went viral in January. Hermes Agent, a rival from Nous Research, followed in February and turns problems it solves into its own skills. Your machine, your keys, your risk. In February, OpenClaw had its crisis. More than a hundred thousand installs left open to the internet. The other camp is hosted by a big company. Meta's Muse launched in September in the US. OpenAI announced Dots at the end of September, rolling out now. Google has Gemini Spark on its paid AI plans, their computer, their approval rules. Anthropic's nearest pieces are cloud sessions, scheduled routines, and Dispatch, which sends a task from your phone. Their own lesson is in trust. So what's myth and what's still true? Here's June."
+ },
+ "18": {
+  "hash": "6a841b4d0b50023a",
+  "wer": 0.016,
+  "heard": "Thanks. 10 myths, fast. Myth one: set temperature to zero, and you get the same answer every time. Wrong twice. The newest Claude models return an error if you set it, and zero never guaranteed the same answer anyway. Myth two: it remembers me. Not quite. It rereads a profile it wrote, searches your old chats, or opens a file. Nothing lives inside the model. Myth three: a bigger window means it remembers everything. No, a fuller desk is a worse desk. Myth four: all AI art is diffusion. Mostly, not all. Some image models build pictures piece by piece like text. Myth five: Claude can draw that for you. It writes code that draws or it calls another model. The paintbrush belongs to someone else."
+ },
+ "19": {
+  "hash": "5f0214e9d9e4ef40",
+  "wer": 0.007,
+  "heard": "Five more. Myth six, cached tokens are free. Writing the cache costs more than normal input. Reading it is cheap, but those tokens still fill the desk, and a coffee break longer than the timer means your next message rebuilds from scratch. Myth seven, I pay for Pro, so my chats aren't used for training. Consumer plans may be unless you switch it off. Work plans aren't by default. Myth eight, my subscription can run any agent. Not on your plan's usage, not since April. Those are billed separately. Myth nine, claude.md is a rule it must obey. It's a note on the desk. Hooks and permissions are the locks. Myth ten, Sora is where AI video lives. OpenAI shut that app this spring. The other studios carry on. That's the round. Back to you."
+ },
+ "20": {
+  "hash": "954ad8ab435779c8",
+  "wer": 0.013,
+  "heard": "Thanks, June. Where is this heading going by this year's moves? Fewer modes. One agent that decides whether to answer or to work. Agents that keep running on their own computers in the cloud and curating the desk instead of only making it bigger. Beyond that, nobody knows yet. Safe to ignore for now, version numbers, leaderboards, and the maths inside the model. Three things to keep. The model only knows what's on its desk right now. Memory and instruction files are text put back on the desk, and a fuller desk is a worse desk. Making pictures is mostly a handoff. It reads many kinds of input, but pictures, video, and music usually come from a separate model, most often diffusion. Same model, many rooms, four meters. Where you meet it changes what it can touch and what it costs, and a warm cache makes repeats cheap"
+ }
+}

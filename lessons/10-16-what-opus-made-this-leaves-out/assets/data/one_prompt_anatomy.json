@@ -1,0 +1,217 @@
+{
+ "title": "The public 'one prompt' posts: what was in the prompt and around it",
+ "date": "2026-10-03",
+ "naming_rule": "creators are identified by post URL only; quote at most one short line; link, never rehost (_critic.md §4.5, §4.6)",
+ "posts": [
+  {
+   "id": "W3",
+   "url": "https://x.com/donaldjewkes/status/2102801274173587569",
+   "prompt_url": "https://x.com/donaldjewkes/status/2102801469976248500",
+   "date_utc": "2026-09-23 16:44",
+   "headline_claim": "made with 'one prompt' using Opus 5.5; about 5 minutes of talking, 12 hours of agent work",
+   "views": 3849551,
+   "likes": 10764,
+   "video_s": 141.5,
+   "prompt_post_views": 618100,
+   "prompt_chars": 9608,
+   "prompt_words": 1732,
+   "inputs_supplied": [
+    "an MP4 of the earlier video plus its link",
+    "the same audio track (a song made by someone else, 2024)",
+    "the earlier video's source repo",
+    "a folder of the creator's references, markdown docs and skills"
+   ],
+   "keys_supplied": [
+    "2 API keys referenced in the prompt: one shown in a file (ElevenLabs per web-claims) and a fal key"
+   ],
+   "budget_offered": "'roughly two grand' in fal credits + a Claude Max plan with full usage (Claude Max starts at $100/month, https://claude.com/pricing read 2026-10-03)",
+   "requested_only": [
+    "character sheets from an image model",
+    "Seedance 2.5 base clips with the song as reference (the prompt names Seedance 2.5 repeatedly)",
+    "a JavaScript redraw over those clips"
+   ],
+   "not_disclosed": [
+    "whether any Seedance clip ran or survives in the final cut",
+    "actual spend"
+   ],
+   "budget_ratio_offered": "about 10:1 to 20:1 generation budget vs agent plan ($2,000 vs $100-200/month) [I]",
+   "source": "scouting/web-claims.md W3, 2.2 #4; scouting/higgsfield-seedance.md facts item 16; counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W4",
+   "url": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "date_utc": "2026-09-23 21:18",
+   "headline_claim": "an Anthropic Claude Code team member (per his bio) comments that the 'one-shot' prompt was 10k characters plus skills, examples and API keys",
+   "views": 262717,
+   "likes": 2231,
+   "source": "scouting/web-claims.md W4; counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W6",
+   "url": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "date_utc": "2026-09-25 17:17",
+   "headline_claim": "the headline itself names three inputs: the W3 prompt, Midjourney and a moodboard; 12 hours",
+   "views": 19509380,
+   "likes": 15083,
+   "video_s": 306.4,
+   "prompt_chars": 9608,
+   "prompt_note": "reused W3's prompt",
+   "external_models_used": [
+    "Midjourney (stated)"
+   ],
+   "source": "scouting/web-claims.md W6; counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W8",
+   "url": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "date_utc": "2026-09-24 17:24",
+   "headline_claim": "'just one prompt'",
+   "views": 1244,
+   "likes": 12,
+   "video_s": 20,
+   "prompt_chars": 5594,
+   "prompt_overlap_with_W3": "87.0% of unique five-word spans",
+   "source": "scouting/web-claims.md W8 (overlap measured by https://github.com/athemeroy/awesome-opus-5-5-videos data/cases.csv); counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W1",
+   "url": "https://x.com/other__reality/status/2102514581684052169",
+   "repo": "https://github.com/JohnHeibel/PDoomVideo",
+   "date_utc": "2026-09-22 21:45",
+   "headline_claim": "best visual design of any model tested",
+   "views": 2784753,
+   "likes": 7204,
+   "video_s": 156.6,
+   "inputs_supplied": [
+    "existing lyrics and audio (a 2024 Udio-era song by someone else)",
+    "existing Clawd character design"
+   ],
+   "human_passes": "2 generations: a basic first result, then effort raised to xhigh plus a style instruction",
+   "agent_time": "45 min for the second pass (creator)",
+   "external_models_used": [
+    "none for pixels: p5.js + p5.brush, headless Chrome, ffmpeg"
+   ],
+   "source": "scouting/web-claims.md W1; counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W9",
+   "url": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "date_utc": "2026-09-23 15:03",
+   "headline_claim": "made with Opus 5.5 AND Seedance 2.5 (disclosed in the headline)",
+   "views": 263469,
+   "likes": 1690,
+   "video_s": 19.0,
+   "external_models_used": [
+    "Seedance 2.5",
+    "GPT Image 2.5"
+   ],
+   "content_flag": "photoreal synthetic woman: describe in text only",
+   "source": "scouting/web-claims.md W9; counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W14",
+   "url": "https://x.com/zdkiel_labs/status/2102722754172850310",
+   "date_utc": "2026-09-23 11:32",
+   "headline_claim": "one AI image of a house -> 272-part Blender rebuild",
+   "views": 584,
+   "likes": 4,
+   "inputs_supplied": [
+    "one AI-generated image",
+    "six answers to the agent's questions (thread)"
+   ],
+   "credits": "0 Higgsfield credits (stated)",
+   "agent_cost": "5.5% of a weekly Claude Max quota (stated)",
+   "connection": "Higgsfield's Blender bridge MCP",
+   "source": "scouting/web-claims.md W14; counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W23",
+   "url": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "prompt_url": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "date_utc": "2026-09-22 18:34",
+   "headline_claim": "a historical street rebuilt in Blender from a single prompt (an Anthropic employee; the fair counter-example)",
+   "views": 155743,
+   "likes": 1141,
+   "video_s": 8.0,
+   "prompt_chars": 1144,
+   "prompt_note": "length of the prompt post including its one-line header; asks for sourced research first and forbids downloaded meshes, textures or HDRIs",
+   "source": "scouting/web-claims.md W23; counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W24",
+   "url": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "date_utc": "2026-09-22 18:55",
+   "headline_claim": "one prompt, Blender only, all procedural: Opus 5.5 vs GPT-6 Astra",
+   "views": 469829,
+   "likes": 1862,
+   "video_s": 46.3,
+   "agent_cost_stated": {
+    "opus_5_5": {
+     "minutes": 35,
+     "output_tokens": 199600,
+     "usd_api_terms": 13.3
+    },
+    "gpt_6_astra": {
+     "minutes": 28,
+     "output_tokens": 56600,
+     "usd_api_terms": 14.5
+    }
+   },
+   "source": "scouting/web-claims.md W24; text and counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W26",
+   "url": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "date_utc": "2026-09-24 14:00",
+   "headline_claim": "song + video end to end by an agent, 'just give it the keys'",
+   "views": 1732,
+   "likes": 12,
+   "video_s": 210,
+   "external_models_used": [
+    "Suno (song)",
+    "fal-hosted MiniMax H3 (video)"
+   ],
+   "keys_supplied": [
+    "Suno access",
+    "fal"
+   ],
+   "total_cost_stated_usd": 20,
+   "agent_time": "30-40 min (stated)",
+   "model_note": "a 'flash model', not Opus",
+   "source": "scouting/web-claims.md W26; text and counts api.fxtwitter.com/status/<id>, re-read 2026-10-03 by me"
+  },
+  {
+   "id": "W16",
+   "url": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "repo": "withheld in the published copy: Aaron's rule (2026-10-04) is to link an X post only when the lesson shows what the creator made, under 5 s and credited; this post is not shown, and the full URL stays in the planning folder",
+   "date_utc": "2026-09-23 04:06",
+   "views": 1080000,
+   "views_note": "scout figure (1.08M), not re-read",
+   "video_s": 372.7,
+   "inputs_supplied": [
+    "song written by Claude Opus 4.6, produced with Suno",
+    "W1's repo as the pacing reference"
+   ],
+   "human_passes": "3 rounds; the first try was rejected",
+   "tools": [
+    "7 subagents",
+    "custom WebGL2 brush renderer",
+    "Demucs + Whisper + forced alignment"
+   ],
+   "source": "scouting/web-claims.md W16"
+  }
+ ],
+ "index_facts": {
+  "visible_prompt_lengths_chars": [
+   172,
+   17664
+  ],
+  "visible_prompt_lengths_note": "range across five selected public commissions in the athemeroy index README",
+  "reviewed_cases": 168,
+  "external_video_model_cases": 10,
+  "procedural_2d_cases": 52,
+  "caveat": "cases chosen on purpose, partly labelled by a Gemini classifier: a profile, not a prevalence estimate",
+  "source": "scouting/web-claims.md 2.2 #2, #4 (https://github.com/athemeroy/awesome-opus-5-5-videos, frozen 2026-09-26, updated 2026-10-03)"
+ },
+ "published_copy_note": "10 post and repo links withheld; kept only for W3, W1, W14, whose work the lesson shows (assets/x_clips.json). The naming rule above still applies."
+}

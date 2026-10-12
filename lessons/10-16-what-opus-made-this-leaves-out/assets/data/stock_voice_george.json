@@ -1,0 +1,31 @@
+{
+ "title": "A default becomes infrastructure: the stock narrator",
+ "caption_rule": "Caption 'Claude agents', not 'Opus 5.5': most stock picks were Fable 5, Fable 5.1, Sonnet 5 or Opus 5.",
+ "skill_default": {
+  "date": "2026-08-05",
+  "by": "Fable 5",
+  "line": "Default voice is George (documentary storyteller); keep it unless Aaron asks otherwise.",
+  "file": "presentation skill SKILL.md L112-114; generate_audio.py VOICE_ID George"
+ },
+ "george_minutes_narrated": 178,
+ "george_decks": 21,
+ "agent_voice_list": {
+  "premade_returned_by_v1_voices": 21,
+  "note": "plus a few of Aaron's own voices"
+ },
+ "shared_library": {
+  "voices": 8388,
+  "english": 7287,
+  "counted": "2026-10-03"
+ },
+ "roles_cast_without_named_voice": {
+  "total": 73,
+  "premade": 71
+ },
+ "opus55_example": {
+  "date": "2026-10-01",
+  "what": "one line in Sarah, Alice, Matilda, River and Daniel: five premade voices from /v1/voices"
+ },
+ "later_rule": "COURSE.md: never stock ElevenLabs voices (George, Rachel, Adam...)",
+ "source": "_planning/opus-made-this/assets/existing/04_stock_voice_george (evidence_text.md, caption.json)"
+}

@@ -1,0 +1,16 @@
+{
+ "voice_id": "wH3ZAVw1eUcFOxA0VFhF",
+ "public_owner_id": "9991967e35898389db048285d617ea3565f47b8f58413df49436ee6ad512b784",
+ "name": "RClayton - Clear, Polished and Direct",
+ "description": "45-year-old female voice with an engaging, friendly, and professional tone. Perfect for Informative content.",
+ "accent": "american",
+ "gender": "female",
+ "age": "middle_aged",
+ "descriptive": "confident",
+ "use_case": "informative_educational",
+ "cloned_by_count": 523,
+ "usage_character_count_1y": 399893,
+ "lesson": "01-05-environment-variables-path",
+ "chosen": "2026-10-10",
+ "audition": "course roster (voices/roster.json), first used on 00-01-the-hidden-curriculum"
+}

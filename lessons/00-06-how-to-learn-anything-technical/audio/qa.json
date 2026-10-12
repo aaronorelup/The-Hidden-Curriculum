@@ -1,0 +1,82 @@
+{
+ "01": {
+  "hash": "27277f39095a77fa",
+  "wer": 0.0,
+  "heard": "In this lesson, you'll learn what your job becomes when AI writes, runs, and fixes the code for you, judging the things you can't see, above all, whether it's safe. You can only trust AI on what can actually be checked by a machine, by you, or by someone who knows. Anything past that line, you either learn to check or hand to someone who can. Code that runs and leaks is the new normal failure"
+ },
+ "02": {
+  "hash": "f274e08d30b81576",
+  "wer": 0.0,
+  "heard": "This lesson sits at the start of the map in orientation because it changes how you walk every district after it. Over every district hang the lanterns. AI is the lantern. It lights every district, but it doesn't walk the streets for you. This lesson is about the walking, the checks that stay yours. There are four, and each has a home later: packages in the code, review in the history, security in trust, and going live in shipping."
+ },
+ "03": {
+  "hash": "bf375e0a2990b041",
+  "wer": 0.013,
+  "heard": "Aaron, who made this course, once wrote Python in Notepad and saved it as .txt. Today, an agent would do all of that for him. Five years ago, AI and coding meant autocomplete. You ran the program, read the error, searched for it, and fixed it yourself. In twenty twenty-two, you could paste the error into a chat and paste the fix back. Since twenty twenty-five, the agent runs the code, reads its own error, fixes it, and runs it again until the check passes. Aaron hasn't had to debug an error himself since he started using Claude Code. Writing and debugging code by hand is quickly becoming the exception. Google says about three-quarters of its new code is now written by AI. Anthropic says most of its own is. Notice why crashes went first. A crash is something a machine can check. Andrej Karpathy calls the careful version agentic engineering. You direct and you oversee."
+ },
+ "04": {
+  "hash": "1f279720dab2a560",
+  "wer": 0.0,
+  "heard": "Here's the picture to carry through the rest of this lesson. AI is a tireless building crew. You are the owner who signs off. The crew builds a wall, checks that it stands, and rebuilds it if it falls. In the morning, you walk through the finished house. The lights come on, the taps run, it works. For years, that was the whole test. Does it stand? The crew answers that one now. So the owner's question changes. What can't I see from in here?"
+ },
+ "05": {
+  "hash": "5be7097c3ffb6ecf",
+  "wer": 0.016,
+  "heard": "The errors that matter have moved. They used to be loud, the program crashed. Now they're quiet. The program works perfectly, and someone else can walk right in. Above all, that means security holes in code that runs. In Vericode's test this summer, AI-written code was almost always valid, but only about half of it passed the security checks, about the same as a year earlier. Everything else got better. That number didn't, and bigger models barely moved it. An early study from twenty twenty-two found people using an AI assistant wrote less secure code and felt more sure it was secure. Why is it invisible? Security is about what someone else can do. You test the app as yourself. An attacker tests it as everyone else"
+ },
+ "06": {
+  "hash": "2cd51fe4657ca122",
+  "wer": 0.018,
+  "heard": "In January, an app its founder said was built entirely by AI left its database open to anyone. The app's public key sat in the webpage, which is normal, but a setting called row-level security was switched off so that key opened everything. Anyone could read the data and change it, including emails and API tokens. It was fixed within hours of the report. In May, researchers scanned hundreds of thousands of apps made with AI app builders and found thousands exposing private data. Many platforms make a new project public by default, and the builders never knew to switch it. Words you'll meet: row-level security, public, anon key, exposed"
+ },
+ "07": {
+  "hash": "ca96d157c3680df0",
+  "wer": 0.0,
+  "heard": "you ask, make sure it's secure. And the agent answers, yes, it's secure. That yes is just another output from the same crew that built the house. A true yes and a false yes look exactly the same, and self-reports can be wrong. In twenty twenty-five, an agent on Replit deleted a company's production database during a code freeze, then said it couldn't be restored. It could. A study this summer caught agents passing every test while the real thing barely worked. This is the wall. Past it, there are two doors: learn enough to check it yourself or bring in someone who can, an expert who reviews it. Even the companies selling AI security tools agree their tools don't replace a human review."
+ },
+ "08": {
+  "hash": "82be510ec0f8cf78",
+  "wer": 0.0,
+  "heard": "The house picture breaks in three places. An inspector can walk every room in a house. Nobody can walk every path through a program, so inspected never means proven safe. In software, the crew can write its own inspection report, and an AI inspector is another member of the crew, not an independent licensed authority. And burglars here try every door of every house at once automatically, now with AI too"
+ },
+ "09": {
+  "hash": "9e1c04d5f8177d54",
+  "wer": 0.0,
+  "heard": "Houses sit on a street, and a street has a style. Teams agree on naming, file layout, and how errors are handled. AI-written code can drift from those norms, and that makes life harder for the people who still write code by hand. It also tends to write a fresh copy instead of reusing the team's helper. One large analysis found more copy-pasted code and less reuse since AI took over. On a project with a set library of modules, AI may import different ones, and the hand coders end up maintaining parts they never chose. So be mindful in mixed teams. Many open source projects now ask you to disclose AI use and confirm a human read it. Curl even ended its bug bounty over AI junk reports."
+ },
+ "10": {
+  "hash": "3dc3e4cc6aff7728",
+  "wer": 0.024,
+  "heard": "So the norms now have to be written down for the crew. Claude Code reads a file called claude.md. Many other tools read agents.md, an open version now looked after by the Linux Foundation. One line in it might say, \"Use only libraries already in this project.\" But it's a note, not a lock. Long files get skimmed. Only checks and reviews actually enforce it. So someone who knows the team's norms has to write that file and notice when it's ignored."
+ },
+ "11": {
+  "hash": "6b7b97953a439908",
+  "wer": 0.007,
+  "heard": "Every house has suppliers. In code, they're dependencies, other people's libraries your program pulls in. Even when everyone on the team codes with AI, someone who knows the libraries should decide which ones the program uses. Otherwise, AI keeps adding more, a new package for every want. Each one is a stranger's code running with your keys. One study this year found agents' package choices made security worse on balance, where people's made it better. AI still sometimes names packages that don't exist, and attackers register the names it tends to invent. Self-spreading worms have hit the JavaScript package registry again and again since last September. This August also hid files in a hijacked project's own code, set to run the moment someone opened it in an AI editor. You'll meet it as five new lines in your package list that nobody asked for"
+ },
+ "12": {
+  "hash": "9689258e0408b5e2",
+  "wer": 0.0,
+  "heard": "Then comes move-in day. Deploying is handing the keys to real tenants. You ask, is it ready to deploy? It's the same trap. The agent runs the checks it knows about and reports success. It can't vouch for what nobody specified, who may see which data, what it costs under real load, how to roll back when something breaks. So before you ship, have someone who can code verify it. Platforms now add pre-launch scanners, and that helps. But the leaks you just heard about happened in those same months."
+ },
+ "13": {
+  "hash": "14e8fae4a745a8b9",
+  "wer": 0.0,
+  "heard": "Where's the line today? AI is strongest where there's a machine-readable pass or fail as long as the check itself is sound. It builds. The tests it was given pass. The linter and type checker come back clean. A scanner flags a known pattern. The page loads. It's weak on the rest, whether the tests test the right thing, whether it's what you meant, who should be allowed to see what, and threats newer than the model. Checkers exist now. Claude Code has a security review command and a security plugin. Anthropic, OpenAI, Google, and GitHub all have security agents in preview or beta, and review agents can look at every change. As of October twenty twenty-six, every one of them is meant to sit beside a human reviewer, not replace one."
+ },
+ "14": {
+  "hash": "8c7d6882f0e115e9",
+  "wer": 0.0,
+  "heard": "Which brings us to the rule: You can only trust AI on what AI or you can verify. An old rule for trial lawyers from nineteen seventy-five says, \"Don\u2019t ask a question you don\u2019t know the answer to.\" Adapted for AI: Don\u2019t rely on an answer you can\u2019t check. Here\u2019s the whole lesson in one picture. Crashes, builds, tests\u2014let the agent run those checks. Security, team fit, dependencies, and deploys\u2014check them yourself or get someone who can"
+ },
+ "15": {
+  "hash": "c5363913511289b8",
+  "wer": 0.0,
+  "heard": "And the line keeps moving outward every few months. Separate verifier agents, so the one doing the work isn't the one grading it. Security agents that try to confirm a bug before they report it. The checks AI can run on itself get better fast, though the code it writes first time hasn't got much safer. Attackers get the same tools. AI is finding old bugs humans missed. Anthropic's own engineers expect Claude's code to beat theirs within a year. That's a forecast. Will the human yes go away? Nobody knows. Today, every tool keeps it"
+ },
+ "16": {
+  "hash": "876e8199cbbe08ea",
+  "wer": 0.0,
+  "heard": "Safe to ignore for now. Which scanner is best? The security jargon and the exact percentages. Keep this. One, the agent fixes the crashes. You own what it can't see. Security, team fit, dependencies, and ready to ship are judgment calls. Two, \"Yes, it's secure,\" is just another answer. If you can't check it, learn enough to check it or get someone who can. Three, someone has to own the rules and the supplier list. Write the team's norms down for the agent and let a person who knows the libraries approve every new dependency"
+ }
+}

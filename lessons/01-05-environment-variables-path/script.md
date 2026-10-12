@@ -1,0 +1,65 @@
+# 01.05 — Environment variables & PATH
+<!-- lead=1.6 gap=0.8 tail=3 -->
+<!-- captions: dot V E N V=.venv; dot E N V=.env; python dot E X E=python.exe; dot E X E=.exe; U V run=uv run; U V=uv; N P M=npm; P Y=py; command-let=cmdlet; Python three point ten=Python 3.10; Python three point fourteen=Python 3.14; python three=python3; the Z shell=zsh; Z shell=zsh -->
+> Judge's synthesis: spine of draft B (metaphor-first, the satchel copied at the door), with grafts from C (the "both can be true" line in 08, cmd's current-folder footnote in 05) and A/C (the Homebrew surprise in 14). Aaron's Notepad / C D story is NOT retold (plan section 7: told in 01.03 and 01.04).
+> Spoken forms: narration says "path"; the screen always shows PATH in capitals. Keep dot E N V and dot V E N V out of the same sentence and off the same card. "three point ten" = 3.10, "three point fourteen" = 3.14.
+
+## 01 — The point
+[[purpose]]In this lesson you'll learn how your computer finds the right program when you type a name like python, and about the hidden settings every program carries with it. [[conclusion]]Every program starts with a copy of its parent's settings, called its environment. [[path-card]]One of those settings, path, is an ordered list of folders, and the first match wins. [[depends]]So which program runs, and which keys it can see, depends on who started it, and when. [[three-symptoms]]"Not recognized as a command." The wrong Python. An AI tool billing the wrong account. That's one idea, not three problems. [[agents-inside]]And agents now work inside it too.
+> Title card: purpose line plus the one-line conclusion together. Painted plate if present, else K.bg().
+
+## 02 — Where it lives
+[[map]]This lesson sits in the first district, The Machine, which answers one question: what's on your computer? [[pin]]Module one, lesson five. [[continuity]]The last two lessons showed where files live, and what hides in the back room. This one shows what every running program carries out the door.
+
+## 03 — The satchel copied at the door
+[[courier]]Picture every running program as a courier. [[parent]]Another program sends it out: File Explorer, a terminal, an editor, or an agent. That sender is its parent. [[satchel]]At the door, the parent copies its own satchel of labelled cards and hands over the copy. [[door-closes]]Then the door closes, and the satchel belongs to the courier. Nothing you change at home reaches it on the road. [[no-return]]And nothing the courier changes ever comes back home. [[dot-callback]]The you-are-here dot from two lessons ago travels the same way, as a copy.
+
+## 04 — What's in the satchel
+[[cards]]Each card is an environment variable: a name, and a value that is plain text. [[examples]]One card says where your home folder is. Another says where temporary files go. [[path-long]]And one long card is called path. [[master-copy]]On Windows, the master copy sits in two drawers at home, one for you and one for the whole system, and new programs get both combined. [[zshrc]]On a Mac or on Linux, the shell's startup files write it. [[peek]]The screen shows how to peek inside; you don't need it yet.
+> Screen-only labels: ~/.zshrc · echo $PATH · $env:PATH · Environment Variables dialog. Depth on the two drawers is 15.08.
+
+## 05 — PATH: a numbered list of streets
+[[list-of-streets]]Path is one card holding a list of folders. Picture them as numbered streets. On Windows, semicolons separate them; on a Mac and Linux, colons. [[bare-name]]When you type a bare name like python, the courier walks the streets in order, [[first-shop]]and goes into the first shop with that name. [[first-wins]]First match wins. Shops further down are never visited. On Windows, it also tries the endings Windows counts as programs, so python finds python dot E X E. [[system-first]]And on Windows, the system's list comes first, and your own list is added after it. [[shell-first]]Shells check their own built-in commands and aliases before path. Old Command Prompt even looks in the current folder first; PowerShell deliberately doesn't.
+> PATHEXT on screen only. System-before-user is hedged per plan section 8 (never "Microsoft documents"; cut the clause if challenged). Precedence depth: 02.02.
+
+## 06 — "Not recognized as a command"
+[[every-street]]Not recognized means one thing: the courier walked every street and found no shop with that name. [[not-installed]]Usually, it isn't installed. [[not-on-path]]Or it's installed, but its folder isn't on the list. [[stale]]Or it's on the list, but this terminal left home before the change. [[typo]]Or it's a typo. [[wordings]]The message comes in three outfits. Command Prompt: not recognized as an internal or external command. PowerShell: not recognized as the name of a command-let. Bash and the Z shell: command not found. Same empty street.
+> Exact texts on screen, one at a time (observed 2026-10-10): cmd `'python' is not recognized as an internal or external command, operable program or batch file.` · Windows PowerShell 5.1 `The term 'python' is not recognized as the name of a cmdlet, function, script file, or operable program...` · `bash: python: command not found` / `zsh: command not found: python`. Do not show the PowerShell 7 wording.
+
+## 07 — Which python actually ran?
+[[many-shops]]The quieter problem: several shops can share one name. Python from an installer, from conda or U V, and a stand-in from the Microsoft Store. The courier takes the first. [[observation]]On this course's Windows machine, python had three candidates, in this order: [[candidates]]a Python three point ten install, the Store stand-in, and a Miniconda Python. [[winner]]The first one won, and Python three point ten reached its end of life this month. Nobody chose that. The order did. [[store-stub]]That Store stand-in is a signpost: with no Python installed, it opens the Microsoft Store. Found on the list doesn't mean installed. [[install-manager]]Since Python three point fourteen, its install manager makes the real python a signpost too, pointing at the install, so check where it leads. [[ask-which]]To see who wins, ask the shell for every candidate, in order, or ask Python where it lives.
+> Observation, not a generalisation. Paths with the user name shortened: C:\Users\…\Python310\python.exe · C:\Users\…\WindowsApps\python.exe · C:\Users\…\miniconda3\python.exe. Store message truncated: "Python was not found; run without arguments to install from the Microsoft Store…". Screen labels: where.exe python · which -a python · Get-Command python -All · sys.executable. No day for 3.10 end of life. Depth: 05.01.
+
+## 08 — Virtual environments: a street pinned to the top
+[[activate]]Activating the project's dot V E N V folder pins its street to the top of the courier's list. [[project-python]]Now python means the project's Python, because its street comes first. [[one-shell]]But only in that one shell, and the couriers it sends. Another terminal isn't in it, and neither is an agent's separate shell. [[both-true]]That's how "I activated it" and "it's using the wrong Python" can both be true: you activated it in a different window. [[skip-activation]]Newer tools skip the activating. U V run finds the project's environment directly, and puts it first for just that one command.
+> Depth: 05.03, 05.04.
+
+## 09 — Why a new terminal after an install
+[[installer-home]]You install a tool, and the installer adds a street to the master copy at home. [[old-satchel]]But the terminal you had open left home earlier, carrying the old card. So it says not recognized. [[new-courier]]The fix is to send a new courier: open a new terminal. [[new-tab]]Since 2023, a new tab in Windows Terminal picks up the change; a tab that was already open does not. [[editor]]A terminal inside an editor gets its satchel from the editor, so the editor usually needs a restart. [[agent-restart]]Agents too. Claude Code reads your environment when it starts, so it needs a restart to see a change.
+> Windows Terminal 1.18 (May 2023) reloads the environment on a new tab. Optional screen label: WinGet does not refresh the open terminal.
+
+## 10 — Where the picture breaks
+[[no-seal]]Here is where the picture breaks. A real satchel can be sealed. An environment can't. Any program, script or agent you start can read every card, and copies them on to its own couriers. [[signposts]]Some shops on the list are signposts, not shops. Store and install-manager aliases and version-manager shims forward you somewhere else, so "which" can name the signpost, not the program. [[many-satchels]]And there is no single environment. There are as many satchels as running programs.
+> Version managers and shims: no owning lesson yet (plan section 5 suggests a new 05 lesson).
+
+## 11 — Keys in the satchel
+[[named-key]]Now the cards that matter most: keys. AI tools look for your key on a card with a known name, like the Open A I or Anthropic key variable. That keeps the key out of your code. [[env-file]]Last lesson's dot E N V file is how the key usually gets into the satchel: a library loads it, or a runtime: Bun on its own, Node when asked. [[both-ways]]But inheritance cuts both ways. A key in your terminal's satchel is copied into every courier you send from it. [[agent-copies]]Including an agent, and every command and package it runs. [[billing]]If the Anthropic key variable is set, Claude Code uses that key, and its pay-per-use billing, instead of your subscription, even when you're logged in. It asks once in an interactive session, but never in a scripted run. [[status]]Its status screen shows which one is paying.
+> Screen: OPENAI_API_KEY · ANTHROPIC_API_KEY · GEMINI_API_KEY as card names, values always masked fakes. /status as a mono pill. Depth: 10.11.
+
+## 12 — The lantern: agents pack satchels now
+[[then]]Five years ago, only programs you started yourself opened the satchel. [[now]]Now agents install tools, edit path, create environments and write dot E N V files for you, and they send out couriers of their own. [[thieves]]Attackers noticed. In August 2025, a poisoned package stole dot E N V files and steered victims' own AI command-line tools to hunt for keys; that autumn, an N P M worm harvested tokens from environment variables. [[responses]]In December 2025, N P M revoked its old long-lived publishing tokens. Agent tools now offer ways to strip keys from what their commands inherit, mostly switched off by default. [[heading]]The direction is to hand a key to one command for one run, or keep it behind a proxy, instead of leaving it in every satchel. That's still early.
+> Dated: s1ngularity 2025-08-26; Shai-Hulud Sept and Nov 2025 (CISA 2025-09-23); npm classic tokens revoked 2025-12-09. No victim counts, no product defaults named. Depth: 05.08, 14.12, 15.07, 15.11.
+
+## 13 — Your job: two questions
+[[your-job]]Agents do the setup now. Your job is to check it, with two questions. [[which-ran]]First: which program actually ran? Ask the shell, or ask the agent to show you the full path. [[where-keys]]Second: where do my keys live, and who can see them? Which file, which variable, which terminal the agent was started from, and which account pays. [[not-a-fence]]A rule asking an agent not to read your keys is a request, not a fence. Real fences, like sandboxes and key scrubbing, are module fourteen, lesson twelve.
+
+## 14 — The surprises you'll hit
+[[same-terminal]]The surprises you'll hit. You install something, and the same terminal still says not recognized. Open a new one. [[store-opens]]Typing python opens the Microsoft Store. That's the stand-in winning. [[py-vs-python]]Python and P Y can start two different Pythons. [[mac-python3]]On a Mac, python isn't found, but python three is. And on newer Macs, brew isn't found until Homebrew's folder joins the path. [[pip-import]]Pip install worked, but the import fails: the package went to a different Python than the one that ran. [[export-stick]]An agent's export or activation didn't stick. In some agents, each command gets a fresh shell.
+> One surprise on screen at a time, each with its literal form. Depth: 05.01, 05.03, 01.08, 03.08.
+
+## 15 — Safe to ignore, and the neighbours
+[[ignore]]Safe to ignore for now: editing the registry by hand, the full rules for which command wins, how version-manager shims work, and environment editor tools. [[neighbours]]The neighbours on the map: shells, in module two. Many Pythons and virtual environments, in module five. [[trust]]Giving agents keys safely, keeping secrets out of plain text, and user versus system variables, in District Five, Trust.
+> Screen-only extra under "ignore": setx and its limits. No "next time".
+
+## 16 — Keep this
+[[keep-one]]Every program carries a copy of its parent's environment. Changes at home only reach programs started afterwards, so open a new terminal. [[keep-two]]Path is an ordered list, and the first match wins. To know which program ran, ask the shell. [[keep-three]]Keys in the environment go wherever you send programs, agents included. Know where yours live, and who can read them.

@@ -1,0 +1,69 @@
+{
+ "title": "Opus 5.5 picks a narrator: 38 of 38 stock voices",
+ "brief": "I'm making a 5-minute narrated explainer video about how Wi-Fi works, with an ElevenLabs voice. Which (ElevenLabs) voice should narrate it? Write your choice to voice.json as {name, voice_id, why}.",
+ "date": "2026-10-03",
+ "model": "claude-opus-5-5, bare, effort high",
+ "arms": [
+  {
+   "arm": "memory",
+   "inputs": "none",
+   "n": 15,
+   "counts": {
+    "Brian": 6,
+    "Alice": 4,
+    "George": 3,
+    "Matilda": 2
+   },
+   "premade_share": 1.0,
+   "top": "Brian",
+   "top_share": 0.4,
+   "picked_from_library": null
+  },
+  {
+   "arm": "list",
+   "inputs": "voices.json (account GET /v1/voices: 38 voices = 21 premade, 14 professional incl. course narrators RClayton and Adrian, 2 personal clones, 1 generated)",
+   "n": 15,
+   "counts": {
+    "Bella": 15
+   },
+   "premade_share": 1.0,
+   "top": "Bella",
+   "top_share": 1.0,
+   "picked_from_library": null
+  },
+  {
+   "arm": "library",
+   "inputs": "voices.json + shared_library.json (8,388 shared-library voices, trimmed to id, name, category, gender, age, accent, descriptive, use_case, cloned_by_count; no descriptions)",
+   "n": 8,
+   "counts": {
+    "Bella": 7,
+    "Alice": 1
+   },
+   "premade_share": 1.0,
+   "top": "Bella",
+   "top_share": 0.875,
+   "picked_from_library": 0
+  }
+ ],
+ "overall_counts": {
+  "Bella": 22,
+  "Brian": 6,
+  "Alice": 5,
+  "George": 3,
+  "Matilda": 2
+ },
+ "library_alternative_named": "Max - Elearning and Documentary (named as the library's best match in 7 of 8 library runs; not picked)",
+ "course_narrators_on_the_list": [
+  "RClayton",
+  "Adrian"
+ ],
+ "course_narrators_picked": 0,
+ "cost_usd_api_list": 4.7493,
+ "dollars": "API-list equivalents",
+ "caveats": [
+  "The library arm's 8,388 voices had no descriptions (the 67 MB cache was trimmed to the listed fields), while account voices kept theirs; the runs quoted description text, so this may favour account voices.",
+  "The account is curated (14 professional voices added by Aaron, 2 personal clones), not a stock account.",
+  "N = 15/15/8, below the critic's 20 per arm; the proxy-logged endpoint arm (critic 1B/1C) was not run."
+ ],
+ "source": "_planning/opus-made-this/experiments/voice/card.json"
+}

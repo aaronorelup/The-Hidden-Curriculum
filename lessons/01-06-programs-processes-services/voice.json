@@ -1,0 +1,16 @@
+{
+ "voice_id": "FRfK9ktUgII8Yh5EUCn1",
+ "public_owner_id": "2915d8f9d6390c396000b6238e72e674c45f6c2459fdaad6bc667bde472264ed",
+ "name": "Adrian - Optimistic and Clear Narrator",
+ "description": "A naturally optimistic narrator with a resonant tone, designed to bring an encouraging and positive perspective to all your audio content.",
+ "accent": "canadian",
+ "gender": "male",
+ "age": "middle_aged",
+ "descriptive": "professional",
+ "use_case": "narrative_story",
+ "cloned_by_count": 3613,
+ "usage_character_count_1y": 6691214,
+ "lesson": "01-06-programs-processes-services",
+ "chosen": "2026-10-11",
+ "audition": "course roster (voices/roster.json), first used on 00-02-the-map-of-everything"
+}

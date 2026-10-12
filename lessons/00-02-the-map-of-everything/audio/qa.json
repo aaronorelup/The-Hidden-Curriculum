@@ -1,0 +1,47 @@
+{
+ "01": {
+  "hash": "9e94ebd5c86f3f30",
+  "wer": 0.0,
+  "heard": "Everything you build with AI sits somewhere on one road: your computer, the network, the internet, services, and AI. When something breaks, the first useful question is which stop it's on. Learn that picture once, and every later lesson has a place to land. Think of it as a road leading out of your room"
+ },
+ "02": {
+  "hash": "5681b5db563815e2",
+  "wer": 0.0,
+  "heard": "On the course map, this lesson sits at the start in orientation, what this course is, and the lantern you carry. This is the view from the gate before you walk into the six districts. One road, five stops, and lanterns strung over the whole thing"
+ },
+ "03": {
+  "hash": "a308996500bbe1d4",
+  "wer": 0.015,
+  "heard": "Stop one: your computer. Files, folders, programs, the terminal. Everything here is yours, and it still works with the Wi-Fi off. A lot of early confusion lives right here. Aaron, who made this course, once saved his Python as a .txt file. The code was fine. The problem was at stop one. Stop two: the network. Your Wi-Fi and the router, the box. Every device at home goes through on its way out. Stop three: the internet. Networks join to other networks all over the world. Nobody owns all of it. Stop four: services. GitHub, your email, a payment page. Each one is someone else's computer running all day with its door open for requests. And stop five: AI. A model usually running inside a service answering in words"
+ },
+ "04": {
+  "hash": "e81a0ef35de1949e",
+  "wer": 0.0,
+  "heard": "Follow one message. You type a question into an AI chat. Your computer hands it to the Wi-Fi, and the router passes it out to the internet. The internet carries it to the right service. The service checks it's really you, runs the model, and sends the answer back down the road. Programs knock at a side counter called an API and show a key there. Here's where the picture breaks. It isn't really a straight line. Services call other services, and some AI models run right on your own computer with no road at all"
+ },
+ "05": {
+  "hash": "0cf6fe7f0b21a48a",
+  "wer": 0.025,
+  "heard": "Now the districts land on the road. The machine and the code live on your computer. Files, the terminal, languages, packages, the history starts there too. Git saves your work on your own machine. GitHub is the service where it's shared. The network is the road and how things talk across it. Networking, APIs, websites, the cloud. Trust guards the doors of services, keys, logins, secrets, and shipping is the day you stop only visiting services and become one"
+ },
+ "06": {
+  "hash": "650ff30d36c210be",
+  "wer": 0.052,
+  "heard": "Three phrases you'll meet early and each one names a stop. Localhost means this computer. A tool running on localhost is in your own room and nobody else can reach it yet. It works on my machine means two computers differ. Different files, different versions, different settings. That gap is a lesson, not a flaw in you. And four oh one unauthorized means you reach the service, but the door didn't accept your key or you brought none. Your code may be fine. That's trust. So when something breaks, ask one question first: which stop am I at?"
+ },
+ "07": {
+  "hash": "6b766d263399b0ee",
+  "wer": 0.0,
+  "heard": "AI shows up at every stop. A coding agent edits files on your computer, it reaches its model across the internet. With MCP, it can reach other services for you. So it matters which stop it's standing at and which keys it holds. AI is the lantern. It lights every district, but it doesn't walk the streets for you"
+ },
+ "08": {
+  "hash": "9f8456e0f393d299",
+  "wer": 0.0,
+  "heard": "Some things look important and can wait. How routers pick a path, what's inside a packet, which cloud company is best, every acronym on your network settings screen. For now, you only need to know which stop you're standing at"
+ },
+ "09": {
+  "hash": "88da22627e20bb11",
+  "wer": 0.0,
+  "heard": "Three things to keep. Everything sits on one road. Your computer, the network, the internet, services, and AI lighting, all of it. Ask which stop first. A problem in your room and a problem at a service's door need different fixes. A service is someone else's computer with its door open. Most of the AI you use lives there and answers back to yours"
+ }
+}

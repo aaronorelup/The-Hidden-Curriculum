@@ -1,0 +1,42 @@
+{
+ "01": {
+  "hash": "80ab42938f11a3c4",
+  "wer": 0.0,
+  "heard": "In this lesson, you'll learn what a file really is and what the little ending on its name, like .py, actually does. Every file is just a row of numbers called bytes, and the extension is part of its name, a label that tells your computer which program to open it with, not what is inside. Agents read and write your files now, so this keeps them from surprising you"
+ },
+ "02": {
+  "hash": "13587b88ea7443c8",
+  "wer": 0.014,
+  "heard": "This is the first stop on the map. District one, the machine, which asks what's on your computer. Aaron, who made this course, has an IT degree. He still wrote Python in Notepad and saved it as .txt. He didn't know that renaming it to .py was the whole difference. Nothing inside had to change, only the label. Nobody handed you this part. That's not a character flaw. It's a missing semester"
+ },
+ "03": {
+  "hash": "7275a6f1826045e1",
+  "wer": 0.0,
+  "heard": "Picture a file as a string of beads. Each bead is one byte, a number from zero to two hundred fifty-five. A photo, a song, a spreadsheet, your Python script, beads in order. Tied to the string is a paper tag. That's the file's name, and the part after the last dot is the extension. Your computer stores and moves beads. It never knows what they mean"
+ },
+ "04": {
+  "hash": "ba5a91f63ae43b5b",
+  "wer": 0.0,
+  "heard": "Numbers become words through an agreement, a code card that says which number means which letter. One hundred twelve means a small P. Lay the card over our beads and they spell print hi. A .py file is just text whose letters happen to be Python. Nothing in the beads says Python. Use the wrong card, and the same beads come out as garbled symbols. Today's card is almost always UTF-8, used on about ninety-nine percent of websites. Python three point fifteen due this month makes it the default everywhere. And what you see is a rendering. Newer Notepad on Windows 11 can show bold text that is really stars in the file"
+ },
+ "05": {
+  "hash": "14758dfbc015444f",
+  "wer": 0.036,
+  "heard": "When you double-click, Windows and Mac read the extension to choose which program opens the file. Rename hello.txt to hello.py, and not one bead moves. Programs themselves mostly ignore the tag. Python will happily run notes.txt. Many other formats carry a stamp in their first few beads. PNG pictures all start with the same few bytes, and so do PDFs. A modern Word file is a zip inside. The stamp is a far better clue than the tag. Plain text has no stamp. Here's where the picture breaks. The tag isn't tied to the string. The folder keeps the name separately, so renaming is instant"
+ },
+ "06": {
+  "hash": "fbc6ef4e4ba158c2",
+  "wer": 0.058,
+  "heard": "Windows and Mac still hide most extensions by default, so a file that looks like hello.py can really be hello.py.txt. Renaming photo.png to .jpg doesn't convert it. Odd symbols where an accented letter belongs mean the wrong code card was used. Double-click a .py file, and what opens depends on the machine, and a file named invoice.pdf.exe is a program in a costume. A tag can lie, which is why attackers like hidden extensions"
+ },
+ "07": {
+  "hash": "a97256f0c4cc6cab",
+  "wer": 0.024,
+  "heard": "Five years ago, you made and named every file yourself, and AI was autocomplete inside the one you had open. Now, coding agents like Claude Code create, read, and edit the files in your project directly. They read text as text and pictures as pictures. Agents.md and Claude.md are plain text whose names say, \"Read me first.\" Same trick as an extension. Agents.md is now looked after by the Linux Foundation. Google uses an AI model that identifies files from their bytes, not their names. The direction looks like this. The name stays the cheap first guess, and more tools check the beads too. And a text file can hold invisible characters that an agent reads and you don't."
+ },
+ "08": {
+  "hash": "6f5eec5002b163c2",
+  "wer": 0.0,
+  "heard": "Safe to ignore for now. Hex, bits, UTF-16, byte order marks, and line endings. Keep this. One, a file is just bytes. Two, text is bytes plus an agreement, and the agreement is usually UTF-8. Three, the extension is a label that picks the program, not the contents. Next on the map, file extensions and associations"
+ }
+}

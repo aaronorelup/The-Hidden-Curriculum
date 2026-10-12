@@ -1,0 +1,77 @@
+{
+ "01": {
+  "hash": "069d55bd9a0d5232",
+  "wer": 0.0,
+  "heard": "In this lesson, you'll learn how old the tools you build with really are and how fast each part of them is still changing. Most of it is decades old, but old doesn't mean frozen. Everything moves at one of three speeds. The ideas barely move, so you learn them once. The versions change every year, so you check which one you have. Security changes fastest, so assume what you learned a few years ago is out of date. And AI, the newest layer on top, changes fastest of all."
+ },
+ "02": {
+  "hash": "540ca5f423c00ead",
+  "wer": 0.014,
+  "heard": "On the course map, this lesson sits at the start in orientation, what this course is and the lantern you carry. Every district ahead is an old street laid long before AI arrived. Versions and packages come later in the code district, Git and history. The fastest changing part, logins and locks, gets a district of its own, trust. And the lanterns, the AI, were strung up last, and they're still being rehung"
+ },
+ "03": {
+  "hash": "362d25aa24ba51da",
+  "wer": 0.029,
+  "heard": "Aaron, who made this course, has a degree in information systems and data science. He still wrote Python in Notepad and saved it as a .txt file. He didn't know to rename it to .py or to open a terminal and CD into the folder. He'd never heard of .venv. None of that was new. Notepad came with the first Windows in 1985. Python is from 1991, the Unix shell from 1971, and the tool behind .venv joined Python in 2012. Aaron wasn't behind on the latest thing. He was missing the oldest things, the ones everyone assumes you already have."
+ },
+ "04": {
+  "hash": "a8ceef591312f24d",
+  "wer": 0.0,
+  "heard": "Picture one long street with a year painted on every building. 1969, Unix. 1973, Ethernet. 1981, MS-DOS. 1983, DNS, the internet's address book. Then the web, Python, and Linux all around 1991. JavaScript 1995. Git 2005. GitHub 2008. Docker 2013. VS Code 2015. And only at the very end of the street, the lanterns. GitHub Copilot 2021. ChatGPT late 2022. MCP, a standard way to plug AI into other tools, November 2024. More than fifty years of street, a few years of lanterns."
+ },
+ "05": {
+  "hash": "20d89556ff8639ec",
+  "wer": 0.0,
+  "heard": "Every year on that street is a birthday, not a finish line. Look closely at one, and it has three parts that age at different speeds. The stone is the idea, a file, a commit, a message sent across a network that barely moves. The paint is the version, the number on the sign. It gets redone every year or so. And the lock on the door is security, how you prove who you are and how secrets get scrambled. Locks get replaced fastest because burglars keep learning"
+ },
+ "06": {
+  "hash": "1dfa703c0ecb1e6e",
+  "wer": 0.0,
+  "heard": "Start with the paint. Git is from two thousand and five, and it still ships new versions several times a year. In two thousand and nineteen, it got git switch and git restore, clearer ways to do jobs that checkout still does. In twenty twenty, GitHub started calling the first branch of new projects main instead of master. Python ships a new version every October, and Python two was retired in twenty twenty. In twenty twenty-four, Python three point thirteen brought an experimental build that can run a program's threads on several processor cores at once. VS Code used to ship a new release every month. In twenty twenty-six, it went to every week. Same stone, fresh paint over and over."
+ },
+ "07": {
+  "hash": "1fbe0e093e311992",
+  "wer": 0.05,
+  "heard": "Then there are packages, code other people wrote for you to use. NPM for JavaScript and PyPI for Python are markets that never close. New packages and new versions arrive every day. In a version number like two point four point one, a change to the first part warns you that something may break. A lock file writes down the exact versions that worked, so your project doesn't quietly change under you. And attackers found the market too. They publish lookalike names or take over real packages. So careful people pin their versions and update on purpose. Even the tools that install packages keep changing. Pip, then Poetry in twenty eighteen, then UV in twenty twenty-four, all still in use."
+ },
+ "08": {
+  "hash": "b8eaac6db0a30240",
+  "wer": 0.0,
+  "heard": "Now the locks, which change fastest. For decades, a password alone opened the door. Passwords leaked and got reused, so sites added two-factor: something you know plus something you have. The usual second factor was a code sent by text message. Many sites are moving away from it because of SIM swapping. Someone talks your phone company into moving your number onto their phone, and your codes go with it. In two thousand seventeen, NIST, America's standards agency, restricted text message codes, so the codes moved into authenticator apps like Google Authenticator, Microsoft Authenticator, or Authy. They make a fresh code every thirty seconds from a standard published in twenty eleven. Some apps skip the code and just ask, \"Was this you?\""
+ },
+ "09": {
+  "hash": "3d207fcd361f0c77",
+  "wer": 0.017,
+  "heard": "The next lock trusts your device instead of a code. A passkey keeps a secret on your phone or laptop. You unlock it with your face, your fingerprint, or a PIN, and the secret is never sent to the site, so a fake lookalike site has nothing to steal. The web standard behind it was finished in twenty nineteen, and in twenty twenty-two, Apple, Google, and Microsoft committed to passkeys together. The goal is no password at all, and sites stopped asking nicely. GitHub stopped accepting account passwords for Git in twenty twenty-one, and in twenty twenty-three, it began requiring two-factor from everyone who contributes code. A lock you learned a few years ago may already be the old lock"
+ },
+ "10": {
+  "hash": "f6a14126fe9f1016",
+  "wer": 0.0,
+  "heard": "Locks also moved off the door. Instead of every site keeping its own passwords, many hand sign in to a dedicated service, sign in with Google or a company's identity provider. Now there's a service for everything: one for logins, one for secrets, one for keys. Aaron met this at work. His automations were tied to his personal accounts, and they had to move to service accounts, Windows Credential Manager, and app registrations in Microsoft Entra. A login for the job, not the person. Even that name moved. Entra was called Azure Active Directory until twenty twenty-three."
+ },
+ "11": {
+  "hash": "978dc8a74e1547df",
+  "wer": 0.024,
+  "heard": "Inside every lock is the metal, the math that scrambles data and checks that it wasn't changed. That wears out too as computers get faster and researchers find shortcuts. MD5, a fingerprint for files, was broken in two thousand and four. SHA-1 fell in twenty seventeen when researchers made two different files with the same fingerprint. The old versions of TLS, the lock behind HTTPS, were retired in twenty twenty-one. In twenty twenty-four, N-NIST published new standards built to survive future quantum computers. Even Git, which names every commit with SHA-1, has started moving to SHA-256. Here's where the street picture breaks. On a real street, an old lock has charm. In software, an old lock may be one somebody has already learned to pick."
+ },
+ "12": {
+  "hash": "63316fb10bbb2cf5",
+  "wer": 0.0,
+  "heard": "Here's what the speeds look like up close. A tutorial's command fails or one of its options no longer exists. The paint changed after it was written. One project says master and another says main. Same idea, a default GitHub changed in 2020. The word deprecated means this still works, but it's on its way out. It's a warning, not an error, so plan to move. An old answer where print has no parentheses is Python 2. And one day, a site you've used for years won't let you in until you set up an authenticator app or a passkey. You didn't do anything wrong. The lock got replaced"
+ },
+ "13": {
+  "hash": "fd1fbfb02b26dd63",
+  "wer": 0.01,
+  "heard": "AI is the newest layer and the fastest moving. New models arrive every few months and old ones get switched off. And an AI learned from a snapshot that stops where its training ended. So it may suggest an old package version, a retired command, or a login method a site no longer accepts. A coding agent still works on the old street. It runs CD, makes a .venv, saves with Git. When it reaches for the paint or the locks, ask which version it's assuming and check. AI is the lantern. It lights every district, but it doesn't walk the streets for you"
+ },
+ "14": {
+  "hash": "0b0f9a17e1638dfd",
+  "wer": 0.0,
+  "heard": "You don't need to memorize these dates or which algorithm replaced which. You don't need to chase every release either. Most updates will never touch you. Security updates are the exception. Take those. Keep one question for anything new you meet. Is this street or lantern? And if it's street, which part? Stone, learn it once. Paint, check the version. Lock, assume it has changed. Lantern, check the date"
+ },
+ "15": {
+  "hash": "22565bb0a7ee1ffc",
+  "wer": 0.0,
+  "heard": "Three things to keep. Learn the old ideas once. Files, the shell, the web, and Git had decades to settle. Check the version and assume the lock has changed. Versions move every year, and security moves faster still. Check the date on anything AI tells you. It is the newest and fastest of all, especially about versions and locks"
+ }
+}

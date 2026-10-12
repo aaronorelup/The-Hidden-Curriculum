@@ -1,0 +1,68 @@
+{
+ "title": "Tests green, product broken: three builds",
+ "rule": "Label the Unity run mixed-model. Never say '908/908 while dark'.",
+ "builds": [
+  {
+   "name": "BLACKWATER in Unity",
+   "dates": "2026-09-22 to 2026-09-24",
+   "models": {
+    "Opus 5": 0.44,
+    "Fable 5.1": 0.26,
+    "Sonnet 5": 0.16,
+    "Opus 5.5": 0.14,
+    "note": "share of $1,793.56 API-list spend; GPT-6 Astra via Codex for 3D"
+   },
+   "tests": {
+    "editmode_and_gate": "908/908",
+    "playmode": "300/300"
+   },
+   "shipped_with": "no AudioListener in any scene: 9 sources playing, RMS 0.00000",
+   "earlier": "headlamp at 0 cd in every real run until Aaron said it was dark (EditMode 896/896 at the time)",
+   "aaron": [
+    "Everything is still in complete darkness btw",
+    "there's no sound"
+   ],
+   "safe_line": "The Unity build shipped with 908 of 908 and 300 of 300 tests green, and no sound at all: nine sources playing into nothing.",
+   "postmortem_rule": "any PlayMode audio test must assert AudioListener.GetOutputData RMS > 0, not AudioSource.isPlaying"
+  },
+  {
+   "name": "Storm Bell Fighter",
+   "date": "2026-09-28",
+   "models": {
+    "Opus 5.5": 1.0
+   },
+   "tests": {
+    "automated": 40,
+    "checks": 317,
+    "status": "all passing"
+   },
+   "qa_found": {
+    "problems": 75,
+    "blockers": 3,
+    "example": "off-palette particle garbage over the fight"
+   },
+   "cost_usd_api_list": 1814.8,
+   "source": "AO-024"
+  },
+  {
+   "name": "BLACKWATER 2",
+   "date": "early September 2026",
+   "models": {
+    "Fable 5.1": 1.0,
+    "note": "second build; first build's model mix not checked"
+   },
+   "tests": {
+    "first_build": "588 tests, all green",
+    "second_build": "586 tests, all thirteen rungs of the gate green, autopilot winning"
+   },
+   "outcome": [
+    "You clicked DIVE and nothing happened.",
+    "I called it a complete failure that same day."
+   ],
+   "cost_usd_api_list": 281.76,
+   "source": "AO-017"
+  }
+ ],
+ "dollars": "API-list equivalents (Lens); Aaron pays a subscription",
+ "source": "_planning/opus-made-this/assets/existing/09_tests_green_product_broken (evidence_text.md, caption.json)"
+}

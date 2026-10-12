@@ -1,0 +1,51 @@
+{
+ "note": "Aaron's rule (2026-10-01): from lesson 00.04 on, narrate only with these voices (the narrators of 00.01 and 00.02), alternating so consecutive lessons differ.",
+ "voices": [
+  {
+   "voice_id": "wH3ZAVw1eUcFOxA0VFhF",
+   "public_owner_id": "9991967e35898389db048285d617ea3565f47b8f58413df49436ee6ad512b784",
+   "name": "RClayton - Clear, Polished and Direct",
+   "description": "45-year-old female voice with an engaging, friendly, and professional tone. Perfect for Informative content.",
+   "accent": "american",
+   "gender": "female",
+   "age": "middle_aged",
+   "descriptive": "confident",
+   "use_case": "informative_educational",
+   "cloned_by_count": 523,
+   "usage_character_count_1y": 399893,
+   "first_lesson": "00-01-the-hidden-curriculum"
+  },
+  {
+   "voice_id": "FRfK9ktUgII8Yh5EUCn1",
+   "public_owner_id": "2915d8f9d6390c396000b6238e72e674c45f6c2459fdaad6bc667bde472264ed",
+   "name": "Adrian - Optimistic and Clear Narrator",
+   "description": "A naturally optimistic narrator with a resonant tone, designed to bring an encouraging and positive perspective to all your audio content.",
+   "accent": "canadian",
+   "gender": "male",
+   "age": "middle_aged",
+   "descriptive": "professional",
+   "use_case": "narrative_story",
+   "cloned_by_count": 3613,
+   "usage_character_count_1y": 6691214,
+   "first_lesson": "00-02-the-map-of-everything"
+  }
+ ],
+ "guest": {
+  "voice_id": "c3xntgIY160tGkH7rVz2",
+  "public_owner_id": "bcedcd621c8d4d7af852c9c43ff85a3c294769424c93a05f249913bdc642d9dd",
+  "name": "June - Chinese Accent English Narrator",
+  "description": "Premium Female English voice \u2013 warm, clear and articulate, with an authentic Hong Kong / Cantonese\u2013accented English sound. Calm, credible narrator for narration, audiobooks, documentaries, e-learning, educational and explainer videos, voiceover, podcasts, ads, IVR, and conversational AI agents for Hong Kong, Singapore, China, and Asian markets. Natural Asian female English speaker \u2013 genuine accent, not exaggerated. Suits ESL, travel, culture and corporate content.",
+  "accent": "chinese",
+  "gender": "female",
+  "age": "young",
+  "descriptive": "professional",
+  "use_case": "narrative_story",
+  "cloned_by_count": 552,
+  "chosen": "2026-10-01",
+  "audition": "wer 2%, 2.47 words/s, no fillers or stalls, preview mean -23.5 dB, noise floor -inf dB",
+  "tried": [
+   "June - Chinese Accent English Narrator: OK (wer 2%, 2.47 words/s, no fillers or stalls, preview mean -23.5 dB, noise floor -inf dB)"
+  ]
+ },
+ "guest_note": "Aaron's rule (2026-10-01): lessons over 15 minutes may have ONE guest segment (script sections tagged [guest], at most 5 minutes) spoken by this fixed third voice; the score turns livelier under it."
+}

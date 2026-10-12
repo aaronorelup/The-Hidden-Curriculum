@@ -1,0 +1,47 @@
+{
+ "01": {
+  "hash": "b465175b946ac863",
+  "wer": 0.0,
+  "heard": "In this lesson, you'll learn the difference between an AI model, the app you use it in, and an agent. The model is the engine, the app is the car built around it, and an agent is that same car allowed to drive with you in the passenger seat. Know which one you're dealing with, and most of AI's surprises start to make sense."
+ },
+ "02": {
+  "hash": "823d5bf447eaa349",
+  "wer": 0.0,
+  "heard": "On the course map, this lesson sits at the start in orientation. What this course is and the lantern you carry. The lanterns strung over every district are AI. This lesson opens one up and names the parts inside"
+ },
+ "03": {
+  "hash": "f615ea08dff201b3",
+  "wer": 0.0,
+  "heard": "Start with the engine. A model is a huge set of numbers called weights saved in files. A lab trains it on enormous amounts of text and runs it on its servers. OpenAI makes the GPT models. Anthropic makes Claude. Google makes Gemini. At its core, text in, more text out. On its own, an engine has no seats, no wheel, and no memory of the last run"
+ },
+ "04": {
+  "hash": "224f08cb41d8de2e",
+  "wer": 0.0,
+  "heard": "Now build a car around it. The app is the part you actually touch. ChatGPT, the Claude app, the Gemini app, Copilot. It adds the chat window, saved chats, file uploads, safety checks, and the bill, and hidden instructions called a system prompt that the model reads first. One engine can sit in many cars: the lab's own app, a code editor, a company's help desk, and one car can swap engines with a model picker. That's why the names blur. ChatGPT is the car. GPT followed by a number is the engine. With Claude and Gemini, the car and the engine share a name. The numbers change often. Learn the layers instead."
+ },
+ "05": {
+  "hash": "f678d336d93f7487",
+  "wer": 0.015,
+  "heard": "An agent is the same car allowed to drive. It gets tools. It can read your files, run commands in a terminal, and edit code, and it works in a loop. Decide the next step, do it, check what happened, and go again until it's done or stuck. Coding agents like Claude Code work this way. Aaron, who made this course, once wrote Python in Notepad and saved it as .txt. He didn't know to rename it .py to CD into the folder or what .venv was. A plain chat window could write that code today, but the steps around it stay yours. An agent can take them. You stay in the passenger seat. By default, most coding agents ask before they run a command, and you can say no"
+ },
+ "06": {
+  "hash": "cc3524cb97c51ab2",
+  "wer": 0.0,
+  "heard": "Here\u2019s where the picture breaks. A real engine runs the whole trip. A model doesn\u2019t. With every message, it starts cold and rereads the conversation the app sends back in. So the memory lives in the car, not the engine. Programs can skip the car and reach the engine through an API with a key. That\u2019s the engine on a test bench. No chat window, no saved chats unless the program builds them. And there\u2019s no separate driver. The engine still only makes text. Some of that text says, \"Run this command.\" The app is what actually runs it, and only if it\u2019s allowed"
+ },
+ "07": {
+  "hash": "6ccfd9cc392a8d09",
+  "wer": 0.0,
+  "heard": "Four surprises you\u2019ll meet early. Ask two apps the same question, and you get two different answers. Different hidden instructions, sometimes a different engine, and a little randomness every time. A program calling the API knows nothing about your chats in the app. Same engine, different door. An agent stops and asks, \u201cAllow this command?\u201d That\u2019s the passenger seat working. Read it before you say yes. And which model is this app using? Check its model picker. Some apps choose for you. Don\u2019t ask the model. Its answer about itself isn\u2019t reliable"
+ },
+ "08": {
+  "hash": "c1256591a1f5e809",
+  "wer": 0.0,
+  "heard": "When an agent drives, it crosses the map. It works in your files and your terminal, the machine. It can save its work with Git, the history. It may hold keys to your accounts, trust. AI is the lantern. It lights every district, but it doesn't walk the streets for you. Even an agent only goes where you let it. And which model tops this month's leaderboard? Safe to ignore for now"
+ },
+ "09": {
+  "hash": "63e8e06bc638a061",
+  "wer": 0.015,
+  "heard": "Three things to keep. The model is the engine. A labs file of numbers, text in, text out, no memory of you. The app is the car, the chat window, your saved chats, the hidden instructions, and the bill. One engine sits in many cars. An agent is the car you let drive. Tools, a loop, and you in the passenger seat deciding what it may do"
+ }
+}

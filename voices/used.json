@@ -1,0 +1,108 @@
+{
+ "voices": [
+  {
+   "voice_id": "wH3ZAVw1eUcFOxA0VFhF",
+   "name": "RClayton - Clear, Polished and Direct",
+   "gender": "female",
+   "accent": "american",
+   "lesson": "00-01-the-hidden-curriculum",
+   "chosen": "2026-09-30"
+  },
+  {
+   "voice_id": "FRfK9ktUgII8Yh5EUCn1",
+   "name": "Adrian - Optimistic and Clear Narrator",
+   "gender": "male",
+   "accent": "canadian",
+   "lesson": "00-02-the-map-of-everything",
+   "chosen": "2026-10-01"
+  },
+  {
+   "voice_id": "wH3ZAVw1eUcFOxA0VFhF",
+   "name": "RClayton - Clear, Polished and Direct",
+   "gender": "female",
+   "accent": "american",
+   "lesson": "00-03-how-old-is-all-this",
+   "chosen": "2026-10-01"
+  },
+  {
+   "voice_id": "FRfK9ktUgII8Yh5EUCn1",
+   "name": "Adrian - Optimistic and Clear Narrator",
+   "gender": "male",
+   "accent": "canadian",
+   "lesson": "00-04-model-vs-app-vs-agent",
+   "chosen": "2026-10-01"
+  },
+  {
+   "voice_id": "wH3ZAVw1eUcFOxA0VFhF",
+   "name": "RClayton - Clear, Polished and Direct",
+   "gender": "female",
+   "accent": "american",
+   "lesson": "00-05-how-llms-work-just-enough",
+   "chosen": "2026-10-02"
+  },
+  {
+   "voice_id": "FRfK9ktUgII8Yh5EUCn1",
+   "name": "Adrian - Optimistic and Clear Narrator",
+   "gender": "male",
+   "accent": "canadian",
+   "lesson": "00-06-how-to-learn-anything-technical",
+   "chosen": "2026-10-03"
+  },
+  {
+   "voice_id": "wH3ZAVw1eUcFOxA0VFhF",
+   "name": "RClayton - Clear, Polished and Direct",
+   "gender": "female",
+   "accent": "american",
+   "lesson": "01-01-files-are-just-bytes",
+   "chosen": "2026-10-04"
+  },
+  {
+   "voice_id": "FRfK9ktUgII8Yh5EUCn1",
+   "name": "Adrian - Optimistic and Clear Narrator",
+   "gender": "male",
+   "accent": "canadian",
+   "lesson": "01-02-file-extensions-associations",
+   "chosen": "2026-10-05"
+  },
+  {
+   "voice_id": "USXpAZuBZ22GqtSpuKoQ",
+   "name": "Mike Belkowski",
+   "gender": "male",
+   "accent": "american",
+   "lesson": "poc-synthid-text",
+   "chosen": "2026-10-07"
+  },
+  {
+   "voice_id": "wH3ZAVw1eUcFOxA0VFhF",
+   "name": "RClayton - Clear, Polished and Direct",
+   "gender": "female",
+   "accent": "american",
+   "lesson": "01-03-folders-paths-the-working-directory",
+   "chosen": "2026-10-08"
+  },
+  {
+   "voice_id": "FRfK9ktUgII8Yh5EUCn1",
+   "name": "Adrian - Optimistic and Clear Narrator",
+   "gender": "male",
+   "accent": "canadian",
+   "lesson": "01-04-hidden-files-dotfiles",
+   "chosen": "2026-10-09"
+  },
+  {
+   "voice_id": "wH3ZAVw1eUcFOxA0VFhF",
+   "name": "RClayton - Clear, Polished and Direct",
+   "gender": "female",
+   "accent": "american",
+   "lesson": "01-05-environment-variables-path",
+   "chosen": "2026-10-10"
+  },
+  {
+   "voice_id": "FRfK9ktUgII8Yh5EUCn1",
+   "name": "Adrian - Optimistic and Clear Narrator",
+   "gender": "male",
+   "accent": "canadian",
+   "lesson": "01-06-programs-processes-services",
+   "chosen": "2026-10-11"
+  }
+ ]
+}

@@ -1,0 +1,72 @@
+{
+ "01": {
+  "hash": "02afa9cda8bb2b3e",
+  "wer": 0.0,
+  "heard": "In this lesson, you'll learn how your computer decides which program opens a file and how you change that decision. The extension is a label in the file's name. Your computer keeps a table that matches each label to a program. Renaming changes the label, but never the bytes, and open with set to always and default apps are how you edit that table. AI tools now make files and pick their labels. The table still decides what opens them."
+ },
+ "02": {
+  "hash": "9c538ec1d6fe28aa",
+  "wer": 0.011,
+  "heard": "We're still in district one, the machine, which asks what's on your computer. This is its second stop. Last lesson, a file became a string of beads, the bytes with a paper tag tied on, its name. Aaron, who made this course, has an IT degree. He still saved Python in Notepad as .txt, and didn't know that renaming it to .py was the fix. Nobody had told him. This lesson is the why behind that rename. One small change to a tag and a different program answers."
+ },
+ "03": {
+  "hash": "2402f13384372dc2",
+  "wer": 0.026,
+  "heard": "Now meet the porter. When you double-click a file, the porter takes the string. On Windows, that's File Explorer. On a Mac, Finder. The porter never looks at the beads. It reads only the tag and only the part after the last dot. Then it turns to a ledger on the desk, runs a finger down to the row for .txt, and reads the door written there: Notepad. It carries the string to that door and hands it over. The beads are never untied on the way. That ledger has a proper name: file associations, and there's one ledger per user account, so two people sharing a PC can get different programs for the same file"
+ },
+ "04": {
+  "hash": "0f27aca706b8c765",
+  "wer": 0.0,
+  "heard": "Look closer at one row, and it's more than a door. A row holds the program that opens the label, the icon stamped on every file wearing it, and the type's name you see in the folder, like Python file or text document. It also holds the commands on that type's right-click menu. That's why a renamed file's icon changes the instant you press Enter. Not one bead moved. The porter just reads a different row now, and a label with no row at all gets a blank icon and a question: which app should open this file?"
+ },
+ "05": {
+  "hash": "fbeecae757da47bc",
+  "wer": 0.01,
+  "heard": "Windows and Mac still hide most extensions by default, and neither has announced a change. The tag is folded at the last dot, so you only see the front. A file really named hello.py.txt shows up as hello.py. It's still a text file. You can't fix a label you can't see. Showing extensions is one setting on each system. On recent Windows, it sits on a settings page. Windows now calls advanced. A Mac can also hide the extension per file, so two files in one folder can disagree. People who build things nearly always switch extensions on."
+ },
+ "06": {
+  "hash": "020adaae01df3b52",
+  "wer": 0.048,
+  "heard": "Renaming rewrites the tag. The beads stay put. Microsoft says it plainly: renaming won't convert the file. That's why Aaron's fix worked. His beads were already Python text. The .txt tag was just sending them to the wrong door. But rename photo.png to .jpg and nothing converts. It may still open because photo apps read the beads, but it's still a PNG. Real conversion happens inside an app with Save As or Export. The warning you get when you change an extension is the porter saying, \"You're moving rows.\" And the classic trap: with extensions hidden or Notepad saving as a text document, typing hello.py as the name can end up as hello.py.txt. It looks right. It isn't."
+ },
+ "07": {
+  "hash": "9ab41a576361e370",
+  "wer": 0.0,
+  "heard": "\"Open with\" is you telling the porter which door for this one file. There are two kinds of answer. A one-time choice opens the file in that program and leaves the ledger alone. An always choice picks up the pen and rewrites the row, so every file with that label goes there from now on. On a Mac, picking a different app in a file's info window changes only that one file, unless you press Change All. So a Mac can remember a choice per file. Windows remembers per label"
+ },
+ "08": {
+  "hash": "dda1cdc0931eefe4",
+  "wer": 0.0,
+  "heard": "Default apps in Windows Settings is the ledger itself, opened like a book. A default app is just the program a row points to. You can look it up by label one row at a time, or look it up by app. Pick a browser and see every label it can open and who holds each row now. Here's proof the ledger works label by label. When Windows 11 launched in twenty twenty-one, switching your browser meant changing each label one by one. A one-click Set Default button came back the next spring. In Europe since last year, that button rewrites many more rows at once. Same ledger, a bigger pen."
+ },
+ "09": {
+  "hash": "b59935fee7305239",
+  "wer": 0.026,
+  "heard": "You're not the only one holding a pen. Installers write rows, install a code editor or Python, and it can claim .py. Updates write rows too. A twenty twenty-three update taught Windows to open seven zip and RAR archives itself. Since twenty twenty-three, Microsoft's rule is that apps should send you to settings to ask, not quietly take the row. Since twenty twenty-four, Windows guards some rows like web links and PDFs, so only you can change them. And since last year, it records your choice in a new locked form. One side effect, sometimes after an upgrade, a new default doesn't stick until you reset your defaults, and people still report apps grabbing file types."
+ },
+ "10": {
+  "hash": "d66cf2d3bfc808f4",
+  "wer": 0.04,
+  "heard": "Here's where the picture breaks. There isn't one ledger. Windows keeps its table in the registry. A Mac maps the label to a type, then the type to an app, and keeps per file choices. Linux desktops also peek at the contents and keep your choices in a plain text file. And the porter only works the front door. Double-click Open With, the system's own open command. Name the program yourself, pythonnotes.txt, and no ledger is consulted. So double-clicking script.py and typing python script.py can run different Pythons. The double-click runs whichever Python the ledger points at, not the one in your projects.venv. And on the web, the server's label decides, not the extension"
+ },
+ "11": {
+  "hash": "40ab579e828ae589",
+  "wer": 0.091,
+  "heard": "Programs keep private ledgers too. VS Code reads the extension to pick its colors and checks, which it calls the language mode, and you can remap it. So hello.py.txt opens in Notepad and gets no Python colors in VS Code either. Two ledgers, one label. With no label at all, it guesses from the content. Around AI, labels are promises about how to load a file. Older model files like .ckpt could run code when loaded. .safetensors was made so they can't. .gguf marks a local model, and mcp bundles are zips wearing their own label like a Word file. Renaming one to .safetensors doesn't make it safe. It just won't load"
+ },
+ "12": {
+  "hash": "0ec7782f9df6ac08",
+  "wer": 0.024,
+  "heard": "Double-click a .py file, and what happens depends on the machine. Often it runs and the window closes before you can read it. It ran. It didn't open for editing. A box asking which app to open it with means the label has no row. A file with no extension at all gets a blank icon and the same question. Sometimes a default won't stick after an upgrade. That's a side effect of the locked record from earlier, and resetting your defaults usually fixes it. The icon changed after a rename, but the file won't open? The new door can't read those beads. An invoice.pdf.exe is the folded tag's other face, a program in a costume. The trust district covers that one"
+ },
+ "13": {
+  "hash": "b0a7bfe2e836d026",
+  "wer": 0.0,
+  "heard": "Five years ago, you created and named every file yourself, and AI was autocomplete inside it. Since twenty twenty-three and everywhere by now, assistants like Claude and ChatGPT hand you real Word, Excel, PowerPoint, and PDF files, and coding agents write project files with labels they choose. When an agent shows you a file, it usually asks the same porter. When it runs code, it names the program and walks past the ledger. Windows has started adding AI actions to the right-click menu, and which ones you get depends on the label. Image tools only for JPG and PNG. Windows is also previewing a way for agents to reach files only in folders you allow. It still reports the extension separately. Mac OS twenty-seven now suggests file names from what's inside, but the label still picks the app. The direction looks like more rows only you can change and more doors for agents that need your permission."
+ },
+ "14": {
+  "hash": "4918693b17d3fbb3",
+  "wer": 0.046,
+  "heard": "Safe to ignore for now. The registry, prog IDs, Mac type identifiers, Linux MIME files, and every menu path. Keep this. One, the extension is a label in the name. Two, your computer keeps a ledger from label to program. Three, renaming changes the label. Open with always and default apps change the ledger. Next on the map, folders, paths, and the working directory"
+ }
+}

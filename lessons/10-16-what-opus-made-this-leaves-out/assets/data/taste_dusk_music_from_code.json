@@ -1,0 +1,21 @@
+{
+ "_how": "Read by the lab technician from each maker's script (CHORDS / MELODY / BPM constants, voice functions and docstring), cross-checked against the maker's final message. Chord names are the makers' own labels in the code.",
+ "dusk_opus_01": {"script": "compose.py", "key": "D major", "tempo": "64 BPM (BPM = 64.0), 8 bars of 4/4 = 30 s",
+   "progression": "Gmaj7 - D/F#(add9) - Em7 - Asus4>A - Gmaj7 - Bm7 - Em9 - Dmaj7",
+   "instruments": ["detuned wavetable pad, low-passed", "sine bass", "2-operator FM electric piano (melody)", "Karplus-Strong plucked arpeggio in 8ths, bars 3-8", "filtered-noise wind", "two distant crickets", "Freeverb-style stereo reverb with pre-delay"]},
+ "dusk_opus_02": {"script": "make_music.py", "key": "D major", "tempo": "64 BPM, 8 bars of 4/4 = 30 s",
+   "progression": "Dmaj9 - Bm9 - Gmaj9 - Asus4>A - D(add9)/F# - Em9 - Gmaj7>A9 - Dmaj9",
+   "instruments": ["two-voice detuned pad", "FM electric piano with faint tine (melody)", "sine bass", "Karplus-Strong plucks, off-beat, second half, strummed final chord", "two distant crickets", "filtered-noise 'evening air'", "Freeverb-style stereo reverb"]},
+ "dusk_opus_03": {"script": "compose.py", "key": "D major (melody on the D major pentatonic)", "tempo": "no BPM in the code: events are placed in seconds; melody steps are 0.75 s (an 80 BPM grid); chords change at 0, 7.5, 15, 21, 25 s",
+   "progression": "Dmaj9 - Bm11 - Gmaj9 - A7sus4 - Dmaj9",
+   "instruments": ["detuned soft-saw wavetable pad with slow filter sweep", "sine bass", "FM electric piano (melody)", "filtered-noise breeze", "distant crickets", "Freeverb-style stereo reverb"]},
+ "dusk_opus_04": {"script": "compose.py", "key": "D major", "tempo": "64 BPM (BEAT = 60/64), 8 bars of 4/4 = 30 s",
+   "progression": "Dmaj9 - F#m7 - Gmaj9 - Em9 - Bm9 - Gmaj7 - Asus4>A - Dmaj9",
+   "instruments": ["detuned pad with slow low-pass sweep", "additive 'felt piano' (decaying partials) melody with ping-pong delay", "sine bass", "two distant crickets", "filtered-noise wind", "Freeverb-style stereo reverb"]},
+ "dusk_opus_05": {"script": "compose.py", "key": "D major (one borrowed Gm6)", "tempo": "64 BPM, 8 bars of 4/4 = 30 s",
+   "progression": "Dmaj7 - Bm11 - Gmaj7 - Asus4 - Em9 - Gmaj7 - Gm6 - Dmaj9",
+   "instruments": ["additive pad with vibrato", "FM electric piano (arpeggios bars 1-2, melody bars 3-8) with sine octave-down doubling", "sine bass", "filtered-noise breeze", "two distant crickets", "Freeverb-style stereo reverb, gentle high cut"]},
+ "dusk_opus_06": {"script": "compose.py", "key": "D major", "tempo": "64 BPM, 8 bars of 4/4 = 30 s",
+   "progression": "Dmaj9 - Bm9 - Gmaj7#11 - A9sus4 - Dmaj9/F# - Em9 - Gmaj9 - D6/9",
+   "instruments": ["two-oscillator detuned pad", "sine bass", "Rhodes-like FM electric piano with octave-down double", "filtered-noise 'evening air'", "distant crickets", "Freeverb-style stereo reverb with low cut"]}
+}

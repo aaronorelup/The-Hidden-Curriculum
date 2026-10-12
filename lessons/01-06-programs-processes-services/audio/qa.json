@@ -1,0 +1,82 @@
+{
+ "01": {
+  "hash": "5ec81660a9a56edc",
+  "wer": 0.007,
+  "heard": "In this lesson, you'll learn the difference between a program on your disk, a process running it right now, and a service your computer keeps running in the background with no window. A program is a file of instructions. A process is one running copy of it. A service is a process the operating system starts and keeps alive by itself. File, running copy, kept alive. Port already in use. A server that outlived its window. An AI tool busy in the background. All one idea. Your agent can find and stop those. Your part is knowing what ought to be running. Aaron, who made this course, has an information systems degree and once wrote Python in Notepad, saved as .txt with no idea how to run it. It just sat there, a program that never became a process."
+ },
+ "02": {
+  "hash": "ea4dbdf7443c9cbb",
+  "wer": 0.022,
+  "heard": "This lesson sits in the first district, The Machine, which asks, what's on your computer? Module one, lesson six. Last lesson, every program left home with a satchel, a copy of its parents' settings. Now meet the programs carrying them and count how many are out."
+ },
+ "03": {
+  "hash": "b84d55f3c8e5ba12",
+  "wer": 0.0,
+  "heard": "Picture a kitchen shelf of recipe cards. Each card is a program, instructions doing nothing. A process is a cook working from one card right now. It gets a ticket number called a process ID or PID, its own stretch of counter, which is memory, and the satchel handed over at the door by whoever sent it in. File Explorer, a terminal, an editor, an agent. That sender is its parent. Many cooks can work from the same card at once. On the laptop this course is made on, eleven copies of Node were running at one moment this month. One recipe, eleven processes."
+ },
+ "04": {
+  "hash": "9de13b423a975a53",
+  "wer": 0.034,
+  "heard": "Under the picture, a process is private memory, a PID, a copy of the environment, and an account it runs as, usually yours. Inside are threads. Workers sharing its counter, that's module seven. On the course laptop, at one moment, four hundred and fifty-seven processes were running. One app is often several. A browser, VS Code, Ollama. Here's where the kitchen breaks. A cook has judgment. A process follows its card exactly. Cooks really work side by side. A computer runs only as many processes at once as it has processor cores and switches between the rest very fast. And a cook can glance at a neighbor's counter. A process can't unless the system lets it in, the way a debugger is"
+ },
+ "05": {
+  "hash": "59f90d7cfac16ef1",
+  "wer": 0.0,
+  "heard": "Some cooks you never sent in. A service is a process the operating system's own manager starts, often at boot, with no window. It can run with nobody signed in, and the manager can restart it if it stops. On Windows, many services share one host program shown as Service Host. On the course laptop, a hundred and sixty-six services were running. Ninety-seven Service Host processes carried many of them. On a Mac or Linux, the same idea is called a daemon. In between sits the tray app. It arrives when you sign in and leaves when you sign out. On Windows and Mac, Ollama is one of those, not a service. Three kinds of cook: apps you open, tray apps that clock in with you, and night staff the building hires."
+ },
+ "06": {
+  "hash": "c90e4150ad18e9cb",
+  "wer": 0.018,
+  "heard": "Every kitchen keeps a staff board. On Windows, it\u2019s Task Manager: Control, Shift, Escape. Five years ago, it was mostly for ending a frozen app. The Processes tab groups every cook: apps, background processes, Windows processes. Details gives one row per process, with its PID. Services lists the night staff: startup apps who clocks in when you sign in. End Task stops a process at once\u2014whatever it hadn\u2019t saved is gone. Newer Windows 11 builds add two hidden columns you can switch on: NPU, which process uses the AI chip, and Isolation, for apps running fenced in. On a Mac, the board is Activity Monitor. On Linux, top or htop."
+ },
+ "07": {
+  "hash": "d746f805c8cd3fb5",
+  "wer": 0.0,
+  "heard": "A window is a door to the cook, not the cook. Close the door, and the cook can still be at the counter. Three kinds keep working: tray apps like Ollama, services which never had a door, and children whose parent went away. On Windows, ending a parent doesn't automatically end what it started. Tools that want to stop everything they launched have to group those processes first. Late last year, a Windows update briefly made Task Manager itself keep running after you closed it. Microsoft fixed it in November."
+ },
+ "08": {
+  "hash": "7e60d1dad6f9b26b",
+  "wer": 0.057,
+  "heard": "A server is a process that stays running and waits at a numbered serving hatch called a port for orders. Only one process can hold a port at a time. Numbers you'll often see: three thousand for many Node apps, fifty-one seventy-three for Vite, eight thousand for Python, eighty-one eighty-eight for Comfy UI, twelve thirty-four for LM Studio, and eleven four three four for Alima. Localhost means your own machine. On the course laptop, twenty-seven hatches were open at once."
+ },
+ "09": {
+  "hash": "105d5c55ad594245",
+  "wer": 0.01,
+  "heard": "Node says, \"Address already in use, port three thousand.\" A cook is already at that hatch, usually an earlier copy you thought you stopped. Vite's version is quieter. It says port fifty-one seventy-three is in use. Trying another one and opens fifty-one seventy-four. Now, two copies run and your browser may still show the old one. Start a second Ollama and it can't take its port. People call that leftover a zombie. Strictly, a zombie has already finished, just an entry the system keeps until its parent collects it using nothing. The thing holding your port is alive. It's a leftover or orphan whose parent is gone."
+ },
+ "10": {
+  "hash": "6dd75e2daf48344d",
+  "wer": 0.009,
+  "heard": "Five years ago, a builder ran maybe one dev server. In a terminal, they opened themselves. Now AI tools start their own. A local model server is just a long-running process on a localhost port. On the course laptop, Ollama's tray app is the parent of the Ollama server at port eleven four three four. One app, two programs, two processes. By default, it keeps the model loaded for about five minutes after your last question so that memory stays taken. LM Studio and Microsoft's Foundry local run windowless servers too. Ollama's server has no password by default. Fine on localhost, risky open to the network, and researchers have found many exposed online."
+ },
+ "11": {
+  "hash": "cb555960b005713d",
+  "wer": 0.009,
+  "heard": "When your AI app opens, it hires a crew. Each local MCP server in its config is a child process the app launches. Five servers, five extra cooks, often Node or Python. They get the satchel the app packs, often with keys in the config, and run with your permissions. When the app closes, it's meant to stop them politely, then by force, and it should re-restart one that crashes. A remote one is somebody else's cook in somebody else's kitchen. This year, researchers stressed that a local MCP config line is, in effect, a command to run. The makers call that by design. Their docs advise caution. Treat adding one like installing software"
+ },
+ "12": {
+  "hash": "9c46d94d1a704387",
+  "wer": 0.027,
+  "heard": "A coding agent is a head cook sending in helpers. Every command it runs is its own child process, so a dev server it starts belongs to the agent. Long commands go to the background. In Claude Code, /tasks lists them, and it says it cleans them up when it exits. Not every tool does. What's new is fences, sandboxes limiting what its commands and their children can touch. As of this month, Claude Code's sandbox covers Mac, Linux, and WSL2, not native Windows. Codex's Windows sandbox also stops leftover child processes, and Microsoft's execution containers, a way to fence agents in on Windows, became generally available this month. Some agents use them already. Others say they will. Task Manager's isolation column shows only the fences built on Windows app containers. Vendors are moving toward agents as their own kind of process with their own account."
+ },
+ "13": {
+  "hash": "9f81ad6f1d4a19a2",
+  "wer": 0.043,
+  "heard": "Some of the night staff are already AI. On the course laptop, the services list included Windows AI components host, a codec sandbox service shown under the name ChatGPT, and a Copilot elevation service. Chrome can download its own on-device model in the background. Newer versions have a switch to turn it off. Taking stock of them and what each can see is module one, lesson twelve."
+ },
+ "14": {
+  "hash": "0711811c29f0abce",
+  "wer": 0.0,
+  "heard": "The agent can find a process and stop it. Your job is to judge what should be running with five questions. Is it a file, a running copy, or a service that comes back after a restart? Who started it? You, a terminal, an agent, a tray app, or the system? Which port does it hold? Does it carry your keys? And is it fenced in or running with your full access? Whoever started it, the system's board shows nearly every process. WSL and virtual machines show as one row"
+ },
+ "15": {
+  "hash": "cc5fa738035ed793",
+  "wer": 0.094,
+  "heard": "Safe to ignore for now. Threads and priorities, what each service host row does, and efficiency mode. Don't memorize PIDs. They change every run. Power tools like Process Explorer can wait"
+ },
+ "16": {
+  "hash": "01332a17e7d7ceb8",
+  "wer": 0.0,
+  "heard": "Keep this. A program is a recipe. A process is a cook using it. One file can run many times, each with its own number, memory, and settings. A service is a process the system keeps alive with no window. Closing a window doesn't end a process, and port already in use usually means an old copy holds the hatch. Your AI tools are processes too. They run as you with your keys. Know what should run and whether it's fenced in"
+ }
+}

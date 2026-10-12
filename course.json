@@ -1,0 +1,137 @@
+{
+ "lessons": {
+  "00-01-the-hidden-curriculum": {
+   "id": "00.01",
+   "title": "The hidden curriculum",
+   "module": "Orientation",
+   "summary": "Building with AI runs on everyday tools that school rarely teaches, so the gap is in the syllabus, not in you. This lesson shows why, and lays out the map every later lesson is shelved on.",
+   "poc": false,
+   "duration": 315.032,
+   "published": "2026-09-30",
+   "promoted": "2026-10-01",
+   "mp4": true,
+   "narrator": "RClayton"
+  },
+  "00-02-the-map-of-everything": {
+   "id": "00.02",
+   "title": "The map of everything",
+   "module": "Orientation",
+   "summary": "Everything you build with AI sits on one road with five stops (your computer, the network, the internet, services, AI), so when something breaks, ask which stop first. This lesson draws that road and gives every later lesson its place on it.",
+   "poc": false,
+   "duration": 276.358,
+   "narrator": "Adrian",
+   "published": "2026-10-01",
+   "mp4": true
+  },
+  "00-03-how-old-is-all-this": {
+   "id": "00.03",
+   "title": "How old is all this?",
+   "module": "Orientation",
+   "summary": "The ideas under your tools are decades old, but old does not mean frozen: versions change every year, security changes fastest (text codes to authenticator apps to passkeys, broken hashes, retired TLS) and AI on top changes fastest of all, so learn the ideas once, check the version, and assume old login advice is out of date.",
+   "poc": false,
+   "duration": 644.782,
+   "narrator": "RClayton",
+   "published": "2026-10-01",
+   "mp4": true
+  },
+  "00-04-model-vs-app-vs-agent": {
+   "id": "00.04",
+   "title": "Model vs app vs agent",
+   "module": "Orientation",
+   "summary": "The model is the engine (a lab's file of numbers: text in, text out, no memory), the app is the car built around it (chat window, saved chats, hidden instructions, the bill), and an agent is that car allowed to drive, with tools, a loop and you deciding what it may do.",
+   "poc": false,
+   "duration": 283.231,
+   "narrator": "Adrian",
+   "published": "2026-10-01",
+   "mp4": true
+  },
+  "00-05-how-llms-work-just-enough": {
+   "id": "00.05",
+   "title": "How AI models work today",
+   "module": "Orientation",
+   "summary": "Underneath it all is still a model that only knows what is on its desk right now; nearly everything new in the last five years (multimodal hand-offs, diffusion, memory and RAG, instruction files, caching, modes, plugins, plans and always-on agents) is about what gets put on that desk, what it hands off to other models, and where the desk sits.",
+   "poc": false,
+   "duration": 1194.265,
+   "narrator": "RClayton",
+   "published": "2026-10-02",
+   "mp4": true
+  },
+  "00-06-how-to-learn-anything-technical": {
+   "id": "00.06",
+   "title": "Trust what you can verify",
+   "module": "Orientation",
+   "summary": "You can only trust AI on what can actually be checked: agents now fix their own crashes, so your job is judging what they cannot see (security holes in code that works, team norms, dependencies, \"ready to deploy\"), and past that line you either learn to check it or bring in someone who can.",
+   "poc": false,
+   "duration": 667.037,
+   "narrator": "Adrian",
+   "published": "2026-10-03",
+   "mp4": true
+  },
+  "01-01-files-are-just-bytes": {
+   "id": "01.01",
+   "title": "Files are just bytes",
+   "module": "Your Computer, Under the Hood",
+   "summary": "Every file is just a row of numbers called bytes, and the extension is a label on its name that picks which program opens it, not what is inside; this lesson draws that picture so nothing an agent does with your files surprises you.",
+   "poc": false,
+   "duration": 306.997,
+   "narrator": "RClayton",
+   "published": "2026-10-04",
+   "mp4": true
+  },
+  "01-02-file-extensions-associations": {
+   "id": "01.02",
+   "title": "File extensions & associations",
+   "module": "Your Computer, Under the Hood",
+   "summary": "The extension is a label in a file's name and your computer keeps a ledger matching each label to a program, so renaming changes the label but never the bytes, while Open with set to Always and default apps edit the ledger; this lesson draws that picture as of October 2026, with AI tools now making the files.",
+   "poc": false,
+   "duration": 609.152,
+   "narrator": "Adrian",
+   "published": "2026-10-07",
+   "mp4": true
+  },
+  "01-03-folders-paths-the-working-directory": {
+   "id": "01.03",
+   "title": "Folders, paths & the working directory",
+   "module": "Your Computer, Under the Hood",
+   "summary": "A path is an address, and a relative path only makes sense from the working directory of the program that reads it.",
+   "poc": false,
+   "duration": 637.424,
+   "narrator": "RClayton",
+   "published": "2026-10-08",
+   "mp4": true
+  },
+  "01-04-hidden-files-dotfiles": {
+   "id": "01.04",
+   "title": "Hidden files & dotfiles",
+   "module": "Your Computer, Under the Hood",
+   "summary": "Almost every project and app keeps its settings, history, secrets and now its AI instructions in files your computer hides or tucks out of the way, and hidden only means out of sight, never locked.",
+   "poc": false,
+   "duration": 632.29,
+   "narrator": "Adrian",
+   "published": "2026-10-09",
+   "mp4": true
+  },
+  "01-05-environment-variables-path": {
+   "id": "01.05",
+   "title": "Environment variables & PATH",
+   "module": "Your Computer, Under the Hood",
+   "summary": "Every program starts with a copy of its parent's settings, its environment, and PATH in it is an ordered list of folders where the first match wins, so which program runs and which keys it can see depend on who started it and when.",
+   "poc": false,
+   "duration": 682.316,
+   "narrator": "RClayton",
+   "published": "2026-10-10",
+   "mp4": true
+  },
+  "01-06-programs-processes-services": {
+   "id": "01.06",
+   "title": "Programs, processes & services",
+   "module": "Your Computer, Under the Hood",
+   "summary": "A program is a file of instructions, a process is one running copy of it with its own number, memory and copied settings, and a service is a process the operating system keeps alive in the background, so most of what your AI tools run is processes you never see a window for.",
+   "poc": false,
+   "duration": 645.861,
+   "narrator": "Adrian",
+   "published": "2026-10-11",
+   "mp4": true
+  }
+ }
+}

@@ -1,0 +1,306 @@
+{
+ "per_image": {
+  "teashop_opus_01": {
+   "mean_L": 91.9,
+   "purple_share": 0.0,
+   "purple_share_visible": 0.0,
+   "palette": [
+    {
+     "hex": "#f4f0e5",
+     "share": 0.744,
+     "L": 94.8
+    },
+    {
+     "hex": "#fbf8f2",
+     "share": 0.166,
+     "L": 97.6
+    },
+    {
+     "hex": "#b9b6a5",
+     "share": 0.037,
+     "L": 73.9
+    },
+    {
+     "hex": "#b0623b",
+     "share": 0.037,
+     "L": 49.9
+    },
+    {
+     "hex": "#495f50",
+     "share": 0.015,
+     "L": 38.2
+    }
+   ],
+   "source": "teashop_opus_01.png",
+   "size": [
+    1440,
+    900
+   ]
+  },
+  "teashop_opus_02": {
+   "mean_L": 93.0,
+   "purple_share": 0.0,
+   "purple_share_visible": 0.0,
+   "palette": [
+    {
+     "hex": "#f7f2e8",
+     "share": 0.676,
+     "L": 95.6
+    },
+    {
+     "hex": "#fffdf8",
+     "share": 0.184,
+     "L": 99.3
+    },
+    {
+     "hex": "#ded7c6",
+     "share": 0.085,
+     "L": 86.0
+    },
+    {
+     "hex": "#b36741",
+     "share": 0.036,
+     "L": 51.4
+    },
+    {
+     "hex": "#707e64",
+     "share": 0.019,
+     "L": 51.2
+    }
+   ],
+   "source": "teashop_opus_02.png",
+   "size": [
+    1440,
+    900
+   ]
+  },
+  "teashop_opus_03": {
+   "mean_L": 91.8,
+   "purple_share": 0.0,
+   "purple_share_visible": 0.0,
+   "palette": [
+    {
+     "hex": "#f8f4eb",
+     "share": 0.752,
+     "L": 96.2
+    },
+    {
+     "hex": "#e5e4d7",
+     "share": 0.18,
+     "L": 90.2
+    },
+    {
+     "hex": "#445e4b",
+     "share": 0.039,
+     "L": 37.4
+    },
+    {
+     "hex": "#aca18e",
+     "share": 0.025,
+     "L": 66.6
+    },
+    {
+     "hex": "#2d4134",
+     "share": 0.004,
+     "L": 25.7
+    }
+   ],
+   "source": "teashop_opus_03.png",
+   "size": [
+    1440,
+    900
+   ]
+  },
+  "teashop_opus_04": {
+   "mean_L": 87.4,
+   "purple_share": 0.0,
+   "purple_share_visible": 0.0,
+   "palette": [
+    {
+     "hex": "#f8f2e4",
+     "share": 0.762,
+     "L": 95.6
+    },
+    {
+     "hex": "#e3d9c3",
+     "share": 0.101,
+     "L": 86.9
+    },
+    {
+     "hex": "#334d3d",
+     "share": 0.067,
+     "L": 30.3
+    },
+    {
+     "hex": "#af633c",
+     "share": 0.037,
+     "L": 50.0
+    },
+    {
+     "hex": "#8f9989",
+     "share": 0.034,
+     "L": 61.9
+    }
+   ],
+   "source": "teashop_opus_04.png",
+   "size": [
+    1440,
+    900
+   ]
+  },
+  "teashop_opus_05": {
+   "mean_L": 84.0,
+   "purple_share": 0.0,
+   "purple_share_visible": 0.0,
+   "palette": [
+    {
+     "hex": "#f4f0e6",
+     "share": 0.793,
+     "L": 94.9
+    },
+    {
+     "hex": "#304b3b",
+     "share": 0.127,
+     "L": 29.2
+    },
+    {
+     "hex": "#c1c0b2",
+     "share": 0.032,
+     "L": 77.5
+    },
+    {
+     "hex": "#b86841",
+     "share": 0.032,
+     "L": 52.3
+    },
+    {
+     "hex": "#7e8e7c",
+     "share": 0.017,
+     "L": 57.4
+    }
+   ],
+   "source": "teashop_opus_05.png",
+   "size": [
+    1440,
+    900
+   ]
+  },
+  "teashop_opus_06": {
+   "mean_L": 92.7,
+   "purple_share": 0.0,
+   "purple_share_visible": 0.0,
+   "palette": [
+    {
+     "hex": "#faf6ee",
+     "share": 0.754,
+     "L": 97.0
+    },
+    {
+     "hex": "#e7e9dc",
+     "share": 0.178,
+     "L": 91.9
+    },
+    {
+     "hex": "#324b3c",
+     "share": 0.035,
+     "L": 29.3
+    },
+    {
+     "hex": "#abae9e",
+     "share": 0.025,
+     "L": 70.6
+    },
+    {
+     "hex": "#bc6e49",
+     "share": 0.008,
+     "L": 54.3
+    }
+   ],
+   "source": "teashop_opus_06.png",
+   "size": [
+    1440,
+    900
+   ]
+  },
+  "teashop_opus_07": {
+   "mean_L": 91.2,
+   "purple_share": 0.0,
+   "purple_share_visible": 0.0,
+   "palette": [
+    {
+     "hex": "#f3efe2",
+     "share": 0.682,
+     "L": 94.4
+    },
+    {
+     "hex": "#fffaf1",
+     "share": 0.226,
+     "L": 98.4
+    },
+    {
+     "hex": "#385241",
+     "share": 0.045,
+     "L": 32.4
+    },
+    {
+     "hex": "#b2b6a4",
+     "share": 0.035,
+     "L": 73.2
+    },
+    {
+     "hex": "#b66441",
+     "share": 0.012,
+     "L": 51.2
+    }
+   ],
+   "source": "teashop_opus_07.png",
+   "size": [
+    1440,
+    900
+   ]
+  },
+  "teashop_opus_08": {
+   "mean_L": 86.8,
+   "purple_share": 0.0,
+   "purple_share_visible": 0.0,
+   "palette": [
+    {
+     "hex": "#f6f1e7",
+     "share": 0.702,
+     "L": 95.2
+    },
+    {
+     "hex": "#dfe0d2",
+     "share": 0.159,
+     "L": 88.7
+    },
+    {
+     "hex": "#405945",
+     "share": 0.099,
+     "L": 35.3
+    },
+    {
+     "hex": "#919b8b",
+     "share": 0.031,
+     "L": 62.8
+    },
+    {
+     "hex": "#b56b45",
+     "share": 0.008,
+     "L": 52.7
+    }
+   ],
+   "source": "teashop_opus_08.png",
+   "size": [
+    1440,
+    900
+   ]
+  }
+ },
+ "pairwise_palette_distance": {
+  "opus-opus": {
+   "mean": 2.6,
+   "n_pairs": 28
+  }
+ }
+}

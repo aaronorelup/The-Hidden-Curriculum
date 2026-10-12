@@ -1,0 +1,22 @@
+{
+ "01": {
+  "hash": "a7670544fea1ab50",
+  "wer": 0.0,
+  "heard": "This is a test of the narration pipeline"
+ },
+ "02": {
+  "hash": "b8d7bf27c4bb377e",
+  "wer": 0.0,
+  "heard": "A file extension is only a label"
+ },
+ "03": {
+  "hash": "d97d9ba258ba00bc",
+  "wer": 0.0,
+  "heard": "Here are the icons"
+ },
+ "04": {
+  "hash": "e96080469a5c5baf",
+  "wer": 0.0,
+  "heard": "And here is the map"
+ }
+}

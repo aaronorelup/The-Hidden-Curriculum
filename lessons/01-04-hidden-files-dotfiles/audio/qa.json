@@ -1,0 +1,77 @@
+{
+ "01": {
+  "hash": "acee94f9bfc5f98c",
+  "wer": 0.0,
+  "heard": "In this lesson, you'll learn about the hidden layer of files on your computer, what lives in it, and why you need to know it is there. Almost every project and app keeps its settings, its history, its secrets, and now its AI instructions in files your computer hides or tucks out of the way. Hidden only means out of sight. It never means locked. Your secret keys live in that layer, and AI agents read and write it, so it's the first place to look when something changed that you didn't see."
+ },
+ "02": {
+  "hash": "fd8135edcf4e929e",
+  "wer": 0.0,
+  "heard": "This lesson sits in District One, the machine, which answers one question: What's on your computer? The last lesson gave every file an address. This one shows you the addresses your computer leaves off the tour"
+ },
+ "03": {
+  "hash": "91523c19faf67884",
+  "wer": 0.0,
+  "heard": "Picture your computer as a shop. The shop floor is what File Explorer or Finder shows you: your documents and your code. The porter from two lessons back gives the tour of that floor. At the back, the porter walks straight past a door with a sign on it, \"Staff only.\" Behind that door is everything that keeps the shop running: the settings, the history, the supplies, the keys. You don't need any of it to shop. You need it the day something breaks. Keep this picture. The back room is the lesson"
+ },
+ "04": {
+  "hash": "46efb53f832f7f09",
+  "wer": 0.007,
+  "heard": "There are two kinds of sign. On Mac and Linux, the sign is painted into the name. A name that starts with a dot is skipped when a folder is listed. As Rob Pike, one of the early Unix programmers, tells it, this began as a shortcut in the list command meant to hide two special entries: dot and dot dot. It hid every name that starts with a dot, and people started putting settings there. Pike later called it a mistake. Windows ignores the dot. There, hiding is a flag hung on the file itself, called the hidden attribute. So on Windows, a dotted name sits in plain view unless something hung the flag. Git for Windows flags its own .git folder. Every system can show hidden items. The names are on screen. The steps can wait."
+ },
+ "05": {
+  "hash": "f2d16cc7f8e7dba3",
+  "wer": 0.062,
+  "heard": "There's more than one backroom. Each project has its own, the dot folders and dot files inside the project folder. They travel with the project, and you have one at home in your home folder for settings that belong to you. On Linux, the tidy answer is a dot config folder, and many tools use it on a Mac too. Plenty of tools ignore it and leave their own dot folder at the top instead, like .ssh or .claude. On Windows, the home backroom is App Data, hidden on a normal install with three rooms. Roaming is meant to follow a work login from machine to machine. Local stays on this machine. LocalLow is for programs running with fewer permissions. Today, it's mostly games"
+ },
+ "06": {
+  "hash": "3573fa7b885b044f",
+  "wer": 0.071,
+  "heard": "Now the project's shelves. The big one is the ledger, a folder called .git, holding every past version of your project. Delete that one folder and your files stay. Their history is gone. Next to it sits a private toolbox, .venv. It holds a pointer to your Python and the project's own packages. Aaron, who made this course, had an IT degree and still didn't know what .venv was. Since Python 3.13 and in the tool UV, a new one tells Git to ignore itself. Taped to the wall is a list, .gitignore. It names what never goes on the moving van. It hides nothing. It only tells Git what not to pack. Editor settings live here too, like .vscode"
+ },
+ "07": {
+  "hash": "05b9592f03fb3910",
+  "wer": 0.028,
+  "heard": "Now the drawer that matters most. At the root of many projects sits a file called .env. Inside are plain lines, a name, an equal sign, and a value, usually a key or a password. When your program starts, if it\u2019s set up to look for this file, it loads those lines as environment variables. That drawer has no lock. It\u2019s plain text. Hidden means out of sight, not encrypted. Rule one: it never goes into Git. Put it on the gitignore list before your first commit. Adding it later doesn\u2019t pull it out of the history, and once a key has leaked, the only real fix is to replace it. Rule two: never paste it into a chat and never let an agent read it. Claude Code\u2019s own documentation says that anything a tool reads, a key included, ends up in a transcript file in another hidden folder. GitHub now blocks some known kinds of key from reaching public repositories, but only the kinds it recognizes, and you can override it. It\u2019s a net, not a plan."
+ },
+ "08": {
+  "hash": "1512bb55fc831643",
+  "wer": 0.0,
+  "heard": "Here's where the shop picture breaks. A real staff-only sign is a rule people respect. A dot or a hidden flag is only a display choice. Every program, every script, every agent, and every piece of malware walks straight in. There's no door really, just a tour that skips it. Real protection is something else: file permissions, encryption, a secrets manager. Those have lessons of their own"
+ },
+ "09": {
+  "hash": "8c41db3822eb4140",
+  "wer": 0.105,
+  "heard": "Now new staff have arrived carrying lanterns, the AI agents. Before work, they read the notes pinned on the backroom wall, the instruction files: Claude.md, agents.md, Cursor's rules, and Copilot's instructions. Next to them hangs a wiring board, MCP config files like .mcp.json. They say which tools the staff may plug into. The staff also keep notebooks in your home backroom, .Claude and .Codex. Skills live there, and so do notes Claude writes about you by itself. And the tools now read each other's notes. GitHub's Copilot Cloud agent reads Claude.md. Since September twenty twenty-six, Claude Code reads agents.md when a project has no Claude.md. Since December twenty twenty-five, agents.md and MCP both belong to a Linux Foundation group. Each tool still keeps its own folder."
+ },
+ "10": {
+  "hash": "9367bb2433fb4776",
+  "wer": 0.034,
+  "heard": "In 2021, the Backroom held notes for tools, settings, history, a list of things to ignore. The worst common mistake was committing a .env. Since 2025, some of those notes are orders\u2014an agent follows them\u2014and some are commands it runs. So a stranger's note pinned to your wall gets obeyed too. In March 2025, researchers hid invisible instructions in a rules file. Others showed that a repository's own Claude settings could run commands or leak a key when someone opened it. Those holes were fixed, but the lesson stuck: these files are code. Malware learned the layout too. In August 2025, a poison package ran its victim's own AI command line tools to search their disks for keys. GitGuardian, a company that scans for leaked keys, counted AI service keys leaking about eighty percent more in 2025 than the year before."
+ },
+ "11": {
+  "hash": "85050e94f060b4d0",
+  "wer": 0.015,
+  "heard": "Your job is the owner's job. When an agent finishes, walk into the back room and look at what moved, hidden files included. Inside a project, Git shows changes to dot files like any other file. Git status lists them, and Git diff shows the lines. Ignored files in your home back room don't show up there. A change to a rules file or an MCP config deserves the same review as a change to code. A note asking the agent not to read your keys is a request, not a lock. Tools offer real deny rules and sandboxes, and some agents now refuse to rewrite their own settings files. One password manager, 1Password, is testing in beta a fake .env that never touches the disk. The plain file is still the default."
+ },
+ "12": {
+  "hash": "f01a9db94f5994a7",
+  "wer": 0.059,
+  "heard": "You'll open a project, see no .git folder, and Git works anyway. It's there, just hidden. On Windows, .env and .ssh sit right there in Explorer, while .git doesn't. That's the flag, not the dot. You'll add .env to the ignore list, and it's still on GitHub. It was already committed. Replace the key. A push gets declined because it contains a secret. That's push protection. A setup guide for a desktop AI app sends you to a path with app data roaming in it. That's your home backroom. On a Mac, files called .DS Store turn up in projects and commits. Finder leaves them behind, and dot folders linger from tools you stopped using, like the one an AI tool you tried once left in your home folder."
+ },
+ "13": {
+  "hash": "e60822ca999a33bc",
+  "wer": 0.068,
+  "heard": "Safe to ignore for now. The other folders next to .config like .cache, the hidden library folder on a Mac, which settings file wins when two disagree, and dotfiles repos for syncing your settings between machines. Recognize the names, skip the details"
+ },
+ "14": {
+  "hash": "b7a038434ad19505",
+  "wer": 0.075,
+  "heard": "The variables .env fills are module one, lesson five. Virtual environments are module five, lesson three. .gitignore and secrets are module eight, lesson seven. Instruction files are module three, lesson nine, and mcp config files are module 10, lesson nine. Keeping secrets out of plain text is module 15, lesson seven"
+ },
+ "15": {
+  "hash": "b935e4cf8fda8869",
+  "wer": 0.0,
+  "heard": "Keep this. One, hidden means out of sight, not locked. A dot on Mac and Linux, a flag on Windows, and anything can still read it. Two, your secrets live in the hidden layer. Dot env is plain text. Never commit it, never paste it and replace a key that leaked. Three, agents read and write this layer. After an agent works, check what changed, hidden files included."
+ }
+}

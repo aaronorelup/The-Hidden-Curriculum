@@ -1,0 +1,24 @@
+# Generated or local-only files (rebuild them with the tools in tools/)
+
+# private worktree of the blog repo used by tools/publish.py
+.publish/
+.claude/settings.local.json
+__pycache__/
+*.pyc
+
+# renders, review stills and contact sheets (tools/render.py, tools/stills.py)
+lessons/*/out/
+# competing draft scripts from the production workflow
+lessons/*/drafts/
+# rebuilt from the per-section MP3s by tools/narrate.py (no API call when cached) and by tools/mix.py
+lessons/*/audio/narration.wav
+lessons/*/audio/music.wav
+lessons/*/audio/mix.mp3
+# ElevenLabs library search cache
+voices/cache/
+
+# proof-of-concept builds are not course lessons
+lessons/poc-*/
+# other people's clips gathered for a lesson are referenced by link, never redistributed
+lessons/*/assets/x_clips/
+lessons/*/assets/video/x_*

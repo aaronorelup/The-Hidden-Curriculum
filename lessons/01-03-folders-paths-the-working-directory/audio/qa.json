@@ -1,0 +1,67 @@
+{
+ "01": {
+  "hash": "14691a2215c2e94a",
+  "wer": 0.0,
+  "heard": "In this lesson, you'll learn how a path points to a file and why the same name can point somewhere different depending on where a program was started. A path is an address, and a relative path only makes sense from the working directory of the program that reads it. Nobody handed you this map. That's not a character flaw. It's a missing semester. Aaron, who made this course, had an IT degree and still didn't know to open a terminal and CD into the folder first. So here's the shelf to put this on"
+ },
+ "02": {
+  "hash": "8cc22727dabf0146",
+  "wer": 0.0,
+  "heard": "This lesson sits in District 1: The Machine. That district answers one question: What's on your computer? Module 01 is about how that stuff is laid out. Every file on your computer has an address, a line of text that says where it is. A path is that line of text"
+ },
+ "03": {
+  "hash": "8909950d0db491f6",
+  "wer": 0.0,
+  "heard": "Picture a map drawn on the disk. Its edge is the root where every address begins. On Windows, each drive has its own root, so there is one edge per drive. Now picture giving directions on that map. Three streets east, then two up. Those directions only work from one spot, so put a you are here dot on the map. That dot is the working directory. Every running program has one. Keep this picture. The map is going to get a second dot"
+ },
+ "04": {
+  "hash": "6700c1c37db1c44a",
+  "wer": 0.0,
+  "heard": "An absolute path is a full street address. It starts at the root of the disk, the edge of the map, and counts from there. So it reads the same wherever the dot happens to be. On Windows, the root begins with a drive letter, so you'll see C colon backslash, then folder names, then the file. On macOS and Linux, the root is a single forward slash. Microsoft's own wording is that a full path starts from a drive or a root. The backslash is the Windows habit, and the forward slash is the Unix habit. Windows generally accepts forward slashes too, and so does PowerShell. The separator is a naming convention. The operating system decides what the name means"
+ },
+ "05": {
+  "hash": "4b5efc7da8e2ce13",
+  "wer": 0.008,
+  "heard": "A relative path leaves out the start. It says three streets from here, and here means the working directory. Every running program has a working directory. It is set when the program starts, and it is inherited from whatever started it. If you type the command, the place you typed it became the dot. A relative path is measured from that directory, not from the file that contains it, and not from the root of the disk. Many terminals show the dot in the prompt. PowerShell's default prompt looks like PSC colon backslash, then your folder, then a greater than sign. That prompt is the dot printed on the screen for you. Read it before you trust any relative name"
+ },
+ "06": {
+  "hash": "4ae3297df9846811",
+  "wer": 0.029,
+  "heard": "Here is where it works on my machine comes from. Imagine a script that opens a file called data.csv by its bare name. Run it from the project folder and the name finds the file. The script works. Run it from another folder and the same name looks in that folder, finds nothing, and fails. The code did not change. The dot moved. Your friend's dot sits on their own project, so for them it works. Both of you are right about your own dot. When a relative name fails, check where the program was standing before you check the file"
+ },
+ "07": {
+  "hash": "d86fd1bc2c1a68e2",
+  "wer": 0.0,
+  "heard": "Three shortcuts show up in paths. Tilde means your home folder, and the shell expands it for you. On Windows, that is usually something like C colon backslash Users and your name. A single dot means this folder. Two dots mean the folder one step up. You only need to recognize them for now. Now the place where the picture breaks. Real people carry their own dot. A computer's dot is a stored value inside each running program. When one program starts another, the child gets a copy, not a shared pointer. So there are many copies, one per running program, and the top of the disk has nowhere further to go. Two dots at the root stay at the root. Don't stretch the metaphor past that edge"
+ },
+ "08": {
+  "hash": "eab0166a4516b631",
+  "wer": 0.054,
+  "heard": "So what does a CD actually do? It changes the dot for the session that ran it, and only that session. A child process cannot move its parent. If a program changes its own folder, the window you typed into keeps its own dot. That is the general rule for every program that keeps a working directory. Python is the clearest case of a second list. Other tools have their own lookups too. Node, for example, resolves a required file from the calling file's folder, not the shell's. When you run python script.py, the import list starts with that script's folder. With -m or -c, it starts with the current folder. Python 3.11 added -p and an environment variable, PYTHONENSAFEPATH, which stop Python putting those folders first. That story belongs to 05902. A file path and an import path are two different lookups"
+ },
+ "09": {
+  "hash": "26a8d8c04e9f78b3",
+  "wer": 0.067,
+  "heard": "On macOS, on Linux, and in Git Bash, you'll often see, \"No such file or directory.\" Read it as, \"This name is not found from this dot.\" Python is more specific. You'll see a line like, \"File not found error,\" then bracketed ERRNO two, then, \"No such file or directory,\" then the name in quotes, data dot CSV. The name is right. The place is wrong. PowerShell usually says something like, \"Cannot find path because it does not exist.\" Check the exact words on your own screen because they change with the command. In Git Bash, C colon backslash users shows up as slash C slash users. Same place, another spelling. If you use Claude Code, a tool result may end with, \"Shell CWD was reset to,\" and then a folder. Some people report seeing that after a CD left the project, and the shell went back to the project folder"
+ },
+ "10": {
+  "hash": "0f1691cb7cb18000",
+  "wer": 0.042,
+  "heard": "Five years ago in 2021, no mainstream coding agent ran commands for you. The person at the keyboard typed every CD, and only that person moved the dot. Claude Code opened as a limited research preview in the terminal in February 2025. Codex CLI followed in April 2025. Now a coding agent runs commands from a working directory it inherited, and it types the CD itself. Claude Code's shell keeps its folder from one command to the next. Users have reported that a CD out of the project or out of an added directory gets pulled back to the project folder, and the result says so. Sub-agents don't carry a CD over. The sandbox runs on macOS, Linux, and Windows subsystem for Linux version two per the docs read this month. Native Windows runs commands without that sandbox, so on Windows, the folder rule is the one that matters. Some people have reported the folder resetting between every command. That is a reported issue, not a rule. A work tree is a second folder for the same project on its own branch, sharing one history. The detail is eight point eleven. Agents can resolve paths for you when they know the folder. You still need to know which folder they're standing in and whether it's the project you think. Where this goes next is a guess. Agents will probably do more of the typing, and the question will still be the same."
+ },
+ "11": {
+  "hash": "19ca18b69b1917cd",
+  "wer": 0.047,
+  "heard": "You can skip these for now. Windows paths have a two hundred and sixty character default. Apps have to opt in before that limit lifts, and it takes both a system setting and the app's own manifest. That's module one, lesson eight. Forward slashes mostly work on Windows, so you don't need to fight them. VUSL reaches your C drive under /mount/c. Python's -P option and PYTHON safe path are module five, lesson two's story. You don't need to memorize any of this today"
+ },
+ "12": {
+  "hash": "f07d9de4331222f9",
+  "wer": 0.021,
+  "heard": "This connects to five shelves. Hidden files like .git and .venv are paths with a dot in front. That's module one, lesson four. A bare name like Python with no folder at all is found a different way through path. That's module one, lesson five. Moving around with cd ls, and the prompt is module two, lesson three. Running a file and the imports it makes is module five, lesson two. And a second folder for the same project on its own branch is a worktree on Git. That's module eight, lesson eleven"
+ },
+ "13": {
+  "hash": "c8a70b719fc29234",
+  "wer": 0.0,
+  "heard": "Keep this. One, a path is an address. An absolute path starts at the root, and a relative path starts where the program stands. Two, every running program has a working directory. It is inherited from whatever started the program, and ACD moves only the session that ran it. Three, the same name can mean a different file. When something isn't found, check the folder the program is in. With an agent, check which project it's in too"
+ }
+}

@@ -1,0 +1,527 @@
+"""narrate.py: turn a lesson's script.md into narration with word-level timing.
+
+usage:
+  python tools/narrate.py <lesson> [--dry-run] [--only 01,03] [--force]
+  python tools/narrate.py <lesson> --captions-only    re-cut captions from cues.json (free, no audio)
+
+script.md format:
+  # 00.01 — Lesson title
+  <!-- lead=1.6 gap=0.8 tail=3 -->          optional timing settings
+  <!-- captions: path=PATH; S S H=ssh -->  optional caption spellings (spoken=written); "dot T X T",
+                                            "C D", "M I T" already show as .txt, cd, MIT
+  ## 01 — Section title                     each section becomes one scene
+  Spoken text. Put [[cue-name]] where an animation beat should land.
+  > Lines starting with > are production notes and are never spoken.
+  ## 02 — Next section [pause 1.5]         optional extra silence before a section
+  ## 09 — The workshop [guest]              spoken by the course's guest voice (lessons over 15 min only;
+                                            one run of consecutive sections, 5 minutes at most; the
+                                            score turns livelier under it, see engine/music.js)
+
+Writes, inside the lesson folder:
+  audio/NN.mp3 + audio/NN.align.json   per section, hash-cached (ElevenLabs bills per character)
+  audio/narration.wav                   every section placed on one timeline
+  cues.json / cues.js                   sections, word timings, cue times, caption chunks
+  captions.vtt                          subtitles
+
+The narrator comes from tools/voice.py: since 2026-10-01 one of the two roster voices in
+voices/roster.json, alternating per lesson, stored in voice.json. Every section is then
+transcribed with ElevenLabs speech-to-text and compared to the script; a section whose word error
+rate is over 10% is re-taken once automatically, and anything still off is reported (audio/qa.json).
+
+The ElevenLabs key comes from ELEVENLABS_API_KEY or ~/.claude/secrets/elevenlabs.key.
+"""
+import argparse
+import base64
+import difflib
+import hashlib
+import json
+import os
+import pathlib
+import re
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from common import ffmpeg, ffprobe_duration, lesson_dir  # noqa: E402
+import voice as voicepick  # noqa: E402
+
+MODEL_ID = 'eleven_multilingual_v2'
+VOICE_SETTINGS = {'stability': 0.5, 'similarity_boost': 0.75, 'style': 0.12, 'use_speaker_boost': True}
+HEAD = re.compile(r'^##\s+(\d+)\s+[—–-]\s+(.*?)\s*((?:\[(?:pause\s+[\d.]+|guest)\]\s*)*)$')
+GUEST_MAX = 300      # seconds: a guest segment is at most 5 minutes (Aaron's rule)
+GUEST_MIN_LESSON = 900  # seconds: only lessons over 15 minutes have one
+CUE = re.compile(r'\s*\[\[([\w-]+)\]\]\s*')
+
+
+def parse(text):
+    settings = {'lead': 1.6, 'gap': 0.8, 'tail': 3.0}
+    m = re.search(r'<!--\s*(lead=.*?)-->', text)
+    if m:
+        for k, v in re.findall(r'(\w+)=([\d.]+)', m.group(1)):
+            settings[k] = float(v)
+    sections, cur = [], None
+    for line in text.splitlines():
+        h = HEAD.match(line.strip())
+        if h:
+            pz = re.search(r'\[pause\s+([\d.]+)\]', h.group(3) or '')
+            cur = {'n': h.group(1), 'title': h.group(2).strip(), 'pause': float(pz.group(1)) if pz else None,
+                   'guest': '[guest]' in (h.group(3) or ''), 'lines': []}
+            sections.append(cur)
+        elif cur is not None and not line.lstrip().startswith('>'):
+            cur['lines'].append(line)
+    for s in sections:
+        body = '\n'.join(s.pop('lines'))
+        body = re.sub(r'<!--.*?-->', '', body, flags=re.S)
+        body = re.sub(r'\*\*(.+?)\*\*', r'\1', body)
+        body = re.sub(r'[*`]', '', body)
+        body = re.sub(r'\s+', ' ', body).strip()
+        clean, cues = '', {}
+        pos = 0
+        for mm in CUE.finditer(body):
+            clean += body[pos:mm.start()]
+            if clean and mm.end() < len(body):
+                clean += ' '
+            cues[mm.group(1)] = len(clean)
+            pos = mm.end()
+        clean += body[pos:]
+        s['text'], s['cue_idx'] = clean.strip(), cues
+    return settings, [s for s in sections if s['text']]
+
+
+def api_key():
+    key = os.environ.get('ELEVENLABS_API_KEY')
+    if not key:
+        f = pathlib.Path.home() / '.claude' / 'secrets' / 'elevenlabs.key'
+        key = f.read_text(encoding='utf-8').strip() if f.exists() else None
+    if not key:
+        raise SystemExit('No ElevenLabs key: set ELEVENLABS_API_KEY or store it with the save-api-key skill.')
+    return key
+
+
+def speak(text, prev, nxt, key, voice_id):
+    body = {'text': text, 'model_id': MODEL_ID, 'voice_settings': VOICE_SETTINGS}
+    if prev:
+        body['previous_text'] = prev[-400:]
+    if nxt:
+        body['next_text'] = nxt[:400]
+    req = urllib.request.Request(
+        f'https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/with-timestamps?output_format=mp3_44100_128',
+        data=json.dumps(body).encode('utf-8'), headers={'xi-api-key': key, 'Content-Type': 'application/json'}, method='POST')
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=300) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            msg = e.read().decode('utf-8', 'replace')[:300]
+            if e.code in (429, 500, 502, 503) and attempt < 3:
+                time.sleep(4 * (attempt + 1)); continue
+            raise SystemExit(f'ElevenLabs HTTP {e.code}: {msg}')
+
+
+def char_times(text, align):
+    """start/end seconds for every character of text, mapped through ElevenLabs' alignment"""
+    chars = ''.join(align['characters'])
+    st, en = align['character_start_times_seconds'], align['character_end_times_seconds']
+    idx = [None] * len(text)
+    if chars == text:
+        idx = list(range(len(text)))
+    else:
+        for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, text, chars, autojunk=False).get_opcodes():
+            if tag == 'equal':
+                for k in range(i2 - i1):
+                    idx[i1 + k] = j1 + k
+    last = 0
+    for i in range(len(idx)):
+        if idx[i] is None:
+            idx[i] = last
+        last = idx[i]
+    return [(st[j], en[j]) for j in idx]
+
+
+# ---- captions -------------------------------------------------------------------------------
+# The script spells things the way they are said ("dot T X T", "C D", "M I T"); captions show them the
+# way the screen does (.txt, cd, MIT). A run of single capital letters is one caption word: "dot" plus
+# letters becomes a lowercase extension, other runs become an acronym, and the commands below go
+# lowercase. A lesson can add its own forms in script.md: <!-- captions: path=PATH; S S H=ssh -->
+SPELLED_LOWER = {'CD', 'LS', 'PWD', 'CWD', 'NPM', 'NPX', 'NVM', 'VENV', 'RM', 'MV', 'CP'}
+LETTER = re.compile(r'([A-Z])([.,;:?!"\')\]]*)')
+TRAIL = re.compile(r'^(.*?)([.,;:?!"\')\]—–…]*)$')
+# a spoken extension joins the word before it (no space) only when that word is surely a file stem:
+# an ALL-CAPS name (AGENTS dot M D -> AGENTS.md) or a name that already has an extension (hello.py dot
+# T X T -> hello.py.txt). Ordinary words keep the space ("like .py", "to .jpg", "behind .venv"); a
+# lowercase stem joins through the lesson's caption spellings: <!-- captions: hello dot P Y=hello.py -->
+FILE_STEM = re.compile(r'[A-Z][A-Z0-9_-]+|[\w-]+(?:\.[a-z0-9]+)+')
+HARD_END, SOFT_END = ('.', '?', '!'), (',', ';', ':', '—', '–')
+WEAK_END = set('''a an the to of in on at by for from with into onto about over under between and or but nor
+as than that which who whom whose what where when how why if is are was were be been your my our their its
+his her this these those it i you we they he she can will would should could did do does has have had not
+no every each any some just very more most so'''.split())
+GOOD_START = {'that', 'which', 'where', 'who', 'whose', 'when', 'and', 'but', 'or', 'because', 'so', 'if',
+              'while', 'with', 'than', 'until', 'unless'}
+PAUSE = 0.45      # a pause this long between words is the natural place to turn the page
+CAP_MAX = 44      # aim for at most this many characters per caption
+CAP_HARD = 50     # never more (one line on the 1920 canvas and on the web overlay)
+FLASH = 0.8       # a caption spoken faster than this flashes by; avoided at almost any cost
+HOLD = 0.6        # a silence longer than this inside one caption is avoided
+TAIL = 0.35       # a caption stays up this long after its last word...
+MIN_BLANK = 0.4   # ...and then either hands straight over to the next one or leaves at least this gap
+MIN_SHOW = 1.0    # shortest time a caption is on screen, borrowed from the pause after it
+
+
+def caption_map(text):
+    """per-lesson caption forms from <!-- captions: spoken=written; ... --> comments in script.md"""
+    out = []
+    for block in re.findall(r'<!--\s*captions:(.*?)-->', text, flags=re.S):
+        for pair in block.split(';'):
+            if '=' in pair:
+                spoken, written = pair.split('=', 1)
+                if spoken.split() and written.strip():
+                    out.append((spoken.split(), written.strip()))
+    return out
+
+
+def _ends(tok, chars):
+    return tok.rstrip('"\')]').endswith(chars)
+
+
+def _spelled_path(words, i):
+    """spelled-out drive paths -> written form: 'C colon backslash Users' -> 'C:\\Users' and
+    'slash C slash Users' -> '/c/Users'. The next word joins on unless punctuation sits between.
+    Returns (text, next index, end time) or None."""
+    n = len(words)
+
+    def core(k):
+        return _bare(words[k][0]) if k < n else ''
+
+    if i + 2 < n and re.fullmatch(r'[A-Z]', words[i][0]) and core(i + 1) == 'colon' and core(i + 2) == 'backslash':
+        head, last = words[i][0] + ':\\', i + 2
+    elif i + 2 < n and core(i) == 'slash' and re.fullmatch(r'[A-Z]', words[i + 1][0]) and core(i + 2) == 'slash':
+        head, last = '/' + words[i + 1][0].lower() + '/', i + 2
+    else:
+        return None
+    tail = TRAIL.match(words[last][0]).group(2)
+    end, k = words[last][2], last + 1
+    if tail:
+        head += tail
+    elif k < n:
+        head += words[k][0]
+        end, k = words[k][2], k + 1
+    return head, k, end
+
+
+def caption_words(words, overrides=()):
+    """spoken word timings -> caption words, joining spelled-out runs into their written form"""
+    out, i, n = [], 0, len(words)
+    while i < n:
+        hit = None
+        for spoken, written in overrides:
+            k = len(spoken)
+            if i + k <= n:
+                seg = [w[0] for w in words[i:i + k]]
+                core, tail = TRAIL.match(seg[-1]).groups()
+                if [x.lower() for x in seg[:-1] + [core]] == [x.lower() for x in spoken]:
+                    hit = (k, written + tail)
+                    break
+        if hit:
+            out.append([hit[1], words[i][1], words[i + hit[0] - 1][2]])
+            i += hit[0]
+            continue
+        path = _spelled_path(words, i)
+        if path:
+            text, nxt_i, end = path
+            out.append([text, words[i][1], end])
+            i = nxt_i
+            continue
+        dot = words[i][0] in ('dot', 'Dot')
+        j, letters, tail = i + dot, [], ''
+        while j < n:
+            m = LETTER.fullmatch(words[j][0])
+            if not m:
+                break
+            letters.append(m.group(1))
+            j += 1
+            if m.group(2):
+                tail = m.group(2)
+                break
+        if letters and (dot or len(letters) >= 2):
+            run = ''.join(letters)
+            shown = '.' + run.lower() if dot else run.lower() if run in SPELLED_LOWER else run
+            if dot and out and FILE_STEM.fullmatch(out[-1][0]):
+                out[-1][0] += shown + tail                    # "AGENTS .md" -> AGENTS.md, "hello.py .txt" -> hello.py.txt
+                out[-1][2] = words[j - 1][2]
+            else:
+                out.append([shown + tail, words[i][1], words[j - 1][2]])
+            i = j
+            continue
+        out.append([words[i][0], words[i][1], words[i][2]])
+        i += 1
+    return out
+
+
+def _bare(tok):
+    return TRAIL.match(tok).group(1).replace('’', "'").lower()
+
+
+def _break_cost(toks, i):
+    """cost of ending a caption after toks[i-1]; the end of the section is free"""
+    if i >= len(toks):
+        return 0.0
+    w, nx = toks[i - 1][0], toks[i][0]
+    if _ends(w, HARD_END):
+        c = 0.0
+    elif _ends(w, (',',)):
+        c = 1.0
+    elif _ends(w, SOFT_END):
+        c = 0.5
+    else:
+        c = 4.0
+        if _bare(w) in WEAK_END:
+            c += 2                                            # "...the gap is in the" / "syllabus"
+        if w[:1].isupper() and (nx[:1].isupper() or nx[:1].isdigit()):
+            c += 2                                            # names stay whole: "January 2026"
+        if _ends(nx, HARD_END + SOFT_END):
+            c += 3                                            # never open on the word that closes a clause ("them:")
+        elif _bare(nx) in GOOD_START:
+            c -= 1                                            # "...a second curriculum / that school..."
+    gap = toks[i][1] - toks[i - 1][2]
+    c -= 1.5 if gap > PAUSE else 0.5 if gap > 0.3 else 0     # a real pause is where the page turns
+    return c
+
+
+def _chunk_cost(toks, j, i, text, max_chars):
+    """cost of one caption made of toks[j:i]"""
+    n, L = len(toks), len(text)
+    dur = toks[i - 1][2] - toks[j][1]
+    c = 1.0 + 0.3 * max(0, L - max_chars) + 0.01 * abs(L - 34)  # fewer, fuller, balanced lines
+    if i - j == 1 and n > 1:
+        c += 6                                                # a lone word ("hosting.", "just.")
+    c += 8 if dur < FLASH else 2 if dur < 1.2 else 0          # too quick to read
+    if dur > 0:
+        c += 0.5 * max(0.0, L / dur - 20)                     # characters per second
+    for k in range(j, i - 1):                                 # what the caption swallows
+        if _ends(toks[k][0], HARD_END):
+            c += 4                                            # two sentences on one line
+        elif _ends(toks[k][0], SOFT_END) and not _ends(toks[k][0], (',',)):
+            c += 0.5                                          # "The Machine: what's on your computer."
+        if toks[k + 1][1] - toks[k][2] > HOLD:
+            c += 2                                            # held up through a long silence
+    return c
+
+
+def caption_chunks(words, max_chars=CAP_MAX, overrides=()):
+    """[text, start, spoken_end] captions for one section. The cheapest set of line breaks over the
+    whole section wins (dynamic programming over every word boundary): break at sentence ends, then
+    at colons, commas and pauses, keep lists and names whole, never leave one word or a flash alone,
+    never open a caption on the word that closes the last clause. Display ends: caption_track."""
+    toks = caption_words(words, overrides)
+    n = len(toks)
+    best, back = [0.0] + [float('inf')] * n, [0] * (n + 1)
+    for i in range(1, n + 1):
+        for j in range(i - 1, -1, -1):
+            text = ' '.join(t[0] for t in toks[j:i])
+            if len(text) > CAP_HARD and j < i - 1:
+                break
+            c = best[j] + _chunk_cost(toks, j, i, text, max_chars) + _break_cost(toks, i)
+            if c < best[i]:
+                best[i], back[i] = c, j
+    out, i = [], n
+    while i > 0:
+        j = back[i]
+        out.append([' '.join(t[0] for t in toks[j:i]), toks[j][1], toks[i - 1][2]])
+        i = j
+    return out[::-1]
+
+
+def caption_track(sections, overrides=()):
+    """every section's captions on one timeline with display times: a short tail after the last
+    word, held through short pauses so the box does not blink, at least MIN_SHOW on screen when the
+    pause after it allows, never overlapping the next caption"""
+    cs = []
+    for s in sections:
+        cs += caption_chunks(s['words'], overrides=overrides)
+    out = []
+    for k, (text, start, spoken) in enumerate(cs):
+        nxt = cs[k + 1][1] if k + 1 < len(cs) else None
+        end = spoken + TAIL
+        if nxt is not None and nxt - end < MIN_BLANK:
+            end = nxt                                         # no flicker of an empty box between lines
+        end = max(end, start + MIN_SHOW)
+        if nxt is not None:
+            end = min(end, nxt)
+        out.append([text, round(start, 3), round(end, 3)])
+    return out
+
+
+def write_captions(L, cues, overrides=()):
+    """(re)build the captions from cues.json's word timings: cues.json, cues.js, captions.vtt.
+    Each section also gets 'shown': its words in written form (.txt, cd, MIT) for the page's
+    transcript; 'words' stays exactly as spoken, because S.find() and cue lookups match on it."""
+    captions = caption_track(cues['sections'], overrides)
+    for s in cues['sections']:
+        s['shown'] = caption_words(s['words'], overrides)
+    cues['captions'] = captions
+    (L / 'cues.json').write_text(json.dumps(cues, indent=1), encoding='utf-8')
+    (L / 'cues.js').write_text('window.CUES = ' + json.dumps(cues) + ';\n', encoding='utf-8')
+    vtt = ['WEBVTT', '']
+    for i, c in enumerate(captions, 1):
+        text = c[0].replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        vtt += [str(i), f'{vtt_time(c[1])} --> {vtt_time(c[2])}', text, '']
+    (L / 'captions.vtt').write_text('\n'.join(vtt), encoding='utf-8')
+    return captions
+
+
+def vtt_time(s):
+    h, rem = divmod(s, 3600)
+    m, sec = divmod(rem, 60)
+    return f'{int(h):02d}:{int(m):02d}:{sec:06.3f}'
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('lesson')
+    ap.add_argument('--dry-run', action='store_true')
+    ap.add_argument('--only')
+    ap.add_argument('--force', action='store_true')
+    ap.add_argument('--captions-only', action='store_true',
+                    help="rebuild the captions from cues.json's word timings; no audio, no API calls")
+    a = ap.parse_args()
+    L = lesson_dir(a.lesson)
+    script = (L / 'script.md').read_text(encoding='utf-8')
+    if a.captions_only:
+        cues = json.loads((L / 'cues.json').read_text(encoding='utf-8'))
+        captions = write_captions(L, cues, caption_map(script))
+        longest = max(captions, key=lambda c: len(c[0]))[0] if captions else ''
+        print(f'{L.name}: {len(captions)} captions rebuilt (longest {len(longest)} chars: "{longest}")')
+        return
+    settings, secs = parse(script)
+    chars = sum(len(s['text']) for s in secs)
+    words = sum(len(s['text'].split()) for s in secs)
+    print(f'{L.name}: {len(secs)} sections, {words} words (~{words / 150:.1f} min), {chars:,} characters')
+    if a.dry_run:
+        for s in secs:
+            print(f"  {s['n']} {s['title']}{' [guest]' if s['guest'] else ''}: {len(s['text'].split())} words, cues {list(s['cue_idx'])}")
+        gw = sum(len(s['text'].split()) for s in secs if s['guest'])
+        if gw:
+            print(f'  guest segment: {gw} words (~{gw / 140:.1f} min; at most {GUEST_MAX // 60} min)')
+        return
+    audio = L / 'audio'
+    audio.mkdir(exist_ok=True)
+    only = set(a.only.split(',')) if a.only else None
+    key, spent = None, 0
+    v = voicepick.pick(L)
+    VOICE_ID = v['voice_id']
+    print(f"narrator: {v['name']} ({v.get('gender')}, {v.get('accent')}; cloned by {v.get('cloned_by_count')} users)")
+    gv = voicepick.guest_voice() if any(s['guest'] for s in secs) else None
+    if gv:
+        print(f"guest: {gv['name']} ({gv.get('gender')}, {gv.get('accent')})")
+    vid = lambda s: gv['voice_id'] if s['guest'] else VOICE_ID
+    qa_f = audio / 'qa.json'
+    qa = json.loads(qa_f.read_text(encoding='utf-8')) if qa_f.exists() else {}
+    redo = set()
+
+    def take(i, s, h):
+        nonlocal key, spent
+        key = key or api_key()
+        # context text only from the same speaker, so a hand-over doesn't colour the delivery
+        prev = secs[i - 1]['text'] if i and secs[i - 1]['guest'] == s['guest'] else ''
+        nxt = secs[i + 1]['text'] if i + 1 < len(secs) and secs[i + 1]['guest'] == s['guest'] else ''
+        print(f"  speaking {s['n']}{' (guest)' if s['guest'] else ''} ({len(s['text'])} chars)...", flush=True)
+        r = speak(s['text'], prev, nxt, key, vid(s))
+        mp3 = base64.b64decode(r['audio_base64'])
+        (audio / f"{s['n']}.mp3").write_bytes(mp3)
+        (audio / f"{s['n']}.align.json").write_text(json.dumps({'hash': h, 'text': s['text'], 'alignment': r['alignment']}), encoding='utf-8')
+        spent += len(s['text'])
+        t = voicepick.transcribe(mp3).get('text', '')
+        err = voicepick.wer(s['text'], t)
+        qa[s['n']] = {'hash': h, 'wer': round(err, 3), 'heard': t}
+        return err
+
+    for i, s in enumerate(secs):
+        h = hashlib.sha1(json.dumps([s['text'], vid(s), MODEL_ID, VOICE_SETTINGS]).encode()).hexdigest()[:16]
+        mp3, aj = audio / f"{s['n']}.mp3", audio / f"{s['n']}.align.json"
+        cached = mp3.exists() and aj.exists() and json.loads(aj.read_text(encoding='utf-8')).get('hash') == h
+        wanted = (not cached) or a.force or (only is not None and s['n'] in only)
+        if only is not None and s['n'] not in only and cached:
+            wanted = False
+        if not wanted:
+            continue
+        err = take(i, s, h)
+        if err > 0.10:
+            print(f"  section {s['n']} word error {err:.0%}; re-taking once", flush=True)
+            err2 = take(i, s, h)
+            if err2 > 0.10:
+                redo.add(s['n'])
+        qa_f.write_text(json.dumps(qa, indent=1), encoding='utf-8')
+
+    # lay every section on one timeline
+    t, out_secs, inputs, filt = settings['lead'], [], [], []
+    for i, s in enumerate(secs):
+        if i:
+            t += s['pause'] if s['pause'] is not None else settings['gap']
+        mp3 = audio / f"{s['n']}.mp3"
+        dur = ffprobe_duration(mp3)
+        al = json.loads((audio / f"{s['n']}.align.json").read_text(encoding='utf-8'))
+        ct = char_times(s['text'], al['alignment'])
+        wl = []
+        for m in re.finditer(r'\S+', s['text']):
+            a0, a1 = ct[m.start()][0], ct[m.end() - 1][1]
+            wl.append([m.group(0), round(t + a0, 3), round(t + a1, 3)])
+        speech_end = wl[-1][2] - t if wl else dur
+        cues = {}
+        for name, ci in s['cue_idx'].items():
+            j = ci
+            while j < len(s['text']) and s['text'][j] == ' ':
+                j += 1
+            cues[name] = round(t + (ct[j][0] if j < len(ct) else speech_end), 3)
+        out_secs.append({'n': s['n'], 'title': s['title'], 'start': round(t, 3), 'end': round(t + speech_end, 3),
+                         'audio_dur': round(dur, 3), 'cues': cues, 'words': wl})
+        if s['guest']:
+            out_secs[-1]['guest'] = True
+        inputs += ['-i', str(mp3)]
+        filt.append(f'[{i}:a]aformat=sample_rates=44100:channel_layouts=mono,adelay={int(t * 1000)}:all=1[a{i}]')
+        t += dur
+    total = round(t + settings['tail'], 3)
+    mix = ''.join(f'[a{i}]' for i in range(len(secs)))
+    filt.append(f'{mix}amix=inputs={len(secs)}:normalize=0:dropout_transition=0,apad,atrim=0:{total}[out]')
+    subprocess.run([ffmpeg(), '-v', 'error', '-y', *inputs, '-filter_complex', ';'.join(filt), '-map', '[out]',
+                    '-ar', '44100', '-ac', '1', str(audio / 'narration.wav')], check=True)
+
+    cues = {'lesson': L.name, 'voice': {k: v.get(k) for k in ('name', 'voice_id', 'gender', 'accent', 'age')}, 'lead': settings['lead'], 'gap': settings['gap'], 'tail': settings['tail'],
+            'duration': total, 'sections': out_secs}
+    if gv:
+        cues['guest_voice'] = {k: gv.get(k) for k in ('name', 'voice_id', 'gender', 'accent', 'age')}
+    captions = write_captions(L, cues, caption_map(script))
+
+    usage_f = audio / 'usage.json'
+    usage = json.loads(usage_f.read_text()) if usage_f.exists() else {'characters_billed': 0}
+    usage['characters_billed'] += spent
+    usage_f.write_text(json.dumps(usage), encoding='utf-8')
+    print(f'narration {total:.1f}s, {len(captions)} captions; billed {spent:,} characters this run '
+          f"({usage['characters_billed']:,} total for this lesson)")
+    for n, q in sorted(qa.items()):
+        flag = '  <-- CHECK' if q['wer'] > 0.10 else ''
+        print(f"  QA {n}: word error {q['wer']:.0%}{flag}")
+        if flag:
+            print(f"     heard: {q['heard']}")
+    g_idx = [i for i, s in enumerate(out_secs) if s.get('guest')]
+    if g_idx:
+        g_len = out_secs[g_idx[-1]]['end'] - out_secs[g_idx[0]]['start']
+        print(f'guest segment: sections {out_secs[g_idx[0]]["n"]}-{out_secs[g_idx[-1]]["n"]}, {g_len:.0f} s')
+        if g_idx != list(range(g_idx[0], g_idx[-1] + 1)):
+            print('GUEST SEGMENT PROBLEM: the [guest] sections must be one consecutive run')
+        if g_len > GUEST_MAX:
+            print(f'GUEST SEGMENT PROBLEM: {g_len:.0f} s is over the {GUEST_MAX} s limit; shorten the [guest] sections')
+        if total <= GUEST_MIN_LESSON:
+            print(f'GUEST SEGMENT PROBLEM: only lessons over {GUEST_MIN_LESSON // 60} minutes have a guest; this one is {total / 60:.1f} min')
+    if redo:
+        print('SECTIONS STILL OFF after a re-take: ' + ', '.join(sorted(redo)) + ' (reword them, or python tools/voice.py <lesson> --reroll)')
+    for s in out_secs:
+        cue_list = ', '.join('%s@%.1f' % (k, v - s['start']) for k, v in s['cues'].items())
+        print(f"  {s['n']} {s['start']:7.2f}-{s['end']:7.2f}  {s['title']}  cues: {cue_list}")
+
+
+if __name__ == '__main__':
+    main()

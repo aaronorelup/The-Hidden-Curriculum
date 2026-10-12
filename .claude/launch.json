@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "missing-map",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8793",
+        "--directory",
+        "C:/Users/soulo/Organized/Personal/My Projects/Courses/The-hidden-curriculum"
+      ],
+      "port": 8793
+    }
+  ]
+}

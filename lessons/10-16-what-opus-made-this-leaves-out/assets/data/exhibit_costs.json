@@ -1,0 +1,333 @@
+{
+  "title": "Time, tokens and dollars behind each exhibit the critic ranks (_critic.md §5)",
+  "date": "2026-10-03",
+  "basis": "Claude dollars are Playback Lens API-equivalent; GPU seconds are measured exec time; credits at $0.0475. Human minutes were never recorded for any exhibit (_critic.md §3 #3).",
+  "exhibits": [
+    {
+      "rank": 1,
+      "exhibit": "TRELLIS.2 vs Opus-built Jefrie, and the rescue",
+      "costs": [
+        {
+          "part": "TRELLIS.2 from one image",
+          "gpu_s": 321,
+          "note": "685k tris; set up by Opus 5.5 (S6 turn 1)",
+          "source": "scouting/jefrie-3d.md 1.c, fact 18"
+        },
+        {
+          "part": "Opus 5.5 rescue (retopo, UVs, bake, 29-bone rig)",
+          "wall": "1h46m",
+          "output_tokens": 94000,
+          "usd_api_eq": 9.87,
+          "source": "scouting/jefrie-3d.md 1.c, fact 22"
+        },
+        {
+          "part": "whole S6 session",
+          "requests": 242,
+          "output_tokens": 260000,
+          "usd_api_eq": 26.48,
+          "source": "scouting/jefrie-3d.md S6"
+        },
+        {
+          "part": "TRELLIS.2 head run (head-merge model)",
+          "gpu_s": 426,
+          "source": "scouting/jefrie-3d.md fact 18"
+        },
+        {
+          "part": "companion: Opus 5 measured rebuild",
+          "wall": "47 min",
+          "usd_api_eq": 21.37,
+          "model": "Opus 5",
+          "source": "scouting/jefrie-3d.md 1.b"
+        },
+        {
+          "part": "progression sheet",
+          "usd_api_eq": 3.19,
+          "source": "scouting/jefrie-3d.md 1.c"
+        }
+      ],
+      "human_minutes": null
+    },
+    {
+      "rank": 2,
+      "exhibit": "One four-sentence prompt, Opus 5.5 Low vs XHigh",
+      "costs": [
+        {
+          "part": "Opus 5.5 Low (Lantern Tide)",
+          "wall": "8.9 min",
+          "turns": 11,
+          "usd_api_eq": 0.5,
+          "gpu_min": 0,
+          "source": "scouting/music.md A6, fact 4 (runs/Opus-Low.json)"
+        },
+        {
+          "part": "Opus 5.5 XHigh (Neon Koi)",
+          "wall": "1h41m",
+          "usd_api_eq": 14.72,
+          "gpu_min": 75,
+          "gpu_note": "~75 GPU-min (YuE2 + Qwen + H3)",
+          "source": "scouting/music.md fact 4 (runs/Opus-XHigh.json, README L30-49)"
+        }
+      ],
+      "multiple": "XHigh = 29x the dollars and 11x the wall time of Low",
+      "confound": "effort and tools changed together (_critic.md §1 #1)",
+      "human_minutes": null
+    },
+    {
+      "rank": 3,
+      "exhibit": "The stock-voice default",
+      "costs": [
+        {
+          "part": "George narration across 21 decks",
+          "audio_min": 178,
+          "elevenlabs_characters": null,
+          "note": "characters not recorded per deck",
+          "source": "scouting/voice-and-taste.md V2"
+        },
+        {
+          "part": "shared-library list call (8,388 voices)",
+          "elevenlabs_characters": 0,
+          "source": "scouting/voice-and-taste.md V14"
+        },
+        {
+          "part": "REMORA voice lab session (Opus 5.5 97.6% by spend)",
+          "usd_api_eq": 32.38,
+          "source": "scouting/voice-and-taste.md V10"
+        },
+        {
+          "part": "Jet Brigade voice-pick subagent (Sonnet 5)",
+          "usd_api_eq": 0.58,
+          "source": "scouting/voice-and-taste.md V9"
+        }
+      ],
+      "human_minutes": null
+    },
+    {
+      "rank": 4,
+      "exhibit": "The same song, two tools, one session (Remotion + HyperFrames)",
+      "costs": [
+        {
+          "part": "whole turn 2 (song + both videos + filing)",
+          "wall": "54m13s",
+          "requests": 342,
+          "tokens_total": 69300000,
+          "usd_api_eq": 25.34,
+          "source": "scouting/animation-tools.md fact 7"
+        },
+        {
+          "part": "5 HyperFrames frame subagents",
+          "requests": 243,
+          "tokens_total": 39900000,
+          "output_tokens": 16039,
+          "cache_write_tokens": 1290000,
+          "cache_read_tokens": 38500000,
+          "usd_api_eq": 14.5,
+          "source": "scouting/animation-tools.md fact 6"
+        },
+        {
+          "part": "Remotion render (CPU)",
+          "wall": "3m36s",
+          "frames": 1788,
+          "source": "scouting/animation-tools.md fact 4"
+        },
+        {
+          "part": "HyperFrames render",
+          "wall": "29 s",
+          "source": "scouting/animation-tools.md fact 5"
+        },
+        {
+          "part": "YuE2 song, final take",
+          "gpu_s": 30.5,
+          "wall_s": 33.2,
+          "vram_gb_peak": 5.0,
+          "source": "scouting/animation-tools.md A3"
+        }
+      ],
+      "correction": "the session's own 'about 1.1 million tokens' counts only cache writes; 39.9M total (_critic / ANI R10)",
+      "human_minutes": null
+    },
+    {
+      "rank": 5,
+      "exhibit": "The public 'one prompt' record",
+      "costs": [
+        {
+          "part": "W3 prompt",
+          "prompt_chars": 9608,
+          "agent_time": "12 h (creator)",
+          "budget_offered": "~$2,000 fal credits + Claude Max",
+          "actual_spend": null,
+          "source": "scouting/web-claims.md W3"
+        }
+      ],
+      "see": "one_prompt_anatomy.json",
+      "human_minutes": "creator says he spoke for about 5 minutes (unverified)"
+    },
+    {
+      "rank": 6,
+      "exhibit": "Aaron's Higgsfield ledger",
+      "costs": [
+        {
+          "part": "all Seedance",
+          "credits": 240,
+          "usd": 11.4,
+          "kept_s": 0,
+          "source": "scouting/higgsfield-seedance.md headline 1"
+        },
+        {
+          "part": "Hollows Opus turn",
+          "wall": "1h34m",
+          "requests": 101,
+          "output_tokens": 107000,
+          "usd_api_eq": 9.83,
+          "source": "scouting/higgsfield-seedance.md facts item 12"
+        },
+        {
+          "part": "Hollows Higgsfield window",
+          "credits": 209.28,
+          "usd": 9.94,
+          "h3_job_wall_s": [
+            305,
+            585
+          ],
+          "source": "scouting/higgsfield-seedance.md inventory #7-8"
+        }
+      ],
+      "see": "aaron_ledger.json",
+      "human_minutes": null
+    },
+    {
+      "rank": 7,
+      "exhibit": "A bad reference gets copied: s44 before/after, plus s42",
+      "costs": [
+        {
+          "part": "s44 bad and fixed takes",
+          "gpu_s_each": 168,
+          "source": "scouting/h3-pipeline.md 1b"
+        },
+        {
+          "part": "s42 (best generation)",
+          "gpu_s": 187,
+          "source": "scouting/h3-pipeline.md 1b"
+        },
+        {
+          "part": "the night film they belong to",
+          "gpu_min": 394,
+          "gpu_note": "257 segment + 137 keyframe",
+          "source": "scouting/h3-pipeline.md 1b"
+        },
+        {
+          "part": "BloodTailor T2V failure",
+          "gpu_s_range": [
+            52,
+            64
+          ],
+          "source": "scouting/h3-pipeline.md 1a"
+        }
+      ],
+      "licence": "H3: PRIVATE REVIEW ONLY",
+      "human_minutes": null
+    },
+    {
+      "rank": 8,
+      "exhibit": "AO-023's previs comparisons (already public)",
+      "costs": [
+        {
+          "part": "montage (previs-driven)",
+          "gpu_min_kept": 30,
+          "gpu_min_with_retakes": 54,
+          "wall": "7 h",
+          "renders": 11,
+          "source": "scouting/h3-pipeline.md 1b"
+        },
+        {
+          "part": "training film (no previs)",
+          "gpu_min": 249,
+          "renders": 69,
+          "source": "scouting/h3-pipeline.md 1b"
+        },
+        {
+          "part": "montage's Blender session (S10, both montage versions)",
+          "usd_api_eq": 35.81,
+          "source": "scouting/jefrie-3d.md 1.b"
+        }
+      ],
+      "licence": "H3",
+      "human_minutes": null
+    },
+    {
+      "rank": 9,
+      "exhibit": "Tests green, product broken (three builds)",
+      "costs": [
+        {
+          "part": "Unity Blackwater (mixed models)",
+          "agents": 87,
+          "tool_calls": 11842,
+          "tokens_total": 3400000000,
+          "output_tokens": 11000000,
+          "usd_api_eq": 1793.56,
+          "by_model_usd": {
+            "Opus 5": 788.35,
+            "Fable 5.1": 465.38,
+            "Sonnet 5": 283.0,
+            "Opus 5.5": 256.84
+          },
+          "source": "scouting/engines-and-connections.md 1a, fact 7"
+        },
+        {
+          "part": "Storm Bell Fighter (all Opus 5.5)",
+          "wall": "42 h",
+          "agents_at_finished": 130,
+          "usd_at_finished": 1730,
+          "whole_session_usd_api_eq": 1814.8,
+          "output_tokens": 15600000,
+          "tokens_total": 4720000000,
+          "tool_calls": 15069,
+          "source": "scouting/engines-and-connections.md 1a, fact 18"
+        },
+        {
+          "part": "BLACKWATER 2 Alt (Fable 5.1)",
+          "wall": "15 h",
+          "agents": 33,
+          "usd_api_eq": 281.76,
+          "source": "scouting/engines-and-connections.md 1a"
+        },
+        {
+          "part": "comparison: Godot Blackwater remake (all Opus 5.5)",
+          "wall": "17.7 h",
+          "agents": 80,
+          "output_tokens": 12500000,
+          "usd_api_eq": 1327.4,
+          "source": "scouting/engines-and-connections.md fact 14"
+        }
+      ],
+      "human_minutes": null
+    },
+    {
+      "rank": 10,
+      "exhibit": "Sameness, and Opus's real UI default (Loom / Lockkeeper pages)",
+      "costs": [],
+      "note": "No per-page time or cost is compiled in any scout report (VT points to AO-026's own table). The related music-video Low runs: Opus Low 9 min / $0.50, Sonnet Low 6 min / $0.27 (VT T1-T2).",
+      "human_minutes": null
+    }
+  ],
+  "honourable_mentions_with_costs": [
+    {
+      "exhibit": "Clawd montage (AO-020)",
+      "wall": "45m48s",
+      "usd_api_eq": 8.78,
+      "render_s": 155,
+      "source": "scouting/animation-tools.md A6"
+    },
+    {
+      "exhibit": "Course engine proof of concept",
+      "wall": "2h42m",
+      "usd_api_eq": 133.56,
+      "source": "scouting/animation-tools.md A10"
+    },
+    {
+      "exhibit": "Canvas proof of concept (8 s)",
+      "wall": "6m49s",
+      "usd_api_eq": 1.72,
+      "source": "scouting/animation-tools.md A7"
+    }
+  ]
+}

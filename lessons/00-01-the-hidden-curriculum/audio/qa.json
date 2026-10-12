@@ -1,0 +1,42 @@
+{
+ "01": {
+  "hash": "dec4ccfe209bdeb5",
+  "wer": 0.0,
+  "heard": "Building with AI runs on a second curriculum that school rarely teaches: terminals, files, Git, keys, hosting. If you never learned it, the gap is in the syllabus, not in you. This course is the map for it, what each thing is and where it goes. Aaron, who made this course, has a degree in information systems and still found out the hard way"
+ },
+ "02": {
+  "hash": "d46dc994ecd74514",
+  "wer": 0.029,
+  "heard": "He wrote Python in Notepad and saved it as a .txt file. He didn't know to rename it to .py. He didn't know to open a terminal and CD into the folder first. And .venv? He had no idea what that was. None of it is hard. Nobody had handed it to him. You probably have your own pile of these too. Each one has a place"
+ },
+ "03": {
+  "hash": "fc58a71746e0a704",
+  "wer": 0.0,
+  "heard": "Here's why this happens to smart people. Computer science mostly teaches the ideas, algorithms, data structures, how computation works. Information systems mostly teaches how businesses run on technology, databases, processes, projects. The everyday tools fall in the gap between them, the terminal, the folders, the keys, the hosting, used everywhere, rarely taught. So most people learn them the old way. Apprenticeship, where someone leans over and says, \"You need to CD first.\" Forums, where a stranger answers your exact error, and breaking things, lots of things. It works slowly, and everyone ends up with a different set of holes."
+ },
+ "04": {
+  "hash": "6008c13d6ad9bcf1",
+  "wer": 0.0,
+  "heard": "Even MIT has a course for this gap, The Missing Semester of Your CS Education. Its front page says, \"Tool skills are rarely covered in class and left to students to figure out on their own.\" Its January twenty twenty-six edition includes a lecture on agentic coding. If MIT students need a missing semester, you're allowed to need a missing map. It follows you to work too. Aaron's automations there ran under his own personal accounts. They had to move to service accounts with their credentials stored properly. Nobody had taught him that either"
+ },
+ "05": {
+  "hash": "e8b087630bce2ef5",
+  "wer": 0.01,
+  "heard": "Here's the shelf, a map with six districts, each answering one question. The machine, what's on your computer? The code, what programs are made of? The history, how work is saved and shared? The network, how computers talk? Trust, who may do what? Shipping, getting it to people? And strung over all of them, the lanterns, that's AI. It isn't a district of its own. It lights every district, but it doesn't walk the streets for you. This lesson sits at the start. And those loose questions, .py and cd live in the machine. .venv lives in the code. Service accounts live in trust."
+ },
+ "06": {
+  "hash": "ffa89c29f407e6f6",
+  "wer": 0.021,
+  "heard": "That's the promise. A map, not a manual. Every lesson answers five questions. What is it? Where does it live? What is it like? What does it connect to? And what will surprise you? You won't finish able to do the thing yet. You'll recognize it when you meet it. Real tools are messier than the map. Git lives in the history, but it talks across the network. Keys belong to trust, and they turn up everywhere. Memorizing commands is safe to skip. Your AI can type them. Your job is knowing what they mean"
+ },
+ "07": {
+  "hash": "78ccb334c5a2c096",
+  "wer": 0.009,
+  "heard": "Two surprises you'll meet early. The first is a word. Just \"just cd into the folder.\" Just activate the venv. Just add it to your path. Tutorials say it. Coworkers say it. Your AI assistant says it too. Every just is a lesson somebody skipped. It isn't a sign you're behind. It's a pin on the map. The second is an error. Run a script from the wrong place and you'll see something like this. \"Can't open file. No such file or directory.\" That doesn't mean your code is broken. Python never even opened it. Usually, you're standing in the wrong folder, or the file is still called .txt"
+ },
+ "08": {
+  "hash": "be1e147b90f9a164",
+  "wer": 0.0,
+  "heard": "Three things to keep. The gap is in the syllabus, not in you. Nobody handed you this map. It's a missing semester, not a character flaw. Every confusing thing has a shelf. Six districts with AI as the lanterns over all of them. Aim for recognition, not recipes. Once you know what a thing is and where it lives, the how-to is easy to find"
+ }
+}

@@ -1,0 +1,341 @@
+{
+  "title": "Aaron's Higgsfield and Seedance history, and the Claude cost of the same work",
+  "date": "2026-10-03",
+  "basis": {
+    "higgsfield_dollars": "REAL: $0.0475 per credit = $57 paid / 1,200 credits (lens bee7cc84 L418)",
+    "claude_dollars": "API-EQUIVALENT: Playback Lens list prices (pricing table v2026-09-24; Opus 5.5 at $4 in / $20 out per MTok, matching https://claude.com/pricing read 2026-10-03). Aaron is on a subscription, so these are NOT what he paid.",
+    "warning": "Any Claude-vs-Higgsfield ratio below mixes the two bases (_critic.md §3 #4). Aaron's real Claude price (plan and tier) is not stated anywhere in the reports.",
+    "source": "scouting/higgsfield-seedance.md header"
+  },
+  "higgsfield_month": {
+    "plan": "Plus, 1,200 credits/month (+10 registration), set up 2026-09-21",
+    "paid_usd": 57,
+    "transactions": 197,
+    "window": "2026-09-21 to 2026-09-27",
+    "credits_spent": 1204.96,
+    "credits_granted": 1210,
+    "balance_2026_10_03": 5.04,
+    "aaron_quote": "Aaron called $57 'so expensive' and said he will likely cancel (lens bee7cc84 L418)",
+    "by_model": [
+      {
+        "model": "MiniMax H3 (hosted)",
+        "jobs": 36,
+        "refunds": 4,
+        "net_credits": 480,
+        "usd": 22.8,
+        "share_pct": 39.8
+      },
+      {
+        "model": "Seedance 2.5",
+        "jobs": 3,
+        "refunds": 1,
+        "net_credits": 240,
+        "usd": 11.4,
+        "share_pct": 19.9
+      },
+      {
+        "model": "Multi-Image to 3D",
+        "jobs": 12,
+        "refunds": 4,
+        "net_credits": 200,
+        "usd": 9.5,
+        "share_pct": 16.6
+      },
+      {
+        "model": "Nano Banana Pro",
+        "jobs": 77,
+        "refunds": 0,
+        "net_credits": 154,
+        "usd": 7.32,
+        "share_pct": 12.8
+      },
+      {
+        "model": "Kling 3.0",
+        "jobs": 3,
+        "refunds": 0,
+        "net_credits": 75,
+        "usd": 3.56,
+        "share_pct": 6.2
+      },
+      {
+        "model": "Seedream 5.0 Pro",
+        "jobs": 15,
+        "refunds": 0,
+        "net_credits": 44,
+        "usd": 2.09,
+        "share_pct": 3.7
+      },
+      {
+        "model": "GPT Image 2.5, Soul Cinematic, Nano Banana 2, Soul V2",
+        "jobs": 38,
+        "refunds": 0,
+        "net_credits": 11.96,
+        "usd": 0.57,
+        "share_pct": 1.0
+      }
+    ],
+    "source": "scouting/higgsfield-seedance.md 'Totals (Higgsfield account ledger, read today, 197 transactions)'"
+  },
+  "video_seconds_on_higgsfield": {
+    "seedance_2_5_s": 20.1,
+    "kling_3_0_s": 30.1,
+    "minimax_h3_s": 247.5,
+    "minimax_h3_billed_s": 240,
+    "total_s": 297.7,
+    "used_in_finished_film_or_published_post_s": 92.4,
+    "overall_ratio": "3.2:1",
+    "source": "scouting/higgsfield-seedance.md headline 4 and 'Video seconds generated on Higgsfield'"
+  },
+  "items": [
+    {
+      "item": "Seedance 2.5 push-in test",
+      "date": "2026-09-21",
+      "model": "Seedance 2.5, 1080p, omni_reference",
+      "driver": "Claude Fable 5.1 (lens 5d07985c L512) - not Opus",
+      "generated_s": 8.05,
+      "kept_s": 0,
+      "credits": 96,
+      "usd": 4.56,
+      "note": "a first job with blood wording failed after ~1 min and was refunded 96 credits",
+      "source": "scouting/higgsfield-seedance.md inventory #1"
+    },
+    {
+      "item": "Seedance 2.5 fight test",
+      "date": "2026-09-21",
+      "model": "Seedance 2.5, 1080p, 3 image refs",
+      "driver": "Claude Sonnet 5 (lens 5d07985c L1358) - not Opus",
+      "generated_s": 12.05,
+      "kept_s": 0,
+      "credits": 144,
+      "usd": 6.84,
+      "note": "Aaron asked for 720p; the agent chose 1080p. 720p would have been 84 credits (+60 from the guess). Aaron's verdict 30 min later: almost never use Seedance, because H3 and Kling had better results (lens 5d07985c L1556)",
+      "source": "scouting/higgsfield-seedance.md inventory #2"
+    },
+    {
+      "item": "ALL Seedance 2.5 on this machine",
+      "generated_s": 20.1,
+      "kept_s": 0,
+      "credits": 240,
+      "usd": 11.4,
+      "share_of_month_pct": 19.9,
+      "jobs": "3 spends, 1 refund",
+      "opus_5_5_driven_jobs": 0,
+      "source": "scouting/higgsfield-seedance.md headlines 1-2"
+    },
+    {
+      "item": "Kling 3.0 fight tests v1-v3",
+      "date": "2026-09-21",
+      "driver": "Claude Sonnet 5",
+      "generated_s": 30.1,
+      "kept_s": 0,
+      "credits": 75,
+      "usd": 3.56,
+      "note": "+ about 4 credits of Nano Banana Pro frames for v2/v3",
+      "source": "scouting/higgsfield-seedance.md inventory #4-6"
+    },
+    {
+      "item": "MiniMax H3 fight test (hosted)",
+      "date": "2026-09-21",
+      "driver": "Claude Sonnet 5",
+      "generated_s": 12.25,
+      "kept_s": 0,
+      "credits": 24,
+      "usd": 1.14,
+      "note": "same prompt and refs as the Seedance fight test, 6x cheaper; the clip Aaron named the best (lens 5d07985c L1959)",
+      "source": "scouting/higgsfield-seedance.md inventory #3"
+    },
+    {
+      "item": "Hollows at the Storm Bell (planned film)",
+      "date": "2026-09-25",
+      "driver": "Opus 5.5 (lens 90794018 turn 1)",
+      "pipeline": "tutorial -> storyboard -> character/monster sheets -> location plates -> grey Blender previs (3 shots) -> 16 hosted H3 jobs -> ffmpeg cut",
+      "jobs": 16,
+      "failed_refunded_jobs": 4,
+      "billed_s": 88,
+      "generated_file_s": 94.0,
+      "kept_s": 72.2,
+      "kept_clips": "12 of 16",
+      "keep_ratio_billed": 1.22,
+      "h3_credits": 176,
+      "window_credits_total": 209.28,
+      "window_usd": 9.94,
+      "window_breakdown_credits": {
+        "H3": 176,
+        "Nano Banana Pro": 26,
+        "Seedream": 5,
+        "Soul Cinematic": 1.44,
+        "Soul V2": 0.84
+      },
+      "opus_api_equivalent": {
+        "usd": 9.83,
+        "wall": "1h34m",
+        "requests": 101,
+        "output_tokens": 107000,
+        "label": "API-equivalent"
+      },
+      "h3_job_wall_s_range": [
+        305,
+        585
+      ],
+      "note": "Aaron's notes say '~180 credits'; the ledger says 209.28. Use the ledger (_critic.md §1 #5). Fight film: show numbers, sheets and previs, not footage.",
+      "source": "scouting/higgsfield-seedance.md inventory #7-8, facts items 12-13"
+    },
+    {
+      "item": "Echo night run (Claude's own character)",
+      "date": "2026-09-26",
+      "driver": "Opus 5.5 (lens 17df1960 turn 2)",
+      "jobs": 9,
+      "generated_s": 88,
+      "credits": 176,
+      "usd": 8.36,
+      "published_clips": 2,
+      "kept_s_inferred": 20.2,
+      "kept_note": "[I] 92.4 s used overall minus Hollows' 72.2 s = 20.2 s, i.e. the two 10 s clips published in AO-022",
+      "opus_api_equivalent": {
+        "usd": 101.16,
+        "label": "API-equivalent, NOT attributable to Higgsfield: the turn also ran local GPU work, YuE2, TRELLIS.2 and a blog post"
+      },
+      "note": "used the account's last credits (181.04 -> 5.04)",
+      "source": "scouting/higgsfield-seedance.md inventory #11, facts item 14"
+    },
+    {
+      "item": "Echo cycle-2 shots",
+      "date": "2026-09-26",
+      "driver": "Opus 5.5",
+      "jobs": 2,
+      "generated_s": 20,
+      "credits": 40,
+      "usd": 1.9,
+      "kept_s": null,
+      "source": "scouting/higgsfield-seedance.md inventory #12"
+    },
+    {
+      "item": "H3 turntables used as 3D/LoRA references",
+      "date": "2026-09-21 to 09-24",
+      "driver": "Sonnet 5 / Opus 5.5",
+      "jobs": 4,
+      "generated_s": 32,
+      "credits": 64,
+      "usd": 3.04,
+      "kept_s": 0,
+      "note": "prep assets by design: never meant for a finished film",
+      "source": "scouting/higgsfield-seedance.md inventory #13"
+    },
+    {
+      "item": "Reference kit before any Seedance video (sheets, prop sheet, setting plate)",
+      "date": "2026-09-21",
+      "credits": 48.72,
+      "usd": 2.31,
+      "note": "plus about 15 Claude turns of iteration; the tail thickness took 6 rounds",
+      "source": "scouting/higgsfield-seedance.md inventory #14"
+    }
+  ],
+  "claude_vs_generation": [
+    {
+      "window": "Higgsfield day 2026-09-21 20:06-23:58",
+      "claude_usd_api_equivalent": 45.87,
+      "claude_models": "Fable 5.1 + Sonnet 5 (no Opus 5.5)",
+      "higgsfield_credits": 419.72,
+      "higgsfield_usd": 19.94,
+      "claude_to_generation": "2.3x",
+      "breakdown_credits": {
+        "Seedance": 240,
+        "Kling": 75,
+        "H3": 56,
+        "images": 48.72
+      },
+      "source": "scouting/higgsfield-seedance.md facts item 11"
+    },
+    {
+      "window": "Hollows film, Opus turn",
+      "claude_usd_api_equivalent": 9.83,
+      "claude_models": "Opus 5.5",
+      "higgsfield_credits": 209.28,
+      "higgsfield_usd": 9.94,
+      "claude_to_generation": "about 1:1",
+      "source": "scouting/higgsfield-seedance.md facts item 12"
+    },
+    {
+      "window": "whole week 2026-09-21..27, all projects",
+      "claude_usd_api_equivalent": 5911.78,
+      "higgsfield_usd": 57,
+      "note": "context only, not apples to apples",
+      "source": "scouting/higgsfield-seedance.md facts item 15 (lens_usage group_by=day)"
+    }
+  ],
+  "counterfactual_hollows_on_seedance": {
+    "basis": "the same 88 billed seconds priced as Seedance 2.5, vs Opus's $9.83 API-equivalent [I]",
+    "rows": [
+      {
+        "route": "BytePlus 720p",
+        "usd": 20.35,
+        "multiple_of_opus": 2.1
+      },
+      {
+        "route": "Higgsfield 720p",
+        "usd": 29.26,
+        "multiple_of_opus": 3.0
+      },
+      {
+        "route": "Higgsfield 1080p",
+        "usd": 50.16,
+        "multiple_of_opus": 5.1
+      },
+      {
+        "route": "Runway 1080p",
+        "usd": 59.84,
+        "multiple_of_opus": 6.1
+      },
+      {
+        "route": "fal 1080p",
+        "usd": 102.43,
+        "multiple_of_opus": 10.4
+      }
+    ],
+    "source": "scouting/higgsfield-seedance.md claim check '10x'"
+  },
+  "local_h3_films_by_render_count": {
+    "note": "Local MiniMax-H3 on Aaron's GPU: no credits; keep ratio by render count, not seconds. H3 footage is PRIVATE REVIEW ONLY (licence excludes US/EU/UK/Korea); numbers only.",
+    "rows": [
+      {
+        "film": "Training film, 4:00",
+        "renders": 69,
+        "segments_used": 48,
+        "gpu_min": 249,
+        "gpu_note": "218 segment + 31 keyframe GPU-min",
+        "source": "scouting/h3-pipeline.md 1b; facts item 41"
+      },
+      {
+        "film": "Night film, 5:04",
+        "renders": 92,
+        "segments_used": null,
+        "gpu_min": 394,
+        "gpu_note": "257 segment + 137 keyframe GPU-min; segments used not stated",
+        "source": "scouting/h3-pipeline.md 1b"
+      },
+      {
+        "film": "Moonlight, whole song 2:45",
+        "renders": 35,
+        "segments_used": 33,
+        "gpu_min": 180,
+        "source": "scouting/h3-pipeline.md 1b"
+      },
+      {
+        "film": "Still on Shift v2, 2:45",
+        "renders": 43,
+        "segments_used": 38,
+        "gpu_min": 170.6,
+        "gpu_note": "+ hero shot 20.6 GPU-min",
+        "source": "scouting/h3-pipeline.md 1b"
+      },
+      {
+        "film": "Training montage, 0:30",
+        "renders": 11,
+        "segments_used": 6,
+        "gpu_min": 54,
+        "gpu_note": "30 GPU-min kept, 54 with retakes, 7 h wall",
+        "source": "scouting/h3-pipeline.md 1b"
+      }
+    ]
+  }
+}

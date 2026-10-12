@@ -1,0 +1,87 @@
+[
+  {
+    "id": "donaldjewkes",
+    "handle": "donaldjewkes",
+    "url": "https://x.com/donaldjewkes/status/2102801274173587569",
+    "prompt_url": "https://x.com/donaldjewkes/status/2102801469976248500",
+    "date": "2026-09-23 16:44 UTC",
+    "views": 3876716,
+    "views_read": "2026-10-04 via api.fxtwitter.com",
+    "disclosed": "Headline says one prompt with Opus 5.5, about 5 minutes of talking to the computer and 12 hours of Claude working. The full prompt is posted as the next reply in the thread. It hands over an MP4 and link of the earlier 'Claude Pop' video, the same audio track, the source repo of @other__reality's video, a folder of the creator's references and skills, an ElevenLabs key, a fal key ('foul' in the dictated text) with roughly two thousand dollars of credits, and a Claude Max plan. A later reply in the thread: \"Claude had access to SD2.5, elevenlabs, libraries of references, and the repo from @other__reality above\". The posts do not say which of those services ran for the final cut.",
+    "prompt_chars": 9608,
+    "what_the_prompt_asked_for": "Character and style sheets from fal image models, backup dancers and sets, Seedance 2.5 video generations as base assets with the cut-up song passed as reference, ElevenLabs sound design, then a papery JavaScript redraw over the Seedance base so the base footage is not seen.",
+    "asks_for_seedance_2_5": true,
+    "seedance_quote": "seedance 2.5 video generations",
+    "clip_src": "assets/video/x_donaldjewkes.mp4",
+    "poster": "assets/video/x_donaldjewkes.webp",
+    "clip_from_source_s": [
+      31.0,
+      35.5
+    ],
+    "clip_seconds": 4.5,
+    "source_seconds": 141.5,
+    "original_file": "_planning/opus-made-this/x_clips/originals/donaldjewkes_2102799458031534086.mp4"
+  },
+  {
+    "id": "other__reality",
+    "handle": "other__reality",
+    "url": "https://x.com/other__reality/status/2102514581684052169",
+    "date": "2026-09-22 21:45 UTC",
+    "views": 2797510,
+    "views_read": "2026-10-04 via api.fxtwitter.com",
+    "disclosed": "Headline credits Opus 5.5's visual design. Replies in the thread: the creator pasted the existing lyrics and audio file and asked for a cutesy animation, got a basic animation first, then raised reasoning to xhigh and asked for p5 brushstrokes and more interesting scenes; \"45 minutes later I got this\". Also: the Clawd character was named as the only creative instruction, 7 Opus 5.5 subagents wrote the JS per scene, and rendering the p5 watercolour effect took longest. Source posted at github.com/JohnHeibel/PDoomVideo. The song is pre-existing and not the creator's or Opus's (see scouting W1).",
+    "prompt_chars": null,
+    "what_the_prompt_asked_for": "A cutesy animation for a pasted song and lyrics, then a second pass asking for p5 brushstrokes and more interesting scenes (paraphrased from the creator's reply; the prompt text itself is not posted).",
+    "clip_src": "assets/video/x_other__reality.mp4",
+    "poster": "assets/video/x_other__reality.webp",
+    "clip_from_source_s": [
+      45.3,
+      49.76
+    ],
+    "clip_seconds": 4.46,
+    "source_seconds": 156.6,
+    "original_file": "_planning/opus-made-this/x_clips/originals/other__reality_2102514085137154048.mp4"
+  },
+  {
+    "id": "KanaWorks_AI",
+    "handle": "KanaWorks_AI",
+    "url": "https://x.com/KanaWorks_AI/status/2102684116525437206",
+    "date": "2026-09-23 08:58 UTC",
+    "views": 19925,
+    "views_read": "2026-10-04 via api.fxtwitter.com",
+    "disclosed": "Post is in Japanese. It says a website plus an 8-stage side-scrolling siege game (siege weapons, physics, enemy counterattacks, a boss from stage 6, three final-battle skills) was built in 2 hours, deployed, recorded, and a 60-second intro video edited. Credits line: \"Code: Claude Opus 5.5 / Video: Seedance 2.5 & MInimax H3\", tagged @capcutapp_jp. In a reply the creator says more time went into tuning weapon behaviour, enemy counterattacks and stage balance than into writing code. Playable at sangoku.tokyoaivisuals.club.",
+    "prompt_chars": null,
+    "what_the_prompt_asked_for": "Not posted. The post lists the outcome: a website and an 8-stage side-scrolling siege game; the 60 s video credits Seedance 2.5 and MiniMax H3 and tags CapCut.",
+    "clip_src": "assets/video/x_KanaWorks_AI.mp4",
+    "poster": "assets/video/x_KanaWorks_AI.webp",
+    "clip_from_source_s": [
+      15.0,
+      19.5
+    ],
+    "clip_note": "Stretch of the 60 s promo that shows the game screen with its HUD; which parts of the promo came from Seedance 2.5 or MiniMax H3 is not stated.",
+    "clip_seconds": 4.5,
+    "source_seconds": 60.3,
+    "original_file": "_planning/opus-made-this/x_clips/originals/KanaWorks_AI_2102682753078886400.mp4"
+  },
+  {
+    "id": "zdkiel_labs",
+    "handle": "zdkiel_labs",
+    "url": "https://x.com/zdkiel_labs/status/2102722754172850310",
+    "date": "2026-09-23 11:32 UTC",
+    "views": 584,
+    "views_read": "2026-10-04 via api.fxtwitter.com",
+    "disclosed": "Headline: one AI image of a house in, a Blender rebuild with 272 parts that bursts apart and snaps back out. Thread: the input was one AI-generated render with no plans or 3D files; Opus solved the camera from about 30 corner points; materials procedural, no downloaded textures; the first pass had about 60 parts clipping, so Opus wrote a collision checker and re-ran; the creator then asked for material quantities. Stack: Claude Opus 5.5 in Claude Code, Higgsfield's Blender bridge MCP, Blender 5.2 + EEVEE. \"It asked me 6 questions up front\". Cost stated as 0 Higgsfield credits and 5.5% of a weekly Max (5x) quota. Who made the input image is not stated.",
+    "prompt_chars": null,
+    "what_the_prompt_asked_for": "Not posted. Per the thread: rebuild one AI-generated house image in Blender from the same camera, then a burst-apart animation, then on-screen material quantities.",
+    "clip_src": "assets/video/x_zdkiel_labs.mp4",
+    "poster": "assets/video/x_zdkiel_labs.webp",
+    "clip_from_source_s": [
+      1.0,
+      5.5
+    ],
+    "clip_note": "Source is square (720x720); letterboxed to 960x540 with black side bars.",
+    "clip_seconds": 4.5,
+    "source_seconds": 14.5,
+    "original_file": "_planning/opus-made-this/x_clips/originals/zdkiel_labs_2102722683364610048.mp4"
+  }
+]

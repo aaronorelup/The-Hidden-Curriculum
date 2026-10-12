@@ -1,0 +1,329 @@
+{
+  "title": "When each connection, skill and model arrived on Aaron's machine",
+  "date": "2026-10-03",
+  "events": [
+    {
+      "date": "2026-01-26",
+      "time_local": null,
+      "item": "Claude Code first used",
+      "lane": "Connections & plugins",
+      "source": "scouting/engines-and-connections.md 1c (.claude.json claudeCodeFirstTokenDate)",
+      "note": null
+    },
+    {
+      "date": "2026-07-07",
+      "time_local": null,
+      "item": "Recorded session history starts",
+      "lane": "Connections & plugins",
+      "source": "scouting/engines-and-connections.md 1c (lens)",
+      "note": null
+    },
+    {
+      "date": "2026-07-08",
+      "time_local": null,
+      "item": "ElevenLabs paid plan (Starter)",
+      "lane": "Generators & cloud",
+      "source": "scouting/voice-and-taste.md V2 (prompt dd14c6b0 L150)",
+      "note": null
+    },
+    {
+      "date": "2026-08-05",
+      "time_local": null,
+      "item": "ElevenLabs API key stored",
+      "lane": "Generators & cloud",
+      "source": "scouting/engines-and-connections.md 1c (secrets ctime)",
+      "note": null
+    },
+    {
+      "date": "2026-08-14",
+      "time_local": null,
+      "item": "first scheduled task (second-brain)",
+      "lane": "Skills & automation",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-08-19",
+      "time_local": null,
+      "item": "ComfyUI MCP registered",
+      "lane": "Connections & plugins",
+      "source": "scouting/engines-and-connections.md 1c (changelog 08-19)",
+      "note": null
+    },
+    {
+      "date": "2026-08-20",
+      "time_local": null,
+      "item": "Gemini key (Nano Banana)",
+      "lane": "Generators & cloud",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-01",
+      "time_local": null,
+      "item": "Playback Lens plugin",
+      "lane": "Connections & plugins",
+      "source": "scouting/engines-and-connections.md 1c (installed_plugins.json)",
+      "note": null
+    },
+    {
+      "date": "2026-09-02",
+      "time_local": null,
+      "item": "MiniMax-H3 local: first recorded runs",
+      "lane": "Local models",
+      "source": "Comfyui/references/changelog.md L184 (43 timed H3 runs) - primary file, not a scout figure",
+      "note": "H3 open weights were released 2026-08-03 (web-claims 2.1); exact install date not recorded"
+    },
+    {
+      "date": "2026-09-05",
+      "time_local": null,
+      "item": "/comfyui skill + notes",
+      "lane": "Skills & automation",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-12",
+      "time_local": null,
+      "item": "digiKam Creative Library",
+      "lane": "Engines & apps",
+      "source": "scouting/engines-and-connections.md 1c (changelog 09-12/09-14)",
+      "note": null
+    },
+    {
+      "date": "2026-09-19",
+      "time_local": "13:36-15:11",
+      "item": "Unity 6 + Unity MCP relay",
+      "lane": "Engines & apps",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-19",
+      "time_local": "17:52",
+      "item": "Blender 5.2",
+      "lane": "Engines & apps",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-19",
+      "time_local": "18:03",
+      "item": "Blender MCP (Blender Lab)",
+      "lane": "Connections & plugins",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-21",
+      "time_local": "17:06",
+      "item": "Codex / GPT-6 Astra",
+      "lane": "Generators & cloud",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-21",
+      "time_local": "20:07",
+      "item": "Higgsfield CLI + 8 skills",
+      "lane": "Generators & cloud",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-21",
+      "time_local": null,
+      "item": "Qwen-Image 2.1",
+      "lane": "Local models",
+      "source": "Comfyui/references/changelog.md L331 - primary file",
+      "note": null
+    },
+    {
+      "date": "2026-09-22",
+      "time_local": "13:27",
+      "item": "Opus 5.5 arrives",
+      "lane": "Local models",
+      "source": "scouting/engines-and-connections.md 1c (MAIN_LOG Prompt 3)",
+      "note": "lane holds models in general; Opus is a cloud model"
+    },
+    {
+      "date": "2026-09-22",
+      "time_local": "03:16",
+      "item": "Unity plugin first used",
+      "lane": "Connections & plugins",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-23",
+      "time_local": null,
+      "item": "YuE2 (music)",
+      "lane": "Local models",
+      "source": "scouting/music.md fact 7",
+      "note": null
+    },
+    {
+      "date": "2026-09-23",
+      "time_local": null,
+      "item": "H3 latent chaining + ref2va",
+      "lane": "Local models",
+      "source": "Comfyui/references/changelog.md L345, L354 - primary file",
+      "note": null
+    },
+    {
+      "date": "2026-09-23",
+      "time_local": null,
+      "item": "previs-film, h3-film, character skills (23-26 Sep)",
+      "lane": "Skills & automation",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-24",
+      "time_local": "22:29",
+      "item": "Godot 4.7.2",
+      "lane": "Engines & apps",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-24",
+      "time_local": "22:45",
+      "item": "godot-mcp (0 calls ever)",
+      "lane": "Connections & plugins",
+      "source": "scouting/engines-and-connections.md 1c, facts 13-14",
+      "note": null
+    },
+    {
+      "date": "2026-09-24",
+      "time_local": null,
+      "item": "TRELLIS.2 (image to 3D)",
+      "lane": "Local models",
+      "source": "scouting/engines-and-connections.md 1c (changelog 09-24)",
+      "note": null
+    },
+    {
+      "date": "2026-09-25",
+      "time_local": "21:57",
+      "item": "gpu-queue skill + hook",
+      "lane": "Skills & automation",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-26",
+      "time_local": null,
+      "item": "shared ComfyUI MCP; Command Centre MCP",
+      "lane": "Connections & plugins",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-09-27",
+      "time_local": null,
+      "item": "Higgsfield credits run out (5.04 left)",
+      "lane": "Generators & cloud",
+      "source": "scouting/higgsfield-seedance.md inventory #11 (181.04 -> 5.04)",
+      "note": null
+    },
+    {
+      "date": "2026-09-28",
+      "time_local": null,
+      "item": "character LoRA trained (56.6 min)",
+      "lane": "Local models",
+      "source": "scouting/h3-pipeline.md 1e",
+      "note": null
+    },
+    {
+      "date": "2026-09-30",
+      "time_local": null,
+      "item": "course lesson tasks scheduled (30 Sep / 1 Oct)",
+      "lane": "Skills & automation",
+      "source": "scouting/engines-and-connections.md 1c",
+      "note": null
+    },
+    {
+      "date": "2026-10-02",
+      "time_local": null,
+      "item": "Remotion plugin + HyperFrames skills",
+      "lane": "Connections & plugins",
+      "source": "scouting/engines-and-connections.md 1c; scouting/animation-tools.md T1-T5",
+      "note": null
+    },
+    {
+      "date": "2026-10-02",
+      "time_local": null,
+      "item": "hosted HyperFrames MCP refuses Claude Code",
+      "lane": "Connections & plugins",
+      "source": "scouting/animation-tools.md fact 2 (dae63196 L320)",
+      "note": null
+    }
+  ],
+  "counts_2026_10_03": {
+    "user_skills": 45,
+    "skills_created_aug": 7,
+    "skills_created_sep": 27,
+    "skills_created_oct": 11,
+    "user_mcp_servers": 4,
+    "desktop_extensions": 1,
+    "project_mcp": 1,
+    "claude_ai_connectors_ever": 8,
+    "stored_api_keys": 13,
+    "library_media_files": 14198,
+    "third_party_asset_libraries": 0,
+    "source": "scouting/engines-and-connections.md 1c 'Counts today'"
+  },
+  "external_release_dates": [
+    {
+      "item": "Remotion Agent Skills",
+      "date": "2026-01-20",
+      "source": "scouting/web-claims.md 2.1"
+    },
+    {
+      "item": "HyperFrames public launch",
+      "date": "2026-04-16",
+      "source": "scouting/web-claims.md 2.1"
+    },
+    {
+      "item": "Blender Lab MCP v1.0.0",
+      "date": "2026-04-27",
+      "source": "scouting/web-claims.md 2.1"
+    },
+    {
+      "item": "Higgsfield MCP",
+      "date": "2026-04-30",
+      "source": "scouting/web-claims.md 2.1"
+    },
+    {
+      "item": "Seedance 2.5 official release",
+      "date": "2026-07-31",
+      "source": "scouting/web-claims.md 2.1"
+    },
+    {
+      "item": "MiniMax-H3 open weights",
+      "date": "2026-08-03",
+      "source": "scouting/web-claims.md 2.1"
+    },
+    {
+      "item": "Unity Claude Code plugin",
+      "date": "2026-09-09",
+      "source": "scouting/web-claims.md 2.3"
+    },
+    {
+      "item": "YuE2 weights",
+      "date": "2026-09-09",
+      "source": "scouting/web-claims.md 2.1"
+    },
+    {
+      "item": "Claude Opus 5.5",
+      "date": "2026-09-22",
+      "source": "scouting/web-claims.md 2.1"
+    },
+    {
+      "item": "TRELLIS.2",
+      "date": "2025-12 (repo 2025-12-01)",
+      "source": "scouting/web-claims.md 2.1"
+    }
+  ],
+  "reading": "Most of the pipeline arrived in the 15 days from 19 Sep to 2 Oct 2026; Opus 5.5 itself arrived on day 4 of that window."
+}

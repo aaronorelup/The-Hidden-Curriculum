@@ -1,0 +1,117 @@
+{
+ "note": "Numbers for the scenes to draw in code (charts, tables). Copied or compiled from the planning folder on 2026-10-04; one_prompt_anatomy.json withholds the X links of posts the lesson does not show (Aaron's rule 7).",
+ "files": [
+  {
+   "id": "unityTestsGreenData",
+   "src": "assets/data/unity_tests_green.json",
+   "section": "11 The surprises you'll hit (3)",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/assets/existing/09_tests_green_product_broken/evidence_text.md",
+   "card": null,
+   "bytes": 2190
+  },
+  {
+   "id": "stockVoiceGeorgeData",
+   "src": "assets/data/stock_voice_george.json",
+   "section": "07 Music and voice: it can't listen; 11 The surprises you'll hit (6)",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/assets/existing/04_stock_voice_george/evidence_text.md",
+   "card": null,
+   "bytes": 1143
+  },
+  {
+   "id": "voicePicksData",
+   "src": "assets/data/voice_picks.json",
+   "section": "07 Music and voice: it can't listen",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/voice/card.json",
+   "card": null,
+   "bytes": 2297
+  },
+  {
+   "id": "h3ScoresData",
+   "src": "assets/data/h3_video_arms.json",
+   "section": "06 Video: references do the work",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/video/CHECKLIST.md",
+   "card": null,
+   "bytes": 8922
+  },
+  {
+   "id": "titleMetricsData",
+   "src": "assets/data/taste_title_metrics.json",
+   "section": "08 Titles and taste: its defaults",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/taste/title/metrics.json",
+   "card": null,
+   "bytes": 8874
+  },
+  {
+   "id": "teashopMetricsData",
+   "src": "assets/data/taste_teashop_metrics.json",
+   "section": "08 Titles and taste: its defaults",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/taste/teashop/metrics.json",
+   "card": null,
+   "bytes": 4863
+  },
+  {
+   "id": "duskMusicData",
+   "src": "assets/data/taste_dusk_music_from_code.json",
+   "section": "08 Titles and taste: its defaults",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/taste/dusk/music_from_code.json",
+   "card": null,
+   "bytes": 2916
+  },
+  {
+   "id": "receiptsAaronLedger",
+   "src": "assets/data/aaron_ledger.json",
+   "section": "09 Guest: the producer reads the bill",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/aaron_ledger.json",
+   "card": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/card.json",
+   "bytes": 11568
+  },
+  {
+   "id": "receiptsCard",
+   "src": "assets/data/receipts_card.json",
+   "section": "09 Guest: the producer reads the bill",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/card.json",
+   "card": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/card.json",
+   "bytes": 4696
+  },
+  {
+   "id": "receiptsExhibitCosts",
+   "src": "assets/data/exhibit_costs.json",
+   "section": "09 Guest: the producer reads the bill",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/exhibit_costs.json",
+   "card": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/card.json",
+   "bytes": 10513
+  },
+  {
+   "id": "receiptsFilmCostScenarios",
+   "src": "assets/data/film_cost_scenarios.json",
+   "section": "09 Guest: the producer reads the bill",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/film_cost_scenarios.json",
+   "card": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/card.json",
+   "bytes": 8987
+  },
+  {
+   "id": "receiptsOnePromptAnatomy",
+   "src": "assets/data/one_prompt_anatomy.json",
+   "section": "09 Guest: the producer reads the bill",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/one_prompt_anatomy.json",
+   "card": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/card.json",
+   "bytes": 10516
+  },
+  {
+   "id": "receiptsPipelineTimeline",
+   "src": "assets/data/pipeline_timeline.json",
+   "section": "09 Guest: the producer reads the bill",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/pipeline_timeline.json",
+   "card": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/card.json",
+   "bytes": 9958
+  },
+  {
+   "id": "receiptsSeedancePrices",
+   "src": "assets/data/seedance_prices.json",
+   "section": "09 Guest: the producer reads the bill",
+   "source": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/seedance_prices.json",
+   "card": "~/Organized/Personal/My Projects/Courses/_planning/opus-made-this/experiments/receipts/card.json",
+   "bytes": 26443
+  }
+ ]
+}

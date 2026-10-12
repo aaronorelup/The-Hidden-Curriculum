@@ -1,0 +1,272 @@
+{
+  "title": "What a 15-minute film costs in Seedance 2.5 generation alone",
+  "date": "2026-10-03",
+  "formula": "cost_usd = kept_minutes x 60 x keep_ratio x usd_per_second ; kept_minutes = 15 ; keep_ratio = generated seconds / kept seconds",
+  "prices_from": "seedance_prices.json (output-only list prices read 2026-10-03)",
+  "excludes": [
+    "reference images and sheets",
+    "the agent (Claude) cost",
+    "audio, music and voice",
+    "failed or moderated jobs (Higgsfield refunds failures)",
+    "editing and human time",
+    "Runway input-video surcharge"
+  ],
+  "keep_ratio_sources": {
+    "1:1.2": "Aaron's planned Hollows film: 16 H3 jobs, 88 s billed, 72.2 s in the final cut, 12 of 16 clips (HSD facts item 13; film.json 'cut')",
+    "1:20 / 1:40 / 1:60": "scenarios. No source supports 60:1 ('an hour per kept minute'). Public anecdotes in a vendor FAQ (https://invideo.io/faq/how-many-ai-video-generations-do-you-need-to-budget-for/, no names or links): 164 clips for 41 kept (4:1 by clips, ~14:1 by seconds if 15 s clips with ~5 s used [I]) and ~400 generations for a 90 s short (~22:1 to 44:1 by seconds [I], $870) (HSD)."
+  },
+  "rows": [
+    {
+      "keep_ratio": "1:1.2 (Aaron's Hollows, 88 s billed for 72.2 s kept)",
+      "generated_per_kept": 1.2188,
+      "resolution": "480p",
+      "generated_minutes": 18.3,
+      "cost_usd": {
+        "BytePlus / Replicate": 113,
+        "Higgsfield (Aaron's $0.0475/credit)": 156,
+        "Runway API (output only)": 219,
+        "fal.ai": 242,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          109,
+          230
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:1.2 (Aaron's Hollows, 88 s billed for 72.2 s kept)",
+      "generated_per_kept": 1.2188,
+      "resolution": "720p",
+      "generated_minutes": 18.3,
+      "cost_usd": {
+        "BytePlus / Replicate": 254,
+        "Higgsfield (Aaron's $0.0475/credit)": 365,
+        "Runway API (output only)": 329,
+        "fal.ai": 519,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          253,
+          538
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:1.2 (Aaron's Hollows, 88 s billed for 72.2 s kept)",
+      "generated_per_kept": 1.2188,
+      "resolution": "1080p",
+      "generated_minutes": 18.3,
+      "cost_usd": {
+        "BytePlus / Replicate": null,
+        "Higgsfield (Aaron's $0.0475/credit)": 625,
+        "Runway API (output only)": 746,
+        "fal.ai": 1277,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          434,
+          921
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:20",
+      "generated_per_kept": 20,
+      "resolution": "480p",
+      "generated_minutes": 300,
+      "cost_usd": {
+        "BytePlus / Replicate": 1850,
+        "Higgsfield (Aaron's $0.0475/credit)": 2565,
+        "Runway API (output only)": 3600,
+        "fal.ai": 3969,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          1782,
+          3780
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:20",
+      "generated_per_kept": 20,
+      "resolution": "720p",
+      "generated_minutes": 300,
+      "cost_usd": {
+        "BytePlus / Replicate": 4162,
+        "Higgsfield (Aaron's $0.0475/credit)": 5985,
+        "Runway API (output only)": 5400,
+        "fal.ai": 8514,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          4158,
+          8820
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:20",
+      "generated_per_kept": 20,
+      "resolution": "1080p",
+      "generated_minutes": 300,
+      "cost_usd": {
+        "BytePlus / Replicate": null,
+        "Higgsfield (Aaron's $0.0475/credit)": 10260,
+        "Runway API (output only)": 12240,
+        "fal.ai": 20952,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          7128,
+          15120
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:40",
+      "generated_per_kept": 40,
+      "resolution": "480p",
+      "generated_minutes": 600,
+      "cost_usd": {
+        "BytePlus / Replicate": 3701,
+        "Higgsfield (Aaron's $0.0475/credit)": 5130,
+        "Runway API (output only)": 7200,
+        "fal.ai": 7938,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          3564,
+          7560
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:40",
+      "generated_per_kept": 40,
+      "resolution": "720p",
+      "generated_minutes": 600,
+      "cost_usd": {
+        "BytePlus / Replicate": 8323,
+        "Higgsfield (Aaron's $0.0475/credit)": 11970,
+        "Runway API (output only)": 10800,
+        "fal.ai": 17028,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          8316,
+          17640
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:40",
+      "generated_per_kept": 40,
+      "resolution": "1080p",
+      "generated_minutes": 600,
+      "cost_usd": {
+        "BytePlus / Replicate": null,
+        "Higgsfield (Aaron's $0.0475/credit)": 20520,
+        "Runway API (output only)": 24480,
+        "fal.ai": 41904,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          14256,
+          30240
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:60",
+      "generated_per_kept": 60,
+      "resolution": "480p",
+      "generated_minutes": 900,
+      "cost_usd": {
+        "BytePlus / Replicate": 5551,
+        "Higgsfield (Aaron's $0.0475/credit)": 7695,
+        "Runway API (output only)": 10800,
+        "fal.ai": 11907,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          5346,
+          11340
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:60",
+      "generated_per_kept": 60,
+      "resolution": "720p",
+      "generated_minutes": 900,
+      "cost_usd": {
+        "BytePlus / Replicate": 12485,
+        "Higgsfield (Aaron's $0.0475/credit)": 17955,
+        "Runway API (output only)": 16200,
+        "fal.ai": 25542,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          12474,
+          26460
+        ]
+      }
+    },
+    {
+      "keep_ratio": "1:60",
+      "generated_per_kept": 60,
+      "resolution": "1080p",
+      "generated_minutes": 900,
+      "cost_usd": {
+        "BytePlus / Replicate": null,
+        "Higgsfield (Aaron's $0.0475/credit)": 30780,
+        "Runway API (output only)": 36720,
+        "fal.ai": 62856,
+        "Higgsfield list-price range ($0.033-0.070/credit)": [
+          21384,
+          45360
+        ]
+      }
+    }
+  ],
+  "agent_side_estimate": {
+    "status": "INFERENCE [I], not measured",
+    "anchor": "Hollows: Opus 5.5 turn 1 = $9.83 API-equivalent for planning + 16 H3 jobs (lens 90794018, HSD facts item 12); 88 billed s / 16 jobs = 5.5 s per job",
+    "agent_usd_per_job_range": [
+      0.3,
+      0.61
+    ],
+    "agent_usd_per_job_note": "HSD assumes $0.30-0.60 of Opus per video job; $0.61 = $9.83/16 is an upper bound because it includes the planning, sheets and previs",
+    "avg_seconds_per_job": 5.5,
+    "video_to_agent_multiple_per_job": {
+      "BytePlus / Replicate 480p": [
+        0.9,
+        1.9
+      ],
+      "BytePlus / Replicate 720p": [
+        2.1,
+        4.2
+      ],
+      "Higgsfield (Aaron's $0.0475/credit) 480p": [
+        1.3,
+        2.6
+      ],
+      "Higgsfield (Aaron's $0.0475/credit) 720p": [
+        3.0,
+        6.1
+      ],
+      "Higgsfield (Aaron's $0.0475/credit) 1080p": [
+        5.1,
+        10.4
+      ],
+      "Runway API (output only) 480p": [
+        1.8,
+        3.7
+      ],
+      "Runway API (output only) 720p": [
+        2.7,
+        5.5
+      ],
+      "Runway API (output only) 1080p": [
+        6.1,
+        12.5
+      ],
+      "fal.ai 480p": [
+        2.0,
+        4.0
+      ],
+      "fal.ai 720p": [
+        4.3,
+        8.7
+      ],
+      "fal.ai 1080p": [
+        10.5,
+        21.3
+      ]
+    },
+    "reading": "Once planning is paid, each re-roll adds one Seedance clip but only a submit and a look for the agent, so the video:agent multiple climbs toward these per-job values as the keep ratio worsens. Subscription users pay a flat fee for Opus, which widens the real-money gap further."
+  },
+  "where_15k_lands": "About $15k fits 720p at about 1:50-1:60 (Higgsfield 1:60 = $17,955; BytePlus 1:60 = $12,485) or 1080p at about 1:25 on Higgsfield (1:20 = $10,260; 1:40 = $20,520). At 1080p and 1:60 it is $30,780-62,856. At Hollows' 1:1.2 it is $113-1,277 across all routes ($625 on Higgsfield 1080p).",
+  "one_liner_true": "A 15-minute Seedance film costs anywhere from a few hundred dollars (planned, few re-rolls) to about $63,000 (1080p, 60 tries per kept minute); about $15k is a fair middle guess for 720p with heavy re-rolling.",
+  "source": "scouting/higgsfield-seedance.md '15-minute film cost' (same formula; recomputed here, including the 1:1.2 row)"
+}

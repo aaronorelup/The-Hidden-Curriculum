@@ -1,0 +1,82 @@
+{
+ "01": {
+  "hash": "5473b8917627c65a",
+  "wer": 0.019,
+  "heard": "In this lesson, you'll learn how your computer finds the right program when you type a name like Python and about the hidden settings every program carries with it. Every program starts with a copy of its parent settings called its environment. One of those settings path is an ordered list of folders, and the first match wins. So which program runs and which keys it can see depends on who started it and when. Not recognized as a command, the wrong Python, and AI tool billing the wrong account. That's one idea, not three problems, and agents now work inside it too"
+ },
+ "02": {
+  "hash": "bc2708b3c78c0f09",
+  "wer": 0.0,
+  "heard": "This lesson sits in the first district, the machine, which answers one question: What's on your computer? Module one, lesson five. The last two lessons showed where files live and what hides in the back room. This one shows what every running program carries out the door"
+ },
+ "03": {
+  "hash": "2646e2c42638bc8a",
+  "wer": 0.011,
+  "heard": "Picture every running program as a courier. Another program sends it out. File Explorer, a terminal, an editor, or an agent. That sender is its parent. At the door, the parent copies its own satchel of labeled cards and hands over the copy. Then the door closes, and the satchel belongs to the courier. Nothing you change at home reaches it on the road, and nothing the courier changes ever comes back home. The you are here dot from two lessons ago travels the same way as a copy"
+ },
+ "04": {
+  "hash": "884bccf95687bc34",
+  "wer": 0.012,
+  "heard": "Each card is an environment variable, a name, and a value that is plain text. One card says where your home folder is, another says where temporary files go, and one long card is called Path. On Windows, the master copy sits in two drawers at home, one for you and one for the whole system, and new programs get both combined. On a Mac or on Linux, the shell startup files write it. The screen shows how to peek inside. You don't need it yet"
+ },
+ "05": {
+  "hash": "d1a251b17eb08172",
+  "wer": 0.009,
+  "heard": "Path is one card holding a list of folders. Picture them as numbered streets. On Windows, semicolons separate them, on a Mac and Linux, colons. When you type a bare name like Python, the courier walks the streets in order and goes into the first shop with that name. First match wins. Shops further down are never visited. On Windows, it also tries the endings. Windows counts as programs, so Python finds python.exe. And on Windows, the system's list comes first, and your own list is added after it. Shells check their own built-in commands and aliases before path. Old command prompt even looks in the current folder first. PowerShell deliberately doesn't."
+ },
+ "06": {
+  "hash": "fb8e601c39707560",
+  "wer": 0.024,
+  "heard": "Not recognized means one thing. The courier walked every street and found no shop with that name. Usually, it isn't installed, or it's installed, but its folder isn't on the list, or it's on the list, but this terminal left home before the change, or it's a typo. The message comes in three outfits: command prompt, not recognized as an internal or external command; PowerShell, not recognized as the name of a cmdlet; Bash and the Z shell, command not found. Same empty street"
+ },
+ "07": {
+  "hash": "f056b3e3dad6da77",
+  "wer": 0.042,
+  "heard": "The quieter problem several shops can share one name. Python from an installer, from conda or UV, and a stand-in from the Microsoft Store. The courier takes the first. On this course's Windows machine, Python had three candidates. In this order, a Python 3.10 install, the store stand-in, and a miniconda Python. The first one won, and Python 3.10 reached its end of life this month. Nobody chose that. The order did. That store stand-in is a signpost. With no Python installed, it opens the Microsoft Store. Found on the list doesn't mean installed. Since Python 3.14, its install manager makes the real Python a signpost too, pointing at the install, so check where it leads. To see who wins, ask the shell for every candidate in order or ask Python where it lives"
+ },
+ "08": {
+  "hash": "0d7d9562072788df",
+  "wer": 0.011,
+  "heard": "Activating the project's .venv folder pins its street to the top of the courier's list. Now Python means the project's Python because its street comes first, but only in that one shell and the couriers it sends. Another terminal isn't in it, and neither is an agent's separate shell. That's how, \"I activated it\" and \"it's using the wrong Python\" can both be true. You activated it in a different window. Newer tools skip the activating. uv run finds the project's environment directly and puts it first for just that one command"
+ },
+ "09": {
+  "hash": "cafbdd3e16c4617f",
+  "wer": 0.0,
+  "heard": "You install a tool and the installer adds a street to the master copy at home. But the terminal you had open left home earlier carrying the old card, so it says not recognized. The fix is to send a new courier. Open a new terminal. Since twenty twenty-three, a new tab in Windows Terminal picks up the change. A tab that was already open does not. A terminal inside an editor gets its satchel from the editor, so the editor usually needs a restart. Agents too. Claude Code reads your environment when it starts, so it needs a restart to see a change"
+ },
+ "10": {
+  "hash": "48281417450b5eb5",
+  "wer": 0.025,
+  "heard": "Here is where the picture breaks. A real satchel can be sealed. An environment can't. Any program, script, or agent you start can read every card and copies them onto its own couriers. Some shops on the list are signposts, not shops. Store and install manager aliases and version manager shims forward you somewhere else, so which can name the signpost, not the program. And there is no single environment. There are as many satchels as running programs"
+ },
+ "11": {
+  "hash": "6d8334ea472483c5",
+  "wer": 0.028,
+  "heard": "Now the cards that matter most, keys. AI tools look for your key on a card with a known name like the OpenAI or Anthropic key variable. That keeps the key out of your code. Last lesson's dot ENV file is how the key usually gets into the satchel. A library loads it or a runtime. Bun on its own, Node when asked. But inheritance cuts both ways. A key in your terminal satchel is copied into every courier you send from it, including an agent and every command and package it runs. If the Anthropic key variable is set, Claude Code uses that key, and it's pay-per-use billing instead of your subscription, even when you're logged in. It asks once in an interactive session, but never in a scripted run. Its status screen shows which one is paying"
+ },
+ "12": {
+  "hash": "f112d7fad21f5316",
+  "wer": 0.024,
+  "heard": "Five years ago, only programs you started yourself opened the satchel. Now, agents install tools, edit path, create environments, and write .env files for you, and they send out couriers of their own. Attackers noticed. In August twenty twenty-five, a poison package stole .env files and steered victims' own AI command line tools to hunt for keys. That autumn, an NPM worm harvested tokens from environment variables. In December twenty twenty-five, NPM revoked its old long-lived publishing tokens. Agent tools now offer ways to strip keys from what their commands inherit, mostly switched off by default. The direction is to hand a key to one command for one run or keep it behind a proxy instead of leaving it in every satchel. That's still early."
+ },
+ "13": {
+  "hash": "0a6e693923f0eea7",
+  "wer": 0.0,
+  "heard": "Agents do the setup now. Your job is to check it with two questions. First, which program actually ran? Ask the shell or ask the agent to show you the full path. Second, where do my keys live and who can see them? Which file, which variable, which terminal the agent was started from, and which account pays? A rule asking an agent not to read your keys is a request, not a fence. Real fences like sandboxes and key scrubbing are module fourteen, lesson twelve"
+ },
+ "14": {
+  "hash": "bdd3a36877bcf2f1",
+  "wer": 0.0,
+  "heard": "The surprises you'll hit. You install something and the same terminal still says, \"Not recognized.\" Open a new one. Typing Python opens the Microsoft Store. That's the stand-in winning. Python and py can start two different Pythons. On a Mac, Python isn't found, but Python 3 is. And on newer Macs, Brew isn't found until Homebrew's folder joins the path. Pip install worked, but the import fails. The package went to a different Python than the one that ran. An agent's export or activation didn't stick. In some agents, each command gets a fresh shell"
+ },
+ "15": {
+  "hash": "cce5eefd8a37f75e",
+  "wer": 0.016,
+  "heard": "Safe to ignore for now. Editing the registry by hand. The full rules for which command wins. How version manager shims work and environment editor tools. The neighbors on the map. Shells in module two. Many Pythons and virtual environments in module five. Giving agents keys safely. Keeping secrets out of plain text and user versus system variables. In district five, trust"
+ },
+ "16": {
+  "hash": "baec349aa61384c8",
+  "wer": 0.0,
+  "heard": "Every program carries a copy of its parent's environment. Changes at home only reach programs started afterwards. So open a new terminal. Path is an ordered list, and the first match wins. To know which program ran, ask the shell. Keys in the environment go wherever you send programs, agents included. Know where yours live and who can read them."
+ }
+}
