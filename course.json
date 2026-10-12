@@ -10,7 +10,8 @@
    "published": "2026-09-30",
    "promoted": "2026-10-01",
    "mp4": true,
-   "narrator": "RClayton"
+   "narrator": "RClayton",
+   "legacy": true
   },
   "00-02-the-map-of-everything": {
    "id": "00.02",
@@ -21,7 +22,8 @@
    "duration": 276.358,
    "narrator": "Adrian",
    "published": "2026-10-01",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "00-03-how-old-is-all-this": {
    "id": "00.03",
@@ -32,7 +34,8 @@
    "duration": 644.782,
    "narrator": "RClayton",
    "published": "2026-10-01",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "00-04-model-vs-app-vs-agent": {
    "id": "00.04",
@@ -43,7 +46,8 @@
    "duration": 283.231,
    "narrator": "Adrian",
    "published": "2026-10-01",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "00-05-how-llms-work-just-enough": {
    "id": "00.05",
@@ -54,7 +58,8 @@
    "duration": 1194.265,
    "narrator": "RClayton",
    "published": "2026-10-02",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "00-06-how-to-learn-anything-technical": {
    "id": "00.06",
@@ -65,7 +70,8 @@
    "duration": 667.037,
    "narrator": "Adrian",
    "published": "2026-10-03",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "01-01-files-are-just-bytes": {
    "id": "01.01",
@@ -76,7 +82,8 @@
    "duration": 306.997,
    "narrator": "RClayton",
    "published": "2026-10-04",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "01-02-file-extensions-associations": {
    "id": "01.02",
@@ -87,7 +94,8 @@
    "duration": 609.152,
    "narrator": "Adrian",
    "published": "2026-10-07",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "01-03-folders-paths-the-working-directory": {
    "id": "01.03",
@@ -98,7 +106,8 @@
    "duration": 637.424,
    "narrator": "RClayton",
    "published": "2026-10-08",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "01-04-hidden-files-dotfiles": {
    "id": "01.04",
@@ -109,7 +118,8 @@
    "duration": 632.29,
    "narrator": "Adrian",
    "published": "2026-10-09",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "01-05-environment-variables-path": {
    "id": "01.05",
@@ -120,7 +130,8 @@
    "duration": 682.316,
    "narrator": "RClayton",
    "published": "2026-10-10",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   },
   "01-06-programs-processes-services": {
    "id": "01.06",
@@ -131,7 +142,8 @@
    "duration": 645.861,
    "narrator": "Adrian",
    "published": "2026-10-11",
-   "mp4": true
+   "mp4": true,
+   "legacy": true
   }
  }
 }

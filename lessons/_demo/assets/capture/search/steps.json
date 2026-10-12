@@ -1,0 +1,66 @@
+{
+ "mode": "browser",
+ "size": [
+  1024,
+  576
+ ],
+ "dpr": 1.875,
+ "fps": 30,
+ "crf": 23,
+ "start": [
+  560,
+  380
+ ],
+ "redact": [],
+ "steps": [
+  {
+   "do": "goto",
+   "url": "https://docs.python.org/3/",
+   "settle": 1200
+  },
+  {
+   "do": "wait",
+   "ms": 900
+  },
+  {
+   "do": "type",
+   "target": "#search-box",
+   "text": "pathlib",
+   "delay": 130
+  },
+  {
+   "do": "wait",
+   "ms": 600
+  },
+  {
+   "do": "press",
+   "key": "Enter",
+   "nav": true
+  },
+  {
+   "do": "wait_for",
+   "text": "Search finished",
+   "timeout": 30000,
+   "settle": 400
+  },
+  {
+   "do": "mark",
+   "name": "results",
+   "boxes": {
+    "first": "#search-results li"
+   }
+  },
+  {
+   "do": "move",
+   "to": [
+    640,
+    300
+   ],
+   "ms": 900
+  },
+  {
+   "do": "wait",
+   "ms": 2600
+  }
+ ]
+}

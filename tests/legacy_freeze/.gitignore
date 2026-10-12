@@ -1,0 +1,4 @@
+# only the baseline's hashes are committed; every other phase, its PNGs and diff images stay local
+stills/*/*/
+stills/*/*.sha256.json
+!stills/*/before.sha256.json

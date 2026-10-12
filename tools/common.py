@@ -3,6 +3,7 @@ import functools
 import http.server
 import json
 import pathlib
+import re
 import shutil
 import socketserver
 import subprocess
@@ -13,11 +14,49 @@ LESSONS = ROOT / 'lessons'
 ENGINE = ROOT / 'engine'
 
 
+# engine/lesson-template.html's {{MAPJS}}: the course map a lesson page loads. The 12 lessons published before
+# 2026-10-12 are legacy ("legacy": true in course.json) and keep the frozen hand-drawn map they were rendered with;
+# every other lesson draws the map from the course data. Locally (render.py, stills.py) and for proofs of concept
+# that is the shared engine/course.js, always current (tools/course.py sync writes it). On the site a curriculum
+# lesson's page loads its own snapshot instead, lessons/<key>/course.js, written by publish.py when the lesson is
+# staged: a later change to the curriculum does not redraw the map under that page's old narration.
+MAPJS_LEGACY = '<script src="../../engine/legacy/map-v1.js"></script>'
+MAPJS_NEW = '<script src="../../engine/course.js"></script>\n<script src="../../engine/map.js"></script>'
+MAPJS_OWN = '<script src="course.js"></script>\n<script src="../../engine/map.js"></script>'
+REGISTRY = ROOT / 'course.json'
+ID_ARG = re.compile(r'^\d{2}[.-]\d{2}')
+
+
+def is_legacy(slug: str, registry=None) -> bool:
+    reg = registry if registry is not None else read_json(REGISTRY, {'lessons': {}})
+    return bool(reg.get('lessons', {}).get(slug, {}).get('legacy'))
+
+
+def mapjs(slug: str, registry=None) -> str:
+    return MAPJS_LEGACY if is_legacy(slug, registry) else MAPJS_NEW
+
+
 def lesson_dir(arg: str) -> pathlib.Path:
-    """accepts a path, a slug, or an id prefix like 00.01 / 00-01"""
+    """a lesson folder from: a path; an exact folder name (a new lesson's key, a legacy slug, _sandbox...);
+    a lesson id like 00.01 / 00-01 (the new lesson with that id in curriculum.md, else the one folder whose name
+    starts with it); or a poc- prefix. A key never matches by prefix: 'files' is not 'files-are-just-bytes'."""
     p = pathlib.Path(arg)
     if p.is_dir():
         return p.resolve()
+    if (LESSONS / arg).is_dir():
+        return LESSONS / arg
+    if not (ID_ARG.match(arg) or arg.startswith('poc-')):
+        raise SystemExit(f'no lesson folder lessons/{arg}/ (a lesson key must match its folder exactly; '
+                         f'python tools/new_lesson.py {arg} scaffolds a curriculum lesson)')
+    m = re.fullmatch(r'(\d{2})[.-](\d{2}[a-z]?)', arg)
+    if m:
+        try:
+            import course   # noqa: E402  (tools/course.py; reads curriculum.md)
+            les = course.load().lesson(f'{m.group(1)}.{m.group(2)}')
+            if les and (LESSONS / les['key']).is_dir():
+                return LESSONS / les['key']
+        except Exception:
+            pass
     key = arg.replace('.', '-')
     hits = [d for d in LESSONS.iterdir() if d.is_dir() and (d.name == arg or d.name.startswith(key) or d.name.startswith('poc-' + key))]
     exact = [d for d in hits if d.name == arg]

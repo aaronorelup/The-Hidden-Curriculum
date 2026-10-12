@@ -1,0 +1,132 @@
+{
+ "version": 1,
+ "kind": "terminal",
+ "recorded": "2026-10-12",
+ "tool": "tools/capture.py terminal",
+ "shell": "cmd",
+ "cwd_display": "C:\\Users\\you\\demo",
+ "commands": [
+  {
+   "cmd": "python --version",
+   "prompt": "C:\\Users\\you\\demo>",
+   "exit": 0,
+   "dur": 0.277,
+   "out": [
+    [
+     0.213,
+     "Python 3.10.10",
+     "out"
+    ]
+   ]
+  },
+  {
+   "cmd": "git --version",
+   "prompt": "C:\\Users\\you\\demo>",
+   "exit": 0,
+   "dur": 0.228,
+   "out": [
+    [
+     0.169,
+     "git version 2.45.0.windows.1",
+     "out"
+    ]
+   ]
+  },
+  {
+   "cmd": "git init",
+   "prompt": "C:\\Users\\you\\demo>",
+   "exit": 0,
+   "dur": 0.23,
+   "out": [
+    [
+     0.181,
+     "Initialized empty Git repository in C:/Users/you/demo/.git/",
+     "out"
+    ],
+    [
+     0.181,
+     "hint: Using 'master' as the name for the initial branch. This default branch name",
+     "err"
+    ],
+    [
+     0.181,
+     "hint: is subject to change. To configure the initial branch name to use in all",
+     "err"
+    ],
+    [
+     0.181,
+     "hint: of your new repositories, which will suppress this warning, call:",
+     "err"
+    ],
+    [
+     0.181,
+     "hint:",
+     "err"
+    ],
+    [
+     0.181,
+     "hint:   git config --global init.defaultBranch <name>",
+     "err"
+    ],
+    [
+     0.181,
+     "hint:",
+     "err"
+    ],
+    [
+     0.181,
+     "hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and",
+     "err"
+    ],
+    [
+     0.181,
+     "hint: 'development'. The just-created branch can be renamed via this command:",
+     "err"
+    ],
+    [
+     0.181,
+     "hint:",
+     "err"
+    ],
+    [
+     0.182,
+     "hint:   git branch -m <name>",
+     "err"
+    ]
+   ]
+  },
+  {
+   "cmd": "git status",
+   "prompt": "C:\\Users\\you\\demo>",
+   "exit": 0,
+   "dur": 0.212,
+   "out": [
+    [
+     0.12,
+     "On branch master",
+     "out"
+    ],
+    [
+     0.12,
+     "",
+     "out"
+    ],
+    [
+     0.12,
+     "No commits yet",
+     "out"
+    ],
+    [
+     0.12,
+     "",
+     "out"
+    ],
+    [
+     0.12,
+     "nothing to commit (create/copy files and use \"git add\" to track)",
+     "out"
+    ]
+   ]
+  }
+ ]
+}

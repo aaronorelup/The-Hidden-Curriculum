@@ -1,0 +1,83 @@
+{
+ "phase": "before",
+ "lesson": "_sandbox",
+ "when": "2026-10-12 02:09:59",
+ "driver": "page",
+ "order": "sorted",
+ "root": "<the course repo>",
+ "git_head": "73a7f5128a3c563d304b6243f9d9aa07e2581a30",
+ "git_dirty": [],
+ "scenes_js_in_sync": true,
+ "env": {
+  "python": "3.10.10",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "playwright": "1.58.0"
+ },
+ "times": {
+  "s1": 0.95,
+  "s2": 2.84,
+  "s3": 4.74,
+  "s4": 6.64,
+  "s5": 8.53,
+  "s6": 10.43,
+  "s7": 12.32,
+  "s8": 14.22,
+  "x1": 3.98,
+  "x2": 9.46
+ },
+ "pngs_kept": true,
+ "sha256": {
+  "s1_0000.95.png": "671d993972c5ef412ab94d178acbadc1389a72b41e703ecad04f096a921e9b5d",
+  "s2_0002.84.png": "40d1d41a7683f3ab51bd56b9a8e7e806b7ccd32af294d4566b6515bda42a3a4f",
+  "s3_0004.74.png": "6b731976da7ef15f51e50430c60f60ffa1cd6b85d8189db64ef86fc298236bbe",
+  "s4_0006.64.png": "1f800dfe67410b576260c91ac2094247baf20aebc9a8a91f1ed9b9416fd57332",
+  "s5_0008.53.png": "493c81e0188916c1c9e6b2c621a6bfb4a118c2672deeaab3280fda6f2de587f3",
+  "s6_0010.43.png": "dac4c0bda36d3e7bf6dcc6351beeb13d54d9299d3157d0107432b97019635f2d",
+  "s7_0012.32.png": "4ac4034cf05c2435ef839f794e754e01c2b74a9d6bebaea949ba1435bdc92568",
+  "s8_0014.22.png": "3837be496ecfa2f9e4040f6c063424c03977801c6cbbb10e5fb6e612f8da040a",
+  "x1_0003.98.png": "e4faefb94896f6975c5e3f521cc37a046d3ffa331e22689e264859fcf306ebbe",
+  "x2_0009.46.png": "eaefe46de623b8ee45378967d96651d4b2cb8ff4399ed93d5702de1898ce5e89"
+ },
+ "seconds": 1.9,
+ "chromium": "145.0.7632.6",
+ "timeline": {
+  "dur": 15.167,
+  "n": 4,
+  "narrated": true
+ },
+ "faces_at_ready": [
+  "JetBrains Mono | 400 | normal | U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+  "JetBrains Mono | 600 | normal | U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+  "JetBrains Mono | 700 | normal | U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+  "Karla | 400 | normal | U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+  "Karla | 600 | normal | U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+  "Karla | 700 | normal | U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+  "Zen Maru Gothic | 500 | normal | U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+  "Zen Maru Gothic | 500 | normal | U+20, U+2027, U+3001-3002, U+3041-307F, U+3081-308F, U+3091-3093, U+3099-309A, U+309D-309E, U+30A1-30E1, U+30E3-30ED, U+30EF-30F0, U+30F2-30F4, U+30FB-30FE, U+FF0C, U+FF0E",
+  "Zen Maru Gothic | 700 | normal | U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+  "Zen Maru Gothic | 700 | normal | U+20, U+2027, U+3001-3002, U+3041-307F, U+3081-308F, U+3091-3093, U+3099-309A, U+309D-309E, U+30A1-30E1, U+30E3-30ED, U+30EF-30F0, U+30F2-30F4, U+30FB-30FE, U+FF0C, U+FF0E"
+ ],
+ "faces_lazy": [],
+ "page_errors": [],
+ "failed_requests": [],
+ "inputs": {
+  "engine/kit.js": "3540c424865781e128782293263c24197dcd77a9c0db30c1d31dd1dbe87078c2",
+  "engine/map.js": "f49d8894189103addac961c670a474c0a04e62520801cf430019adf4e3eb2dbb",
+  "engine/music.js": "edb6dd697500454e0a23044feb3227e9c46258637a8dbfc50ce07fadbc4f0077",
+  "engine/player.css": "9107e9a07d81d6df80d8153c99bf083b2eb163fce27099c29663a8ed504cd46b",
+  "engine/player.js": "a5e686fc3e4310138f671ec01a7c0063f4be1788204d9f20ee136f675d8a2cec",
+  "engine/runtime.js": "c1b6e6eac49865560f32a43403552d73ef314d079612a044d31af26a67d0a800",
+  "lessons/_sandbox/cues.js": "f70afd91a3c66408d4b7269d13da32083e004e76d4f3d5d6c5f72ebc508a923b",
+  "lessons/_sandbox/index.html": "3a0cb2fef74d29710f24022d4ded8a4a82627f06125fda92e150c89736e86412",
+  "lessons/_sandbox/lesson.js": "5dab6bd8f0b4df056ae95b2f17caf81e041e6581e8802dc78dd6c316327ba009"
+ },
+ "external": [
+  "https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Karla:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap",
+  "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwg.woff2",
+  "https://fonts.gstatic.com/s/karla/v33/qkB9XvYC6trAT55ZBi1ueQVIjQTD-JrIH2G7nytkHRyQ8p4wUje6bg.woff2",
+  "https://fonts.gstatic.com/s/zenmarugothic/v20/o-0XIpIxzW5b-RxT-6A8jWAtCp-cGWtCOfKK_7mX3yPCWUgO7n9RJZk8vDuG3WM.119.woff2",
+  "https://fonts.gstatic.com/s/zenmarugothic/v20/o-0XIpIxzW5b-RxT-6A8jWAtCp-cGWtyO5Cb.woff2",
+  "https://fonts.gstatic.com/s/zenmarugothic/v20/o-0XIpIxzW5b-RxT-6A8jWAtCp-cUW1COfKK_7mX3yPCWUgO7n9RJZk8vDuG3WM.119.woff2",
+  "https://fonts.gstatic.com/s/zenmarugothic/v20/o-0XIpIxzW5b-RxT-6A8jWAtCp-cUW1yO5Cb.woff2"
+ ]
+}

@@ -1,0 +1,7 @@
+{
+ "mode": "terminal",
+ "shell": "cmd",
+ "cwd_display": "C:\\Users\\you\\demo",
+ "timeout": 60,
+ "commands": ["python --version", "git --version", "git init", "git status"]
+}
