@@ -2491,6 +2491,26 @@ The Hidden Curriculum is built on other people's hard-won knowledge, not on what
 - **Cited by:** C094
 - **Added by:** audit fixes, 2026-10-12 (prompts re-read with Playback Lens that day; recorded as P07 in `research/sweep/aaron.md`)
 
+### S255 Use Claude Cowork on Team and Enterprise plans
+
+- **Author:** Anthropic (Claude Help Center)
+- **Date:** undated live page, read 2026-10-14
+- **URL:** https://support.claude.com/en/articles/13455879-use-claude-cowork-on-team-and-enterprise-plans
+- **Kind:** docs
+- **Contributes:** Team and Enterprise keep local Cowork (work on the user's computer, code in an isolated VM); cloud Cowork is a beta org toggle, "Run Cowork in the cloud", on by default for Team and off by default for Enterprise.
+- **Cited by:** C022, C103
+- **Added by:** fact-check fixes for where-your-agent-works, 2026-10-14 (recorded in `lessons/where-your-agent-works/research-now.md`)
+
+### S256 Claude Cowork / Desktop changelog
+
+- **Author:** Anthropic
+- **Date:** entries 2026-09-24 and 2026-10-01 (live changelog, read 2026-10-14)
+- **URL:** https://claude.com/docs/cowork/changelog
+- **Kind:** docs
+- **Contributes:** 2026-09-24: new desktop Code tab sessions start in Auto, while Cowork sessions still start by asking before each action; 2026-10-01: scheduled tasks Claude creates use "Automatically approve" by default where the organization allows it.
+- **Cited by:** C022
+- **Added by:** fact-check fixes for where-your-agent-works, 2026-10-14 (recorded in `lessons/where-your-agent-works/research-now.md`)
+
 ## Read but not cited
 
 These were read for the course but have no entry of their own, because no concept cites them directly.

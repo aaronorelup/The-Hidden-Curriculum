@@ -151,7 +151,8 @@ def char_times(text, align):
 # letters becomes a lowercase extension, other runs become an acronym, and the commands below go
 # lowercase. A lesson can add its own forms in script.md: <!-- captions: path=PATH; S S H=ssh -->
 SPELLED_LOWER = {'CD', 'LS', 'PWD', 'CWD', 'NPM', 'NPX', 'NVM', 'VENV', 'RM', 'MV', 'CP'}
-LETTER = re.compile(r'([A-Z])([.,;:?!"\')\]]*)')
+# a letter, then trailing punctuation or a possessive ("M I T's" -> MIT's): either one ends the run as its tail
+LETTER = re.compile(r'([A-Z])((?:[\'’]s)?[.,;:?!"\')\]]*)')
 TRAIL = re.compile(r'^(.*?)([.,;:?!"\')\]—–…]*)$')
 # a spoken extension joins the word before it (no space) only when that word is surely a file stem:
 # an ALL-CAPS name (AGENTS dot M D -> AGENTS.md) or a name that already has an extension (hello.py dot
@@ -383,6 +384,48 @@ def vtt_time(s):
     return f'{int(h):02d}:{int(m):02d}:{sec:06.3f}'
 
 
+HARD_CAP_MIN = 20     # no lesson is ever longer (Aaron's rule)
+OVER_TARGET = 1.15    # a lesson more than 15 % over its spec's `minutes` is too long
+
+
+def length_check(L, words):
+    """estimate the narrated length from the lesson's voice's measured pace (seconds per word over every other
+    narrated lesson, pauses and lead included) and warn, before anything is billed, when it is over the 20-minute
+    cap or more than 15 % over the spec's `minutes`"""
+    vf = L / 'voice.json'
+    vid = json.loads(vf.read_text(encoding='utf-8')).get('voice_id') if vf.exists() else None
+    same, every = [0.0, 0], [0.0, 0]
+    for cf in L.parent.glob('*/cues.json'):
+        if cf.parent == L:
+            continue
+        try:
+            c = json.loads(cf.read_text(encoding='utf-8'))
+            n = sum(len(s.get('words') or []) for s in c.get('sections', []))
+            d = float(c.get('duration') or 0)
+        except (ValueError, OSError, TypeError, AttributeError):
+            continue
+        if n < 100 or d <= 0:
+            continue
+        for acc in ([every, same] if vid and (c.get('voice') or {}).get('voice_id') == vid else [every]):
+            acc[0] += d
+            acc[1] += n
+    acc, how = (same, 'this voice') if same[1] else (every, 'all voices') if every[1] else (None, None)
+    spw = acc[0] / acc[1] if acc else 0.4
+    est = words * spw / 60
+    src = f'{spw:.3f} s/word measured over {how}' if acc else 'no narrated lesson to measure, 150 words/min'
+    target = None
+    spec = L.parent.parent / 'curriculum' / 'lessons' / f'{L.name}.md'
+    if spec.exists():
+        m = re.search(r'^minutes:\s*([\d.]+)\s*$', spec.read_text(encoding='utf-8').split('\n---', 1)[0], re.M)
+        target = float(m.group(1)) if m else None
+    print(f'  estimated length {est:.1f} min ({src})' + (f'; spec target {target:g} min' if target else ''))
+    if est > HARD_CAP_MIN:
+        print(f'LENGTH WARNING: about {est:.1f} min is over the {HARD_CAP_MIN}-minute cap; cut the script before narrating')
+    elif target and est > target * OVER_TARGET:
+        print(f"LENGTH WARNING: about {est:.1f} min is more than {round((OVER_TARGET - 1) * 100)} % over the spec's "
+              f'{target:g} minutes; cut the script before narrating')
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('lesson')
@@ -404,6 +447,7 @@ def main():
     chars = sum(len(s['text']) for s in secs)
     words = sum(len(s['text'].split()) for s in secs)
     print(f'{L.name}: {len(secs)} sections, {words} words (~{words / 150:.1f} min), {chars:,} characters')
+    length_check(L, words)
     if a.dry_run:
         for s in secs:
             print(f"  {s['n']} {s['title']}{' [guest]' if s['guest'] else ''}{' [map]' if s['map'] else ''}: {len(s['text'].split())} words, cues {list(s['cue_idx'])}")
