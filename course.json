@@ -144,6 +144,18 @@
    "published": "2026-10-11",
    "mp4": true,
    "legacy": true
+  },
+  "where-your-agent-works": {
+   "id": "01.02",
+   "title": "Where your agent works",
+   "module": "Your workbench",
+   "summary": "The same model can sit behind chat, Cowork, desktop apps and terminal agents, so pick the surface by the output and what it must reach, and before anything private goes in, check which computer runs the work and where your files and chats go.",
+   "poc": false,
+   "duration": 678.474,
+   "narrator": "RClayton",
+   "key": "where-your-agent-works",
+   "published": "2026-10-14",
+   "mp4": true
   }
  }
 }

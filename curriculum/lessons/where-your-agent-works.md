@@ -4,7 +4,7 @@ id: 01.02
 title: Where your agent works
 district: First Build
 module: 01 Your workbench
-status: todo
+status: published
 legacy: [01-05-environment-variables-path, 01-06-programs-processes-services]
 minutes: 10
 concepts: [C022, C103, C122, C128]

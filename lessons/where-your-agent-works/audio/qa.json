@@ -1,0 +1,77 @@
+{
+ "01": {
+  "hash": "8fa29cc3b87c72ff",
+  "wer": 0.009,
+  "heard": "In this lesson, you'll learn how Chat, Cowork, desktop apps, and terminal agents differ in what they can reach, which computer the work runs on, and where your files and chats end up. Well, the same model can sit behind every surface, so pick the surface by the output and what it must reach. And before anything private goes in, check which machine runs the work and where your files and chats go. Since the sixth of October, Pro and Max users who kept Cowork local find new tasks run in the cloud and, says Anthropic's Help Center, \"You can't switch back. Same app, a different computer doing the work.\""
+ },
+ "02": {
+  "hash": "936dae1c5647d8a7",
+  "wer": 0.0,
+  "heard": "Here's where this lesson sits on the map. We're in first build the district about how do I build my first thing on the shelf called your workbench. That's where everything in this lesson gets stored"
+ },
+ "03": {
+  "hash": "819bb5fe46512fd9",
+  "wer": 0.0,
+  "heard": "Picture one worker, the model. It always thinks in the vendor's building, and your computer is a house of rooms. The worker can reach any room. What changes is which shelves it can touch. In Anthropic's desktop app, Chat is the front counter, conversation with no access to your files. Cowork is the back office. You hand over a job and walk away. Code is your own workshop working directly on your local files. Before agents, there was only the counter. The only privacy question was your chat log"
+ },
+ "04": {
+  "hash": "c89a7d925715574c",
+  "wer": 0.009,
+  "heard": "So pick the room by what you want back, not by the logo. OpenAI draws the same lines. Chat while the answer is still taking shape. Work for documents, Codex for working software. Here the picture first breaks. It isn't always the same worker. In September, OpenAI shipped new models to work in Codex but not Chat. What always differs is the reach. Ethan Mollick adds the stakes. When they're low, the options are all at least fine. When they're high, use the most advanced model. Even the bill can differ. Your plan's allowance or once you approve, a saved API key billing per token instead. That's the lesson on your meter"
+ },
+ "05": {
+  "hash": "7f59abd7131b7006",
+  "wer": 0.0,
+  "heard": "On the sixteenth of September, Anthropic announced Cowork and Chat are merging into one Claude, rolling out on Pro and Max first. You type into one box. Claude works out whether you need a quick answer or a task. By default, merged Claude asks before taking an action. Your app may show three tabs or one box. The rooms behind it still differ"
+ },
+ "06": {
+  "hash": "e27f5ad1697c1290",
+  "wer": 0.017,
+  "heard": "The back office moved across town. Anthropic's help center says new Cowork tasks on Pro and Max run in the cloud, an isolated temporary environment on Anthropic servers. For local work, Anthropic points you to Claude Code. Running locally isn't staying local though. What it reads still goes to Anthropic servers. Team and Enterprise keep local Cowork with cloud in beta. A cloud task reaches your house only through a hatch, the folders you connected while the app is open. ChatGPT's work splits the same way. Local work can use your files, cloud work can't. In May, Anthropic called Cowork a virtual machine on your computer. For Pro and Max, that's stale. Second break in the picture, rooms move without you"
+ },
+ "07": {
+  "hash": "06d7bed2b6aeac16",
+  "wer": 0.02,
+  "heard": "Claude Code, your workshop runs one loop through many doors. The terminal, the desktop app, your code editor, the browser, even Slack, and the bench moves. Local, your machine, full access. Cloud, virtual machines. Anthropic or your organization runs. Remote control, your machine steered from a browser. The desktop app offers local cloud SSH or WSL. WSL is a Linux guest room inside Windows. SSH aligned to another machine where the app installs Claude Code itself. Ethan Mollick adds a second axis. Codex and Claude Code expose the work itself. Cowork and work hand back a finished result"
+ },
+ "08": {
+  "hash": "7f4cbaf95b271124",
+  "wer": 0.01,
+  "heard": "The terminal is the workshop speaking tube, just the window. The shell is the program at the other end, reading each line. Anthropic's terminal guide says Windows has two, PowerShell and CMD. PowerShell's prompt starts with PS. CMD's doesn't. A Mac uses Z shell. One real line. Echo first, double ampersand, echo second. CMD prints both. Windows. PowerShell says the token double ampersand is not a valid statement separator. Same window, different shell, different meaning. Whatever goes down the tube runs as you with your permissions. What to check first is the lesson on letting it loose."
+ },
+ "09": {
+  "hash": "ab37c963e95d2714",
+  "wer": 0.011,
+  "heard": "You'll see, Claude is not recognized. That usually means the install folder isn't on your path yet. The fix ends with a new terminal window. Recognize it. Once Claude code runs, slash doctor checks and fixes its own setup. On Windows, the agent's shell may be Git Bash while yours is PowerShell, so a command copied from its trail can fail in yours, and you may never open one. The desktop app runs commands without it. To go deep, MIT's missing semester still opens with two days of the shell"
+ },
+ "10": {
+  "hash": "6e1b31107a263041",
+  "wer": 0.01,
+  "heard": "Sometimes the work gets a computer inside your computer. MIT's Missing Semester names two kinds. A virtual machine abstracts the entire computer with its own operating system, a detached house on its own foundations. A container packages an app with its files, but shares the host's kernel, a flat in a shared building. Docker, the best-known container tool, was on Aaron's gap list. MMIT notes, Docker's isolation is weaker than a virtual machine's. Still, its exercises say an agent that skips approvals isn't secure run directly, but may be acceptable inside a virtual machine or container. That box is the lesson on sandboxes"
+ },
+ "11": {
+  "hash": "6bd81db6d82a71cf",
+  "wer": 0.0,
+  "heard": "A cloud session is the vendor's spare workshop, an isolated virtual machine Anthropic manages still working after you close your laptop. Claude dash dash cloud clones your branch from GitHub, not the files on your bench, so push first. On Anthropic's hosting, your GitHub credentials never enter it. With no GitHub remote or no Claude GitHub app, your project is bundled and uploaded instead. Untracked files stay home. Committed ones go up, keys included. On a Mac, Linux, or WSL, uncommitted edits to files named like keys such as dot env stay too. On native Windows, uncommitted changes to tracked files upload whatever their name. Know what crosses."
+ },
+ "12": {
+  "hash": "2f7d0ac7963b167a",
+  "wer": 0.019,
+  "heard": "First on Pro and Max, desktop no longer means on your computer. Coworkers' work, including local files it opens, is processed on Anthropic servers. A task fetches a copy of just the file it needs. Delete the session, and those copies go, too, under Anthropic's retention practices. Close your laptop, and Claude keeps going. Scheduled tasks run with your computer off. Second, the hatch. Any connected folder is reachable, and on a computer your organization manages, those are your employer's files. So Anthropic advises one dedicated working folder. Ethan Mollick connects only a non-private part of his Google Drive. The folder lesson's habit, carried across town"
+ },
+ "13": {
+  "hash": "4fcc0c7ffc41e291",
+  "wer": 0.007,
+  "heard": "And every landlord keeps a logbook. First, training. Claude's free Pro and Max plans, Claude Code included, have a setting. Help improve our AI models. On, data can be kept up to five years. Off, deleted chats are purged within thirty days. Pro is a consumer plan. Team, Enterprise, and the API are commercial. Switching it off doesn't reach training already started. Second, memory is a separate store. Delete a chat, its memories stay until you delete them too. Third, keep work and home in separate accounts. Shared logins aren't supported. Others differ. Google has humans review some Gemini chats and keeps reviewed ones up to three years even after you delete your activity. Ask any tool four questions. Is there a training setting? Do people review chats? How long is data kept with it off? What does deleting reach? The pictures last break. Leaving a room doesn't take every copy with you"
+ },
+ "14": {
+  "hash": "8d4b5e5e1e1f12c6",
+  "wer": 0.0,
+  "heard": "The agent decides whether a request needs a task, writes commands for its own shell, and fixes its own setup. Asked, it can usually fetch each vendor's privacy pages and answer the four questions, dated. You choose the room by the output, local or cloud, the account and its settings, one dedicated folder, never your home folder, and the approval level. Current Claude code starts in auto, where a classifier blocks risky actions instead of asking you. Ethan Mollick's advice: Until you trust the system, keep it asking. No agent can tell you whether your employer, a client contract, or a privacy law lets that data go there. So before work data goes in, ask your IT or security admin for patient, client, or customer data, whoever owns compliance"
+ },
+ "15": {
+  "hash": "2dd3ea6e74c8c2ac",
+  "wer": 0.0,
+  "heard": "Keep this. Pick the room by the output. The model may be shared, but the reach never is. Ask which computer runs the work: yours, a box inside it, a machine down the line, or the vendor's cloud working on a copy. Check the account before anything private goes in, and for work data, ask whoever owns it. This lesson is built on work by Ethan Mollick, MIT's Missing Semester, and Anthropic's blog, help center, and terminal guide."
+ }
+}
