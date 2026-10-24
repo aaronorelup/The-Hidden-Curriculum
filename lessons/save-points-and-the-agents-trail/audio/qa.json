@@ -1,0 +1,72 @@
+{
+ "01": {
+  "hash": "b48e8097bc6ab8d3",
+  "wer": 0.0,
+  "heard": "In this lesson, you'll learn what Git's save points, parallel lines, and remote copies are, and how to read the trail your agent leaves so you notice what it touched. The agent types every Git command, so your part is recognition. Know that a save point and a copy elsewhere exist, which branch is live, what the diff changed, and whether it touched anything you never named. An agent can save, branch, and push in seconds, so a mistake travels in seconds too"
+ },
+ "02": {
+  "hash": "ba3c96559ed15973",
+  "wer": 0.0,
+  "heard": "Here's where this lesson sits on the map. We're in First Build, the district about how do I build my first thing on the shelf called your workbench. That's where everything in this lesson gets stored"
+ },
+ "03": {
+  "hash": "dea84b372613c70a",
+  "wer": 0.0,
+  "heard": "Picture a hand-drawn trail map. Your agent is the guide. It carries the pen and draws on the map. You're the walker. You read the map. You never draw. When Aaron, who made this course, started in May twenty twenty-five, he did Git by hand badly and called it the worst of it. Now Git is a conversation. What files have I changed? Show me the last five commits. Since late September, Claude Code's terminal and VS Code sessions start in auto mode, where the agent may push on its own. So your job is likely shifting from watching each command to checking a few settings and reading the map"
+ },
+ "04": {
+  "hash": "2097024d2dea32ea",
+  "wer": 0.0,
+  "heard": "Each time the agent commits, the guide sets a stone on the path, a save point, a snapshot of the whole project at that moment. Each stone records the one before it, so you can walk back along the line. Stones are set in place. You add new ones. You don't edit old ones. You never type a commit. You say, \"Commit my changes with a descriptive message.\" People cleaning up after agents give the same advice: commit often and before any big change. Here's real output from a demo project. Two save points on a line called main, each with a short ID."
+ },
+ "05": {
+  "hash": "900a197ae0b366ac",
+  "wer": 0.006,
+  "heard": "Now a side trail forks off. At its start stands a signpost with a name like Feature/Contact. That\u2019s a branch, a name pointing at a stone, which slides forward each time a stone is added. In the real output, the side trail gets two stones, then joins back into main. That\u2019s a merge. Here\u2019s your part. One signpost carries a lantern the branch visitors are sent down. Which one is a setting outside Git? In Aaron\u2019s incident write-up, his host sent any pushed branch live. A cloud session pushed a side branch. About forty seconds later, it was live, and his site went back to August for eight minutes and ten seconds. The full story, the lesson on getting from your laptop to a URL. Lovable syncs one chosen branch at a time. Commits on other branches don\u2019t appear until you merge them in. That branch isn\u2019t the live one. Going live there is a separate publish step"
+ },
+ "06": {
+  "hash": "87b8c9fb7e9a12dd",
+  "wer": 0.0,
+  "heard": "Across the valley stands a ranger station. A remote is a copy of the map kept there, and Git is not GitHub. Git is the stones and signposts in your folder. GitHub is one place to keep a copy. In a forum thread this October, an agent's delete took a project's source and its hidden Git folder together. An early reply after stop writing to the drive said, \"If it was ever pushed anywhere, clone it back.\" What mattered was knowing where the copies were. In the real output, asking for remotes prints nothing. After a push, there is one, and the next save point shows as ahead by one commit. It exists only on this machine. When there's a copy on GitHub, a cloud session clones that copy, not your laptop. So push first. The lesson on where your agent works has the rest. Here, the picture breaks. Every Git copy is full and equal, and the original is just the one everyone agrees on"
+ },
+ "07": {
+  "hash": "ac0b418033cb43d3",
+  "wer": 0.0,
+  "heard": "Now the guide\u2019s footprints\u2014the agent\u2019s trail. Every step leaves one in two parts: the verb\u2014read, write, delete, commit, push, fetch\u2014and the target\u2014a file, a branch, a remote, a web address. One safety checklist asks a single question during a task: Is it accessing files or websites you didn\u2019t mention? Stop at the print aimed at a target you never named. A push to a branch your host deploys. A new public repository. A new remote changing where pushes go, which auto mode blocks unless you named it. Mind your phrasing. One agent, as a user quoted it, replied, \u201cI see now that \u2018Can you change this?\u2019 is not permission.\u201d The agent works from your Git state and keeps every step in a plain text transcript. Where that lives. The lesson on the agent\u2019s folder, where settings and secrets live. The lesson on keys. A local address versus a public one. The lesson on getting from your laptop to a URL"
+ },
+ "08": {
+  "hash": "a13cbb03d987d291",
+  "wer": 0.008,
+  "heard": "To see what changed, lay tracing paper over yesterday's map. Additions in one color, removals in another. That's the diff. In Anthropic's desktop app guide, after Claude edits files, an indicator like plus twelve minus one appears. Lines added, lines removed. In auto mode, the change is already on disk when you look. Cloud sessions show the same kind of count against the base branch. The list of changed files is the one review anyone can do without reading code. Look for a file you never asked about. Here, a typo fix also touched a deploy settings file. The agent can review its own changes now with slash code review. It hunts for bugs. Only you know which files you never named"
+ },
+ "09": {
+  "hash": "140716d4e1438d7f",
+  "wer": 0.025,
+  "heard": "Anthropic's best practices page says to have Claude show evidence rather than asserting success. The test output, the command it ran and what it returned, or a screenshot of the result. After his incident, every build of Aaron's site writes a file called version.json, naming the commit and branch it was built from, so a session can compare what's live with what it just pushed. Treating done as a claim, the lesson on when the agent says done"
+ },
+ "10": {
+  "hash": "7b7a4bc9053a7dd2",
+  "wer": 0.006,
+  "heard": "Sending stones to the station is a push, and it's a decision. As of October twenty twenty-six, Claude Code's auto mode allows pushing to any branch of the repository you're in, the default branch included. A branch named like a deploy target, such as production, is judged on its own, and the remote's own branch protection still applies. A public remote is the station's noticeboard facing the road, read by anyone passing. In late September, Glow Labs researchers found coding agents that, unable to attach an image where they were working, put internal screenshots in public GitHub repositories instead. One helper's default creates a public repository. The researchers counted more than thirteen thousand images from over three hundred organizations. Their own count, not an independent audit. Auto mode blocks pushing secrets or personal data to a repository known to be public. If it can't tell, that alone won't stop a push. Files marked sensitive are blocked either way. Whether yours is public is yours to know."
+ },
+ "11": {
+  "hash": "8c8ff009a8e07958",
+  "wer": 0.031,
+  "heard": "A pull request is a proposed stretch of trail drawn in pencil waiting to be inked. Claude Code watches its automated checks and can fix failures. Inking it is a switch you flip. The desktop apps merge when ready, and auto mode blocks merging a pull request no human approved. Who decides? The lesson on who signs off before you ship. Rewriting history tears stones out and relays them, so every other copy disagrees. Names to recognize in the trail never to type. Force push and amending a pushed commit rewrite history. Reset hard, clean, and stash drop throw away work not yet saved. Auto mode blocks them by default. Lovable's docs give the safe way. To undo a change, add a commit that reverts it"
+ },
+ "12": {
+  "hash": "9b1a46726b23dc67",
+  "wer": 0.0,
+  "heard": "Claude Code's Rewind, built on Checkpoints, is the guide's pencil eraser. Anthropic's best practices page says Checkpoints only track changes made through Claude's file editing tools. Changes made through bash commands or external processes are not captured. This isn't a replacement for Git, and anything that reached a remote system, like a deployment or a push, can't be rubbed out"
+ },
+ "13": {
+  "hash": "d175fbffb1202c93",
+  "wer": 0.0,
+  "heard": "The agent types every Git command, commits, branches, conflicts, pushes, pull requests, fixes for failing checks. Asked, it lists the files it changed, says whether a remote exists and is public, and names the default branch. You check that a copy elsewhere exists, private or public as you intend, which branch is the default and which one your host deploys, and the changed files. You decide what merges, and you ask for evidence, not a claim. Saying, \"Don't push,\" makes auto mode block a push, but that can be lost when the conversation is compacted. For a guarantee, use a deny rule or branch protection. The lesson on rules that actually hold. Bring in an expert when shared history must be rewritten, when a secret or personal data was pushed since the key must be revoked and rotated first. The lesson on keys. Or when you can't tell what a step touched on a machine with real credentials"
+ },
+ "14": {
+  "hash": "54a4c9c9a5666012",
+  "wer": 0.013,
+  "heard": "Save points and the agent's trail. Commits are save points. Branches are names on them. A remote is the copy elsewhere, and you know which branch is live. Read each step for the verb and the target, and ask about anything aimed at something you never named. Look at the changed files, then ask for evidence, what it ran and what came back. This lesson is built on work by Aaron Orlove, Lovable and Anthropic's Claude Code docs"
+ }
+}

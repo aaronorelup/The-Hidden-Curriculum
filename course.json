@@ -156,6 +156,18 @@
    "key": "where-your-agent-works",
    "published": "2026-10-14",
    "mp4": true
+  },
+  "save-points-and-the-agents-trail": {
+   "id": "01.03",
+   "title": "Git without typing it: save points and the agent's trail",
+   "module": "Your workbench",
+   "summary": "The agent types every git command, so your part is recognition: know that a save point and a copy elsewhere exist, which branch is live, what the diff changed, and whether it touched anything you never named.",
+   "poc": false,
+   "duration": 635.066,
+   "narrator": "Adrian",
+   "key": "save-points-and-the-agents-trail",
+   "published": "2026-10-24",
+   "mp4": true
   }
  }
 }

@@ -111,6 +111,14 @@
    "accent": "american",
    "lesson": "where-your-agent-works",
    "chosen": "2026-10-14"
+  },
+  {
+   "voice_id": "FRfK9ktUgII8Yh5EUCn1",
+   "name": "Adrian - Optimistic and Clear Narrator",
+   "gender": "male",
+   "accent": "canadian",
+   "lesson": "save-points-and-the-agents-trail",
+   "chosen": "2026-10-23"
   }
  ]
 }

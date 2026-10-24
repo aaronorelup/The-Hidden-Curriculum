@@ -4,7 +4,7 @@ id: 01.03
 title: "Git without typing it: save points and the agent's trail"
 district: First Build
 module: 01 Your workbench
-status: todo
+status: published
 legacy: []
 minutes: 10
 concepts: [C117, C124]

@@ -1,0 +1,9 @@
+{
+ "key": "save-points-and-the-agents-trail",
+ "id": "01.03",
+ "module": "01",
+ "district": "first-build",
+ "drawing": "5c658880f4f54a20",
+ "drawing_changed": "2026-10-24T12:56:14",
+ "note": "written by tools/course.py sync. drawing = hash of what the curriculum decides in this lesson's video (the map, its place on it, its card title, its ID in the badge); a render older than drawing_changed is stale"
+}
