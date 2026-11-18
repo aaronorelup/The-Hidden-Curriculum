@@ -38,7 +38,7 @@ Modes
 
 Safety (hard rules, also in docs/showing-real-computer-actions.md): never record real keys, tokens, passwords, emails
 or personal data. Use public pages and test accounts. capture.py refuses typed text and terminal output that looks
-like a secret or a real email (or contains one of the keys stored in ~/.claude/secrets, the home folder's path,
+like a secret or a real email (or contains one of the keys stored in Infisical, the home folder's path,
 this machine's account or computer name), refuses env-dumping commands, and blurs every `redact` box. Look at the result before committing it: the repo is public.
 
 steps.json (browser):
@@ -162,12 +162,20 @@ def clean_names(text):
 
 
 def stored_secrets():
-    """the values in ~/.claude/secrets/*.key (held in memory only, to make sure none of them is ever recorded)"""
-    d = pathlib.Path.home() / '.claude' / 'secrets'
+    """every key value in Infisical, via ~/.claude/bin/getkey.py (held in memory only, to make sure none of them
+    is ever recorded)"""
+    import sys
+    sys.path.insert(0, str(pathlib.Path.home() / '.claude' / 'bin'))
     vals = []
-    for f in d.glob('*.key') if d.is_dir() else []:
+    try:
+        from getkey import all_secrets
+        secrets = all_secrets().values()
+    except Exception as e:
+        print(f'capture: could not load the stored keys to scan for ({e}); scanning by pattern only')
+        secrets = []
+    for v in secrets:
         try:
-            v = f.read_text(encoding='utf-8').strip()
+            v = v.strip()
             if len(v) >= 8:
                 vals.append(v)
         except OSError:
@@ -190,7 +198,7 @@ def scan(text):
         if not any(dom == s.lstrip('.') or dom.endswith(s if s.startswith('.') else '.' + s) or dom == s for s in SAFE_EMAIL_DOMAINS):
             found.append(f'an email address ({m.group(0)[:2]}...@{dom}); use an @example.com test address')
     if any(s in text for s in _SECRETS):
-        found.append('one of the keys stored in ~/.claude/secrets')
+        found.append('one of the keys stored in Infisical')
     home = str(pathlib.Path.home())
     if home.lower() in text.lower() or home.replace('\\', '/').lower() in text.lower():
         found.append(f'your home folder path (it names your account); it should read C:\\Users\\you')

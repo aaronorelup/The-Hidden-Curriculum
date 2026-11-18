@@ -32,7 +32,7 @@ voices/roster.json, alternating per lesson, stored in voice.json. Every section 
 transcribed with ElevenLabs speech-to-text and compared to the script; a section whose word error
 rate is over 10% is re-taken once automatically, and anything still off is reported (audio/qa.json).
 
-The ElevenLabs key comes from ELEVENLABS_API_KEY or ~/.claude/secrets/elevenlabs.key.
+The ElevenLabs key comes from ELEVENLABS_API_KEY or Infisical (~/.claude/bin/getkey.py).
 """
 import argparse
 import base64
@@ -98,8 +98,10 @@ def parse(text):
 def api_key():
     key = os.environ.get('ELEVENLABS_API_KEY')
     if not key:
-        f = pathlib.Path.home() / '.claude' / 'secrets' / 'elevenlabs.key'
-        key = f.read_text(encoding='utf-8').strip() if f.exists() else None
+        import sys
+        sys.path.insert(0, os.path.expanduser('~/.claude/bin'))
+        from getkey import getkey
+        key = getkey('ELEVENLABS_API_KEY', '') or None
     if not key:
         raise SystemExit('No ElevenLabs key: set ELEVENLABS_API_KEY or store it with the save-api-key skill.')
     return key

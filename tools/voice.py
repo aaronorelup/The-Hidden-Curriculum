@@ -66,10 +66,12 @@ def key():
     import os
     k = os.environ.get('ELEVENLABS_API_KEY')
     if not k:
-        f = pathlib.Path.home() / '.claude' / 'secrets' / 'elevenlabs.key'
-        k = f.read_text(encoding='utf-8').strip() if f.exists() else None
+        import os, sys
+        sys.path.insert(0, os.path.expanduser('~/.claude/bin'))
+        from getkey import getkey
+        k = getkey('ELEVENLABS_API_KEY', '') or None
     if not k:
-        raise SystemExit('No ElevenLabs key (ELEVENLABS_API_KEY or ~/.claude/secrets/elevenlabs.key).')
+        raise SystemExit('No ElevenLabs key (ELEVENLABS_API_KEY, or Infisical via ~/.claude/bin/getkey.py).')
     return k
 
 
